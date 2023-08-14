@@ -3,5 +3,5 @@
 Main project repo (front + back)
 
 ```bash
-git config --global commit.template .gitmessage.txt
+git config commit.template .gitmessage.txt
 ```
