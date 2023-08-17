@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { userIdDto } from './dto/user.dto';
-import { LoggedInGuard } from 'src/guards/logged-in.guard';
+import { LoggedInGuard } from '../../guards/logged-in.guard';
 import { Request } from 'express';
 
 @Controller('user')
