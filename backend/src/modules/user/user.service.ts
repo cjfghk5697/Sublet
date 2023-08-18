@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import type { UserDto } from './dto/user.dto';
+import type { UserDto, userIdDto } from './dto/user.dto';
 import { ExportUser, User } from './interface/user.interface';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [
+  private users: userIdDto[] = [ //
     {
       key: 1,
       id: 'asdf1',
       password: 'asdf',
       username: 'aaaa',
+      email: 'example@gmail.com',
+      phone:'010-1111-111'
     },
   ];
 
-  getAllUser(): ExportUser[] {
+  getAllUser(): UserDto[] {
     return this.users.map((ele) => {
       const { password: _, ...user } = ele;
       return user;
     });
   }
 
-  getUserByKey(key: number): ExportUser {
+  getUserByKey(key: number): UserDto {
     const { password: _, ...user } = this.users.find((ele) => {
       return ele.key === key;
     });
