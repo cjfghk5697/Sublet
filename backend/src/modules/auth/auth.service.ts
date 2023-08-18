@@ -5,8 +5,16 @@ import { UserService } from '../user/user.service';
 export class AuthService {
   constructor(private usersService: UserService) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = this.usersService.validateUser(username, pass);
+  /**
+   * 주어진 `id`과 `pass`로 맞는 user를 반환합니다.
+   * 없다면 null을 반환합니다.
+   *
+   * @param id
+   * @param pass
+   * @returns
+   */
+  validateUser(id: string, pass: string) {
+    const user = this.usersService.validateUser(id, pass);
     return user;
   }
 }

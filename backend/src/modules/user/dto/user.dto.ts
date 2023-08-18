@@ -13,5 +13,5 @@ export class UserDto {
 
 export class userIdDto {
   @IsNumber()
-  id: number;
+  key: number;
 }

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 describe('AppController', () => {
-  let _appController: AppController;
+  let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -11,12 +11,12 @@ describe('AppController', () => {
       providers: [AppService],
     }).compile();
 
-    _appController = app.get(AppController);
+    appController = app.get(AppController);
   });
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      // expect(appController.getHello()).toBe('Hello World!');
+      expect(appController.getHello()).toBe('Hello World!');
     });
   });
 });

@@ -5,7 +5,7 @@ import { LocalGuard } from '../../guards/local.guard';
 export class AuthController {
   @UseGuards(LocalGuard)
   @Post('login')
-  async login(@Req() req) {
-    return req.session;
+  async login() {
+    return { ok: true };
   }
 }

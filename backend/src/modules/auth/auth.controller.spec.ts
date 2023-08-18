@@ -15,4 +15,12 @@ describe('AuthController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  describe('login', () => {
+    it('login success', async () => {
+      const res = await controller.login();
+      expect(res.ok).toEqual(true);
+      expect(res).toMatchObject({ ok: true });
+    });
+  });
 });

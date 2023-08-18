@@ -20,7 +20,7 @@ export class UserService {
     });
   }
 
-  getUserById(key: number): ExportUser {
+  getUserByKey(key: number): ExportUser {
     const { password: _, ...user } = this.users.find((ele) => {
       return ele.key === key;
     });
@@ -28,10 +28,13 @@ export class UserService {
   }
 
   validateUser(id: string, pass: string) {
-    const { password, ...user } = this.users.find((ele) => {
+    const u = this.users.find((ele) => {
       return ele.id === id;
     });
-    if (user && password === pass) return user;
+    console.log(u);
+    if (!u) return null;
+    const { password, ...user } = u;
+    if (password === pass) return user;
     return null;
   }
 }
