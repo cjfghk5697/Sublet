@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import type { UserDto, userIdDto } from './dto/user.dto';
-import { ExportUser, User } from './interface/user.interface';
+import type { UserDto, userIdDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
 
 @Injectable()
 export class UserService {
-  private users: userIdDto[] = [ //
+  private users: userIdDto[] = [ 
     {
       key: 1,
       id: 'asdf1',
       password: 'asdf',
       username: 'aaaa',
-      email: 'example@gmail.com',
+      email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
       phone:'010-1111-111'
     },
   ];
 
-  getAllUser(): UserDto[] {
+  getAllUser(): UserDto[] { //전부 UserDto로 변경
     return this.users.map((ele) => {
       const { password: _, ...user } = ele;
       return user;

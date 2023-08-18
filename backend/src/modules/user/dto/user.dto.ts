@@ -13,7 +13,7 @@ export class UserDto { //email, phone, host, guest,
 
   @IsOptional()
   @IsEmail()
-  email: string;
+  email: string; //필수 아니기에, undefined 값도 받을 수 있도록함.
 
   @IsOptional()
   @IsPhoneNumber()
@@ -21,7 +21,7 @@ export class UserDto { //email, phone, host, guest,
 
 }
 
-export class userIdDto extends UserDto {
+export class userIdDto extends UserDto { //interface와 똑같은 형식으로 변경
   @IsString()
   password: string;
 }
