@@ -5,5 +5,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.tabWidth": 2,
   "prettier.semi": true,
-  "prettier.useTabs": false
+  "prettier.useTabs": false,
+  "files.eol": "\n",
+  "prettier.endOfLine": "lf"
 }
