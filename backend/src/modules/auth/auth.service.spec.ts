@@ -21,6 +21,8 @@ describe('AuthService', () => {
         id: 'asdf1',
         password: 'asdf',
         username: 'aaaa',
+        email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
+        phone:'010-1111-111'
       },
     ];
     jest.spyOn(userService, 'getAllUser').mockImplementation(() => {
