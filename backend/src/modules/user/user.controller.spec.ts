@@ -12,6 +12,8 @@ describe('UserController', () => {
       id: 'asdf1',
       password: 'asdf',
       username: 'aaaa',
+      email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
+      phone:'010-1111-111'
     },
   ];
 
@@ -20,6 +22,8 @@ describe('UserController', () => {
       key: 1,
       id: 'asdf1',
       username: 'aaaa',
+      email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
+      phone:'010-1111-111'
     },
   ];
 
