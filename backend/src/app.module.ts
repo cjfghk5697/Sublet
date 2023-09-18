@@ -8,9 +8,11 @@ const FileStore = _FileStore(session);
 import * as bodyParser from 'body-parser';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PostController } from './modules/post/post.controller';
+import { PostModule } from './modules/post/post.module';
 
 @Module({
-  imports: [AppModule, UserModule, AuthModule],
+  imports: [AppModule, UserModule, AuthModule, PostModule],
   controllers: [AppController],
   providers: [AppService],
 })
