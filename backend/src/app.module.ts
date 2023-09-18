@@ -4,11 +4,9 @@ import { AppService } from './app.service';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import * as _FileStore from 'session-file-store';
-const FileStore = _FileStore(session);
 import * as bodyParser from 'body-parser';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { PostController } from './modules/post/post.controller';
 import { PostModule } from './modules/post/post.module';
 
 @Module({
@@ -18,6 +16,7 @@ import { PostModule } from './modules/post/post.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    const FileStore = _FileStore(session);
     consumer
       .apply(
         bodyParser.urlencoded({ extended: true }),

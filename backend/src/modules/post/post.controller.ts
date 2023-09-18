@@ -5,6 +5,7 @@ import {
   Body,
   Param,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { Prisma } from '@prisma/client';
@@ -21,7 +22,11 @@ export class PostController {
   @Post()
   async createPost(@Body() data: Prisma.PostCreateInput) {
     console.log('data:', data);
-    return this.db.createPost(data);
+    try {
+      return await this.db.createPost(data);
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 
   @Get(':key')

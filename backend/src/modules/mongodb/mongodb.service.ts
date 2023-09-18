@@ -22,14 +22,19 @@ export class MongodbService {
   }
 
   async createPost(data: Prisma.PostCreateInput) {
-    data['end_day'] = new Date(data['end_day']);
-    data['start_day'] = new Date(data['start_day']);
-    return this.prisma.post.create({
-      data: {
-        key: await this.getPostKey(),
-        ...data,
-      },
-    });
+    try {
+      data['end_day'] = new Date(data['end_day']);
+      data['start_day'] = new Date(data['start_day']);
+
+      return await this.prisma.post.create({
+        data: {
+          key: await this.getPostKey(),
+          ...data,
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getOnePost(key: number) {
