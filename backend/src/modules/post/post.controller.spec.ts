@@ -5,6 +5,8 @@ import { PrismaService } from '../prisma/prisma.service';
 
 describe('PostController', () => {
   let controller: PostController;
+  let mongodbService: MongodbService;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -13,6 +15,8 @@ describe('PostController', () => {
     }).compile();
 
     controller = module.get<PostController>(PostController);
+    mongodbService = module.get(MongodbService);
+    prismaService = module.get(PrismaService);
   });
 
   it('should be defined', () => {

@@ -8,7 +8,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
-import { Prisma } from '@prisma/client';
+import { PostCreateDto } from './dto/post.dto';
 
 @Controller('post')
 export class PostController {
@@ -20,7 +20,7 @@ export class PostController {
   }
 
   @Post()
-  async createPost(@Body() data: Prisma.PostCreateInput) {
+  async createPost(@Body() data: PostCreateDto) {
     console.log('data:', data);
     try {
       return await this.db.createPost(data);

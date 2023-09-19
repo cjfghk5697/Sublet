@@ -8,9 +8,20 @@ import * as bodyParser from 'body-parser';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PostModule } from './modules/post/post.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [AppModule, UserModule, AuthModule, PostModule],
+  imports: [
+    AppModule,
+    UserModule,
+    AuthModule,
+    PostModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public',
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

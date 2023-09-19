@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Post, Prisma } from '@prisma/client';
+import { PostCreateDto } from '../post/dto/post.dto';
+import { PostInterface } from '../post/interface/post.interface';
 
 @Injectable()
 export class MongodbService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllPosts(): Promise<Post[]> {
+  async getAllPosts(): Promise<PostInterface[]> {
     return this.prisma.post.findMany();
   }
 
@@ -21,7 +22,7 @@ export class MongodbService {
     return updated.postKey;
   }
 
-  async createPost(data: Prisma.PostCreateInput) {
+  async createPost(data: PostCreateDto) {
     try {
       data['end_day'] = new Date(data['end_day']);
       data['start_day'] = new Date(data['start_day']);
