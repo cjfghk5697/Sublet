@@ -1,7 +1,13 @@
-import { IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
-import { extname } from 'path';
+import {
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
 
-export class UserDto { //email, phone, host, guest, 
+export class UserDto {
+  //email, phone, host, guest,
   @IsNumber()
   key: number;
 
@@ -13,15 +19,15 @@ export class UserDto { //email, phone, host, guest,
 
   @IsOptional()
   @IsEmail()
-  email: string; //필수 아니기에, undefined 값도 받을 수 있도록함.
+  email?: string; //필수 아니기에, undefined 값도 받을 수 있도록함.
 
   @IsOptional()
   @IsPhoneNumber()
-  phone: string;
-
+  phone?: string;
 }
 
-export class userIdDto extends UserDto { //interface와 똑같은 형식으로 변경
+export class userIdDto extends UserDto {
+  //interface와 똑같은 형식으로 변경
   @IsString()
   password: string;
 }
