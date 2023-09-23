@@ -12,8 +12,10 @@ export class UserController {
     return this.userService.getAllUser();
   }
 
-  @Get(':key')
-  getOneUser(@Param('key') user_id: string) {
+  @Get(':user_id')
+  getOneUser(@Param('user_id') user_id: string) {
     return this.userService.getUserByKey(user_id);
   }
+
+
 }
