@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  key           Int
+  basic_info    String
+  benefit       String
+  description   String
+  end_day       DateTime @db.Date
+  extra_info    String
+  images        String[]
+  max_duration  String
+  min_duration  String
+  position      String
+  refund_policy String
+  rule          String
+  start_day     DateTime @db.Date
+  title         String
+}
+
+model IncrementKey {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  postKey Int      
+}
