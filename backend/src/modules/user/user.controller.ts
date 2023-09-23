@@ -6,14 +6,14 @@ import { LoggedInGuard } from '../../guards/logged-in.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(LoggedInGuard)
+  //@UseGuards(LoggedInGuard)
   @Get()
   getAllUser() {
     return this.userService.getAllUser();
   }
 
   @Get(':key')
-  getOneUser(@Param('key') key: number) {
-    return this.userService.getUserByKey(key);
+  getOneUser(@Param('key') user_id: string) {
+    return this.userService.getUserByKey(user_id);
   }
 }

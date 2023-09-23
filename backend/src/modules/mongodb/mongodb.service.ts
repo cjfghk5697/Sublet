@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PostCreateDto } from '../post/dto/post.dto';
+import { UserCreateDto } from '../user/dto/user.dto';
 import { PostInterface } from '../post/interface/post.interface';
 
 @Injectable()
@@ -45,4 +46,28 @@ export class MongodbService {
       },
     });
   }
+
+ //User------------------------------------------------------------
+ async createUser(data: UserCreateDto) {
+    try {
+      return await this.prisma.user.create({
+        data:{ ...data }
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getOneUser(input_id: string) {
+    return this.prisma.user.findFirstOrThrow({
+      where: {
+        user_id: input_id,
+      },
+    });
+  }
+
+
+
+
+
 }
