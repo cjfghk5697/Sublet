@@ -18,7 +18,6 @@ const styles = {
 }
 
 export default function RoomProfile(props) {
-  console.log(props.room);
   return (
     <div style={styles.container}>
       <img style={styles.roomImage} src={props.room.images[0]} />
