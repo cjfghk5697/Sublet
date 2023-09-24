@@ -1,54 +1,104 @@
 import {
   IsArray,
+  IsBoolean,
+  IsDate,
   IsDateString,
-  IsEmpty,
   IsInt,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
-import { UserBase } from './user.interface';
 
 export class PostBase {
   @IsString()
-  title: string;
-
-  @IsString()
   basic_info: string;
-
-  @IsString()
-  description: string;
-
-  @IsString()
-  position: string;
-
-  @IsString()
-  rule: string;
-
-  @IsString()
-  refund_policy: string;
 
   @IsString()
   benefit: string;
 
   @IsString()
-  extra_info: string;
-
-  @IsDateString()
-  start_day: string | Date;
+  description: string;
 
   @IsDateString()
   end_day: string | Date;
 
-  @IsInt()
-  @IsNumber()
-  min_duration: number;
+  @IsString()
+  extra_info: string;
 
   @IsInt()
   @IsNumber()
   max_duration: number;
 
-  @IsEmpty()
-  postuser: UserBase;
+  @IsInt()
+  @IsNumber()
+  min_duration: number;
+
+  @IsString()
+  position: string;
+
+  @IsString()
+  refund_policy: string;
+
+  @IsString()
+  rule: string;
+
+  @IsDateString()
+  start_day: string | Date;
+
+  @IsString()
+  title: string;
+}
+
+export class PostPartialBase {
+  @IsString()
+  @IsOptional()
+  basic_info?: string;
+
+  @IsString()
+  @IsOptional()
+  benefit?: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @IsDateString()
+  @IsOptional()
+  end_day?: string | Date;
+
+  @IsString()
+  @IsOptional()
+  extra_info?: string;
+
+  @IsInt()
+  @IsNumber()
+  @IsOptional()
+  max_duration?: number;
+
+  @IsInt()
+  @IsNumber()
+  @IsOptional()
+  min_duration?: number;
+
+  @IsString()
+  @IsOptional()
+  position?: string;
+
+  @IsString()
+  @IsOptional()
+  refund_policy?: string;
+
+  @IsString()
+  @IsOptional()
+  rule?: string;
+
+  @IsDateString()
+  @IsOptional()
+  start_day?: string | Date;
+
+  @IsString()
+  @IsOptional()
+  title?: string;
 }
 
 export class PostInterface extends PostBase {
@@ -60,4 +110,13 @@ export class PostInterface extends PostBase {
 
   @IsArray()
   images: string[];
+
+  @IsString()
+  postuser_id: string;
+
+  @IsBoolean()
+  deleted: boolean;
+
+  @IsDate()
+  post_date: Date | string;
 }

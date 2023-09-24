@@ -4,7 +4,6 @@ import {
   IsArray,
   IsDateString,
   IsOptional,
-  IsNumber,
   IsInt,
   IsPositive,
 } from 'class-validator';

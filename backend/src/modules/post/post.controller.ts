@@ -18,6 +18,8 @@ import { LoggedInGuard } from '../../guards/logged-in.guard';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PostService } from './post.service';
 import { Express } from 'express';
+import { PostInterface } from '@/interface/post.interface';
+import { ImageInterface } from '@/interface/image.interface';
 
 @Controller('post')
 export class PostController {
@@ -34,37 +36,48 @@ export class PostController {
 
   @Post()
   @UseGuards(LoggedInGuard)
-  @UseInterceptors(FilesInterceptor('images'))
+  @UseInterceptors(FilesInterceptor('images')) // 여러 파일들을 받을 수 있도록 FilesInterceptor 사용
   async createPost(
     @UploadedFiles() file: Express.Multer.File[],
     @Body() data: PostCreateDto,
   ) {
     try {
-      return await this.postService.createPost(file, data);
+      const res = await this.postService.createPost(file, data);
+      return res;
     } catch (e) {
       throw new BadRequestException();
     }
   }
 
-  @Get(':key')
-  async getOnePost(@Param('key') key: number) {
-    const res = await this.postService.getOnePost(key);
-    if (!res) throw new NotFoundException();
-    return res;
+  @Get(':postKey')
+  async getOnePost(@Param('postKey') key: number) {
+    try {
+      const res: PostInterface = await this.postService.getOnePost(key);
+      return res;
+    } catch (e) {
+      throw new NotFoundException();
+    }
   }
 
   @UseGuards(LoggedInGuard)
-  @Put(':key')
-  async PutOnePost(@Param('key') key: number) {
-    console.log('put post, key=', key);
-    const res = await this.postService.getOnePost(key);
-    return { result: 'found post' };
+  @Put(':postKey')
+  async PutOnePost(@Param('postKey') key: number) {
+    try {
+      const res = await this.postService.putOnePost(key);
+      return res;
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 
   @Post('image')
   @UseInterceptors(FileInterceptor('file'))
   async PostImage(@UploadedFile() file: Express.Multer.File) {
-    const res = await this.postService.uploadImage(file);
-    return { res: res.id };
+    try {
+      const res: ImageInterface = await this.postService.uploadImage(file);
+      return { res: res.id };
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 }
