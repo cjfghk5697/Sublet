@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { PrismaService } from '../src/modules/prisma/prisma.service';
+import { AppModule } from '@/app.module';
+import { PrismaService } from '@/modules/prisma/prisma.service';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -16,6 +17,15 @@ describe('AppController (e2e)', () => {
     prismaService = moduleFixture.get(PrismaService);
     jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+      }),
+    );
     await app.init();
   });
 
