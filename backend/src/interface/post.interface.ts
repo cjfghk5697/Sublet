@@ -109,7 +109,7 @@ export class PostInterface extends PostBase {
   key: number;
 
   @IsArray()
-  images: string[];
+  image_id: string[];
 
   @IsString()
   postuser_id: string;

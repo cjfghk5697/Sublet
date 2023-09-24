@@ -3,22 +3,27 @@ import {
   Get,
   Post,
   Put,
+  Delete,
   Body,
+  Query,
   Param,
-  NotFoundException,
-  BadRequestException,
+  Req,
   UseGuards,
   UseInterceptors,
   UploadedFile,
-  Query,
   UploadedFiles,
+  NotFoundException,
+  BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { PostCreateDto, PostGetAllQueryDto } from '../../dto/post.dto';
-import { LoggedInGuard } from '../../guards/logged-in.guard';
+import {
+  PostCreateDto,
+  PostGetAllQueryDto,
+  PostUpdateDto,
+} from '@/dto/post.dto';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PostService } from './post.service';
-import { Express } from 'express';
-import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 
 @Controller('post')
@@ -28,7 +33,8 @@ export class PostController {
   @Get()
   async getAllPosts(@Query() query: PostGetAllQueryDto) {
     try {
-      return await this.postService.getAllPosts(query);
+      const res = await this.postService.getAllPosts(query);
+      return res;
     } catch (e) {
       throw new BadRequestException('cannot get all posts');
     }
@@ -40,9 +46,11 @@ export class PostController {
   async createPost(
     @UploadedFiles() file: Express.Multer.File[],
     @Body() data: PostCreateDto,
+    @Req() req: Express.Request,
   ) {
     try {
-      const res = await this.postService.createPost(file, data);
+      if (!req.user) throw new UnauthorizedException();
+      const res = await this.postService.createPost(file, data, req.user);
       return res;
     } catch (e) {
       throw new BadRequestException();
@@ -52,18 +60,39 @@ export class PostController {
   @Get(':postKey')
   async getOnePost(@Param('postKey') key: number) {
     try {
-      const res: PostInterface = await this.postService.getOnePost(key);
+      const res = await this.postService.getOnePost(key);
       return res;
     } catch (e) {
       throw new NotFoundException();
     }
   }
 
-  @UseGuards(LoggedInGuard)
   @Put(':postKey')
-  async PutOnePost(@Param('postKey') key: number) {
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FilesInterceptor('images'))
+  async PutOnePost(
+    @Param('postKey') key: number,
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() putPostBody: PostUpdateDto,
+  ) {
     try {
-      const res = await this.postService.putOnePost(key);
+      if (Object.keys(putPostBody).length == 0) throw new BadRequestException();
+      const res = await this.postService.putOnePost(key, files, putPostBody);
+      return res;
+    } catch (e) {
+      throw new BadRequestException();
+    }
+  }
+
+  @Delete(':postKey')
+  @UseGuards(LoggedInGuard)
+  async DeleteOnePost(
+    @Param('postKey') key: number,
+    @Req() req: Express.Request,
+  ) {
+    try {
+      if (!req.user) throw new UnauthorizedException();
+      const res = await this.postService.deleteOnePost(key, req.user);
       return res;
     } catch (e) {
       throw new BadRequestException();

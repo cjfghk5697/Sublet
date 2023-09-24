@@ -14,3 +14,9 @@ export class UserInterface {
   id: string;
   user_id: string;
 }
+
+declare global {
+  namespace Express {
+    interface User extends UserInterface {}
+  }
+}

@@ -21,7 +21,7 @@ model Post {
   description   String
   end_day       DateTime @db.Date
   extra_info    String
-  images        String[]
+  image_id      String[] @db.ObjectId
   max_duration  Int
   min_duration  Int
   position      String
@@ -41,7 +41,8 @@ model IncrementKey {
 }
 
 model Image {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  filename String
-  filetype String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  filename   String
+  filetype   String
+  image_hash String
 }

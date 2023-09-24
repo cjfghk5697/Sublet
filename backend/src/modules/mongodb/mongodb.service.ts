@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PostGetAllQueryDto, PrismaPostCreateDto } from '@/dto/post.dto';
+import {
+  PostGetAllQueryDto,
+  PostUpdateDto,
+  PrismaPostCreateDto,
+} from '@/dto/post.dto';
 import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
@@ -24,7 +28,11 @@ export class MongodbService {
     query.page = this.isPositiveInt(query.page, 1);
 
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
-    const posts: PostInterface[] = await this.prisma.post.findMany();
+    const posts: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        deleted: false,
+      },
+    });
 
     // 페이지 당 포스트수와 현재 페이지를 기본으로 리스트를 반환
     return posts.slice(
@@ -59,19 +67,14 @@ export class MongodbService {
    * @param data
    * @returns
    */
-  async createPost(data: PrismaPostCreateDto) {
-    // 임시로 user_id를 첫 번째 찾은 유저로 고정
-    const postuser: UserInterface | null = await this.prisma.user.findFirst();
-    if (!postuser)
-      throw new Error('mongodb.service.ts:createPost(), postuser is null');
-
+  async createPost(data: PrismaPostCreateDto, user: UserInterface) {
     const res: PostInterface = await this.prisma.post.create({
       data: {
         ...data,
         key: await this.getPostKey(), // 새로운 postKey를 받아옴
         postuser: {
           connect: {
-            user_id: postuser.user_id,
+            user_id: user.user_id,
           },
         },
       },
@@ -83,29 +86,68 @@ export class MongodbService {
     const res: PostInterface | null = await this.prisma.post.findFirst({
       where: {
         key,
+        deleted: false,
       },
     });
     if (!res) throw Error("mongodb.service:getOnePost(), post doesn't exist");
     return res;
   }
 
-  async saveImage(filename: string, filetype: string) {
-    const res: ImageInterface = await this.prisma.image.create({
+  async putOnePost(key: number, putPostBody: PostUpdateDto) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key,
+        deleted: false,
+      },
+      data: putPostBody,
+    });
+    return res;
+  }
+
+  async deleteOnePost(key: number, user: UserInterface) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key,
+        deleted: false,
+        postuser: {
+          user_id: user['user_id'],
+        },
+      },
       data: {
-        filename,
-        filetype,
+        deleted: true,
       },
     });
     return res;
   }
 
-  async putOnePost(key: number) {
-    const res: PostInterface = await this.prisma.post.update({
+  async getImage(filename: string, filetype: string, image_hash: string) {
+    const res: ImageInterface | null = await this.prisma.image.findFirst({
       where: {
-        key,
+        filename,
+        filetype,
+        image_hash,
       },
+    });
+    if (!res)
+      throw new Error("mongodb.service:getImage(), image doesn't exist");
+    return res;
+  }
+
+  async saveImage(filename: string, filetype: string, image_hash: string) {
+    const res: ImageInterface = await this.prisma.image.create({
       data: {
-        title: 'new title!',
+        filename,
+        filetype,
+        image_hash,
+      },
+    });
+    return res;
+  }
+
+  async getOneUser(user_id: string) {
+    const res: UserInterface = await this.prisma.user.findFirstOrThrow({
+      where: {
+        user_id,
       },
     });
     return res;

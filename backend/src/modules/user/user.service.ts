@@ -6,8 +6,8 @@ export class UserService {
   private users: userIdDto[] = [
     {
       key: 1,
-      id: 'asdf1',
-      password: 'asdf',
+      user_id: 'asdf',
+      password: 'asdf1',
       username: 'aaaa',
       email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
       phone: '010-1111-111',
@@ -33,7 +33,7 @@ export class UserService {
 
   validateUser(id: string, pass: string) {
     const u = this.users.find((ele) => {
-      return ele.id === id;
+      return ele.user_id === id;
     });
     console.log(u);
     if (!u) return null;

@@ -12,7 +12,7 @@ export class UserDto {
   key: number;
 
   @IsString()
-  id: string;
+  user_id: string;
 
   @IsString()
   username: string;
