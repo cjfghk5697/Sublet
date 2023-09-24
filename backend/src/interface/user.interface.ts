@@ -9,3 +9,8 @@ export interface ExportUser {
 export interface User extends ExportUser {
   password: string;
 }
+
+export class UserBase {
+  id: string;
+  user_id: string;
+}

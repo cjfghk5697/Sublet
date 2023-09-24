@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { User } from '../user/interface/user.interface';
+import { User } from '@/interface/user.interface';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -22,7 +22,7 @@ describe('AuthService', () => {
         password: 'asdf',
         username: 'aaaa',
         email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
-        phone:'010-1111-111'
+        phone: '010-1111-111',
       },
     ];
     jest.spyOn(userService, 'getAllUser').mockImplementation(() => {
@@ -34,9 +34,11 @@ describe('AuthService', () => {
     jest
       .spyOn(userService, 'getUserByKey')
       .mockImplementation((key: number) => {
-        const { password: _, ...user } = users.find((ele) => {
+        const ret = users.find((ele) => {
           return ele.key === key;
         });
+        if (!ret) return null;
+        const { password: _, ...user } = ret;
         return user;
       });
     jest
@@ -67,8 +69,9 @@ describe('AuthService', () => {
     });
     it('return user when existing username and matching password received', () => {
       const user = authService.validateUser('asdf1', 'asdf');
-      expect(user.username).toEqual('aaaa');
-      expect(user.key).toEqual(1);
+      expect(user).toBeDefined();
+      expect(user?.username).toEqual('aaaa');
+      expect(user?.key).toEqual(1);
     });
   });
 });

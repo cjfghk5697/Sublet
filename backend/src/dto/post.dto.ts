@@ -1,44 +1,19 @@
-import { IsString, IsArray, IsDateString, IsOptional } from 'class-validator';
+import { PostBase } from '@/interface/post.interface';
+import {
+  IsString,
+  IsArray,
+  IsDateString,
+  IsOptional,
+  IsNumber,
+  IsInt,
+  IsPositive,
+} from 'class-validator';
 
-export class PostCreateDto {
+export class PostCreateDto extends PostBase {}
+
+export class PrismaPostCreateDto extends PostBase {
   @IsArray()
   images: string[];
-
-  @IsString()
-  title: string;
-
-  @IsString()
-  basic_info: string;
-
-  @IsString()
-  description: string;
-
-  @IsString()
-  position: string;
-
-  @IsString()
-  rule: string;
-
-  @IsString()
-  refund_policy: string;
-
-  @IsString()
-  benefit: string;
-
-  @IsString()
-  extra_info: string;
-
-  @IsDateString()
-  start_day: string | Date;
-
-  @IsDateString()
-  end_day: string | Date;
-
-  @IsString()
-  min_duration: string;
-
-  @IsString()
-  max_duration: string;
 }
 
 export class PostUpdateDto {
@@ -86,11 +61,23 @@ export class PostUpdateDto {
   @IsOptional()
   end_day?: string;
 
-  @IsString()
+  @IsInt()
+  @IsPositive()
   @IsOptional()
-  min_duration?: string;
+  min_duration?: number;
 
-  @IsString()
+  @IsInt()
+  @IsPositive()
   @IsOptional()
-  max_duration?: string;
+  max_duration?: number;
+}
+
+export class PostGetAllQueryDto {
+  @IsOptional()
+  maxPost: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  page: number;
 }
