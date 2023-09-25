@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { ExportUser, User } from './interface/user.interface';
+import { ExportUser, User } from '@/interface/user.interface';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -13,7 +13,7 @@ describe('UserController', () => {
       password: 'asdf',
       username: 'aaaa',
       email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
-      phone:'010-1111-111'
+      phone: '010-1111-111',
     },
   ];
 
@@ -23,7 +23,7 @@ describe('UserController', () => {
       id: 'asdf1',
       username: 'aaaa',
       email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
-      phone:'010-1111-111'
+      phone: '010-1111-111',
     },
   ];
 
