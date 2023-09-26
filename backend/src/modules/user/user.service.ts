@@ -22,7 +22,7 @@ export class UserService {
   async validateUser(id: string, pass: string): Promise<UserCreateDto> {
     console.log(id, pass);
 
-    const u = this.prisma.user.findFirst({
+    const u = await this.prisma.user.findFirst({
       where: {
         user_id: id,
       },
