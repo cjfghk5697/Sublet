@@ -8,10 +8,14 @@ export class localSerializer extends PassportSerializer {
   constructor(private readonly db: MongodbService) {
     super();
   }
+
+  /* eslint-disable-next-line @typescript-eslint/ban-types */
   serializeUser(user: UserInterface, done: Function) {
     console.log('serialize user:', user);
     return done(null, user.user_id);
   }
+
+  /* eslint-disable-next-line @typescript-eslint/ban-types */
   async deserializeUser(user_id: string, done: Function) {
     console.log('deserialize user:', user_id);
     try {

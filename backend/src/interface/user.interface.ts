@@ -6,7 +6,7 @@ export interface ExportUser {
   phone: string;
 }
 
-export interface User extends ExportUser {
+export interface UserFullTest extends ExportUser {
   password: string;
 }
 
@@ -15,8 +15,12 @@ export class UserInterface {
   user_id: string;
 }
 
-declare global {
-  namespace Express {
-    interface User extends UserInterface {}
-  }
+// declare global {
+//   namespace Express {
+//     interface User extends UserInterface {}
+//   }
+// }
+
+export interface customRequest extends Express.Request {
+  user: UserInterface;
 }

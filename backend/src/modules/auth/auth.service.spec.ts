@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { User } from '@/interface/user.interface';
+import { UserFullTest } from '@/interface/user.interface';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -15,7 +15,7 @@ describe('AuthService', () => {
     authService = module.get<AuthService>(AuthService);
     userService = module.get(UserService);
 
-    const users: User[] = [
+    const users: UserFullTest[] = [
       {
         key: 1,
         id: 'asdf1',

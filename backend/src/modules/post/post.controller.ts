@@ -25,6 +25,7 @@ import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PostService } from './post.service';
 import { ImageInterface } from '@/interface/image.interface';
+import { customRequest } from '@/interface/user.interface';
 
 @Controller('post')
 export class PostController {
@@ -46,7 +47,7 @@ export class PostController {
   async createPost(
     @UploadedFiles() file: Express.Multer.File[],
     @Body() data: PostCreateDto,
-    @Req() req: Express.Request,
+    @Req() req: customRequest,
   ) {
     try {
       if (!req.user) throw new UnauthorizedException();
@@ -88,7 +89,7 @@ export class PostController {
   @UseGuards(LoggedInGuard)
   async DeleteOnePost(
     @Param('postKey') key: number,
-    @Req() req: Express.Request,
+    @Req() req: customRequest,
   ) {
     try {
       if (!req.user) throw new UnauthorizedException();

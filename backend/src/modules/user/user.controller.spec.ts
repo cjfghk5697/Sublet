@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { ExportUser, User } from '@/interface/user.interface';
+import { ExportUser, UserFullTest } from '@/interface/user.interface';
 
 describe('UserController', () => {
   let controller: UserController;
   let userService: UserService;
-  const users: User[] = [
+  const users: UserFullTest[] = [
     {
       key: 1,
       id: 'asdf1',
