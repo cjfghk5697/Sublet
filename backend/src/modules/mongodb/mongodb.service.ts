@@ -40,10 +40,58 @@ export class MongodbService {
   }
 
   async getOnePost(key: number) {
-    return this.prisma.post.findFirst({
+    try {
+      return await this.prisma.post.findFirst({
+        where: {
+          key,
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  // user
+  async getAllUser(): Promise<UserCreateDto[]> {
+    //전부 UserDto로 변경
+    const u = this.prisma.user.findMany();
+
+    if (!u) return await null;
+    return await u;
+  }
+
+  async getUserByKey(user_id: string): Promise<UserCreateDto> {
+    const u = this.prisma.user.findFirst({
       where: {
-        key,
+        user_id: user_id,
       },
     });
+
+    if (!u) return await null;
+    return await u;
+  }
+
+  async createUser(data: UserCreateDto) {
+    try {
+      return await this.prisma.user.create({
+        data: { ...data },
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async validateUser(id: string, pass: string): Promise<UserCreateDto> {
+    console.log(id, pass);
+
+    const u = await this.prisma.user.findFirst({
+      where: {
+        user_id: id,
+      },
+    });
+    console.log(u, u['password']);
+    if (!u) return await null;
+    if (u['password'] === pass) return await u;
+    return await null;
   }
 }

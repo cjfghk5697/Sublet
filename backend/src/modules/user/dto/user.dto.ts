@@ -25,9 +25,8 @@ export class UserCreateDto {
   @IsPhoneNumber()
   phone: string;
 
-  @IsOptional()
   @IsBoolean()
-  delete?: boolean;
+  delete: boolean = false;
 }
 
 export class UserUpdateDto {

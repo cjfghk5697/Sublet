@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Res, Req, UseGuards, Next } from '@nestjs/common';
 import { LocalGuard } from '../../guards/local.guard';
 import { LoggedInGuard } from '../../guards/logged-in.guard';
 
@@ -10,16 +10,14 @@ export class AuthController {
     return { ok: true };
   }
 
-  @UseGuards(LoggedInGuard)
   @UseGuards(LocalGuard)
   @Post('logout')
-  async logout(@Req() req, @Res() res) {
-    req.logOut(function (err, next) {
+  async logout(@Req() req, @Res() res, @Next() next) {
+    req.logOut(function (err) {
       //middleware에 function은 err. req,res,next가 들어갈수 있다.
       if (err) {
         return next(err);
       }
-      res.redirect('/');
     });
     console.log('logout');
   }

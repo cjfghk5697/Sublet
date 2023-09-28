@@ -1,45 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import type { UserCreateDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
-import { PrismaService } from '../prisma/prisma.service';
+import { MongodbService } from '../mongodb/mongodb.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private db: MongodbService) {}
 
   async getAllUser(): Promise<UserCreateDto[]> {
     //전부 UserDto로 변경
-    return await this.prisma.user.findMany();
+    return await this.db.getAllUser();
   }
 
   async getUserByKey(user_id: string): Promise<UserCreateDto> {
-    return await this.prisma.user.findFirst({
-      where: {
-        user_id: user_id,
-      },
-    });
+    return this.db.getUserByKey(user_id);
   }
 
   async validateUser(id: string, pass: string): Promise<UserCreateDto> {
-    console.log(id, pass);
-
-    const u = await this.prisma.user.findFirst({
-      where: {
-        user_id: id,
-      },
-    });
-    console.log(u, u['password']);
-    if (!u) return await null;
-    if (u['password'] === pass) return await u;
-    return await null;
+    return await this.db.validateUser(id, pass);
   }
 
   async createUser(data: UserCreateDto) {
-    try {
-      return await this.prisma.user.create({
-        data: { ...data },
-      });
-    } catch (e) {
-      throw e;
-    }
+    return await this.db.createUser(data);
   }
 }
