@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import type { UserCreateDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
+import type { UserCreateDto, UserInfoDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
 import { MongodbService } from '../mongodb/mongodb.service';
 
 @Injectable()
 export class UserService {
   constructor(private db: MongodbService) {}
 
-  async getAllUser(): Promise<UserCreateDto[]> {
+  async getAllUser(): Promise<UserInfoDto[]> {
     //전부 UserDto로 변경
     return await this.db.getAllUser();
   }
 
-  async getUserByKey(user_id: string): Promise<UserCreateDto> {
+  async getUserByKey(user_id: string): Promise<UserInfoDto> {
     return this.db.getUserByKey(user_id);
   }
 

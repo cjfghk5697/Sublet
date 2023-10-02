@@ -29,6 +29,24 @@ export class UserCreateDto {
   delete: boolean = false;
 }
 
+export class UserInfoDto {
+  //email, phone, host, guest,
+  @IsString()
+  user_id: string;
+
+  @IsString()
+  username: string;
+
+  @IsStrongPassword()
+  password: string;
+
+  @IsEmail()
+  email: string; //필수 아니기에, undefined 값도 받을 수 있도록함.
+
+  @IsPhoneNumber()
+  phone: string;
+}
+
 export class UserUpdateDto {
   //email, phone, host, guest,
   @IsOptional()

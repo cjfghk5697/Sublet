@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PostCreateDto } from '../post/dto/post.dto';
-import { UserCreateDto } from '../user/dto/user.dto';
+import { UserCreateDto, UserInfoDto } from '../user/dto/user.dto';
 import { PostInterface } from '../post/interface/post.interface';
 
 @Injectable()
@@ -52,15 +52,18 @@ export class MongodbService {
   }
 
   // user
-  async getAllUser(): Promise<UserCreateDto[]> {
+  async getAllUser(): Promise<UserInfoDto[]> {
     //전부 UserDto로 변경
     const u = this.prisma.user.findMany();
 
-    if (!u) return await null;
-    return await u;
+    if (u['delete'] === true) return await null;
+    return (await u).map((ele) => {
+      const { delete: _, ...user } = ele;
+      return user;
+    });
   }
 
-  async getUserByKey(user_id: string): Promise<UserCreateDto> {
+  async getUserByKey(user_id: string): Promise<UserInfoDto> {
     const u = this.prisma.user.findFirst({
       where: {
         user_id: user_id,
@@ -68,7 +71,8 @@ export class MongodbService {
     });
 
     if (!u) return await null;
-    return await u;
+    const { delete: _, ...user } = await u;
+    return user;
   }
 
   async createUser(data: UserCreateDto) {
@@ -89,7 +93,7 @@ export class MongodbService {
         user_id: id,
       },
     });
-    console.log(u, u['password']);
+
     if (!u) return await null;
     if (u['password'] === pass) return await u;
     return await null;

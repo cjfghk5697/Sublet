@@ -10,7 +10,7 @@ export class AuthController {
     return { ok: true };
   }
 
-  @UseGuards(LocalGuard)
+  @UseGuards(LoggedInGuard)
   @Post('logout')
   async logout(@Req() req, @Res() res, @Next() next) {
     req.logOut(function (err) {
