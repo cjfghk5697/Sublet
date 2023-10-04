@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PostController } from './post.controller';
-import { MongodbService } from '../mongodb/mongodb.service';
-import { PrismaService } from '../prisma/prisma.service';
 import { PostService } from './post.service';
+import { MongodbModule } from '../mongodb/mongodb.module';
 
 @Module({
+  imports: [MongodbModule],
   controllers: [PostController],
-  providers: [MongodbService, PrismaService, PostService],
+  providers: [PostService],
 })
 export class PostModule {}
