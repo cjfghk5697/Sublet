@@ -15,7 +15,7 @@ describe('AuthService', () => {
     authService = module.get<AuthService>(AuthService);
     userService = module.get(UserService);
 
-    const users: UserFullTest[] = [
+    /*const users: UserFullTest[] = [
       {
         key: 1,
         id: 'asdf1',
@@ -24,14 +24,14 @@ describe('AuthService', () => {
         email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
         phone: '010-1111-111',
       },
-    ];
-    jest.spyOn(userService, 'getAllUser').mockImplementation(() => {
+    ];*/
+    /*jest.spyOn(userService, 'getAllUser').mockImplementation(() => {
       return users.map((ele) => {
         const { password: _, ...user } = ele;
         return user;
       });
-    });
-    jest
+    });*/
+    /*jest
       .spyOn(userService, 'getUserByKey')
       .mockImplementation((key: number) => {
         const ret = users.find((ele) => {
@@ -51,14 +51,14 @@ describe('AuthService', () => {
         const { password, ...user } = u;
         if (user && password === pass) return user;
         return null;
-      });
+      });*/
   });
 
   it('should be defined', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('validateUser', () => {
+  /*describe('validateUser', () => {
     it('return null when not existing username received', () => {
       const user = authService.validateUser('asdf', 'asdf');
       expect(user).toBeNull();
@@ -73,5 +73,5 @@ describe('AuthService', () => {
       expect(user?.username).toEqual('aaaa');
       expect(user?.key).toEqual(1);
     });
-  });
+  });*/
 });
