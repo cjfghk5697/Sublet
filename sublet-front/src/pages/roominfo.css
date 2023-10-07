@@ -1,0 +1,39 @@
+#RomeInfo-ImgContainer {
+	display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+	height: 500px;
+}
+
+#RomeInfo-MiniImgContainer  {
+	display: flex;
+	width: 50%;
+	align-items: center;
+}
+
+#RomeInfo-ImgContainer2 {
+	display: flex;
+	flex-direction: column;
+}
+
+#RomeInfo-ImgContainer img {
+	object-fit: cover;
+	height: 100%;
+}
+
+#RomeInfo-MiniImgContainer img {
+	height: 250px;
+}
+
+
+/*-----*/
+#RomeInfo-detail {
+	display: flex;
+    width: 80%;
+	margin-left: 10%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+}
+
