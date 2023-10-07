@@ -10,7 +10,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { LoggedInGuard } from '../../guards/logged-in.guard';
-import { UserCreateDto } from './dto/user.dto';
+import { UserInfoDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -27,16 +27,13 @@ export class UserController {
   async getOneUser(@Param('user_id') user_id: string) {
     const res = await this.userService.getUserByKey(user_id);
     if (!res) {
-      console.log('res is empty,', res);
       throw new NotFoundException();
     }
-    console.log('res found,', res);
     return res;
   }
 
   @Post()
-  async createUser(@Body() data: UserCreateDto) {
-    console.log('data:', data);
+  async createUser(@Body() data: UserInfoDto) {
     try {
       return await this.userService.createUser(data);
     } catch (e) {

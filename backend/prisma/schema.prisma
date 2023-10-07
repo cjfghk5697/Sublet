@@ -8,15 +8,14 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  user_id String
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  user_id  String  @unique
   password String
   username String
-  email String
-  phone String
-  delete Boolean @default(false)
+  email    String  @unique
+  phone    String  @unique
+  delete   Boolean @default(false)
 }
-
 
 model Post {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -37,6 +36,6 @@ model Post {
 }
 
 model IncrementKey {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  postKey Int      
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  postKey Int
 }
