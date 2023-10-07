@@ -8,15 +8,30 @@ export class UserService {
 
   async getAllUser(): Promise<UserInfoDto[]> {
     //전부 UserDto로 변경
-    return await this.db.getAllUser();
+
+    const u = await this.db.getAllUser();
+    if (u['delete'] === true) return null;
+    return (await u).map((ele) => {
+      const { delete: _, ...user } = ele;
+      return user;
+    });
   }
 
   async getUserByKey(user_id: string): Promise<UserInfoDto> {
-    return this.db.getUserByKey(user_id);
+    const u = await this.db.getUserByKey(user_id);
+    if (!u) return null;
+    const { delete: _, ...user } = u;
+    return await user;
   }
 
   async validateUser(id: string, pass: string): Promise<UserInfoDto> {
-    return await this.db.validateUser(id, pass);
+    const u = await this.db.validateUser(id);
+    if (!u) return null;
+    if (u['password'] === pass) {
+      const { delete: _, ...user } = u;
+      return user;
+    }
+    return null;
   }
 
   async createUser(data: UserInfoDto) {

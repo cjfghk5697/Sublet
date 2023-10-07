@@ -15,6 +15,24 @@ describe('AuthService', () => {
     phone: '+8201011111111',
     password: 'asdfds@1!#asfseFA',
   };
+  const users = [
+    {
+      user_id: 'evan2',
+      password: '5s34S2349!#',
+      username: 'evan2',
+      email: 'chfgadg@gmail.com',
+      phone: '+82343512534',
+      delete: false,
+    },
+    {
+      user_id: 'evan',
+      username: 'evan',
+      email: 'evan91234@gmail.com',
+      phone: '+8201011111111',
+      password: 'asdfds@1!#asfseFA',
+      delete: false,
+    },
+  ];
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AuthService, UserService, MongodbService, PrismaService],
@@ -22,32 +40,33 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService);
     userService = module.get(UserService);
-    //   jest.spyOn(userService, 'getAllUser').mockImplementation(() => {
-    //     return users.map((ele) => {
-    //       const { password: _, ...user } = ele;
-    //       return user;
-    //     });
-    //   });
-    //   jest
-    //     .spyOn(userService, 'getUserByKey')
-    //     .mockImplementation((key: number) => {
-    //       const { password: _, ...user } = users.find((ele) => {
-    //         return ele.key === key;
-    //       });
-    //       return user;
-    //     });
-    //   jest
-    //     .spyOn(userService, 'validateUser')
-    //     .mockImplementation((id: string, pass: string) => {
-    //       const u = users.find((ele) => {
-    //         return ele.id === id;
-    //       });
-    //       if (!u) return null;
-    //       const { password, ...user } = u;
-    //       if (user && password === pass) return user;
-    //       return null;
-    //     });
-    //
+    jest.spyOn(userService, 'getAllUser').mockImplementation(async () => {
+      return (await users).map((ele) => {
+        const { delete: _, ...user } = ele;
+        return user;
+      });
+    });
+    jest
+      .spyOn(userService, 'getUserByKey')
+      .mockImplementation(async (user_id: string) => {
+        const u = (await users).find((ele) => {
+          return ele.user_id === user_id;
+        });
+        if (!u) return null;
+        const { delete: _, ...user } = u;
+        return await user;
+      });
+
+    jest
+      .spyOn(userService, 'validateUser')
+      .mockImplementation(async (user_id: string, pass: string) => {
+        const u = (await users).find((ele) => {
+          return ele.user_id === user_id;
+        });
+        if (!u) return null;
+        if (u && u['password'] === pass) return await u;
+        return null;
+      });
   });
 
   it('should be defined', () => {
