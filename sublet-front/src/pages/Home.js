@@ -1,18 +1,17 @@
 import RoomProfile from '../components/RoomProfile';
 import Header from '../components/Header';
-import React from 'react';
+import React from 'react'
 import * as makeTest from '../testdata/testdata.js'
 
 const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
 
 export default function Home() {
-
   const styles = {
     container: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      width: 'auto',
+      width: '100%',
     },
     roomContainer: {
       display: "grid",
@@ -32,8 +31,10 @@ export default function Home() {
   return (
     <div style={styles.container}>
         <Header />
-      <div style={styles.roomContainer}>
-        {rooms}
+      <div style={styles.mainContainer}>
+        <div style={styles.roomContainer}>
+          {rooms}
+        </div>
       </div>
     </div>
   );

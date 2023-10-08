@@ -26,7 +26,7 @@ export const makeTestData = () => {
         likeCount: 55
       },
       {
-        id: "650728e80ef0723c4dad666c",
+        id: "650728e80ef0723c4dad666d",
         key: 0,
         basic_info: "기본 정보",
         benefit: "혜택",
@@ -51,7 +51,7 @@ export const makeTestData = () => {
         likeCount: 55
       },
       {
-        id: "650728e80ef0723c4dad666c",
+        id: "650728e80ef0723c4dad666e",
         key: 0,
         basic_info: "기본 정보",
         benefit: "혜택",
@@ -76,7 +76,7 @@ export const makeTestData = () => {
         likeCount: 55
       },
       {
-        id: "650728e80ef0723c4dad666c",
+        id: "650728e80ef0723c4dad666f",
         key: 0,
         basic_info: "기본 정보",
         benefit: "혜택",
@@ -101,7 +101,7 @@ export const makeTestData = () => {
         likeCount: 55
       },
       {
-        id: "650728e80ef0723c4dad666c",
+        id: "650728e80ef0723c4dad666g",
         key: 0,
         basic_info: "기본 정보",
         benefit: "혜택",
@@ -126,7 +126,7 @@ export const makeTestData = () => {
         likeCount: 55
       },
       {
-        id: "650728e80ef0723c4dad666c",
+        id: "650728e80ef0723c4dad666h",
         key: 0,
         basic_info: "기본 정보",
         benefit: "혜택",
