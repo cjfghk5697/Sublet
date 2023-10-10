@@ -18,7 +18,7 @@ describe('AppController (e2e)', () => {
       .compile();
 
     prismaService = moduleFixture.get(PrismaService);
-    jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
+    //jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
     app = moduleFixture.createNestApplication();
     await app.init();
   });
