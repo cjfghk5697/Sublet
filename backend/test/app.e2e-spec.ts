@@ -3,11 +3,9 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { PrismaService } from '../src/modules/prisma/prisma.service';
-import { MongodbService } from '../src/modules/mongodb/mongodb.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let prismaService: PrismaService;
   let tempService = 'Hello World!12';
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,8 +15,6 @@ describe('AppController (e2e)', () => {
       .useValue(tempService)
       .compile();
 
-    // prismaService = moduleFixture.get(PrismaService);
-    // jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
     app = moduleFixture.createNestApplication();
     await app.init();
   });
