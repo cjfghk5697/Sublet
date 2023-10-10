@@ -12,7 +12,10 @@ describe('AppController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(AppModule)
+      .useValue(AppModule)
+      .compile();
 
     prismaService = moduleFixture.get(PrismaService);
     jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
