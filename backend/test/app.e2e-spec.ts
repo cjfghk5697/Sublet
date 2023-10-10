@@ -7,13 +7,13 @@ import { PrismaService } from '../src/modules/prisma/prisma.service';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prismaService: PrismaService;
-
+  let tempService = 'Hello World!';
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
-      .overrideProvider(AppModule)
-      .useValue(AppModule)
+      .overrideProvider(prismaService)
+      .useValue(tempService)
       .compile();
 
     prismaService = moduleFixture.get<PrismaService>(PrismaService);
