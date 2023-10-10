@@ -6,7 +6,7 @@ import { PrismaService } from '../src/modules/prisma/prisma.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  // let prismaService: PrismaService;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,8 +16,8 @@ describe('AppController (e2e)', () => {
       .useValue(AppModule)
       .compile();
 
-    // prismaService = moduleFixture.get(PrismaService);
-    // jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
+    prismaService = moduleFixture.get<PrismaService>(PrismaService);
+    jest.spyOn(prismaService, '$connect').mockImplementation(async () => {});
     app = moduleFixture.createNestApplication();
     await app.init();
   });
