@@ -1,6 +1,17 @@
-import { Controller, Get, Req, Param, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
+import {
+  Controller,
+  Get,
+  Req,
+  Param,
+  UseGuards,
+  NotFoundException,
+  Post,
+  Body,
+  BadRequestException,
+} from '@nestjs/common';
 import { LoggedInGuard } from '../../guards/logged-in.guard';
+import { UserInfoDto } from './dto/user.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -8,12 +19,25 @@ export class UserController {
 
   @UseGuards(LoggedInGuard)
   @Get()
-  getAllUser() {
+  async getAllUser() {
     return this.userService.getAllUser();
   }
 
-  @Get(':key')
-  getOneUser(@Param('key') key: number) {
-    return this.userService.getUserByKey(key);
+  @Get(':user_id')
+  async getOneUser(@Param('user_id') user_id: string) {
+    const res = await this.userService.getUserByKey(user_id);
+    if (!res) {
+      throw new NotFoundException();
+    }
+    return res;
+  }
+
+  @Post()
+  async createUser(@Body() data: UserInfoDto) {
+    try {
+      return await this.userService.createUser(data);
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 }

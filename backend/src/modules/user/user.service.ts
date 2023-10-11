@@ -1,41 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import type { UserDto, userIdDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
+import type { UserInfoDto } from './dto/user.dto'; //interface 삭제 및 Dto 사
+import { MongodbService } from '../mongodb/mongodb.service';
 
 @Injectable()
 export class UserService {
-  private users: userIdDto[] = [ 
-    {
-      key: 1,
-      id: 'asdf1',
-      password: 'asdf',
-      username: 'aaaa',
-      email: 'example@gmail.com', //사이트 기본 필요 옵션인 이메일, 전화번호 추가
-      phone:'010-1111-111'
-    },
-  ];
+  constructor(private db: MongodbService) {}
 
-  getAllUser(): UserDto[] { //전부 UserDto로 변경
-    return this.users.map((ele) => {
-      const { password: _, ...user } = ele;
+  async getAllUser(): Promise<UserInfoDto[]> {
+    //전부 UserDto로 변경
+
+    const u = await this.db.getAllUser();
+    if (u['delete'] === true) return null;
+    return (await u).map((ele) => {
+      const { delete: _, ...user } = ele;
       return user;
     });
   }
 
-  getUserByKey(key: number): UserDto {
-    const { password: _, ...user } = this.users.find((ele) => {
-      return ele.key === key;
-    });
-    return user;
+  async getUserByKey(user_id: string): Promise<UserInfoDto> {
+    const u = await this.db.getUserByKey(user_id);
+    if (!u) return null;
+    const { delete: _, ...user } = u;
+    return await user;
   }
 
-  validateUser(id: string, pass: string) {
-    const u = this.users.find((ele) => {
-      return ele.id === id;
-    });
-    console.log(u);
+  async validateUser(id: string, pass: string): Promise<UserInfoDto> {
+    const u = await this.db.validateUser(id);
     if (!u) return null;
-    const { password, ...user } = u;
-    if (password === pass) return user;
+    if (u['password'] === pass) {
+      const { delete: _, ...user } = u;
+      return user;
+    }
     return null;
+  }
+
+  async createUser(data: UserInfoDto) {
+    return await this.db.createUser(data);
   }
 }

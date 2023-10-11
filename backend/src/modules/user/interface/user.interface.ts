@@ -1,11 +1,7 @@
-export interface ExportUser {
-  key: number;
-  id: string;
+export interface User {
+  user_id: string;
   username: string;
   email: string;
   phone: string;
-}
-
-export interface User extends ExportUser {
   password: string;
 }
