@@ -12,9 +12,8 @@ model User {
   user_id  String  @unique
   password String
   username String
-  email    String
-  phone    String
-  Post     Post[]
+  email    String  @unique
+  phone    String  @unique
   delete   Boolean @default(false)
 }
 
@@ -43,11 +42,4 @@ model Post {
 model IncrementKey {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   postKey Int
-}
-
-model Image {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  filename   String
-  filetype   String
-  image_hash String
 }

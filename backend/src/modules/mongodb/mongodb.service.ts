@@ -152,4 +152,37 @@ export class MongodbService {
     });
     return res;
   }
+
+  // user
+  async getAllUser(): Promise<UserCreateDto[]> {
+    //전부 UserDto로 변경
+    const u = await this.prisma.user.findMany();
+    return u;
+  }
+
+  async getUserByKey(user_id: string): Promise<UserCreateDto> {
+    return await this.prisma.user.findFirst({
+      where: {
+        user_id: user_id,
+      },
+    });
+  }
+
+  async createUser(data: UserInfoDto) {
+    try {
+      return await this.prisma.user.create({
+        data: { ...data },
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async validateUser(id: string): Promise<UserCreateDto> {
+    return await this.prisma.user.findFirst({
+      where: {
+        user_id: id,
+      },
+    });
+  }
 }
