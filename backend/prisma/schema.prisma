@@ -14,6 +14,7 @@ model User {
   username String
   email    String  @unique
   phone    String  @unique
+  Post     Post[]
   delete   Boolean @default(false)
 }
 
@@ -42,4 +43,11 @@ model Post {
 model IncrementKey {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   postKey Int
+}
+
+model Image {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  filename   String
+  filetype   String
+  image_hash String
 }
