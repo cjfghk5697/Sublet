@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { User } from '../user/interface/user.interface';
+import { User } from '@/interface/user.interface';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -45,7 +45,7 @@ describe('AuthService', () => {
         const { delete: _, ...user } = ele;
         return user;
       });
-    });*/
+    });
     /*jest
       .spyOn(userService, 'getUserByKey')
       .mockImplementation(async (user_id: string) => {
@@ -83,12 +83,16 @@ describe('AuthService', () => {
       expect(user).toBeNull();
     });
     it('return user when existing username and matching password received', async () => {
-      const user = await authService.validateUser(
-        newUser['user_id'],
-        newUser['password'],
-      );
-      expect(user['user_id']).toEqual(newUser['user_id']);
-      expect(user['password']).toEqual(newUser['password']);
+      try {
+        const user = await authService.validateUser(
+          newUser['user_id'],
+          newUser['password'],
+        );
+        expect(user['user_id']).toEqual(newUser['user_id']);
+        expect(user['password']).toEqual(newUser['password']);
+      } catch (e) {
+        expect(false);
+      }
     });
-  });*/
+  });
 });

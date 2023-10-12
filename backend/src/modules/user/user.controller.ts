@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Req,
   Param,
   UseGuards,
   NotFoundException,
@@ -9,8 +8,8 @@ import {
   Body,
   BadRequestException,
 } from '@nestjs/common';
-import { LoggedInGuard } from '../../guards/logged-in.guard';
-import { UserInfoDto } from './dto/user.dto';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
+import { UserInfoDto } from '@/dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')

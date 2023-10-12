@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let tempService = 'Hello World!12';
+  const tempService = 'Hello World!12';
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
