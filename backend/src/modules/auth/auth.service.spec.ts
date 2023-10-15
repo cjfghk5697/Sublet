@@ -1,22 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { User } from '@/interface/user.interface';
-import { MongodbService } from '../mongodb/mongodb.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '@/modules/user/user.service';
+import { UserInterface } from '@/interface/user.interface';
+import { UserModule } from '@/modules/user/user.module';
+import { MongodbModule } from '@/modules/mongodb/mongodb.module';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let userService: UserService;
-  const newUser: User = {
-    user_id: 'evan',
-    username: 'evan',
-    email: 'evan91234@gmail.com',
-    phone: '+8201011111111',
-    password: 'asdfds@1!#asfseFA',
-  };
-  const users = [
+  const users: UserInterface[] = [
     {
+      id: '1',
       user_id: 'evan2',
       password: '5s34S2349!#',
       username: 'evan2',
@@ -25,6 +19,7 @@ describe('AuthService', () => {
       delete: false,
     },
     {
+      id: '2',
       user_id: 'evan',
       username: 'evan',
       email: 'evan91234@gmail.com',
@@ -35,38 +30,26 @@ describe('AuthService', () => {
   ];
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService, UserService, MongodbService, PrismaService],
+      imports: [UserModule, MongodbModule],
+      providers: [AuthService],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    userService = module.get(UserService);
+    userService = module.get<UserService>(UserService);
     jest.spyOn(userService, 'getAllUser').mockImplementation(async () => {
-      return (await users).map((ele) => {
-        const { delete: _, ...user } = ele;
-        return user;
+      return users.map((ele) => {
+        return userService.transformExport(ele);
       });
     });
-    /*jest
-      .spyOn(userService, 'getUserByKey')
-      .mockImplementation(async (user_id: string) => {
-        const u = (await users).find((ele) => {
-          return ele.user_id === user_id;
-        });
-        if (!u) return null;
-        const { delete: _, ...user } = u;
-        return await user;
-      });
-
     jest
       .spyOn(userService, 'validateUser')
-      .mockImplementation(async (user_id: string, pass: string) => {
-        const u = (await users).find((ele) => {
-          return ele.user_id === user_id;
+      .mockImplementation(async (user_id: string, password: string) => {
+        const result = users.find((ele) => {
+          ele.user_id === user_id, ele.password === password;
         });
-        if (!u) return null;
-        if (u && u['password'] === pass) return await u;
-        return null;
-      });*/
+        if (!result) throw Error();
+        return userService.transformExport(result);
+      });
   });
 
   it('should be defined', () => {
@@ -75,21 +58,31 @@ describe('AuthService', () => {
 
   describe('validateUser', () => {
     it('return null when not existing username received', async () => {
-      const user = await authService.validateUser('Notevan', '2136182@!asfse');
-      expect(user).toBeNull();
+      try {
+        const _user = await authService.validateUser(
+          'Notevan',
+          '2136182@!asfse',
+        );
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e).toBeInstanceOf(Error);
+      }
     });
-    it('return null when existing username and not matching password received', async () => {
-      const user = await authService.validateUser(newUser['user_id'], 'asdf1');
-      expect(user).toBeNull();
+    it('should throw error when existing username and not matching password received', async () => {
+      try {
+        const _user = await authService.validateUser('evan', 'asdf1');
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e).toBeInstanceOf(Error);
+      }
     });
     it('return user when existing username and matching password received', async () => {
       try {
         const user = await authService.validateUser(
-          newUser['user_id'],
-          newUser['password'],
+          'evan',
+          'asdfds@1!#asfseFA',
         );
-        expect(user['user_id']).toEqual(newUser['user_id']);
-        expect(user['password']).toEqual(newUser['password']);
+        expect(user['user_id']).toEqual('evan');
       } catch (e) {
         expect(false);
       }

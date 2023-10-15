@@ -8,8 +8,8 @@ import {
 import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
-import { User, UserInterface } from '@/interface/user.interface';
-import { UserInfoDto } from '@/dto/user.dto';
+import { UserInterface } from '@/interface/user.interface';
+import { UserCreateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class MongodbService {
@@ -149,6 +149,7 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.findFirstOrThrow({
       where: {
         user_id,
+        delete: false,
       },
     });
     return res;
@@ -157,34 +158,35 @@ export class MongodbService {
   // user
   async getAllUser() {
     //전부 UserDto로 변경
-    const u: User[] = await this.prisma.user.findMany();
+    const u: UserInterface[] = await this.prisma.user.findMany();
     return u;
   }
 
   async getUserByKey(user_id: string) {
-    const result: User | null = await this.prisma.user.findFirst({
+    const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
         user_id: user_id,
+        delete: false,
       },
     });
     if (!result) throw Error();
     return result;
   }
 
-  async createUser(data: UserInfoDto) {
-    try {
-      return await this.prisma.user.create({
-        data: { ...data },
-      });
-    } catch (e) {
-      throw e;
-    }
+  async createUser(data: UserCreateDto) {
+    const result: UserInterface = await this.prisma.user.create({
+      data: { ...data },
+    });
+    if (!result) throw Error();
+    return result;
   }
 
-  async validateUser(id: string) {
-    const result: User | null = await this.prisma.user.findFirst({
+  async validateUser(user_id: string, password: string) {
+    const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
-        user_id: id,
+        user_id,
+        password,
+        delete: false,
       },
     });
     if (!result) throw Error();

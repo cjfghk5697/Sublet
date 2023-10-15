@@ -1,27 +1,22 @@
-export interface ExportUser {
-  key: number;
-  id: string;
+import { IsString } from 'class-validator';
+
+export class UserBase {
+  @IsString()
+  user_id: string;
+
+  @IsString()
   username: string;
-  email: string;
-  phone: string;
 }
 
-export interface User {
-  user_id: string;
-  username: string;
+export class UserExportInterface extends UserBase {
+  id: string;
   email: string;
+}
+
+export class UserInterface extends UserExportInterface {
   phone: string;
   password: string;
-  delete?: boolean;
-}
-
-export interface UserFullTest extends ExportUser {
-  password: string;
-}
-
-export class UserInterface {
-  id: string;
-  user_id: string;
+  delete: boolean;
 }
 
 export interface customRequest extends Express.Request {

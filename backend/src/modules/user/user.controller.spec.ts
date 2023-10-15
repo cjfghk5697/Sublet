@@ -3,6 +3,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MongodbService } from '../mongodb/mongodb.service';
+import { UserInterface } from '@/interface/user.interface';
 describe('UserController', () => {
   let controller: UserController;
   let userService: UserService;
@@ -13,8 +14,9 @@ describe('UserController', () => {
     phone: '+8201011111111',
     password: 'asdfds@1!#asfseFA',
   };*/
-  const users = [
+  const users: UserInterface[] = [
     {
+      id: '1',
       user_id: 'evan2',
       password: '5s34S2349!#',
       username: 'evan2',
@@ -23,6 +25,7 @@ describe('UserController', () => {
       delete: false,
     },
     {
+      id: '2',
       user_id: 'evan',
       username: 'evan',
       email: 'evan91234@gmail.com',
@@ -83,13 +86,12 @@ describe('UserController', () => {
 
     jest
       .spyOn(userService, 'validateUser')
-      .mockImplementation(async (user_id: string, pass: string) => {
-        const u = (await users).find((ele) => {
-          return ele.user_id === user_id;
+      .mockImplementation(async (user_id: string, password: string) => {
+        const u: UserInterface | undefined = users.find((ele) => {
+          return ele.user_id === user_id && ele.password === password;
         });
-        if (!u) return null;
-        if (u && u['password'] === pass) return await u;
-        return null;
+        if (!u) throw Error();
+        return u;
       });
   });
 
