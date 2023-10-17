@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Req,
   Param,
   UseGuards,
   NotFoundException,
@@ -9,9 +8,9 @@ import {
   Body,
   BadRequestException,
 } from '@nestjs/common';
-import { LoggedInGuard } from '../../guards/logged-in.guard';
-import { UserInfoDto } from './dto/user.dto';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
+import { UserCreateDto } from '@/dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -20,20 +19,25 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   @Get()
   async getAllUser() {
-    return this.userService.getAllUser();
+    try {
+      return this.userService.getAllUser();
+    } catch (e) {
+      return { ok: false };
+    }
   }
 
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
-    const res = await this.userService.getUserByKey(user_id);
-    if (!res) {
+    try {
+      const res = await this.userService.getUserByKey(user_id);
+      return res;
+    } catch (e) {
       throw new NotFoundException();
     }
-    return res;
   }
 
   @Post()
-  async createUser(@Body() data: UserInfoDto) {
+  async createUser(@Body() data: UserCreateDto) {
     try {
       return await this.userService.createUser(data);
     } catch (e) {

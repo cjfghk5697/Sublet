@@ -12,7 +12,12 @@ export class AuthController {
 
   @UseGuards(LoggedInGuard)
   @Post('logout')
-  async logout(@Req() req, @Res() res, @Next() next) {
+  async logout(
+    @Req() req: Express.Request,
+    @Res() _res: Express.Response,
+    /* eslint-disable-next-line @typescript-eslint/ban-types */
+    @Next() next: Function,
+  ) {
     req.logOut(function (err) {
       //middleware에 function은 err. req,res,next가 들어갈수 있다.
       if (err) {
