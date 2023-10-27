@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
-import { UserCreateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -26,6 +26,14 @@ export class UserService {
 
   async createUser(data: UserCreateDto) {
     const user = await this.db.createUser(data);
+    return this.transformExport(user);
+  }
+  async deleteOneUser(user_id: string) {
+    const user = await this.db.deleteOneUser(user_id);
+    return this.transformExport(user);
+  }
+  async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
+    const user = await this.db.putOneUser(user_id, putUserBody);
     return this.transformExport(user);
   }
 
