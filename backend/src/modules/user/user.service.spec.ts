@@ -4,7 +4,6 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { UserInterface } from '@/interface/user.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbService } from '../mongodb/mongodb.service';
-import { Body } from '@nestjs/common';
 import { UserUpdateDto } from '@/dto/user.dto';
 
 describe('UserService', () => {
