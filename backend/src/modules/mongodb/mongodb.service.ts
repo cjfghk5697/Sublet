@@ -9,7 +9,7 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class MongodbService {
@@ -155,7 +155,6 @@ export class MongodbService {
     return res;
   }
 
-  // user
   async getAllUser() {
     //전부 UserDto로 변경
     const u: UserInterface[] = await this.prisma.user.findMany();
@@ -191,5 +190,31 @@ export class MongodbService {
     });
     if (!result) throw Error();
     return result;
+  }
+
+  async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id,
+        delete: false,
+      },
+      data: putUserBody,
+    });
+    if (!res) throw Error();
+    return res;
+  }
+
+  async deleteOneUser(user_id: string) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id,
+        delete: false,
+      },
+      data: {
+        delete: true,
+      },
+    });
+    if (!res) throw Error();
+    return res;
   }
 }
