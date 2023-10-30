@@ -26,4 +26,16 @@ export class UserUpdateDto extends UserBase {
   @IsOptional()
   @IsString()
   username: string;
+
+  @IsOptional()
+  @IsStrongPassword()
+  password: string;
+
+  @IsOptional()
+  @IsPhoneNumber()
+  phone: string;
+
+  @IsOptional()
+  @IsEmail()
+  email: string;
 }
