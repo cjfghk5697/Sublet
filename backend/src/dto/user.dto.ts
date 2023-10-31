@@ -1,5 +1,11 @@
 import { UserBase } from '@/interface/user.interface';
-import { IsEmail, IsPhoneNumber, IsStrongPassword } from 'class-validator';
+import {
+  IsEmail,
+  IsPhoneNumber,
+  IsStrongPassword,
+  IsString,
+  IsOptional,
+} from 'class-validator';
 
 export class UserCreateDto extends UserBase {
   @IsEmail()
@@ -12,4 +18,24 @@ export class UserCreateDto extends UserBase {
   phone: string;
 }
 
-export class UserUpdateDto extends UserBase {}
+export class UserUpdateDto extends UserBase {
+  @IsOptional()
+  @IsString()
+  user_id: string;
+
+  @IsOptional()
+  @IsString()
+  username: string;
+
+  @IsOptional()
+  @IsStrongPassword()
+  password: string;
+
+  @IsOptional()
+  @IsPhoneNumber()
+  phone: string;
+
+  @IsOptional()
+  @IsEmail()
+  email: string;
+}

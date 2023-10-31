@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { UserInterface } from '@/interface/user.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbService } from '../mongodb/mongodb.service';
+import { UserUpdateDto } from '@/dto/user.dto';
 
 describe('UserService', () => {
   let service: UserService;
@@ -47,6 +48,34 @@ describe('UserService', () => {
         if (!user) throw new NotFoundException();
         return user;
       });
+    jest
+      .spyOn(mongodbService, 'deleteOneUser')
+      .mockImplementation(async (user_id: string) => {
+        const ind = _users.findIndex(
+          (ele) => ele.user_id === user_id && !ele.delete,
+        );
+        if (ind === -1) throw new NotFoundException();
+
+        _users[ind].delete = true;
+        const user = _users.find(
+          (ele) => ele.user_id === user_id && !ele.delete,
+        );
+        if (!user) throw new NotFoundException();
+        return user;
+      });
+    jest
+      .spyOn(mongodbService, 'putOneUser')
+      .mockImplementation(
+        async (user_id: string, putUserdata: UserUpdateDto) => {
+          const ind = _users.findIndex(
+            (ele) => ele.user_id === user_id && !ele.delete,
+          );
+          if (ind === -1) throw new NotFoundException();
+
+          const user = Object.assign(_users[ind], putUserdata);
+          return user;
+        },
+      );
   });
 
   it('should be defined', () => {
@@ -89,6 +118,42 @@ describe('UserService', () => {
       } catch (e) {
         // error를 던지지 말아야 함
         expect(false).toBe(true);
+      }
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('delete One User', async () => {
+      try {
+        expect(await service.deleteOneUser('evan')).toBeUndefined();
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+    it('should throw not found', async () => {
+      try {
+        expect(await service.deleteOneUser('notid')).toBeUndefined();
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+  describe('putUser', () => {
+    const correctdata = {
+      user_id: 'evan2',
+      password: '5s34S2349!@',
+      username: 'evan5',
+      email: 'chfgadg@gmail.com',
+      phone: '+82343512532',
+      delete: false,
+    };
+    it('putOneUser', async () => {
+      try {
+        await service.putOneUser('evan', correctdata);
+        const getoneuser = await service.getUserByKey('evan2');
+        expect(getoneuser.username).toBe('evan5');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
       }
     });
   });
