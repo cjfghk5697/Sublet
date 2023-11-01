@@ -1,9 +1,5 @@
 import Header from '../components/Header';
 import * as makeTest from '../testdata/testdata.js'
-import PersonIcon from '@mui/icons-material/Person';
-import SingleBedIcon from '@mui/icons-material/SingleBed';
-import HomeIcon from '@mui/icons-material/Home';
-import BathtubIcon from '@mui/icons-material/Bathtub';
 
 const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
 
@@ -63,10 +59,41 @@ export default function RoomInfo() {
         </div>
       </div>
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
-        <PersonIcon />
-        <SingleBedIcon />
-        <HomeIcon />
-        <BathtubIcon />
+        <div id="detail title">
+          <h1>{roomTempData[nowRomeNum].title}</h1>
+        </div>
+        <div id="detail default">
+          <h3>기본 정보</h3>
+          <p>{roomTempData[nowRomeNum].description}</p>
+        </div>
+        <div id="detail content">
+          <h3>숙소 설명</h3>
+          <p>{roomTempData[nowRomeNum].basic_info}</p>
+        </div>
+        <div id="detail position">
+          <h3>숙소 위치</h3>
+          <p>{roomTempData[nowRomeNum].position}</p>
+        </div>
+        <div id="detail rule">
+          <h3>규칙</h3>
+          <p>{roomTempData[nowRomeNum].rule}</p>
+        </div>
+        <div id="detail refund">
+          <h3>환불 정책</h3>
+          <p>{roomTempData[nowRomeNum].refund_policy.split("\n").map((line) => {
+            return (
+              <p>
+                {line}
+              </p>
+            )
+          })
+          }</p>
+        </div>
+        <div id="detail benefit">
+          <h3>혜택</h3>
+          <p>{roomTempData[nowRomeNum].benefit}</p>
+        </div>
+        <a><u>신고하기</u></a>
       </div>
     </div >
   );
