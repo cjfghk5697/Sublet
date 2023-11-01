@@ -7,25 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  user_id  String  @unique
+  password String
+  username String
+  email    String  @unique
+  phone    String  @unique
+  Post     Post[]
+  delete   Boolean @default(false)
+}
+
 model Post {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  key           Int
+  key           Int      @unique
   basic_info    String
   benefit       String
   description   String
   end_day       DateTime @db.Date
   extra_info    String
-  images        String[]
-  max_duration  String
-  min_duration  String
+  image_id      String[] @db.ObjectId
+  max_duration  Int
+  min_duration  Int
   position      String
   refund_policy String
   rule          String
   start_day     DateTime @db.Date
   title         String
+  postuser      User     @relation(fields: [postuser_id], references: [id])
+  postuser_id   String   @db.ObjectId
+  deleted       Boolean  @default(false)
+  post_date     DateTime @default(now()) @db.Date
 }
 
 model IncrementKey {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  postKey Int      
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  postKey Int
+}
+
+model Image {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  filename   String
+  filetype   String
+  image_hash String
 }
