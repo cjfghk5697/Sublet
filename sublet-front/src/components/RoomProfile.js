@@ -22,7 +22,7 @@ export default function RoomProfile(props) {
   }
   return (
     <div style={styles.container}>
-      <img style={styles.roomImage} src={props.room.images[0]} />
+      <img style={styles.roomImage} src={props.room.images[0]} alt='' />
       <div style={styles.roomTitleAndLike}>
           {props.room.title}
           <IconButton onClick={}>

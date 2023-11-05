@@ -1,16 +1,10 @@
 import Header from '../components/Header';
 import * as makeTest from '../testdata/testdata.js'
-import PersonIcon from '@mui/icons-material/Person';
-import SingleBedIcon from '@mui/icons-material/SingleBed';
-import HomeIcon from '@mui/icons-material/Home';
-import BathtubIcon from '@mui/icons-material/Bathtub';
-import React, { useState, useEffect } from 'react';
 
 const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
 
 export default function RoomInfo() {
   const nowRomeNum = 0; //추후 prop으로 받아오면 될듯
-  //const API_KEY = process.env.REACT_APP_NAVERMAP_API_KEY;
 
   const styles = {
     RomeInfo_ImgContainer: {
@@ -48,38 +42,6 @@ export default function RoomInfo() {
     },
   };
 
-  const [mapPoint, setMapPoint] = useState({ x: null, y: null });
-  const [location, setLocation] = useState("");
-
-  useEffect(() => {
-    const mapDiv = document.getElementById("map");
-    const map = new window.naver.maps.Map(mapDiv);
-
-    //지도에서 위치 클릭하면 도로명 주소로 받아오는 것 test
-    window.naver.maps.Event.addDOMListener(mapDiv, "click", () => {
-      const coordinate = { x: map.data.map.center.x, y: map.data.map.center.y };
-      setMapPoint({ x: coordinate.x, y: coordinate.y });
-      window.naver.maps.Service.reverseGeocode(
-        {
-          coords: new window.naver.maps.LatLng(coordinate.y, coordinate.x),
-          orders: [
-            window.naver.maps.Service.OrderType.ADDR,
-            window.naver.maps.Service.OrderType.ROAD_ADDR,
-          ].join(","),
-        },
-        (status, response) => {
-          if (status !== window.naver.maps.Service.Status.OK) {
-            return alert("Something wrong!");
-          }
-          const result = response.v2;
-          setLocation(result.address.jibunAddress);
-          console.log(result);
-        }
-      );
-    });
-  }, []);
-
-
   return (
     <div>
       <Header />
@@ -97,12 +59,42 @@ export default function RoomInfo() {
         </div>
       </div>
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
-        <PersonIcon />
-        <SingleBedIcon />
-        <HomeIcon />
-        <BathtubIcon />
+        <div id="detail title">
+          <h1>{roomTempData[nowRomeNum].title}</h1>
+        </div>
+        <div id="detail default">
+          <h3>기본 정보</h3>
+          <p>{roomTempData[nowRomeNum].description}</p>
+        </div>
+        <div id="detail content">
+          <h3>숙소 설명</h3>
+          <p>{roomTempData[nowRomeNum].basic_info}</p>
+        </div>
+        <div id="detail position">
+          <h3>숙소 위치</h3>
+          <p>{roomTempData[nowRomeNum].position}</p>
+        </div>
+        <div id="detail rule">
+          <h3>규칙</h3>
+          <p>{roomTempData[nowRomeNum].rule}</p>
+        </div>
+        <div id="detail refund">
+          <h3>환불 정책</h3>
+          <p>{roomTempData[nowRomeNum].refund_policy.split("\n").map((line) => {
+            return (
+              <p>
+                {line}
+              </p>
+            )
+          })
+          }</p>
+        </div>
+        <div id="detail benefit">
+          <h3>혜택</h3>
+          <p>{roomTempData[nowRomeNum].benefit}</p>
+        </div>
+        <a><u>신고하기</u></a>
       </div>
-      <div id="map" style={{ width: "400px", height: "400px" }} />
     </div >
   );
 }
