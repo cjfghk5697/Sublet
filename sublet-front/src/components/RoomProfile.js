@@ -12,7 +12,7 @@ export default function RoomProfile(props) {
       margin: '1em',
     },
     roomImage: {
-  
+      width: '100%',
     },
     roomTitleAndLike: {
       display: 'flex',
@@ -25,7 +25,7 @@ export default function RoomProfile(props) {
       <img style={styles.roomImage} src={props.room.images[0]} alt='' />
       <div style={styles.roomTitleAndLike}>
           {props.room.title}
-          <IconButton onClick={}>
+          <IconButton>
             {(props.room.roomLike !== undefined) ? <Favorite /> : <FavoriteBorder />} {props.room.likeCount}
           </IconButton>
       </div>

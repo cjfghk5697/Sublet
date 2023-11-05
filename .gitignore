@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 public/
+
+# 네이버 지도 api 키
+naver_map_api.key
