@@ -2,42 +2,112 @@ import {
   Controller,
   Get,
   Post,
+  Put,
+  Delete,
   Body,
+  Query,
   Param,
+  Req,
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  UploadedFiles,
   NotFoundException,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { MongodbService } from '../mongodb/mongodb.service';
-import { PostCreateDto } from './dto/post.dto';
+import {
+  PostCreateDto,
+  PostGetAllQueryDto,
+  PostUpdateDto,
+} from '@/dto/post.dto';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { PostService } from './post.service';
+import { ImageInterface } from '@/interface/image.interface';
+import { customRequest } from '@/interface/user.interface';
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly db: MongodbService) {}
+  constructor(private readonly postService: PostService) {}
 
   @Get()
-  async getAllPosts() {
-    return this.db.getAllPosts();
+  async getAllPosts(@Query() query: PostGetAllQueryDto) {
+    try {
+      const res = await this.postService.getAllPosts(query);
+      return res;
+    } catch (e) {
+      throw new BadRequestException('cannot get all posts');
+    }
   }
 
   @Post()
-  async createPost(@Body() data: PostCreateDto) {
-    console.log('data:', data);
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FilesInterceptor('images')) // 여러 파일들을 받을 수 있도록 FilesInterceptor 사용
+  async createPost(
+    @UploadedFiles() file: Express.Multer.File[],
+    @Body() data: PostCreateDto,
+    @Req() req: customRequest,
+  ) {
     try {
-      return await this.db.createPost(data);
+      if (!req.user) throw new UnauthorizedException();
+      const res = await this.postService.createPost(file, data, req.user);
+      return res;
     } catch (e) {
       throw new BadRequestException();
     }
   }
 
-  @Get(':key')
-  async getOnePost(@Param('key') key: number) {
-    console.log('key=', key, ', type=', typeof key);
-    const res = await this.db.getOnePost(key);
-    if (!res) {
-      console.log('res is empty,', res);
+  @Get(':postKey')
+  async getOnePost(@Param('postKey') key: number) {
+    try {
+      const res = await this.postService.getOnePost(key);
+      return res;
+    } catch (e) {
       throw new NotFoundException();
     }
-    console.log('res found,', res);
-    return res;
+  }
+
+  @Put(':postKey')
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FilesInterceptor('images'))
+  async PutOnePost(
+    @Param('postKey') key: number,
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() putPostBody: PostUpdateDto,
+  ) {
+    try {
+      if (Object.keys(putPostBody).length == 0) throw new BadRequestException();
+      const res = await this.postService.putOnePost(key, files, putPostBody);
+      return res;
+    } catch (e) {
+      throw new BadRequestException();
+    }
+  }
+
+  @Delete(':postKey')
+  @UseGuards(LoggedInGuard)
+  async DeleteOnePost(
+    @Param('postKey') key: number,
+    @Req() req: customRequest,
+  ) {
+    try {
+      if (!req.user) throw new UnauthorizedException();
+      const res = await this.postService.deleteOnePost(key, req.user);
+      return res;
+    } catch (e) {
+      throw new BadRequestException();
+    }
+  }
+
+  @Post('image')
+  @UseInterceptors(FileInterceptor('file'))
+  async PostImage(@UploadedFile() file: Express.Multer.File) {
+    try {
+      const res: ImageInterface = await this.postService.uploadImage(file);
+      return { res: res.id };
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 }
