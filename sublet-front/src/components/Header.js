@@ -1,6 +1,7 @@
 import BedroomChildIcon from '@mui/icons-material/BedroomChild'; // 로고 임시 대체
 import { Favorite } from '@mui/icons-material'
 import PersonIcon from '@mui/icons-material/Person';
+import SearchBar from '../components/SearchBar';
 
 const styles = {
   container: {
@@ -29,10 +30,9 @@ const styles = {
     flex: 1,
   },
   favorite: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    marginRight: '1em',
   },
 }
 
@@ -41,15 +41,14 @@ export default function Header() {
     <div style={styles.container}>
       <BedroomChildIcon style={styles.logo}/>
       <div style={styles.searchbar}>
-        <h1>검색창</h1>
-        추천 검색어
+        <SearchBar />
       </div>
       <div style={styles.profile}>
         <span style={styles.favorite}>
           <Favorite />
           {33+1}
         </span>
-        <PersonIcon />
+          <PersonIcon />
       </div>
     </div>
   );

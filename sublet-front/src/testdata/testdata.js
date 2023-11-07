@@ -23,7 +23,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "강남에 직장이 있는 분을 위한 맞춤형 숙소(백)",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -48,7 +49,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목2",
       like: false,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -73,7 +75,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목3",
       like: false,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -98,7 +101,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목4",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -123,7 +127,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목5",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -148,7 +153,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목6",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
 
     ]

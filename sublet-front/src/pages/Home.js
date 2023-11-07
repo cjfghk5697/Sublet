@@ -13,10 +13,17 @@ export default function Home() {
       alignItems: 'center',
       width: '100%',
     },
+    mainContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '100%',
+    },
     roomContainer: {
       display: "grid",
       gridTemplateRows: "1fr ",
       gridTemplateColumns: "1fr 1fr 1fr",
+      fontSize: '1em',
     },
   };
 
