@@ -8,33 +8,62 @@ export class UserService {
   constructor(private db: MongodbService) {}
 
   async getAllUser() {
-    //전부 UserDto로 변경
+    console.log('[user.service:getAllUser] starting function');
     const user = await this.db.getAllUser();
+    console.log('[user.service:getAllUser] user: ', user);
     const userExport = user.map((ele) => this.transformExport(ele));
+    console.log('[user.service:getAllUser] returning function');
     return userExport;
   }
 
   async getUserByKey(user_id: string) {
+    console.log('[user.service:getUserByKey] starting function');
+    console.log('[user.service:getUserByKey] user_id: ', user_id);
     const user = await this.db.getUserByKey(user_id);
-    return this.transformExport(user);
+    console.log('[user.service:getUserByKey] user: ', user);
+    const exportUser = this.transformExport(user);
+    console.log('[user.service:getUserByKey] returning function');
+    return exportUser;
   }
 
   async validateUser(user_id: string, password: string) {
+    console.log('[user.service:validateUser] starting function');
+    console.log('[user.service:validateUser] user_id: ', user_id);
+    console.log('[user.service:validateUser] password: ', password);
     const user = await this.db.validateUser(user_id, password);
-    return this.transformExport(user);
+    console.log('[user.service:validateUser] user: ', user);
+    const exportUser = this.transformExport(user);
+    console.log('[user.service:validateUser] returning function');
+    return exportUser;
   }
 
   async createUser(data: UserCreateDto) {
+    console.log('[user.service:createUser] starting function');
+    console.log('[user.service:createUser] data: ', data);
     const user = await this.db.createUser(data);
-    return this.transformExport(user);
+    console.log('[user.service:createUser] user: ', user);
+    const exportUser = this.transformExport(user);
+    console.log('[user.service:createUser] returning function');
+    return exportUser;
   }
   async deleteOneUser(user_id: string) {
+    console.log('[user.service:deleteOneUser] starting function');
+    console.log('[user.service:deleteOneUser] user_id: ', user_id);
     const user = await this.db.deleteOneUser(user_id);
-    return this.transformExport(user);
+    console.log('[user.service:deleteOneUser] user: ', user);
+    const exportUser = this.transformExport(user);
+    console.log('[user.service:deleteOneUser] returning function');
+    return exportUser;
   }
   async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
+    console.log('[user.service:putOneUser] starting function');
+    console.log('[user.service:putOneUser] user_id: ', user_id);
+    console.log('[user.service:putOneUser] putUserBody: ', putUserBody);
     const user = await this.db.putOneUser(user_id, putUserBody);
-    return this.transformExport(user);
+    console.log('[user.service:putOneUser] user: ', user);
+    const exportUser = this.transformExport(user);
+    console.log('[user.service:putOneUser] returning function');
+    return exportUser;
   }
 
   transformExport(user: UserInterface): UserExportInterface {
