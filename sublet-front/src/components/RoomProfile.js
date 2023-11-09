@@ -1,10 +1,7 @@
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import useStore from './RoomStore.js'
 
 export default function RoomProfile(props) {
-  const { likes, setLikes, removeLikes } = useStore();
-
   const styles = {
     container: {
       display: 'flex',
@@ -20,7 +17,7 @@ export default function RoomProfile(props) {
       justifyContent: 'space-between',
     },
     heart: {
-      fontSize: '1em',
+      fontSize: '1vw',
     }
   }
 
