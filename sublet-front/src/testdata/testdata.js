@@ -156,7 +156,34 @@ export const makeTestData = () => {
       likeCount: 55,
       price: 1000000
     },
+    ]
+  );
+}
 
+export const makeTestRecommendSearch = () => {
+  return (
+    [
+      {
+        recommendWord: "강남 투룸",
+      },
+      {
+        recommendWord: "서울 2개월 임대",
+      },
+      {
+        recommendWord: "추천 임대 유형",
+      },
+      {
+        recommendWord: "지하철 주변 임대",
+      },
+      {
+        recommendWord: "강남 1개월 임대",
+      },
+      {
+        recommendWord: "상권 좋은 장소",
+      },
+      {
+        recommendWord: "가족과 보내기 좋은 장소",
+      },
     ]
   );
 }

@@ -27,7 +27,7 @@ export default function Home() {
     },
   };
 
-  let rooms = roomTempData.map( (room) => {
+  let rooms = roomTempData.map((room) => {
     return (
       <RoomProfile
         room={room}
@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-        <Header />
+      <Header />
       <div style={styles.mainContainer}>
         <div style={styles.roomContainer}>
           {rooms}

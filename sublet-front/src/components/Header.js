@@ -2,6 +2,7 @@ import BedroomChildIcon from '@mui/icons-material/BedroomChild'; // 로고 임�
 import { Favorite } from '@mui/icons-material'
 import PersonIcon from '@mui/icons-material/Person';
 import SearchBar from '../components/SearchBar';
+import { IconButton } from '@mui/material';
 
 const styles = {
   container: {
@@ -15,14 +16,16 @@ const styles = {
   },
   logo: {
     flex: 1,
-    width: '2em',
-    height: '2em',
-    marginRight: '1em',
   },
-  searchbar: {
+  logoIcon: {
+    width: '2.5em',
+    height: '2.5em',
+  },
+  searchBar: {
     flex: 3,
     width: 'auto',
     textAlign: 'center',
+    fontSize: '1em',
   },
   profile: {
     display: 'flex',
@@ -39,16 +42,22 @@ const styles = {
 export default function Header() {
   return (
     <div style={styles.container}>
-      <BedroomChildIcon style={styles.logo}/>
-      <div style={styles.searchbar}>
+      <IconButton style={styles.logo}>
+        <BedroomChildIcon style={styles.logoIcon} />
+      </IconButton>
+      <div style={styles.searchBar}>
         <SearchBar />
       </div>
       <div style={styles.profile}>
-        <span style={styles.favorite}>
-          <Favorite />
-          {33+1}
+        <span>
+          <IconButton style={styles.favorite}>
+            <Favorite />
+            {33 + 1}
+          </IconButton>
         </span>
+        <IconButton>
           <PersonIcon />
+        </IconButton>
       </div>
     </div>
   );
