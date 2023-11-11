@@ -11,7 +11,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     borderBottom: '1px solid gray',
-    marginBottom: '2em',
+    marginBottom: '0.5em',
     width: '100%',
   },
   logo: {
@@ -20,6 +20,7 @@ const styles = {
   logoIcon: {
     width: '2.5em',
     height: '2.5em',
+    color: 'rgba(0, 0, 0, 1)',
   },
   searchBar: {
     flex: 3,
@@ -27,7 +28,7 @@ const styles = {
     textAlign: 'center',
     fontSize: '1em',
   },
-  profile: {
+  rightNavigation: {
     display: 'flex',
     flexDirection: 'row',
     flex: 1,
@@ -36,6 +37,13 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     marginRight: '1em',
+    color: 'rgba(0, 0, 0, 1)',
+  },
+  favoriteCount: {
+    fontSize: '0.8em',
+  },
+  profile: {
+    color: 'rgba(0, 0, 0, 1)',
   },
 }
 
@@ -48,14 +56,16 @@ export default function Header() {
       <div style={styles.searchBar}>
         <SearchBar />
       </div>
-      <div style={styles.profile}>
+      <div style={styles.rightNavigation}>
         <span>
           <IconButton style={styles.favorite}>
             <Favorite />
-            {33 + 1}
+            <div style={styles.favoriteCount}>
+              {33 + 1}
+            </div>
           </IconButton>
         </span>
-        <IconButton>
+        <IconButton style={styles.profile}>
           <PersonIcon />
         </IconButton>
       </div>

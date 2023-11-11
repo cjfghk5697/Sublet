@@ -11,12 +11,13 @@ export default function SearchBar() {
   const styles = {
     container: {
       display: 'flex',
+      margin: '1em 3em 1em 3em',
       flexDirection: 'column',
     },
     searchBoxContainer: {
       display: 'flex',
       flexDirection: 'row',
-      margin: '2em',
+      margin: '0 0 0.5em 0',
       justifyContent: 'space-between',
       alignItems: 'center',
       border: '1px solid #000000',
@@ -26,15 +27,15 @@ export default function SearchBar() {
     },
     searchByLocation: {
       fontWeight: 'bold',
+      color: 'rgba(0, 0, 0, 1)',
     },
     serachByDate: {
       fontWeight: 'bold',
+      color: 'rgba(0, 0, 0, 1)',
     },
     serachByPrice: {
       fontWeight: 'bold',
-    },
-    searchByKeyword: {
-      fontWeight: 'bold',
+      color: 'rgba(0, 0, 0, 1)',
     },
     searchKeywordInput: {
       width: '300px',
@@ -47,24 +48,30 @@ export default function SearchBar() {
       fontSize: '0.6em',
       textAlign: 'left',
     },
+    searchIcon: {
+      color: 'rgba(0, 0, 0, 1)',
+    },
     recommendSearchKeywordContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
     recommendSearchKeyword: {
-      border: '1px solid #000000',
-      borderRadius: '5px',
-      padding: '1em',
-      fontSize: '1em',
+      border: '0.3px solid #000000',
+      borderRadius: '1em',
+      padding: '0.5em 0.7em 0.5em 0.7em',
+      fontSize: '0.8em',
+      whiteSpace: 'nowrap',
+      margin: '0em 0.5em 0 0.5em',
+      color: 'rgba(0, 0, 0, 1)',
     },
   }
 
   let recommendWords = recommendWordTempData.map((word) => {
     return (
-      <div>
+      <IconButton style={styles.recommendSearchKeyword}>
         {word.recommendWord}
-      </div>
+      </IconButton>
     )
   });
 
@@ -90,7 +97,7 @@ export default function SearchBar() {
           </div>
         </div>
         <IconButton>
-          <SearchIcon />
+          <SearchIcon style={styles.searchIcon} />
         </IconButton>
       </div>
       <div style={styles.recommendSearchKeywordContainer}>

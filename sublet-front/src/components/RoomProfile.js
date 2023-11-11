@@ -17,7 +17,7 @@ export default function RoomProfile(props) {
       justifyContent: 'space-between',
     },
     heart: {
-      fontSize: '1vw',
+      fontSize: '0.9em',
     }
   }
 

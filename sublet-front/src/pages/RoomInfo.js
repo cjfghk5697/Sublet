@@ -10,7 +10,7 @@ const roomTempData = makeTest.makeTestData(); // This is a temporary data for te
 
 export default function RoomInfo() {
   const nowRomeNum = 0; //추후 prop으로 받아오면 될듯
-  //const API_KEY = process.env.REACT_APP_NAVERMAP_API_KEY;
+  const API_KEY = process.env.REACT_APP_NAVERMAP_API_KEY;
 
   const styles = {
     RomeInfo_ImgContainer: {
