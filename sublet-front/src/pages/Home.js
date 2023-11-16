@@ -40,6 +40,7 @@ export default function Home() {
   return (
     <div style={styles.container}>
       {/* 임시 페이지들 링크*/}
+      놀라지마세요! 임시 페이지들 링크에요.
       <Link to="/RoomInfo">RoomInfo</Link>
       <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
       <Link to="/ReHome">ReHome</Link>
@@ -48,7 +49,6 @@ export default function Home() {
       <div style={styles.roomContainer}>
         {rooms}
       </div>
-      <Header />
     </div>
   );
 }
