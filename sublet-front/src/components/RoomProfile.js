@@ -40,7 +40,6 @@ export default function RoomProfile(props) {
           {props.room.likeCount}
         </IconButton>
       </div>
-      {props.room.position}
     </div>
   );
 }

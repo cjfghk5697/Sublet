@@ -23,7 +23,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "강남에 직장이 있는 분을 위한 맞춤형 숙소(백)",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -48,7 +49,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목2",
       like: false,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -73,7 +75,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목3",
       like: false,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -98,7 +101,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목4",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -123,7 +127,8 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목5",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
     {
       id: "650728e80ef0723c4dad666c",
@@ -148,9 +153,37 @@ export const makeTestData = () => {
       start_day: "2023-09-18T00:00:00.000Z",
       title: "제목6",
       like: true,
-      likeCount: 55
+      likeCount: 55,
+      price: 1000000
     },
+    ]
+  );
+}
 
+export const makeTestRecommendSearch = () => {
+  return (
+    [
+      {
+        recommendWord: "강남 투룸",
+      },
+      {
+        recommendWord: "서울 2개월 임대",
+      },
+      {
+        recommendWord: "추천 임대 유형",
+      },
+      {
+        recommendWord: "지하철 주변 임대",
+      },
+      {
+        recommendWord: "강남 1개월 임대",
+      },
+      {
+        recommendWord: "상권 좋은 장소",
+      },
+      {
+        recommendWord: "가족과 보내기 좋은 장소",
+      },
     ]
   );
 }
