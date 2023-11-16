@@ -21,9 +21,13 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   @Get()
   async getAllUser() {
+    console.log('[user.controller:getAllUser] starting function');
     try {
-      return this.userService.getAllUser();
+      const res = await this.userService.getAllUser();
+      console.log('[user.controller:getAllUser] res: ', res);
+      return res;
     } catch (e) {
+      console.log('[user.controller:getAllUser] error: ', e);
       return { ok: false };
     }
   }
@@ -31,9 +35,13 @@ export class UserController {
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     try {
+      console.log('[user.controller:getOneUser] starting function');
+      console.log('[user.controller:getOneUser] user_id: ', user_id);
       const res = await this.userService.getUserByKey(user_id);
+      console.log('[user.controller:getOneUser] res: ', res);
       return res;
     } catch (e) {
+      console.log('[user.controller:getOneUser] error: ', e);
       throw new NotFoundException();
     }
   }
@@ -41,8 +49,13 @@ export class UserController {
   @Post()
   async createUser(@Body() data: UserCreateDto) {
     try {
-      return await this.userService.createUser(data);
+      console.log('[user.controller:createUser] starting function');
+      console.log('[user.controller:createUser] data: ', data);
+      const res = await this.userService.createUser(data);
+      console.log('[user.controller:createUser] res: ', res);
+      return res;
     } catch (e) {
+      console.log('[user.controller:createUser] error: ', e);
       throw new BadRequestException();
     }
   }
@@ -54,8 +67,14 @@ export class UserController {
     @Body() putUserBody: UserUpdateDto,
   ) {
     try {
-      return await this.userService.putOneUser(user_id, putUserBody);
+      console.log('[user.controller:putOneUser] starting function');
+      console.log('[user.controller:putOneUser] user_id: ', user_id);
+      console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
+      const res = await this.userService.putOneUser(user_id, putUserBody);
+      console.log('[user.controller:putOneUser] res: ', res);
+      return res;
     } catch (e) {
+      console.log('[user.controller:putOneUser] error: ', e);
       throw new NotFoundException();
     }
   }
@@ -64,8 +83,13 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   async deleteOneUser(@Param('user_id') user_id: string) {
     try {
-      return await this.userService.deleteOneUser(user_id);
+      console.log('[user.controller:deleteOneUser] starting function');
+      console.log('[user.controller:deleteOneUser] user_id: ', user_id);
+      const res = await this.userService.deleteOneUser(user_id);
+      console.log('[user.controller:deleteOneUser] res: ', res);
+      return res;
     } catch (e) {
+      console.log('[user.controller:deleteOneUser] error: ', e);
       throw new NotFoundException();
     }
   }

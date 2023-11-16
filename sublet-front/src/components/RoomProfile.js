@@ -1,39 +1,47 @@
-import { Favorite, FavoriteBorder } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "1em",
+  },
+  roomImage: {},
+  roomTitleAndLike: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+};
 
 export default function RoomProfile(props) {
-  const styles = {
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: '1em',
-    },
-    roomImage: {
-      width: '100%',
-    },
-    roomTitleAndLike: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    heart: {
-      fontSize: '0.9em',
-    }
-  }
-
+  if (!props.room) return <div></div>;
   return (
     <div style={styles.container}>
-      <img style={styles.roomImage} src={props.room.images[0]} alt='방 이미지' />
+      <img
+        style={styles.roomImage}
+        src={
+          process.env.REACT_APP_BACKEND_URL +
+          "public/" +
+          props.room.image_id[0] +
+          ".jpg"
+        }
+        alt=""
+      />
       <div style={styles.roomTitleAndLike}>
         {props.room.title}
-        <IconButton style={styles.heart}>
-          {(props.room.roomLike !== undefined) ? <Favorite /> : <FavoriteBorder />} {props.room.likeCount}
+        <IconButton>
+          {props.room.roomLike !== undefined ? (
+            <Favorite />
+          ) : (
+            <FavoriteBorder />
+          )}{" "}
+          {props.room.likeCount}
         </IconButton>
-      </div>
-      <div>
-        {props.room.position}
-        {props.room.price + '원'} / 1개월
       </div>
     </div>
   );
 }
+
+// <IconButton onClick={toggleFavorite(room)}>

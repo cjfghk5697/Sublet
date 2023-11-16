@@ -69,6 +69,10 @@ export class MongodbService {
    * @returns
    */
   async createPost(data: PrismaPostCreateDto, user: UserInterface) {
+    console.log('[mongodb.service:createPost] starting function');
+    console.log('[mongodb.service:createPost] data: ', data);
+    console.log('[mongodb.service:createPost] user: ', user);
+
     const res: PostInterface = await this.prisma.post.create({
       data: {
         ...data,
@@ -80,21 +84,34 @@ export class MongodbService {
         },
       },
     });
+    console.log('[mongodb.service:createPost] returning function');
     return res;
   }
 
   async getOnePost(key: number) {
+    console.log('[mongodb.service:getOnePost] starting function');
+    console.log('[mongodb.service:getOnePost] key: ', key);
+
     const res: PostInterface | null = await this.prisma.post.findFirst({
       where: {
         key,
         deleted: false,
       },
     });
-    if (!res) throw Error("mongodb.service:getOnePost(), post doesn't exist");
+    if (!res) {
+      console.log(
+        '[mongodb.service:getOnePost] result is null, returning Error!',
+      );
+      throw Error("mongodb.service:getOnePost(), post doesn't exist");
+    }
+    console.log('[mongodb.service:getOnePost] returning function');
     return res;
   }
 
   async putOnePost(key: number, putPostBody: PostUpdateDto) {
+    console.log('[mongodb.service:putOnePost] starting function');
+    console.log('[mongodb.service:putOnePost] key: ', key);
+    console.log('[mongodb.service:putOnePost] putPostBody: ', putPostBody);
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
@@ -102,10 +119,14 @@ export class MongodbService {
       },
       data: putPostBody,
     });
+    console.log('[mongodb.service:putOnePost] returning function');
     return res;
   }
 
   async deleteOnePost(key: number, user: UserInterface) {
+    console.log('[mongodb.service:deleteOnePost] starting function');
+    console.log('[mongodb.service:deleteOnePost] key: ', key);
+    console.log('[mongodb.service:deleteOnePost] user: ', user);
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
@@ -118,10 +139,15 @@ export class MongodbService {
         deleted: true,
       },
     });
+    console.log('[mongodb.service:deleteOnePost] returning function');
     return res;
   }
 
   async getImage(filename: string, filetype: string, image_hash: string) {
+    console.log('[mongodb.service:getImage] starting function');
+    console.log('[mongodb.service:getImage] filename: ', filename);
+    console.log('[mongodb.service:getImage] filetype: ', filetype);
+    console.log('[mongodb.service:getImage] image_hash: ', image_hash);
     const res: ImageInterface | null = await this.prisma.image.findFirst({
       where: {
         filename,
@@ -129,12 +155,21 @@ export class MongodbService {
         image_hash,
       },
     });
-    if (!res)
-      throw new Error("mongodb.service:getImage(), image doesn't exist");
+    if (!res) {
+      console.log(
+        '[mongodb.service:getImage] result is null, returning Error!',
+      );
+      throw new Error("[mongodb.service:getImage] image doesn't exist");
+    }
+    console.log('[mongodb.service:getImage] returning function');
     return res;
   }
 
   async saveImage(filename: string, filetype: string, image_hash: string) {
+    console.log('[mongodb.service:saveImage] starting function');
+    console.log('[mongodb.service:saveImage] filename: ', filename);
+    console.log('[mongodb.service:saveImage] filetype: ', filetype);
+    console.log('[mongodb.service:saveImage] image_hash: ', image_hash);
     const res: ImageInterface = await this.prisma.image.create({
       data: {
         filename,
@@ -142,45 +177,69 @@ export class MongodbService {
         image_hash,
       },
     });
+    console.log('[mongodb.service:saveImage] returning function');
     return res;
   }
 
   async getOneUser(user_id: string) {
+    console.log('[mongodb.service:getOneUser] starting function');
+    console.log('[mongodb.service:getOneUser] user_id: ', user_id);
     const res: UserInterface = await this.prisma.user.findFirstOrThrow({
       where: {
         user_id,
         delete: false,
       },
     });
+    console.log('[mongodb.service:getOneUser] returning function');
     return res;
   }
 
   async getAllUser() {
-    //전부 UserDto로 변경
+    console.log('[mongodb.service:getAllUser] starting function');
     const u: UserInterface[] = await this.prisma.user.findMany();
+    console.log('[mongodb.service:getAllUser] returning function');
     return u;
   }
 
   async getUserByKey(user_id: string) {
+    console.log('[mongodb.service:getUserByKey] starting function');
+    console.log('[mongodb.service:getUserByKey] user_id: ', user_id);
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
         user_id: user_id,
         delete: false,
       },
     });
-    if (!result) throw Error();
+    if (!result) {
+      console.log(
+        '[mongodb.service:getUserByKey] result is null, returning Error!',
+      );
+      throw Error('[mongodb.service:getUserByKey] result null');
+    }
+    console.log('[mongodb.service:getUserByKey] returning function');
     return result;
   }
 
   async createUser(data: UserCreateDto) {
+    console.log('[mongodb.service:createUser] starting function');
+    console.log('[mongodb.service:createUser] data: ', data);
     const result: UserInterface = await this.prisma.user.create({
       data: { ...data },
     });
-    if (!result) throw Error();
+    if (!result) {
+      console.log(
+        '[mongodb.service:createUser] result is null, returning Error!',
+      );
+      throw Error();
+    }
+    console.log('[mongodb.service:createUser] returning function');
     return result;
   }
 
   async validateUser(user_id: string, password: string) {
+    console.log('[mongodb.service:validateUser] starting function');
+    console.log('[mongodb.service:validateUser] user_id: ', user_id);
+    console.log('[mongodb.service:validateUser] password: ', password);
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
         user_id,
@@ -188,11 +247,20 @@ export class MongodbService {
         delete: false,
       },
     });
-    if (!result) throw Error();
+    if (!result) {
+      console.log(
+        '[mongodb.service:validateUser] result is null, returning Error!',
+      );
+      throw Error();
+    }
+    console.log('[mongodb.service:validateUser] returning function');
     return result;
   }
 
   async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
+    console.log('[mongodb.service:putOneUser] starting function');
+    console.log('[mongodb.service:putOneUser] user_id: ', user_id);
+    console.log('[mongodb.service:putOneUser] putUserBody: ', putUserBody);
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
@@ -200,11 +268,19 @@ export class MongodbService {
       },
       data: putUserBody,
     });
-    if (!res) throw Error();
+    if (!res) {
+      console.log(
+        '[mongodb.service:putOneUser] result is null, returning Error!',
+      );
+      throw Error();
+    }
+    console.log('[mongodb.service:putOneUser] returning function');
     return res;
   }
 
   async deleteOneUser(user_id: string) {
+    console.log('[mongodb.service:deleteOneUser] starting function');
+    console.log('[mongodb.service:deleteOneUser] user_id: ', user_id);
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
@@ -214,7 +290,13 @@ export class MongodbService {
         delete: true,
       },
     });
-    if (!res) throw Error();
+    if (!res) {
+      console.log(
+        '[mongodb.service:deleteOneUser] result is null, returning Error!',
+      );
+      throw Error();
+    }
+    console.log('[mongodb.service:deleteOneUser] returning function');
     return res;
   }
 }
