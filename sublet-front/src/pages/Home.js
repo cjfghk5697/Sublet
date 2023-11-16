@@ -1,6 +1,8 @@
-import RoomProfile from "../components/RoomProfile";
-import Header from "../components/Header";
+import RoomProfile from '../components/RoomProfile';
+import Header from '../components/Header';
 import React, { useEffect, useState } from "react";
+import * as makeTest from '../testdata/testdata.js'
+import { Link } from 'react-router-dom';
 
 // import * as makeTest from "../testdata/testdata.js";
 
@@ -36,8 +38,16 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
+      {/* 임시 페이지들 링크*/}
+      <Link to="/RoomInfo">RoomInfo</Link>
+      <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
+      <Link to="/ReHome">ReHome</Link>
+      <Link to="/Booking">Booking</Link>
       <Header />
-      <div style={styles.roomContainer}>{rooms}</div>
+      <div style={styles.roomContainer}>
+        {rooms}
+      </div>
+      <Header />
     </div>
   );
 }
