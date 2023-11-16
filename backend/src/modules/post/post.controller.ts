@@ -34,9 +34,13 @@ export class PostController {
   @Get()
   async getAllPosts(@Query() query: PostGetAllQueryDto) {
     try {
+      console.log('[post.controller:getAllPosts] starting function');
+      console.log('[post.controller:getAllPosts] query: ', query);
       const res = await this.postService.getAllPosts(query);
+      console.log('[post.controller:getAllPosts] res: ', res);
       return res;
     } catch (e) {
+      console.log('[post.controller:getAllPosts] error: ', e);
       throw new BadRequestException('cannot get all posts');
     }
   }
@@ -49,11 +53,20 @@ export class PostController {
     @Body() data: PostCreateDto,
     @Req() req: customRequest,
   ) {
+    console.log('[post.controller:createPost] starting function');
+    console.log('[post.controller:createPost] file: ', file);
+    console.log('[post.controller:createPost] data: ', data);
+    console.log('[post.controller:createPost] req.user: ', req.user);
+    if (!req.user) {
+      console.log("[post.controller:createPost] req.user doesn't exist");
+      throw new UnauthorizedException();
+    }
     try {
-      if (!req.user) throw new UnauthorizedException();
       const res = await this.postService.createPost(file, data, req.user);
+      console.log('[post.controller:createPost] res: ', res);
       return res;
     } catch (e) {
+      console.log('[post.controller:createPost] error: ', e);
       throw new BadRequestException();
     }
   }
@@ -61,9 +74,13 @@ export class PostController {
   @Get(':postKey')
   async getOnePost(@Param('postKey') key: number) {
     try {
+      console.log('[post.controller:getOnePost] starting function');
+      console.log('[post.controller:getOnePost] key: ', key);
       const res = await this.postService.getOnePost(key);
+      console.log('[post.controller:getOnePost] res: ', res);
       return res;
     } catch (e) {
+      console.log('[post.controller:getOnePost] error: ', e);
       throw new NotFoundException();
     }
   }
@@ -77,10 +94,21 @@ export class PostController {
     @Body() putPostBody: PostUpdateDto,
   ) {
     try {
-      if (Object.keys(putPostBody).length == 0) throw new BadRequestException();
+      console.log('[post.controller:PutOnePost] starting function');
+      console.log('[post.controller:PutOnePost] key: ', key);
+      console.log('[post.controller:PutOnePost] files: ', files);
+      console.log('[post.controller:PutOnePost] putPostBody: ', putPostBody);
+      if (Object.keys(putPostBody).length == 0) {
+        console.log(
+          '[post.controller:PutOnePost] putPostBody is empty, bad request',
+        );
+        throw new BadRequestException();
+      }
       const res = await this.postService.putOnePost(key, files, putPostBody);
+      console.log('[post.controller:PutOnePost] res: ', res);
       return res;
     } catch (e) {
+      console.log('[post.controller:PutOnePost] error: ', e);
       throw new BadRequestException();
     }
   }
@@ -91,11 +119,19 @@ export class PostController {
     @Param('postKey') key: number,
     @Req() req: customRequest,
   ) {
+    console.log('[post.controller:DeleteOnePost] starting function');
+    console.log('[post.controller:DeleteOnePost] key: ', key);
+    console.log('[post.controller:DeleteOnePost] req.user: ', req.user);
+    if (!req.user) {
+      console.log("[post.controller:DeleteOnePost] req.user doesn't exist");
+      throw new UnauthorizedException();
+    }
     try {
-      if (!req.user) throw new UnauthorizedException();
       const res = await this.postService.deleteOnePost(key, req.user);
+      console.log('[post.controller:DeleteOnePost] res: ', res);
       return res;
     } catch (e) {
+      console.log('[post.controller:DeleteOnePost] error: ', e);
       throw new BadRequestException();
     }
   }
@@ -104,9 +140,13 @@ export class PostController {
   @UseInterceptors(FileInterceptor('file'))
   async PostImage(@UploadedFile() file: Express.Multer.File) {
     try {
+      console.log('[post.controller:PostImage] starting function');
+      console.log('[post.controller:PostImage] file: ', file);
       const res: ImageInterface = await this.postService.uploadImage(file);
+      console.log('[post.controller:PostImage] res: ', res);
       return { res: res.id };
     } catch (e) {
+      console.log('[post.controller:PostImage] error: ', e);
       throw new BadRequestException();
     }
   }
