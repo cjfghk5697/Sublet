@@ -47,6 +47,10 @@ export class PostBase {
 
   @IsString()
   title: string;
+
+  @IsInt()
+  @IsNumber()
+  price: number;
 }
 
 export class PostPartialBase {
@@ -99,6 +103,11 @@ export class PostPartialBase {
   @IsString()
   @IsOptional()
   title?: string;
+
+  @IsInt()
+  @IsNumber()
+  @IsOptional()
+  price?: number;
 }
 
 export class PostInterface extends PostBase {

@@ -3,12 +3,13 @@ import { PostService } from './post.service';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { ImageInterface } from '@/interface/image.interface';
+import { PostInterface } from '@/interface/post.interface';
 
 describe('PostService', () => {
   let service: PostService;
   let mongodbService: MongodbService;
 
-  const post_dblist = [
+  const post_dblist: PostInterface[] = [
     {
       id: '65100ecb1c9989e2d831bf6e',
       key: 23,
@@ -28,6 +29,7 @@ describe('PostService', () => {
       postuser_id: '6510082a65107d44949da19f',
       deleted: false,
       post_date: '2023-09-24T10:26:19.860Z',
+      price: 10000,
     },
     {
       id: '65100ef1bb89ee8dede40a8c',
@@ -48,6 +50,7 @@ describe('PostService', () => {
       postuser_id: '6510082a65107d44949da19f',
       deleted: false,
       post_date: '2023-09-24T10:26:57.608Z',
+      price: 20000,
     },
   ];
 

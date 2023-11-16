@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
+  PostFilterQueryDto,
   PostGetAllQueryDto,
   PostUpdateDto,
   PrismaPostCreateDto,
@@ -13,6 +14,11 @@ import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class MongodbService {
+  USER_VERSION = 1;
+  POST_VERSION = 1;
+  IMAGE_VERSION = 1;
+  INCREMENTKEY_VERSION = 1;
+
   constructor(private prisma: PrismaService) {}
 
   isPositiveInt(val: number, defaultVal: number) {
@@ -31,6 +37,7 @@ export class MongodbService {
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
     const posts: PostInterface[] = await this.prisma.post.findMany({
       where: {
+        version: this.POST_VERSION,
         deleted: false,
       },
     });
@@ -297,6 +304,20 @@ export class MongodbService {
       throw Error();
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
+    return res;
+  }
+
+  async filterPost(query: PostFilterQueryDto) {
+    console.log('[mongodb.service:filterPost] starting function');
+    const res: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        post_date: {
+          gt: new Date(query.fromDate || '0'),
+          lt: new Date(query.toDate || '9999-12-31'),
+        },
+      },
+    });
+    console.log('[mongodb.service:filterPost] returning function');
     return res;
   }
 }

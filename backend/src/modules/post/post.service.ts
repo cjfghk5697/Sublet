@@ -3,6 +3,7 @@ import { MongodbService } from '../mongodb/mongodb.service';
 import { writeFile } from 'fs/promises';
 import {
   PostCreateDto,
+  PostFilterQueryDto,
   PostGetAllQueryDto,
   PostUpdateDto,
 } from '@/dto/post.dto';
@@ -111,6 +112,14 @@ export class PostService {
     console.log('[post.service:deleteOnePost] user: ', user);
     const res: PostInterface = await this.db.deleteOnePost(key, user);
     console.log('[post.service:deleteOnePost] returning function');
+    return res;
+  }
+
+  async filterPost(query: PostFilterQueryDto) {
+    console.log('[post.service:filterPost] starting function');
+    console.log('[post.service:filterPost] query: ', query);
+    const res = await this.db.filterPost(query);
+    console.log('[post.service:filterPost] returning function');
     return res;
   }
 
