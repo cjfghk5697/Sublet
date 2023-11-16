@@ -48,7 +48,6 @@ export default function Home() {
         {rooms}
       </div>
       <Header />
-      <div style={styles.roomContainer}>{rooms}</div>
     </div>
   );
 }
