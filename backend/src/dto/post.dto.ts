@@ -5,6 +5,7 @@ import {
   IsInt,
   IsPositive,
   IsEmpty,
+  IsDateString,
 } from 'class-validator';
 
 export class PostCreateDto extends PostBase {}
@@ -31,4 +32,14 @@ export class PostGetAllQueryDto {
   @IsInt()
   @IsPositive()
   page: number;
+}
+
+export class PostFilterQueryDto {
+  @IsOptional()
+  @IsDateString()
+  fromDate?: string | Date;
+
+  @IsOptional()
+  @IsDateString()
+  toDate?: string | Date;
 }

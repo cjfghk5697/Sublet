@@ -18,6 +18,7 @@ import {
 } from '@nestjs/common';
 import {
   PostCreateDto,
+  PostFilterQueryDto,
   PostGetAllQueryDto,
   PostUpdateDto,
 } from '@/dto/post.dto';
@@ -30,6 +31,19 @@ import { customRequest } from '@/interface/user.interface';
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
+
+  @Get('testfilter')
+  async filterPost(@Query() query: PostFilterQueryDto) {
+    try {
+      console.log('[post.controller:filterPost] starting function');
+      const res = await this.postService.filterPost(query);
+      console.log('[post.controller:filterPost] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[post.controller:filterPost] error: ', e);
+      throw new BadRequestException();
+    }
+  }
 
   @Get()
   async getAllPosts(@Query() query: PostGetAllQueryDto) {
