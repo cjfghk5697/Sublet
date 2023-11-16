@@ -57,25 +57,25 @@ export default function RoomInfo() {
 
     //지도에서 위치 클릭하면 도로명 주소로 받아오는 것 test
     window.naver.maps.Event.addDOMListener(mapDiv, "click", () => {
-      const coordinate = { x: map.data.map.center.x, y: map.data.map.center.y };
-      setMapPoint({ x: coordinate.x, y: coordinate.y });
-      window.naver.maps.Service.reverseGeocode(
-        {
-          coords: new window.naver.maps.LatLng(coordinate.y, coordinate.x),
-          orders: [
-            window.naver.maps.Service.OrderType.ADDR,
-            window.naver.maps.Service.OrderType.ROAD_ADDR,
-          ].join(","),
-        },
-        (status, response) => {
-          if (status !== window.naver.maps.Service.Status.OK) {
-            return alert("Something wrong!");
-          }
-          const result = response.v2;
-          setLocation(result.address.jibunAddress);
-          console.log(result);
-        }
-      );
+      // const coordinate = { x: map.data.map.center.x, y: map.data.map.center.y };
+      // setMapPoint({ x: coordinate.x, y: coordinate.y });
+      // window.naver.maps.Service.reverseGeocode(
+      //   {
+      //     coords: new window.naver.maps.LatLng(coordinate.y, coordinate.x),
+      //     orders: [
+      //       window.naver.maps.Service.OrderType.ADDR,
+      //       window.naver.maps.Service.OrderType.ROAD_ADDR,
+      //     ].join(","),
+      //   },
+      //   (status, response) => {
+      //     if (status !== window.naver.maps.Service.Status.OK) {
+      //       return alert("Something wrong!");
+      //     }
+      //     const result = response.v2;
+      //     setLocation(result.address.jibunAddress);
+      //     console.log(result);
+      //   }
+      // );
     });
   }, []);
 
