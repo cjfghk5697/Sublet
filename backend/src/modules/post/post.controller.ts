@@ -75,6 +75,12 @@ export class PostController {
       console.log("[post.controller:createPost] req.user doesn't exist");
       throw new UnauthorizedException();
     }
+    if (file.length == 0) {
+      console.log(
+        "[post.controller:createPost] file is empty, we're assuming bad request",
+      );
+      throw new BadRequestException();
+    }
     try {
       const res = await this.postService.createPost(file, data, req.user);
       console.log('[post.controller:createPost] res: ', res);
@@ -87,9 +93,9 @@ export class PostController {
 
   @Get(':postKey')
   async getOnePost(@Param('postKey') key: number) {
+    console.log('[post.controller:getOnePost] starting function');
+    console.log('[post.controller:getOnePost] key: ', key);
     try {
-      console.log('[post.controller:getOnePost] starting function');
-      console.log('[post.controller:getOnePost] key: ', key);
       const res = await this.postService.getOnePost(key);
       console.log('[post.controller:getOnePost] res: ', res);
       return res;
@@ -107,17 +113,17 @@ export class PostController {
     @UploadedFiles() files: Express.Multer.File[],
     @Body() putPostBody: PostUpdateDto,
   ) {
+    console.log('[post.controller:PutOnePost] starting function');
+    console.log('[post.controller:PutOnePost] key: ', key);
+    console.log('[post.controller:PutOnePost] files: ', files);
+    console.log('[post.controller:PutOnePost] putPostBody: ', putPostBody);
+    if (Object.keys(putPostBody).length == 0) {
+      console.log(
+        '[post.controller:PutOnePost] putPostBody is empty, bad request',
+      );
+      throw new BadRequestException();
+    }
     try {
-      console.log('[post.controller:PutOnePost] starting function');
-      console.log('[post.controller:PutOnePost] key: ', key);
-      console.log('[post.controller:PutOnePost] files: ', files);
-      console.log('[post.controller:PutOnePost] putPostBody: ', putPostBody);
-      if (Object.keys(putPostBody).length == 0) {
-        console.log(
-          '[post.controller:PutOnePost] putPostBody is empty, bad request',
-        );
-        throw new BadRequestException();
-      }
       const res = await this.postService.putOnePost(key, files, putPostBody);
       console.log('[post.controller:PutOnePost] res: ', res);
       return res;
@@ -153,9 +159,9 @@ export class PostController {
   @Post('image')
   @UseInterceptors(FileInterceptor('file'))
   async PostImage(@UploadedFile() file: Express.Multer.File) {
+    console.log('[post.controller:PostImage] starting function');
+    console.log('[post.controller:PostImage] file: ', file);
     try {
-      console.log('[post.controller:PostImage] starting function');
-      console.log('[post.controller:PostImage] file: ', file);
       const res: ImageInterface = await this.postService.uploadImage(file);
       console.log('[post.controller:PostImage] res: ', res);
       return { res: res.id };

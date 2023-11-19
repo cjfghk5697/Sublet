@@ -7,7 +7,7 @@ import {
   PostGetAllQueryDto,
   PostUpdateDto,
 } from '@/dto/post.dto';
-import { PostInterface } from '@/interface/post.interface';
+import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { UserInterface } from '@/interface/user.interface';
 import { createHash } from 'crypto';
 
@@ -20,8 +20,10 @@ export class PostService {
     console.log('[post.service:getAllPosts] starting function');
     console.log('[post.service:getAllPosts] query: ', query);
     const result = await this.db.getAllPosts(query);
+    console.log('[post.service:getAllPosts] result: ', result);
+    const ret = result.map((post) => this.transformExport(post));
     console.log('[post.service:getAllPosts] returning function');
-    return result;
+    return ret;
   }
 
   // POST /POST
@@ -58,8 +60,10 @@ export class PostService {
       },
       user,
     );
+    console.log('[post.service:createPost] res: ', res);
+    const ret = this.transformExport(res);
     console.log('[post.service:createPost] returning function');
-    return res;
+    return ret;
   }
 
   // GET /POST/:postKey
@@ -67,8 +71,10 @@ export class PostService {
     console.log('[post.service:getOnePost] starting function');
     console.log('[post.service:getOnePost] key: ', key);
     const res = await this.db.getOnePost(key);
+    console.log('[post.service:getOnePost] res: ', res);
+    const ret = this.transformExport(res);
     console.log('[post.service:getOnePost] returning function');
-    return res;
+    return ret;
   }
 
   // PUT /POST/:postKey
@@ -100,9 +106,11 @@ export class PostService {
       image_id,
     );
 
-    const res: PostInterface = await this.db.putOnePost(key, postUpdateInput);
+    const res = await this.db.putOnePost(key, postUpdateInput);
+    console.log('[post.service:putOnePost] res: ', res);
+    const ret = this.transformExport(res);
     console.log('[post.service:putOnePost] returning function');
-    return res;
+    return ret;
   }
 
   // DELETE /POST/:postKey
@@ -110,17 +118,22 @@ export class PostService {
     console.log('[post.service:deleteOnePost] starting function');
     console.log('[post.service:deleteOnePost] key: ', key);
     console.log('[post.service:deleteOnePost] user: ', user);
-    const res: PostInterface = await this.db.deleteOnePost(key, user);
+    const res = await this.db.deleteOnePost(key, user);
+    console.log('[post.service:deleteOnePost] res: ', res);
+    const ret = this.transformExport(res);
     console.log('[post.service:deleteOnePost] returning function');
-    return res;
+    return ret;
   }
 
   async filterPost(query: PostFilterQueryDto) {
     console.log('[post.service:filterPost] starting function');
     console.log('[post.service:filterPost] query: ', query);
     const res = await this.db.filterPost(query);
+    console.log('[post.service:filterPost] res: ', res);
+
+    const ret = res.map((post) => this.transformExport(post));
     console.log('[post.service:filterPost] returning function');
-    return res;
+    return ret;
   }
 
   calculateHash(buffer: Buffer) {
@@ -176,5 +189,12 @@ export class PostService {
     await writeFile(`./public/${res.id}.jpg`, buffer);
     console.log('[post.service:uploadImage] returning function');
     return res;
+  }
+
+  transformExport(post: PostInterface): PostExportInterface {
+    delete (post as { id?: string }).id;
+    delete (post as { deleted?: boolean }).deleted;
+    delete (post as { version?: number }).version;
+    return post;
   }
 }
