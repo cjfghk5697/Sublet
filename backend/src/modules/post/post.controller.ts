@@ -34,8 +34,8 @@ export class PostController {
 
   @Get('testfilter')
   async filterPost(@Query() query: PostFilterQueryDto) {
+    console.log('[post.controller:filterPost] starting function');
     try {
-      console.log('[post.controller:filterPost] starting function');
       const res = await this.postService.filterPost(query);
       console.log('[post.controller:filterPost] res: ', res);
       return res;
@@ -47,9 +47,9 @@ export class PostController {
 
   @Get()
   async getAllPosts(@Query() query: PostGetAllQueryDto) {
+    console.log('[post.controller:getAllPosts] starting function');
+    console.log('[post.controller:getAllPosts] query: ', query);
     try {
-      console.log('[post.controller:getAllPosts] starting function');
-      console.log('[post.controller:getAllPosts] query: ', query);
       const res = await this.postService.getAllPosts(query);
       console.log('[post.controller:getAllPosts] res: ', res);
       return res;
@@ -112,6 +112,7 @@ export class PostController {
     @Param('postKey') key: number,
     @UploadedFiles() files: Express.Multer.File[],
     @Body() putPostBody: PostUpdateDto,
+    @Req() req: customRequest,
   ) {
     console.log('[post.controller:PutOnePost] starting function');
     console.log('[post.controller:PutOnePost] key: ', key);
@@ -124,6 +125,12 @@ export class PostController {
       throw new BadRequestException();
     }
     try {
+      const post = await this.postService.getOnePost(key);
+      console.log('[post.controller:PutOnePost] post: ', post);
+      if (post.postuser_id !== req.user.user_id) {
+        console.log('[post.controller:PutOnePost] the user did not post');
+        throw new UnauthorizedException();
+      }
       const res = await this.postService.putOnePost(key, files, putPostBody);
       console.log('[post.controller:PutOnePost] res: ', res);
       return res;
