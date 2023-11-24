@@ -1,7 +1,4 @@
 import {
-  IsArray,
-  IsBoolean,
-  IsDate,
   IsDateString,
   IsInt,
   IsNumber,
@@ -110,22 +107,15 @@ export class PostPartialBase {
   price?: number;
 }
 
-export class PostInterface extends PostBase {
-  @IsString()
-  id: string;
-
-  @IsNumber()
+export class PostExportInterface extends PostBase {
   key: number;
-
-  @IsArray()
   image_id: string[];
-
-  @IsString()
   postuser_id: string;
-
-  @IsBoolean()
-  deleted: boolean;
-
-  @IsDate()
   post_date: Date | string;
+}
+
+export class PostInterface extends PostExportInterface {
+  id: string;
+  deleted: boolean;
+  version: number;
 }

@@ -29,41 +29,65 @@ export class MongodbService {
   }
 
   async getAllPosts(query: PostGetAllQueryDto) {
+    console.log('[mongodb.service:getAllPosts] starting function');
+    console.log('[mongodb.service:getAllPosts] query: ', query);
+
     // 과도하게 높거나 값이 해당 범위가 아니라면 기본값으로 설정
     query.maxPost = this.isPositiveInt(query.maxPost, 6);
     if (query.maxPost > 50) query.maxPost = 6;
+    console.log('[mongodb.service:getAllPosts] query.maxPost: ', query.maxPost);
+
     query.page = this.isPositiveInt(query.page, 1);
+    console.log('[mongodb.service:getAllPosts] query.page: ', query.page);
 
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
     const posts: PostInterface[] = await this.prisma.post.findMany({
       where: {
-        version: this.POST_VERSION,
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
     });
+    console.log('[mongodb.service:getAllPosts] posts: ', posts);
 
     // 페이지 당 포스트수와 현재 페이지를 기본으로 리스트를 반환
-    return posts.slice(
+    const ret = posts.slice(
       query.maxPost * (query.page - 1),
       query.maxPost * query.page,
     );
+    console.log('[mongodb.service:getAllPosts] returning function');
+
+    return ret;
   }
 
   async getPostKey() {
+    console.log('[mongodb.service:getPostKey] starting function');
+
     // incrementKey 테이블의 첫 번째 데이터를 가져옴
     const data: IncrementkeyInterface | null =
-      await this.prisma.incrementKey.findFirst();
-    if (!data)
+      await this.prisma.incrementKey.findFirst({
+        where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
+        },
+      });
+    if (!data) {
+      console.log(
+        '[mongodb.service:getPostKey] data is null, returning Error!',
+      );
       throw new Error('mongodb.service:getPostKey(), document doesnt exist');
+    }
+    console.log('[mongodb.service:getPostKey] data: ', data);
 
     // postKey를 1 증가시키고 그 값을 받아옴
     const updated: IncrementkeyInterface =
       await this.prisma.incrementKey.update({
         where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
           id: data.id,
         },
         data: { postKey: { increment: 1 } },
       });
+    console.log('[mongodb.service:getPostKey] updated: ', updated);
+    console.log('[mongodb.service:getPostKey] returning function');
 
     // 증가된 postKey 값을 전달
     return updated.postKey;
@@ -89,6 +113,7 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
+        version: this.POST_VERSION,
       },
     });
     console.log('[mongodb.service:createPost] returning function');
@@ -102,6 +127,7 @@ export class MongodbService {
     const res: PostInterface | null = await this.prisma.post.findFirst({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
     });
@@ -122,6 +148,7 @@ export class MongodbService {
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
       data: putPostBody,
@@ -137,6 +164,7 @@ export class MongodbService {
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
         postuser: {
           user_id: user['user_id'],
@@ -157,6 +185,9 @@ export class MongodbService {
     console.log('[mongodb.service:getImage] image_hash: ', image_hash);
     const res: ImageInterface | null = await this.prisma.image.findFirst({
       where: {
+        version: {
+          gte: this.IMAGE_VERSION,
+        },
         filename,
         filetype,
         image_hash,
@@ -182,6 +213,7 @@ export class MongodbService {
         filename,
         filetype,
         image_hash,
+        version: this.IMAGE_VERSION,
       },
     });
     console.log('[mongodb.service:saveImage] returning function');
@@ -194,6 +226,9 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.findFirstOrThrow({
       where: {
         user_id,
+        version: {
+          gte: this.USER_VERSION,
+        },
         delete: false,
       },
     });
@@ -203,7 +238,13 @@ export class MongodbService {
 
   async getAllUser() {
     console.log('[mongodb.service:getAllUser] starting function');
-    const u: UserInterface[] = await this.prisma.user.findMany();
+    const u: UserInterface[] = await this.prisma.user.findMany({
+      where: {
+        version: {
+          gte: this.USER_VERSION,
+        },
+      },
+    });
     console.log('[mongodb.service:getAllUser] returning function');
     return u;
   }
@@ -213,7 +254,10 @@ export class MongodbService {
     console.log('[mongodb.service:getUserByKey] user_id: ', user_id);
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
-        user_id: user_id,
+        user_id,
+        version: {
+          gte: this.USER_VERSION,
+        },
         delete: false,
       },
     });
@@ -231,13 +275,13 @@ export class MongodbService {
     console.log('[mongodb.service:createUser] starting function');
     console.log('[mongodb.service:createUser] data: ', data);
     const result: UserInterface = await this.prisma.user.create({
-      data: { ...data },
+      data: { ...data, version: this.USER_VERSION },
     });
     if (!result) {
       console.log(
         '[mongodb.service:createUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:createUser] result null');
     }
     console.log('[mongodb.service:createUser] returning function');
     return result;
@@ -250,6 +294,7 @@ export class MongodbService {
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
         password,
         delete: false,
       },
@@ -258,7 +303,9 @@ export class MongodbService {
       console.log(
         '[mongodb.service:validateUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error(
+        '[mongodb.service:validateUser] user_id or password is wrong',
+      );
     }
     console.log('[mongodb.service:validateUser] returning function');
     return result;
@@ -271,6 +318,7 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
         delete: false,
       },
       data: putUserBody,
@@ -279,7 +327,7 @@ export class MongodbService {
       console.log(
         '[mongodb.service:putOneUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:putOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:putOneUser] returning function');
     return res;
@@ -291,6 +339,7 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
         delete: false,
       },
       data: {
@@ -301,7 +350,7 @@ export class MongodbService {
       console.log(
         '[mongodb.service:deleteOneUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
     return res;
@@ -309,12 +358,15 @@ export class MongodbService {
 
   async filterPost(query: PostFilterQueryDto) {
     console.log('[mongodb.service:filterPost] starting function');
+    const post_date = {
+      gt: new Date(query.fromDate || '0'),
+      lt: new Date(query.toDate || '9999-12-31'),
+    };
+    console.log('[mongodb.service:filterPost] post_date: ', post_date);
     const res: PostInterface[] = await this.prisma.post.findMany({
       where: {
-        post_date: {
-          gt: new Date(query.fromDate || '0'),
-          lt: new Date(query.toDate || '9999-12-31'),
-        },
+        version: { gte: this.POST_VERSION },
+        post_date: post_date,
       },
     });
     console.log('[mongodb.service:filterPost] returning function');
