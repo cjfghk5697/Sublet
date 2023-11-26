@@ -82,7 +82,8 @@ describe('AuthService', () => {
           'evan',
           'asdfds@1!#asfseFA',
         );
-        expect(user['user_id']).toEqual('evan');
+        if (!user) expect(true).toBe(false);
+        else expect(user['user_id']).toEqual('evan');
       } catch (e) {
         expect(false);
       }

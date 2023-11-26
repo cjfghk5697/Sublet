@@ -32,7 +32,7 @@ import { customRequest } from '@/interface/user.interface';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Get('testfilter')
+  @Get('filter')
   async filterPost(@Query() query: PostFilterQueryDto) {
     console.log('[post.controller:filterPost] starting function');
     try {
@@ -127,7 +127,7 @@ export class PostController {
     try {
       const post = await this.postService.getOnePost(key);
       console.log('[post.controller:PutOnePost] post: ', post);
-      if (post.postuser_id !== req.user.user_id) {
+      if (post.postuser_id !== req.user.id) {
         console.log('[post.controller:PutOnePost] the user did not post');
         throw new UnauthorizedException();
       }
@@ -136,6 +136,7 @@ export class PostController {
       return res;
     } catch (e) {
       console.log('[post.controller:PutOnePost] error: ', e);
+      if (e instanceof UnauthorizedException) throw e;
       throw new BadRequestException();
     }
   }
@@ -156,7 +157,7 @@ export class PostController {
     try {
       const res = await this.postService.deleteOnePost(key, req.user);
       console.log('[post.controller:DeleteOnePost] res: ', res);
-      return res;
+      return { ok: res };
     } catch (e) {
       console.log('[post.controller:DeleteOnePost] error: ', e);
       throw new BadRequestException();

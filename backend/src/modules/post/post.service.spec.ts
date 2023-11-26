@@ -12,6 +12,7 @@ describe('PostService', () => {
   const post_dblist: PostInterface[] = [
     {
       id: '65100ecb1c9989e2d831bf6e',
+      version: 1,
       key: 23,
       basic_info: '123',
       benefit: 'asdf2',
@@ -33,6 +34,7 @@ describe('PostService', () => {
     },
     {
       id: '65100ef1bb89ee8dede40a8c',
+      version: 1,
       key: 24,
       basic_info: 'asdf',
       benefit: 'asdf2',

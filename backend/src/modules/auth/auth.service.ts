@@ -13,8 +13,12 @@ export class AuthService {
    * @param pass
    * @returns
    */
-  validateUser(id: string, pass: string) {
-    const user = this.usersService.validateUser(id, pass);
-    return user;
+  async validateUser(id: string, pass: string) {
+    try {
+      const user = await this.usersService.validateUser(id, pass);
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 }

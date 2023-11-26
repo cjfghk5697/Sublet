@@ -15,12 +15,28 @@ import { createHash } from 'crypto';
 export class PostService {
   constructor(private readonly db: MongodbService) {}
 
+  isPositiveInt(val: number, defaultVal: number) {
+    if (typeof val !== 'number') return defaultVal;
+    if (!Number.isInteger(val)) return defaultVal;
+    if (val <= 0) return defaultVal;
+    return val;
+  }
+
   // GET /POST
   async getAllPosts(query: PostGetAllQueryDto) {
     console.log('[post.service:getAllPosts] starting function');
     console.log('[post.service:getAllPosts] query: ', query);
+
+    query.maxPost = this.isPositiveInt(query.maxPost, 6);
+    if (query.maxPost > 50) query.maxPost = 6;
+    console.log('[post.service:getAllPosts] query.maxPost: ', query.maxPost);
+
+    query.page = this.isPositiveInt(query.page, 1);
+    console.log('[post.service:getAllPosts] query.page: ', query.page);
+
     const result = await this.db.getAllPosts(query);
     console.log('[post.service:getAllPosts] result: ', result);
+
     const ret = result.map((post) => this.transformExport(post));
     console.log('[post.service:getAllPosts] returning function');
     return ret;
@@ -119,10 +135,8 @@ export class PostService {
     console.log('[post.service:deleteOnePost] key: ', key);
     console.log('[post.service:deleteOnePost] user: ', user);
     const res = await this.db.deleteOnePost(key, user);
-    console.log('[post.service:deleteOnePost] res: ', res);
-    const ret = this.transformExport(res);
     console.log('[post.service:deleteOnePost] returning function');
-    return ret;
+    return res;
   }
 
   async filterPost(query: PostFilterQueryDto) {

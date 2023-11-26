@@ -34,7 +34,7 @@ export class PostGetAllQueryDto {
   page: number;
 }
 
-export class PostFilterQueryDto {
+export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsDateString()
   fromDate?: string | Date;
