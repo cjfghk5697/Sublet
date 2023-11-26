@@ -23,7 +23,7 @@ export default function RoomProfile(props) {
         style={styles.roomImage}
         src={
           process.env.REACT_APP_BACKEND_URL +
-          "public/" +
+          "/public/" +
           props.room.image_id[0] +
           ".jpg"
         }
@@ -40,6 +40,7 @@ export default function RoomProfile(props) {
           {props.room.likeCount}
         </IconButton>
       </div>
+      {props.room.description}
     </div>
   );
 }
