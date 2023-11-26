@@ -1,6 +1,7 @@
 import { Controller, Post, Res, Req, UseGuards, Next } from '@nestjs/common';
 import { LocalGuard } from '../../guards/local.guard';
 import { LoggedInGuard } from '../../guards/logged-in.guard';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -13,8 +14,8 @@ export class AuthController {
   @UseGuards(LoggedInGuard)
   @Post('logout')
   async logout(
-    @Req() req: Express.Request,
-    @Res() _res: Express.Response,
+    @Req() req: Request,
+    @Res() res: Response,
     /* eslint-disable-next-line @typescript-eslint/ban-types */
     @Next() next: Function,
   ) {
@@ -23,6 +24,7 @@ export class AuthController {
       if (err) {
         return next(err);
       }
+      res.send({ ok: true });
     });
     console.log('logout');
   }

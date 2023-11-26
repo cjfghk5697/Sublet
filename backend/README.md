@@ -6,8 +6,14 @@ mongodb의 경우 `mongodb+srv://username:password@cluster0.mongodb.net/admin` �
 
 ```bash
 $ npm install
-$ npx prisma db pull
 $ npx prisma generate
+```
+
+db와의 연동이 필요하다면 다음 명령어 중 하나를 필요에 맞게 실행합니다.
+
+```bash
+$ npx prisma db pull # db에서 가져올 때
+$ npx prisma db push # db를 업데이트할 때
 ```
 
 ## API Endpoint

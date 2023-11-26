@@ -32,31 +32,17 @@ export class MongodbService {
     console.log('[mongodb.service:getAllPosts] starting function');
     console.log('[mongodb.service:getAllPosts] query: ', query);
 
-    // 과도하게 높거나 값이 해당 범위가 아니라면 기본값으로 설정
-    query.maxPost = this.isPositiveInt(query.maxPost, 6);
-    if (query.maxPost > 50) query.maxPost = 6;
-    console.log('[mongodb.service:getAllPosts] query.maxPost: ', query.maxPost);
-
-    query.page = this.isPositiveInt(query.page, 1);
-    console.log('[mongodb.service:getAllPosts] query.page: ', query.page);
-
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
     const posts: PostInterface[] = await this.prisma.post.findMany({
       where: {
         version: { gte: this.POST_VERSION },
         deleted: false,
       },
+      skip: query.maxPost * (query.page - 1),
+      take: query.maxPost,
     });
-    console.log('[mongodb.service:getAllPosts] posts: ', posts);
-
-    // 페이지 당 포스트수와 현재 페이지를 기본으로 리스트를 반환
-    const ret = posts.slice(
-      query.maxPost * (query.page - 1),
-      query.maxPost * query.page,
-    );
     console.log('[mongodb.service:getAllPosts] returning function');
-
-    return ret;
+    return posts;
   }
 
   async getPostKey() {
@@ -174,8 +160,9 @@ export class MongodbService {
         deleted: true,
       },
     });
+    console.log('[mongodb.service:deleteOnePost] res: ', res);
     console.log('[mongodb.service:deleteOnePost] returning function');
-    return res;
+    return true;
   }
 
   async getImage(filename: string, filetype: string, image_hash: string) {
