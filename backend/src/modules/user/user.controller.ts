@@ -12,10 +12,11 @@ import {
   UnauthorizedException,
   Req,
   Res,
+  Query,
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
-import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
 
@@ -28,6 +29,19 @@ export class UserController {
   async getAllUser(@Req() req: customRequest) {
     console.log('[user.controller:getAllUser] starting function');
     return req.user;
+  }
+
+  @Get('filter')
+  async filterUser(@Query() query: UserTagFilterDto) {
+    console.log('[user.controller:filterUser] starting function');
+    try {
+      const res = await this.userService.filterUser(query);
+      console.log('[user.controller:filterUser] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:filterUser] error: ', e);
+      throw new BadRequestException();
+    }
   }
 
   @Get(':user_id')

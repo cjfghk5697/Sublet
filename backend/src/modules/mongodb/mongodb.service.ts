@@ -10,7 +10,8 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MongodbService {
@@ -261,6 +262,10 @@ export class MongodbService {
   async createUser(data: UserCreateDto) {
     console.log('[mongodb.service:createUser] starting function');
     console.log('[mongodb.service:createUser] data: ', data);
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashPassword;
     const result: UserInterface = await this.prisma.user.create({
       data: { ...data, version: this.USER_VERSION },
     });
@@ -282,11 +287,13 @@ export class MongodbService {
       where: {
         user_id,
         version: { gte: this.USER_VERSION },
-        password,
         delete: false,
       },
     });
-    if (!result) {
+
+    const password_result = await bcrypt.compare(password, result!.password);
+    console.log(password_result);
+    if (!result || !password_result) {
       console.log(
         '[mongodb.service:validateUser] result is null, returning Error!',
       );
@@ -357,6 +364,23 @@ export class MongodbService {
       },
     });
     console.log('[mongodb.service:filterPost] returning function');
+    return res;
+  }
+
+  async filterUser(query: UserTagFilterDto) {
+    console.log('[mongodb.service:filterUser] starting function');
+
+    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    const res: UserInterface[] = await this.prisma.user.findMany({
+      where: {
+        version: { gte: this.USER_VERSION },
+        tag: { hasEvery: query.tag },
+      },
+    });
+
+    res;
+
+    console.log('[mongodb.service:filterUser] returning function');
     return res;
   }
 }

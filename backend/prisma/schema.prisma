@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  version  Int     @default(1)
-  user_id  String  @unique
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  version  Int      @default(1)
+  user_id  String   @unique
   password String
   username String
-  email    String  @unique
-  phone    String  @unique
+  email    String   @unique
+  phone    String   @unique
   Post     Post[]
-  delete   Boolean @default(false)
+  tag      String[]
+  delete   Boolean  @default(false)
 }
 
 model Post {

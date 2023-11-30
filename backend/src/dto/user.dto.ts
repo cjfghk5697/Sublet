@@ -4,6 +4,7 @@ import {
   IsPhoneNumber,
   IsStrongPassword,
   IsOptional,
+  IsArray,
 } from 'class-validator';
 
 export class UserCreateDto extends UserBase {
@@ -15,6 +16,9 @@ export class UserCreateDto extends UserBase {
 
   @IsPhoneNumber()
   phone: string;
+
+  @IsArray()
+  tag: string[];
 }
 
 export class UserUpdateDto extends UserPartialBase {
@@ -29,4 +33,14 @@ export class UserUpdateDto extends UserPartialBase {
   @IsOptional()
   @IsEmail()
   email?: string;
+
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
+}
+
+export class UserTagFilterDto extends UserPartialBase {
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
 }
