@@ -16,6 +16,7 @@ describe('AuthService', () => {
       username: 'evan2',
       email: 'chfgadg@gmail.com',
       phone: '+82343512534',
+      tag: ['student'],
       delete: false,
     },
     {
@@ -25,6 +26,7 @@ describe('AuthService', () => {
       email: 'evan91234@gmail.com',
       phone: '+8201011111111',
       password: 'asdfds@1!#asfseFA',
+      tag: ['student'],
       delete: false,
     },
   ];

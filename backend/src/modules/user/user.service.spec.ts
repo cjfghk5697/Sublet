@@ -17,6 +17,7 @@ describe('UserService', () => {
       email: 'chfgadg@gmail.com',
       phone: '+82343512534',
       delete: false,
+      tag: ['student'],
     },
     {
       id: '2',
@@ -26,6 +27,7 @@ describe('UserService', () => {
       phone: '+8201011111111',
       password: 'asdfds@1!#asfseFA',
       delete: false,
+      tag: ['student'],
     },
   ];
   beforeEach(async () => {
