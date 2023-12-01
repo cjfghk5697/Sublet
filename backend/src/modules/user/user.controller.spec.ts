@@ -24,7 +24,7 @@ describe('UserController', () => {
       phone: '+82343512534',
       delete: false,
       tag: ['student'],
-      version: 2,
+      version: 1,
     },
     {
       id: '2',
@@ -35,7 +35,7 @@ describe('UserController', () => {
       password: 'asdfds@1!#asfseFA',
       tag: ['student'],
       delete: false,
-      version: 2,
+      version: 1,
     },
   ];
   /*const expectUsers = [
