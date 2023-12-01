@@ -27,6 +27,7 @@ export class UserInterface extends UserExportInterface {
   phone: string;
   password: string;
   delete: boolean;
+  version: number;
   tag: string[];
 }
 

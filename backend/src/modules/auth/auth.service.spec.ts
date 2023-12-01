@@ -16,8 +16,9 @@ describe('AuthService', () => {
       username: 'evan2',
       email: 'chfgadg@gmail.com',
       phone: '+82343512534',
-      tag: ['student'],
       delete: false,
+      tag: ['student'],
+      version: 2,
     },
     {
       id: '2',
@@ -28,6 +29,7 @@ describe('AuthService', () => {
       password: 'asdfds@1!#asfseFA',
       tag: ['student'],
       delete: false,
+      version: 2,
     },
   ];
   beforeEach(async () => {

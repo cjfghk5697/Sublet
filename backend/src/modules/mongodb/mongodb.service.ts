@@ -369,7 +369,7 @@ export class MongodbService {
 
   async filterUser(query: UserTagFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-
+    ``;
     console.log('[mongodb.service:filterUser] post_date: ', query.tag);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
@@ -377,9 +377,6 @@ export class MongodbService {
         tag: { hasEvery: query.tag },
       },
     });
-
-    res;
-
     console.log('[mongodb.service:filterUser] returning function');
     return res;
   }

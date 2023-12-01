@@ -39,7 +39,7 @@ export class UserUpdateDto extends UserPartialBase {
   tag?: string[];
 }
 
-export class UserTagFilterDto extends UserPartialBase {
+export class UserTagFilterDto {
   @IsOptional()
   @IsArray()
   tag?: string[];
