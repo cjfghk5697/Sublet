@@ -15,7 +15,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MongodbService {
-  USER_VERSION = 1;
+  USER_VERSION = 2;
   POST_VERSION = 1;
   IMAGE_VERSION = 1;
   INCREMENTKEY_VERSION = 1;
@@ -369,7 +369,6 @@ export class MongodbService {
 
   async filterUser(query: UserTagFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-    ``;
     console.log('[mongodb.service:filterUser] post_date: ', query.tag);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
