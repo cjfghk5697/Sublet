@@ -27,6 +27,8 @@ export class UserInterface extends UserExportInterface {
   phone: string;
   password: string;
   delete: boolean;
+  version: number;
+  tag: string[];
 }
 
 export interface customRequest extends Express.Request {

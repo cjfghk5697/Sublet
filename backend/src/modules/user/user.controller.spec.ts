@@ -23,6 +23,8 @@ describe('UserController', () => {
       email: 'chfgadg@gmail.com',
       phone: '+82343512534',
       delete: false,
+      tag: ['student'],
+      version: 2,
     },
     {
       id: '2',
@@ -31,7 +33,9 @@ describe('UserController', () => {
       email: 'evan91234@gmail.com',
       phone: '+8201011111111',
       password: 'asdfds@1!#asfseFA',
+      tag: ['student'],
       delete: false,
+      version: 2,
     },
   ];
   /*const expectUsers = [
@@ -98,22 +102,4 @@ describe('UserController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-  /*
-  describe('getAllUser', () => {
-    it('properly get All Users', async () => {
-      const ret_users = await controller.getAllUser();
-      expect(ret_users).toStrictEqual(expectUsers);
-    });
-  });
-
-  describe('getOneUser', () => {
-    it('properly get one user when key exists', async () => {
-      const ret_user = await controller.getOneUser('evan');
-      expect(ret_user).toMatchObject(newUser);
-    });
-    it("get no user when key doesn't exist", async () => {
-      const u = await controller.getOneUser('Notevan');
-      expect(u).toBe(null);
-    });
-  });*/
 });
