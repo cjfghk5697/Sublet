@@ -379,4 +379,6 @@ export class MongodbService {
     console.log('[mongodb.service:filterUser] returning function');
     return res;
   }
+
+  async test() {}
 }
