@@ -56,6 +56,7 @@ export class MongodbService {
           version: { gte: this.INCREMENTKEY_VERSION },
         },
       });
+    console.log(data);
     if (!data) {
       console.log(
         '[mongodb.service:getPostKey] data is null, returning Error!',
@@ -100,6 +101,7 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
+        tag: user.tag,
         version: this.POST_VERSION,
       },
     });
@@ -356,11 +358,24 @@ export class MongodbService {
       gt: new Date(query.fromDate || '0'),
       lt: new Date(query.toDate || '9999-12-31'),
     };
+    const range_price = {
+      gte: query.fromPrice || 0,
+      lte: query.toPrice || 90000000,
+    };
+
     console.log('[mongodb.service:filterPost] post_date: ', post_date);
+    console.log('[mongodb.service:filterPost] range_price: ', range_price);
+    console.log('[mongodb.service:filterPost] query: ', query);
     const res: PostInterface[] = await this.prisma.post.findMany({
       where: {
         version: { gte: this.POST_VERSION },
         post_date: post_date,
+        price: range_price,
+        request: true,
+        position: query.position,
+        tag: { hasEvery: query.tag },
+        min_duration: { lte: query.fromDuration || 1000000 },
+        max_duration: { gte: query.toDuration || 0 },
       },
     });
     console.log('[mongodb.service:filterPost] returning function');
@@ -379,6 +394,4 @@ export class MongodbService {
     console.log('[mongodb.service:filterUser] returning function');
     return res;
   }
-
-  async test() {}
 }

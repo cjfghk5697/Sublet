@@ -6,6 +6,9 @@ import {
   IsPositive,
   IsEmpty,
   IsDateString,
+  IsString,
+  IsBoolean,
+  IsNumber,
 } from 'class-validator';
 
 export class PostCreateDto extends PostBase {}
@@ -42,4 +45,32 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsDateString()
   toDate?: string | Date;
+
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  request?: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  fromPrice?: number;
+
+  @IsOptional()
+  @IsNumber()
+  toPrice?: number;
+
+  @IsOptional()
+  @IsNumber()
+  fromDuration?: number;
+
+  @IsOptional()
+  @IsNumber()
+  toDuration?: number;
+
+  @IsOptional()
+  @IsString()
+  position?: string;
 }
