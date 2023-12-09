@@ -18,6 +18,7 @@ model User {
   Post     Post[]
   tag      String[]
   delete   Boolean  @default(false)
+  request  Boolean  @default(false)
 }
 
 model Post {
@@ -42,6 +43,9 @@ model Post {
   postuser      User     @relation(fields: [postuser_id], references: [id])
   deleted       Boolean  @default(false)
   post_date     DateTime @default(now()) @db.Date
+  tag           String[]
+  private       Boolean  @default(false)
+  request       Boolean  @default(false)
 }
 
 model IncrementKey {
