@@ -26,6 +26,8 @@ export class PostUpdateDto extends PostPartialBase {
 
 export class PostGetAllQueryDto {
   @IsOptional()
+  @IsInt()
+  @IsPositive()
   maxPost: number;
 
   @IsOptional()
