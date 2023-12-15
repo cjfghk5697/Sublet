@@ -73,4 +73,20 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsString()
   position?: string;
+
+  @IsOptional()
+  @IsNumber()
+  limit_people?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_room?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_bathroom?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_bedroom?: number;
 }

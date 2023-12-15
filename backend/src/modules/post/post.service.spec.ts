@@ -31,6 +31,10 @@ describe('PostService', () => {
       deleted: false,
       post_date: '2023-09-24T10:26:19.860Z',
       price: 10000,
+      limit_people: 3,
+      number_room: 1,
+      number_bathroom: 2,
+      number_bedroom: 3,
     },
     {
       id: '65100ef1bb89ee8dede40a8c',
@@ -53,6 +57,10 @@ describe('PostService', () => {
       deleted: false,
       post_date: '2023-09-24T10:26:57.608Z',
       price: 20000,
+      limit_people: 3,
+      number_room: 1,
+      number_bathroom: 2,
+      number_bedroom: 3,
     },
   ];
 
