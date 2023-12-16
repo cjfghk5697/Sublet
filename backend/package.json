@@ -17,7 +17,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest -i --no-cache --detectOpenHandles --watchAll --config ./test/jest-e2e.json",
+    "pretest:e2e": "npm run db:restart && dotenv -e .env.test -- npx prisma generate",
+    "db:restart": "docker compose down && docker compose up -d && sleep 1"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.9",
@@ -54,6 +56,7 @@
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
+    "dotenv-cli": "^7.3.0",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",

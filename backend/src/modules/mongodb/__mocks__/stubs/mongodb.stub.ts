@@ -1,4 +1,5 @@
 import { PostFilterQueryDto } from '@/dto/post.dto';
+import { UserCreateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { UserInterface } from '@/interface/user.interface';
@@ -79,5 +80,16 @@ export const filterStub = (): PostFilterQueryDto => {
     page: 1,
     fromDate: '2000-01:01',
     toDate: '2010-01-01',
+  };
+};
+
+export const userCreateStub = (): UserCreateDto => {
+  return {
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    phone: '+82010-1234-5678',
+    password: 'Mocked-password1)',
+    tag: ['mocked-tag'],
+    user_id: 'mocked-user_id',
   };
 };
