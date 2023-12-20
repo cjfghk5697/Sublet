@@ -376,6 +376,10 @@ export class MongodbService {
         tag: { hasEvery: query.tag },
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },
+        limit_people: query.limit_people,
+        number_room: query.number_room,
+        number_bathroom: query.number_bathroom,
+        number_bedroom: query.number_bedroom,
       },
     });
     console.log('[mongodb.service:filterPost] returning function');
