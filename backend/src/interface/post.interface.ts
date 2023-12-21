@@ -48,6 +48,18 @@ export class PostBase {
   @IsInt()
   @IsNumber()
   price: number;
+
+  @IsNumber()
+  limit_people: number;
+
+  @IsNumber()
+  number_room: number;
+
+  @IsNumber()
+  number_bathroom: number;
+
+  @IsNumber()
+  number_bedroom: number;
 }
 
 export class PostPartialBase {

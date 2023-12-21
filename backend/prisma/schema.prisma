@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -18,30 +19,38 @@ model User {
   Post     Post[]
   tag      String[]
   delete   Boolean  @default(false)
+  request  Boolean  @default(false)
 }
 
 model Post {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  version       Int      @default(1)
-  key           Int      @unique
-  image_id      String[] @db.ObjectId
-  title         String
-  basic_info    String
-  price         Int
-  description   String
-  position      String
-  rule          String
-  refund_policy String
-  benefit       String
-  extra_info    String
-  start_day     DateTime @db.Date
-  end_day       DateTime @db.Date
-  min_duration  Int
-  max_duration  Int
-  postuser_id   String   @db.ObjectId
-  postuser      User     @relation(fields: [postuser_id], references: [id])
-  deleted       Boolean  @default(false)
-  post_date     DateTime @default(now()) @db.Date
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  version         Int      @default(1)
+  key             Int      @unique
+  image_id        String[] @db.ObjectId
+  title           String
+  basic_info      String
+  price           Int
+  description     String
+  position        String
+  rule            String
+  refund_policy   String
+  benefit         String
+  extra_info      String
+  start_day       DateTime @db.Date
+  end_day         DateTime @db.Date
+  min_duration    Int
+  max_duration    Int
+  postuser_id     String   @db.ObjectId
+  postuser        User     @relation(fields: [postuser_id], references: [id])
+  deleted         Boolean  @default(false)
+  post_date       DateTime @default(now()) @db.Date
+  tag             String[]
+  private         Boolean  @default(false)
+  request         Boolean  @default(false)
+  limit_people    Int
+  number_room     Int
+  number_bathroom Int
+  number_bedroom  Int
 }
 
 model IncrementKey {
