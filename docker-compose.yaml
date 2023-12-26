@@ -12,10 +12,16 @@ services:
       - "27017:27017"
   backend:
     build: ./backend
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
+    # volumes:
+    #   - ./backend:/usr/src/app
+    #   - /usr/src/app/node_modules
     environment:
       - DBHOST=mongo
     ports:
       - "4000:4000"
+    depends_on:
+      - mongo
+  front:
+    build: ./sublet-front
+    ports:
+      - "3000:3000"

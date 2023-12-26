@@ -12,11 +12,12 @@ COPY package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY . .
+# COPY . .
 
 RUN npx prisma generate --schema ./prisma/schema.prisma
 # Creates a "dist" folder with the production build
 RUN npm run build
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+
+CMD [ "npm", "run", "start:prod" ]
