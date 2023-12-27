@@ -10,8 +10,8 @@ import { userCreateStub } from '@/modules/mongodb/__mocks__/stubs/mongodb.stub';
 describe('AppController (e2e)', () => {
   const time = 20000;
   let app: INestApplication;
-  let prisma: PrismaService;
-  let mongodb: MongodbService;
+  let _prisma: PrismaService;
+  let _mongodb: MongodbService;
   const _tempService = 'Hello World!12';
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -32,8 +32,8 @@ describe('AppController (e2e)', () => {
       }),
     );
 
-    mongodb = moduleFixture.get(MongodbService);
-    prisma = moduleFixture.get(PrismaService);
+    _mongodb = moduleFixture.get(MongodbService);
+    _prisma = moduleFixture.get(PrismaService);
     await app.init();
   });
 
