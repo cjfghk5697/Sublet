@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "npx dotenv -e .env.test -- jest -i --no-cache --detectOpenHandles --watchAll --config ./test/jest-e2e.json",
+    "test:e2e": "npx dotenv -e .env.test -- jest -i --no-cache --detectOpenHandles --config ./test/jest-e2e.json",
     "pretest:e2e": "npm run db:restart && npx dotenv -e .env.test -- npx prisma generate",
     "db:restart": "docker compose down && docker compose up -d test-db"
   },
