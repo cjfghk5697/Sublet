@@ -6,6 +6,9 @@ import {
   IsPositive,
   IsEmpty,
   IsDateString,
+  IsString,
+  IsBoolean,
+  IsNumber,
 } from 'class-validator';
 
 export class PostCreateDto extends PostBase {}
@@ -26,8 +29,6 @@ export class PostUpdateDto extends PostPartialBase {
 
 export class PostGetAllQueryDto {
   @IsOptional()
-  @IsInt()
-  @IsPositive()
   maxPost: number;
 
   @IsOptional()
@@ -44,4 +45,48 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsDateString()
   toDate?: string | Date;
+
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  request?: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  fromPrice?: number;
+
+  @IsOptional()
+  @IsNumber()
+  toPrice?: number;
+
+  @IsOptional()
+  @IsNumber()
+  fromDuration?: number;
+
+  @IsOptional()
+  @IsNumber()
+  toDuration?: number;
+
+  @IsOptional()
+  @IsString()
+  position?: string;
+
+  @IsOptional()
+  @IsNumber()
+  limit_people?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_room?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_bathroom?: number;
+
+  @IsOptional()
+  @IsNumber()
+  number_bedroom?: number;
 }

@@ -17,12 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest -i --no-cache --detectOpenHandles --watchAll --config ./test/jest-e2e.json",
-    "pretest:e2e": "npm run db:restart && dotenv -e .env.test -- npx prisma generate",
-    "db:restart": "docker compose down && docker compose up -d && sleep 1"
+    "test:e2e": "npx dotenv -e .env.test -- jest -i --no-cache --detectOpenHandles --watchAll --config ./test/jest-e2e.json",
+    "pretest:e2e": "npm run db:restart && npx dotenv -e .env.test -- npx prisma generate",
+    "db:restart": "docker compose down && docker compose up -d"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.9",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.2.9",
     "@nestjs/mapped-types": "github:nestjs/mapped-types",
     "@nestjs/passport": "^10.0.2",

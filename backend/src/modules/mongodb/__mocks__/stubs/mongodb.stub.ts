@@ -38,6 +38,10 @@ export const postExportStub = (): PostExportInterface => {
     image_id: ['mocked-image_id'],
     postuser_id: 'mocked-postuser_id',
     post_date: 'mocked-post_date',
+    limit_people: 3,
+    number_room: 3,
+    number_bathroom: 3,
+    number_bedroom: 3,
   };
 };
 

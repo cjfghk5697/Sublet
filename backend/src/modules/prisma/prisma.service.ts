@@ -14,15 +14,21 @@ export class PrismaService
     await this.$disconnect();
   }
 
-  clearDatabase() {
+  async clearDatabase() {
     console.log('CLEAR DATABASE');
-    const models = Reflect.ownKeys(this).filter(
-      (key) => typeof key != 'symbol' && key[0] !== '_' && key[0] != '$',
-    ) as string[];
 
-    return Promise.all(
-      // @ts-expect-error TS7053
-      models.map((modelKey: string) => this[modelKey].deleteMany()),
-    );
+    return this.$runCommandRaw({
+      delte: 'Sublet',
+      deletes: [
+        {
+          q: {},
+          limit: 0,
+        },
+      ],
+      writeConcern: {
+        w: 'majority',
+        wtimeout: 10000,
+      },
+    });
   }
 }
