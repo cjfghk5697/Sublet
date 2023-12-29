@@ -15,7 +15,7 @@ export const userStub = (): UserInterface => {
     password: 'mocked-password3',
     delete: false,
     version: 1,
-    tag: ['mocked-tag3'],
+    school: 'ABC Univ',
   };
 };
 
@@ -42,6 +42,10 @@ export const postExportStub = (): PostExportInterface => {
     number_room: 3,
     number_bathroom: 3,
     number_bedroom: 3,
+    accomodation_type: '전대', //건물 유형
+    building_type: '아파트', //아파트인지, 주택인지
+    contract: false,
+    school: 'ABC univ',
   };
 };
 
@@ -93,7 +97,7 @@ export const userCreateStub = (): UserCreateDto => {
     email: 'mocked@mocked.com',
     phone: '+82010-1234-5678',
     password: 'Mocked-password1)',
-    tag: ['mocked-tag'],
+    school: 'ABC univ',
     user_id: 'mocked-user_id',
   };
 };

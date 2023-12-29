@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -9,48 +9,51 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  version  Int      @default(1)
-  user_id  String   @unique
+  id       String         @id @default(auto()) @map("_id") @db.ObjectId
+  version  Int            @default(1)
+  user_id  String         @unique
   password String
   username String
-  email    String   @unique
-  phone    String   @unique
+  email    String         @unique
+  phone    String         @unique
   Post     Post[]
-  tag      String[]
-  delete   Boolean  @default(false)
-  request  Boolean  @default(false)
+  delete   Boolean        @default(false)
+  request  Request_form[]
+  school   String         @default("무소속")
 }
 
 model Post {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  version         Int      @default(1)
-  key             Int      @unique
-  image_id        String[] @db.ObjectId
-  title           String
-  basic_info      String
-  price           Int
-  description     String
-  position        String
-  rule            String
-  refund_policy   String
-  benefit         String
-  extra_info      String
-  start_day       DateTime @db.Date
-  end_day         DateTime @db.Date
-  min_duration    Int
-  max_duration    Int
-  postuser_id     String   @db.ObjectId
-  postuser        User     @relation(fields: [postuser_id], references: [id])
-  deleted         Boolean  @default(false)
-  post_date       DateTime @default(now()) @db.Date
-  tag             String[]
-  private         Boolean  @default(false)
-  request         Boolean  @default(false)
-  limit_people    Int
-  number_room     Int
-  number_bathroom Int
-  number_bedroom  Int
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  version           Int      @default(1)
+  key               Int      @unique
+  image_id          String[] @db.ObjectId
+  title             String
+  basic_info        String
+  price             Int
+  description       String
+  position          String
+  rule              String
+  refund_policy     String
+  benefit           String
+  extra_info        String
+  start_day         DateTime @db.Date
+  end_day           DateTime @db.Date
+  min_duration      Int
+  max_duration      Int
+  postuser_id       String   @db.ObjectId
+  postuser          User     @relation(fields: [postuser_id], references: [id])
+  deleted           Boolean  @default(false)
+  post_date         DateTime @default(now()) @db.Date
+  private           Boolean  @default(false)
+  request           Boolean  @default(false)
+  limit_people      Int
+  number_room       Int
+  number_bathroom   Int
+  number_bedroom    Int
+  accomodation_type String //건물 유형
+  building_type     String //아파트인지, 주택인지
+  contract          Boolean  @default(false) //계약 여부
+  school            String
 }
 
 model IncrementKey {
@@ -65,4 +68,23 @@ model Image {
   filename   String
   filetype   String
   image_hash String
+}
+
+model Request_form {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  version           Int      @default(1)
+  limit_people      Int
+  number_room       Int
+  number_bathroom   Int
+  number_bedroom    Int
+  price             Int
+  position          String
+  start_day         DateTime @db.Date
+  end_day           DateTime @db.Date
+  remind            Int      @default(7)
+  accomodation_type String //건물 유형
+  building_type     String //아파트인지, 주택인지
+  contract          Boolean  @default(false) //계약 여부
+  User              User     @relation(fields: [userId], references: [id])
+  userId            String   @db.ObjectId
 }

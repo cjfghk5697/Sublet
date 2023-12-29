@@ -1,5 +1,12 @@
-import { UserBase } from '@/interface/user.interface';
-import { IsEmail, IsPhoneNumber, IsStrongPassword } from 'class-validator';
+import { UserBase, UserPartialBase } from '@/interface/user.interface';
+import {
+  IsEmail,
+  IsPhoneNumber,
+  IsStrongPassword,
+  IsOptional,
+  IsArray,
+  IsString,
+} from 'class-validator';
 
 export class UserCreateDto extends UserBase {
   @IsEmail()
@@ -11,8 +18,30 @@ export class UserCreateDto extends UserBase {
   @IsPhoneNumber()
   phone: string;
 
-  @IsArray()
-  tag: string[];
+  @IsString()
+  school: string; //어디 학교인지
 }
 
-export class UserUpdateDto extends UserBase {}
+export class UserUpdateDto extends UserPartialBase {
+  @IsOptional()
+  @IsStrongPassword()
+  password?: string;
+
+  @IsOptional()
+  @IsPhoneNumber()
+  phone?: string;
+
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  school?: string; //어디 학교인지
+}
+
+export class UserTagFilterDto {
+  @IsOptional()
+  @IsArray()
+  school?: string;
+}
