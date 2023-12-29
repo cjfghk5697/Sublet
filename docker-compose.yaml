@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  backend:
+    container_name: backend-container
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend/sessions:/usr/src/app/sessions
+      - ./backend/public:/usr/src/app/public
+    environment:
+      DBHOST: mongo
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    networks:
+      - backend-net
+  mongo:
+    container_name: mongo-container
+    build:
+      context: ./backend
+      dockerfile: database.Dockerfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: testpwd
+      MONGO_INITDB_DATABASE: mongo
+      MONGO_REPLICA_HOST: mongo
+      MONGO_REPLICA_PORT: "27017"
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    networks:
+      - backend-net
+  test-db:
+    container_name: test-db-container
+    build:
+      context: ./backend
+      dockerfile: test-db.Dockerfile
+    ports:
+      - "7777:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: testpwd
+      MONGO_INITDB_DATABASE: Sublet
+      MONGO_REPLICA_HOST: test-db
+      MONGO_REPLICA_PORT: "27017"
+    networks:
+      - backend-net
+networks:
+  backend-net:
+    driver: bridge

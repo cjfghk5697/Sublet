@@ -17,6 +17,8 @@ describe('AuthService', () => {
       email: 'chfgadg@gmail.com',
       phone: '+82343512534',
       delete: false,
+      tag: ['student'],
+      version: 2,
     },
     {
       id: '2',
@@ -25,7 +27,9 @@ describe('AuthService', () => {
       email: 'evan91234@gmail.com',
       phone: '+8201011111111',
       password: 'asdfds@1!#asfseFA',
+      tag: ['student'],
       delete: false,
+      version: 2,
     },
   ];
   beforeEach(async () => {
@@ -82,7 +86,8 @@ describe('AuthService', () => {
           'evan',
           'asdfds@1!#asfseFA',
         );
-        expect(user['user_id']).toEqual('evan');
+        if (!user) expect(true).toBe(false);
+        else expect(user['user_id']).toEqual('evan');
       } catch (e) {
         expect(false);
       }

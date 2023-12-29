@@ -1,7 +1,4 @@
 import {
-  IsArray,
-  IsBoolean,
-  IsDate,
   IsDateString,
   IsInt,
   IsNumber,
@@ -47,6 +44,22 @@ export class PostBase {
 
   @IsString()
   title: string;
+
+  @IsInt()
+  @IsNumber()
+  price: number;
+
+  @IsNumber()
+  limit_people: number;
+
+  @IsNumber()
+  number_room: number;
+
+  @IsNumber()
+  number_bathroom: number;
+
+  @IsNumber()
+  number_bedroom: number;
 }
 
 export class PostPartialBase {
@@ -99,24 +112,22 @@ export class PostPartialBase {
   @IsString()
   @IsOptional()
   title?: string;
+
+  @IsInt()
+  @IsNumber()
+  @IsOptional()
+  price?: number;
 }
 
-export class PostInterface extends PostBase {
-  @IsString()
-  id: string;
-
-  @IsNumber()
+export class PostExportInterface extends PostBase {
   key: number;
-
-  @IsArray()
   image_id: string[];
-
-  @IsString()
   postuser_id: string;
-
-  @IsBoolean()
-  deleted: boolean;
-
-  @IsDate()
   post_date: Date | string;
+}
+
+export class PostInterface extends PostExportInterface {
+  id: string;
+  deleted: boolean;
+  version: number;
 }
