@@ -25,7 +25,7 @@ export default function SaveSubletInfo(props) {
                   />
                   <div className="flex flex-col justify-between">
                     <h2 className="text-lg font-semibold">강남에 직장이 있는 분을 위한 맞춤형 숙소</h2>
-                    <p className="text-sm">오전7시 하산 완료됨</p>
+                    <p className="text-sm">경기도 하남시 위례동</p>
                     <p className="text-sm">8월 30일 부터, 최소 1개월</p>
                     <p className="text-lg font-bold text-[#bd1e59]">₩730,000/1개월</p>
                   </div>
@@ -46,7 +46,7 @@ export default function SaveSubletInfo(props) {
                   />
                   <div className="flex flex-col justify-between">
                     <h2 className="text-lg font-semibold">저렴하게 지내실 수 있는 제주도 집</h2>
-                    <p className="text-sm">오전7시 하산 완료됨</p>
+                    <p className="text-sm">경기도 하남시 위례동</p>
                     <p className="text-sm">8월 30일 부터, 최소 1개월</p>
                     <p className="text-lg font-bold text-[#bd1e59]">₩330,000/1개월</p>
                   </div>
@@ -67,7 +67,7 @@ export default function SaveSubletInfo(props) {
                   />
                   <div className="flex flex-col justify-between">
                     <h2 className="text-lg font-semibold">저렴하게 지내실 수 있는 제주도 집</h2>
-                    <p className="text-sm">오전7시 하산 완료됨</p>
+                    <p className="text-sm">경기도 하남시 위례동</p>
                     <p className="text-sm">8월 30일 부터, 최소 1개월</p>
                     <p className="text-lg font-bold text-[#bd1e59]">₩330,000/1개월</p>
                   </div>
