@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -64,6 +64,17 @@ export class UserService {
     const exportUser = this.transformExport(user);
     console.log('[user.service:putOneUser] returning function');
     return exportUser;
+  }
+
+  async filterUser(query: UserTagFilterDto) {
+    console.log('[user.servuce:filterUser] starting function');
+    console.log('[user.servuce:filterUser] query: ', query);
+    const res = await this.db.filterUser(query);
+    console.log('[user.servuce:filterUser] res: ', res);
+
+    const ret = res.map((user) => this.transformExport(user));
+    console.log('[user.servuce:filterUser] returning function');
+    return ret;
   }
 
   transformExport(user: UserInterface): UserExportInterface {

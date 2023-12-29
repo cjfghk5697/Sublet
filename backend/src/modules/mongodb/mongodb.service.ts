@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
+  PostFilterQueryDto,
   PostGetAllQueryDto,
   PostUpdateDto,
   PrismaPostCreateDto,
@@ -9,10 +10,16 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MongodbService {
+  USER_VERSION = 2;
+  POST_VERSION = 1;
+  IMAGE_VERSION = 1;
+  INCREMENTKEY_VERSION = 1;
+
   constructor(private prisma: PrismaService) {}
 
   isPositiveInt(val: number, defaultVal: number) {
@@ -23,40 +30,52 @@ export class MongodbService {
   }
 
   async getAllPosts(query: PostGetAllQueryDto) {
-    // 과도하게 높거나 값이 해당 범위가 아니라면 기본값으로 설정
-    query.maxPost = this.isPositiveInt(query.maxPost, 6);
-    if (query.maxPost > 50) query.maxPost = 6;
-    query.page = this.isPositiveInt(query.page, 1);
+    console.log('[mongodb.service:getAllPosts] starting function');
+    console.log('[mongodb.service:getAllPosts] query: ', query);
 
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
     const posts: PostInterface[] = await this.prisma.post.findMany({
       where: {
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
+      skip: query.maxPost * (query.page - 1),
+      take: query.maxPost,
     });
-
-    // 페이지 당 포스트수와 현재 페이지를 기본으로 리스트를 반환
-    return posts.slice(
-      query.maxPost * (query.page - 1),
-      query.maxPost * query.page,
-    );
+    console.log('[mongodb.service:getAllPosts] returning function');
+    return posts;
   }
 
   async getPostKey() {
+    console.log('[mongodb.service:getPostKey] starting function');
+
     // incrementKey 테이블의 첫 번째 데이터를 가져옴
     const data: IncrementkeyInterface | null =
-      await this.prisma.incrementKey.findFirst();
-    if (!data)
+      await this.prisma.incrementKey.findFirst({
+        where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
+        },
+      });
+    console.log(data);
+    if (!data) {
+      console.log(
+        '[mongodb.service:getPostKey] data is null, returning Error!',
+      );
       throw new Error('mongodb.service:getPostKey(), document doesnt exist');
+    }
+    console.log('[mongodb.service:getPostKey] data: ', data);
 
     // postKey를 1 증가시키고 그 값을 받아옴
     const updated: IncrementkeyInterface =
       await this.prisma.incrementKey.update({
         where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
           id: data.id,
         },
         data: { postKey: { increment: 1 } },
       });
+    console.log('[mongodb.service:getPostKey] updated: ', updated);
+    console.log('[mongodb.service:getPostKey] returning function');
 
     // 증가된 postKey 값을 전달
     return updated.postKey;
@@ -82,6 +101,8 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
+        tag: user.tag,
+        version: this.POST_VERSION,
       },
     });
     console.log('[mongodb.service:createPost] returning function');
@@ -95,6 +116,7 @@ export class MongodbService {
     const res: PostInterface | null = await this.prisma.post.findFirst({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
     });
@@ -115,6 +137,7 @@ export class MongodbService {
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
       },
       data: putPostBody,
@@ -130,6 +153,7 @@ export class MongodbService {
     const res: PostInterface = await this.prisma.post.update({
       where: {
         key,
+        version: { gte: this.POST_VERSION },
         deleted: false,
         postuser: {
           user_id: user['user_id'],
@@ -139,8 +163,9 @@ export class MongodbService {
         deleted: true,
       },
     });
+    console.log('[mongodb.service:deleteOnePost] res: ', res);
     console.log('[mongodb.service:deleteOnePost] returning function');
-    return res;
+    return true;
   }
 
   async getImage(filename: string, filetype: string, image_hash: string) {
@@ -150,6 +175,9 @@ export class MongodbService {
     console.log('[mongodb.service:getImage] image_hash: ', image_hash);
     const res: ImageInterface | null = await this.prisma.image.findFirst({
       where: {
+        version: {
+          gte: this.IMAGE_VERSION,
+        },
         filename,
         filetype,
         image_hash,
@@ -175,6 +203,7 @@ export class MongodbService {
         filename,
         filetype,
         image_hash,
+        version: this.IMAGE_VERSION,
       },
     });
     console.log('[mongodb.service:saveImage] returning function');
@@ -187,6 +216,9 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.findFirstOrThrow({
       where: {
         user_id,
+        version: {
+          gte: this.USER_VERSION,
+        },
         delete: false,
       },
     });
@@ -196,7 +228,13 @@ export class MongodbService {
 
   async getAllUser() {
     console.log('[mongodb.service:getAllUser] starting function');
-    const u: UserInterface[] = await this.prisma.user.findMany();
+    const u: UserInterface[] = await this.prisma.user.findMany({
+      where: {
+        version: {
+          gte: this.USER_VERSION,
+        },
+      },
+    });
     console.log('[mongodb.service:getAllUser] returning function');
     return u;
   }
@@ -206,7 +244,10 @@ export class MongodbService {
     console.log('[mongodb.service:getUserByKey] user_id: ', user_id);
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
-        user_id: user_id,
+        user_id,
+        version: {
+          gte: this.USER_VERSION,
+        },
         delete: false,
       },
     });
@@ -223,14 +264,18 @@ export class MongodbService {
   async createUser(data: UserCreateDto) {
     console.log('[mongodb.service:createUser] starting function');
     console.log('[mongodb.service:createUser] data: ', data);
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashPassword;
     const result: UserInterface = await this.prisma.user.create({
-      data: { ...data },
+      data: { ...data, version: this.USER_VERSION },
     });
     if (!result) {
       console.log(
         '[mongodb.service:createUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:createUser] result null');
     }
     console.log('[mongodb.service:createUser] returning function');
     return result;
@@ -243,15 +288,20 @@ export class MongodbService {
     const result: UserInterface | null = await this.prisma.user.findFirst({
       where: {
         user_id,
-        password,
+        version: { gte: this.USER_VERSION },
         delete: false,
       },
     });
-    if (!result) {
+
+    const password_result = await bcrypt.compare(password, result!.password);
+    console.log(password_result);
+    if (!result || !password_result) {
       console.log(
         '[mongodb.service:validateUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error(
+        '[mongodb.service:validateUser] user_id or password is wrong',
+      );
     }
     console.log('[mongodb.service:validateUser] returning function');
     return result;
@@ -264,6 +314,7 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
         delete: false,
       },
       data: putUserBody,
@@ -272,7 +323,7 @@ export class MongodbService {
       console.log(
         '[mongodb.service:putOneUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:putOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:putOneUser] returning function');
     return res;
@@ -284,6 +335,7 @@ export class MongodbService {
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
         delete: false,
       },
       data: {
@@ -294,9 +346,56 @@ export class MongodbService {
       console.log(
         '[mongodb.service:deleteOneUser] result is null, returning Error!',
       );
-      throw Error();
+      throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
+    return res;
+  }
+
+  async filterPost(query: PostFilterQueryDto) {
+    console.log('[mongodb.service:filterPost] starting function');
+    const post_date = {
+      gt: new Date(query.fromDate || '0'),
+      lt: new Date(query.toDate || '9999-12-31'),
+    };
+    const range_price = {
+      gte: query.fromPrice || 0,
+      lte: query.toPrice || 90000000,
+    };
+
+    console.log('[mongodb.service:filterPost] post_date: ', post_date);
+    console.log('[mongodb.service:filterPost] range_price: ', range_price);
+    console.log('[mongodb.service:filterPost] query: ', query);
+    const res: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        version: { gte: this.POST_VERSION },
+        post_date: post_date,
+        price: range_price,
+        request: true,
+        position: query.position,
+        tag: { hasEvery: query.tag },
+        min_duration: { lte: query.fromDuration || 1000000 },
+        max_duration: { gte: query.toDuration || 0 },
+        limit_people: query.limit_people,
+        number_room: query.number_room,
+        number_bathroom: query.number_bathroom,
+        number_bedroom: query.number_bedroom,
+      },
+    });
+    console.log('[mongodb.service:filterPost] returning function');
+    return res;
+  }
+
+  async filterUser(query: UserTagFilterDto) {
+    console.log('[mongodb.service:filterUser] starting function');
+    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    const res: UserInterface[] = await this.prisma.user.findMany({
+      where: {
+        version: { gte: this.USER_VERSION },
+        tag: { hasEvery: query.tag },
+      },
+    });
+    console.log('[mongodb.service:filterUser] returning function');
     return res;
   }
 }

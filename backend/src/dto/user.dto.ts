@@ -1,10 +1,10 @@
-import { UserBase } from '@/interface/user.interface';
+import { UserBase, UserPartialBase } from '@/interface/user.interface';
 import {
   IsEmail,
   IsPhoneNumber,
   IsStrongPassword,
-  IsString,
   IsOptional,
+  IsArray,
 } from 'class-validator';
 
 export class UserCreateDto extends UserBase {
@@ -16,26 +16,31 @@ export class UserCreateDto extends UserBase {
 
   @IsPhoneNumber()
   phone: string;
+
+  @IsArray()
+  tag: string[];
 }
 
-export class UserUpdateDto extends UserBase {
-  @IsOptional()
-  @IsString()
-  user_id: string;
-
-  @IsOptional()
-  @IsString()
-  username: string;
-
+export class UserUpdateDto extends UserPartialBase {
   @IsOptional()
   @IsStrongPassword()
-  password: string;
+  password?: string;
 
   @IsOptional()
   @IsPhoneNumber()
-  phone: string;
+  phone?: string;
 
   @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
+
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
+}
+
+export class UserTagFilterDto {
+  @IsOptional()
+  @IsArray()
+  tag?: string[];
 }

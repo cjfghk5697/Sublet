@@ -1,122 +1,271 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService } from './post.service';
-import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbService } from '../mongodb/mongodb.service';
-import { ImageInterface } from '@/interface/image.interface';
+import { PostExportInterface } from '@/interface/post.interface';
+import {
+  filterStub,
+  imageStub,
+  multerFileStub,
+  postExportStub,
+  postStub,
+  userStub,
+} from '../mongodb/__mocks__/stubs/mongodb.stub';
+
+jest.mock('../mongodb/mongodb.service');
 
 describe('PostService', () => {
   let service: PostService;
-  let mongodbService: MongodbService;
-
-  const post_dblist = [
-    {
-      id: '65100ecb1c9989e2d831bf6e',
-      key: 23,
-      basic_info: '123',
-      benefit: 'asdf2',
-      description: 'asdf3',
-      end_day: '2020-02-08T00:00:00.000Z',
-      extra_info: '222',
-      image_id: [],
-      max_duration: 3,
-      min_duration: 5,
-      position: '포지션',
-      refund_policy: '',
-      rule: '부수면 ',
-      start_day: '2020-02-06T00:00:00.000Z',
-      title: 'asdfasdf',
-      postuser_id: '6510082a65107d44949da19f',
-      deleted: false,
-      post_date: '2023-09-24T10:26:19.860Z',
-    },
-    {
-      id: '65100ef1bb89ee8dede40a8c',
-      key: 24,
-      basic_info: 'asdf',
-      benefit: 'asdf2',
-      description: 'asdf3',
-      end_day: '2020-02-08T00:00:00.000Z',
-      extra_info: '222',
-      image_id: [],
-      max_duration: 3,
-      min_duration: 5,
-      position: '포지션',
-      refund_policy: '',
-      rule: '부수면 ',
-      start_day: '2020-02-06T00:00:00.000Z',
-      title: '제일중요한 겁나멋있는 제목',
-      postuser_id: '6510082a65107d44949da19f',
-      deleted: false,
-      post_date: '2023-09-24T10:26:57.608Z',
-    },
-  ];
-
-  const image_dblist: ImageInterface[] = [];
+  let mongoDbService: MongodbService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MongodbModule],
-      providers: [PostService],
+      imports: [],
+      providers: [PostService, MongodbService],
     }).compile();
 
     service = module.get<PostService>(PostService);
-    mongodbService = module.get(MongodbService);
-    jest.spyOn(mongodbService, 'getAllPosts').mockImplementation(async () => {
-      return post_dblist;
-    });
-    jest
-      .spyOn(mongodbService, 'saveImage')
-      .mockImplementation(
-        async (filename: string, filetype: string, image_hash: string) => {
-          const res = {
-            id: image_dblist.length.toString(),
-            filename,
-            filetype,
-            image_hash,
-          };
-          image_dblist.push(res);
-          return res;
-        },
-      );
-    jest
-      .spyOn(mongodbService, 'getImage')
-      .mockImplementation(
-        async (filename: string, filetype: string, image_hash: string) => {
-          const res = image_dblist.find((ele) => {
-            return (
-              ele.filename == filename &&
-              ele.filetype == filetype &&
-              ele.image_hash == image_hash
-            );
-          });
-          if (!res) throw Error();
-          return res;
-        },
-      );
-    /*jest
-      .spyOn(mongodbService, 'deleteOnePost')
-      .mockImplementation(async (key: number, user: UserInterface) => {
-        post_dblist.forEach(ele => {
-          //to be implemented
-        })
-      });*/
+    mongoDbService = module.get(MongodbService);
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('GET /POST get all posts', () => {
-    it('get all posts', async () => {
-      const result = await service.getAllPosts({ maxPost: NaN, page: NaN });
-      expect(result).toHaveLength(2);
+  describe('TESTING getAllPosts (GET /post)', () => {
+    describe('When calling with NaN parameters', () => {
+      let result: PostExportInterface[] | Error;
+      beforeEach(async () => {
+        try {
+          result = await service.getAllPosts({ maxPost: NaN, page: NaN });
+        } catch (e) {
+          result = e;
+        }
+      });
+
+      it('should call db with default parameters', async () => {
+        expect(mongoDbService.getAllPosts).toHaveBeenCalledWith({
+          maxPost: 6,
+          page: 1,
+        });
+      });
+
+      it('should return one post', () => {
+        expect(result).toEqual([postExportStub()]);
+      });
+    });
+
+    describe('when callling with number parameters', () => {
+      let result: PostExportInterface[] | Error;
+      beforeEach(async () => {
+        try {
+          result = await service.getAllPosts({ maxPost: 10, page: 2 });
+        } catch (e) {
+          result = e;
+        }
+      });
+
+      it('result should be array', () => {
+        expect(result).toBeInstanceOf(Array);
+      });
+
+      it('should call db with given parameters', async () => {
+        expect(mongoDbService.getAllPosts).toHaveBeenCalledWith({
+          maxPost: 10,
+          page: 2,
+        });
+      });
+    });
+
+    describe('when calling with negative numbers', () => {
+      let result: PostExportInterface[] | Error;
+      beforeEach(async () => {
+        try {
+          result = await service.getAllPosts({ maxPost: -1, page: -10 });
+        } catch (e) {
+          result = e;
+        }
+      });
+
+      it('should return one post', () => {
+        expect(result).toEqual([postExportStub()]);
+      });
+
+      it('should call db with default parameters', async () => {
+        expect(mongoDbService.getAllPosts).toHaveBeenCalledWith({
+          maxPost: 6,
+          page: 1,
+        });
+      });
     });
   });
 
-  describe('POST /POST', () => {
-    it('', async () => {
-      const result = await service.getAllPosts({ maxPost: NaN, page: NaN });
-      expect(result).toHaveLength(2);
+  describe('TESTING createPost (POST /post)', () => {
+    describe('when calling with normal input', () => {
+      let result: PostExportInterface | undefined;
+
+      beforeEach(async () => {
+        try {
+          result = await service.createPost(
+            [multerFileStub()],
+            postStub(),
+            userStub(),
+          );
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return interface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to upload image', () => {
+        expect(mongoDbService.saveImage).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to upload image with given parameters', () => {
+        expect(mongoDbService.saveImage).toHaveBeenCalledWith(
+          multerFileStub().originalname,
+          multerFileStub().mimetype,
+          'e8b2e35ef48996ac55a7519640fbeee4fd7f2d595376a663ec873f562703b2dc',
+        );
+      });
+
+      it('then should call db to create post', () => {
+        expect(mongoDbService.createPost).toHaveBeenCalledTimes(1);
+        const post = postStub();
+        post['start_day'] = new Date(post['start_day']);
+        post['end_day'] = new Date(post['end_day']);
+        post['image_id'] = [imageStub().id];
+        expect(mongoDbService.createPost).toHaveBeenCalledWith(
+          post,
+          userStub(),
+        );
+      });
+    });
+  });
+
+  describe('TESTING getOnePost (GET /post/:postKey)', () => {
+    describe('when calling with normal number', () => {
+      let result: PostExportInterface | undefined;
+      const postKey = 15;
+      beforeEach(async () => {
+        try {
+          result = await service.getOnePost(postKey);
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return interface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to get one post', () => {
+        expect(mongoDbService.getOnePost).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to get one post with given parameters', () => {
+        expect(mongoDbService.getOnePost).toHaveBeenCalledWith(postKey);
+      });
+    });
+  });
+
+  describe('TESTING putOnePost (PUT /post/:postKey)', () => {
+    describe('when calling with post update inputs', () => {
+      let result: PostExportInterface | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.putOnePost(15, [multerFileStub()], postStub());
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to update post', () => {
+        expect(mongoDbService.putOnePost).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to update post with given parameters', () => {
+        const callPost = {
+          ...postStub(),
+          image_id: [imageStub().id],
+        };
+        callPost['start_day'] = new Date(callPost['start_day']);
+        callPost['end_day'] = new Date(callPost['end_day']);
+        expect(mongoDbService.putOnePost).toHaveBeenCalledWith(15, callPost);
+      });
+
+      it("then should call db to get post's image", () => {
+        expect(mongoDbService.getImage).toHaveBeenCalledTimes(1);
+      });
+
+      it("then should call db to get post's image with given parameters", () => {
+        expect(mongoDbService.getImage).toHaveBeenCalledWith(
+          multerFileStub().originalname,
+          multerFileStub().mimetype,
+          'e8b2e35ef48996ac55a7519640fbeee4fd7f2d595376a663ec873f562703b2dc',
+        );
+      });
+    });
+  });
+
+  describe('TESTING deleteOnePost (DELETE /post/:postKey)', () => {
+    describe('when calling with post delete inputs', () => {
+      let result: boolean | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.deleteOnePost(15, userStub());
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return boolean', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to delete post', () => {
+        expect(mongoDbService.deleteOnePost).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to delete post with given parameters', () => {
+        expect(mongoDbService.deleteOnePost).toHaveBeenCalledWith(
+          15,
+          userStub(),
+        );
+      });
+    });
+  });
+
+  describe('TESTING filterPost', () => {
+    describe('when calling with post filter query', () => {
+      let result: PostExportInterface[] | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.filterPost(filterStub());
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return array', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual([postExportStub()]);
+      });
+
+      it('then should call db to filter post', () => {
+        expect(mongoDbService.filterPost).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to filter post with given parameters', () => {
+        expect(mongoDbService.filterPost).toHaveBeenCalledWith(filterStub());
+      });
     });
   });
 });

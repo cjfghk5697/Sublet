@@ -9,10 +9,16 @@ import {
   Delete,
   Body,
   BadRequestException,
+  UnauthorizedException,
+  Req,
+  Res,
+  Query,
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
-import { UserCreateDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { customRequest } from '@/interface/user.interface';
+import { Response } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -20,23 +26,29 @@ export class UserController {
 
   @UseGuards(LoggedInGuard)
   @Get()
-  async getAllUser() {
+  async getAllUser(@Req() req: customRequest) {
     console.log('[user.controller:getAllUser] starting function');
+    return req.user;
+  }
+
+  @Get('filter')
+  async filterUser(@Query() query: UserTagFilterDto) {
+    console.log('[user.controller:filterUser] starting function');
     try {
-      const res = await this.userService.getAllUser();
-      console.log('[user.controller:getAllUser] res: ', res);
+      const res = await this.userService.filterUser(query);
+      console.log('[user.controller:filterUser] res: ', res);
       return res;
     } catch (e) {
-      console.log('[user.controller:getAllUser] error: ', e);
-      return { ok: false };
+      console.log('[user.controller:filterUser] error: ', e);
+      throw new BadRequestException();
     }
   }
 
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
+    console.log('[user.controller:getOneUser] starting function');
+    console.log('[user.controller:getOneUser] user_id: ', user_id);
     try {
-      console.log('[user.controller:getOneUser] starting function');
-      console.log('[user.controller:getOneUser] user_id: ', user_id);
       const res = await this.userService.getUserByKey(user_id);
       console.log('[user.controller:getOneUser] res: ', res);
       return res;
@@ -48,9 +60,9 @@ export class UserController {
 
   @Post()
   async createUser(@Body() data: UserCreateDto) {
+    console.log('[user.controller:createUser] starting function');
+    console.log('[user.controller:createUser] data: ', data);
     try {
-      console.log('[user.controller:createUser] starting function');
-      console.log('[user.controller:createUser] data: ', data);
       const res = await this.userService.createUser(data);
       console.log('[user.controller:createUser] res: ', res);
       return res;
@@ -65,11 +77,18 @@ export class UserController {
   async putOneUser(
     @Param('user_id') user_id: string,
     @Body() putUserBody: UserUpdateDto,
+    @Req() req: customRequest,
   ) {
+    console.log('[user.controller:putOneUser] starting function');
+    console.log('[user.controller:putOneUser] user_id: ', user_id);
+    console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
+    if (req.user.user_id !== user_id) {
+      console.log(
+        '[user.controller:putOneUser] user_id is not same as req.user.user_id',
+      );
+      throw new UnauthorizedException();
+    }
     try {
-      console.log('[user.controller:putOneUser] starting function');
-      console.log('[user.controller:putOneUser] user_id: ', user_id);
-      console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
       const res = await this.userService.putOneUser(user_id, putUserBody);
       console.log('[user.controller:putOneUser] res: ', res);
       return res;
@@ -81,13 +100,29 @@ export class UserController {
 
   @Delete(':user_id')
   @UseGuards(LoggedInGuard)
-  async deleteOneUser(@Param('user_id') user_id: string) {
+  async deleteOneUser(
+    @Param('user_id') user_id: string,
+    @Req() req: customRequest,
+    @Res() res: Response,
+  ) {
+    console.log('[user.controller:deleteOneUser] starting function');
+    console.log('[user.controller:deleteOneUser] user_id: ', user_id);
+    if (req.user.user_id !== user_id) {
+      console.log(
+        '[user.controller:deleteOneUser] user_id is not same as req.user.user_id',
+      );
+      throw new UnauthorizedException();
+    }
     try {
-      console.log('[user.controller:deleteOneUser] starting function');
-      console.log('[user.controller:deleteOneUser] user_id: ', user_id);
-      const res = await this.userService.deleteOneUser(user_id);
-      console.log('[user.controller:deleteOneUser] res: ', res);
-      return res;
+      const ret = await this.userService.deleteOneUser(user_id);
+      console.log('[user.controller:deleteOneUser] res: ', ret);
+      req.logOut(function (err) {
+        //middleware에 function은 err. req,res,next가 들어갈수 있다.
+        if (err) {
+          throw new Error();
+        }
+        res.send({ ok: true });
+      });
     } catch (e) {
       console.log('[user.controller:deleteOneUser] error: ', e);
       throw new NotFoundException();
