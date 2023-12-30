@@ -81,6 +81,7 @@ export class UserService {
     delete (user as { phone?: string }).phone;
     delete (user as { password?: string }).password;
     delete (user as { delete?: boolean }).delete;
+    delete (user as { version?: number }).version;
     return user;
   }
 }

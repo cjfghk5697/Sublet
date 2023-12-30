@@ -2,20 +2,21 @@ import { PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { UserInterface } from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
 
 export const userStub = (): UserInterface => {
   return {
-    id: 'mocked-id3',
-    user_id: 'mocked-user_id3',
-    username: 'mocked-name3',
-    email: 'mocked-email3',
-    phone: 'mocked-phone3',
-    password: 'mocked-password3',
+    id: 'mocked-id',
+    user_id: 'mocked-user_id',
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    phone: '+82010-1234-5678',
+    password: 'Mocked-password1)',
     delete: false,
     version: 1,
-    tag: ['mocked-tag3'],
+    tag: ['mocked-tag'],
+    request: false,
   };
 };
 
@@ -89,11 +90,22 @@ export const filterStub = (): PostFilterQueryDto => {
 
 export const userCreateStub = (): UserCreateDto => {
   return {
-    username: 'mocked-username',
-    email: 'mocked@mocked.com',
-    phone: '+82010-1234-5678',
-    password: 'Mocked-password1)',
-    tag: ['mocked-tag'],
-    user_id: 'mocked-user_id',
+    username: userStub().username,
+    email: userStub().email,
+    phone: userStub().phone,
+    password: userStub().password,
+    tag: userStub().tag,
+    user_id: userStub().user_id,
+  };
+};
+
+export const userExportStub = (id: string): UserExportInterface => {
+  return {
+    id,
+    username: userStub().username,
+    email: userStub().email,
+    user_id: userStub().user_id,
+    tag: userStub().tag,
+    request: userStub().request,
   };
 };

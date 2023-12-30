@@ -5,10 +5,14 @@ import { AppModule } from '@/app.module';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { ValidationPipe } from '@nestjs/common';
 import { MongodbService } from '@/modules/mongodb/mongodb.service';
-import { userCreateStub } from '@/modules/mongodb/__mocks__/stubs/mongodb.stub';
+import {
+  userCreateStub,
+  userExportStub,
+  userStub,
+} from '@/modules/mongodb/__mocks__/stubs/mongodb.stub';
 
 describe('AppController (e2e)', () => {
-  const time = 20000;
+  const time = 5000;
   let app: INestApplication;
   let _prisma: PrismaService;
   let _mongodb: MongodbService;
@@ -37,11 +41,11 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  /*beforeEach(async () => {
+  beforeEach(async () => {
     console.log('clearing start');
-    // await prisma.clearDatabase();
+    await _prisma.clearDatabase();
     console.log('clearing end');
-  });*/
+  });
 
   it(
     '/ (GET)',
@@ -56,7 +60,7 @@ describe('AppController (e2e)', () => {
 
   describe('about making user', () => {
     it(
-      'get not existing user should fail',
+      'get non-existing user should fail',
       async () => {
         return request(app.getHttpServer())
           .get('/user/mocked-user_id')
@@ -71,11 +75,17 @@ describe('AppController (e2e)', () => {
         await request(app.getHttpServer())
           .post('/user')
           .send(userCreateStub())
-          .expect(201);
+          .expect(201)
+          .expect(({ body }) => {
+            expect(body).toStrictEqual(userExportStub(body.id));
+          });
 
         return request(app.getHttpServer())
-          .get('/user/mocked-user_id')
-          .expect(200);
+          .get(`/user/${userCreateStub().user_id}`)
+          .expect(200)
+          .expect(({ body }) => {
+            expect(body).toStrictEqual(userExportStub(body.id));
+          });
       },
       time,
     );
@@ -83,11 +93,18 @@ describe('AppController (e2e)', () => {
     it(
       'cannot login to non-existing user',
       async () => {
+        await request(app.getHttpServer())
+          .get(`/user/${userCreateStub().user_id}`)
+          .expect(({ body }) => {
+            console.log(body);
+          })
+          .expect(404);
+
         return request(app.getHttpServer())
           .post('/auth/login')
           .send({
-            id: 'mocked-user_id',
-            password: 'mocked-password',
+            id: userStub().user_id,
+            password: userStub().password,
           })
           .expect(401);
       },
@@ -105,8 +122,8 @@ describe('AppController (e2e)', () => {
         return request(app.getHttpServer())
           .post('/auth/login')
           .send({
-            id: 'mocked-user_id',
-            password: 'Mocked-password1)',
+            id: userStub().user_id,
+            password: userStub().password,
           })
           .expect(201)
           .expect({ ok: true });
