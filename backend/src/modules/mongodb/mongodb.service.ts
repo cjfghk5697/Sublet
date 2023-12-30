@@ -101,7 +101,7 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
-        tag: user.tag,
+        school: user.school,
         version: this.POST_VERSION,
       },
     });
@@ -373,7 +373,7 @@ export class MongodbService {
         price: range_price,
         request: true,
         position: query.position,
-        tag: { hasEvery: query.tag },
+        school: query.school,
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },
         limit_people: query.limit_people,
@@ -388,11 +388,11 @@ export class MongodbService {
 
   async filterUser(query: UserTagFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    console.log('[mongodb.service:filterUser] post_date: ', query.school);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
         version: { gte: this.USER_VERSION },
-        tag: { hasEvery: query.tag },
+        school: query.school,
       },
     });
     console.log('[mongodb.service:filterUser] returning function');
