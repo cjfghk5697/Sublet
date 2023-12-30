@@ -149,7 +149,7 @@ describe('PostService', () => {
   describe('TESTING getOnePost (GET /post/:postKey)', () => {
     describe('when calling with normal number', () => {
       let result: PostExportInterface | undefined;
-      const postKey = 15;
+      const postKey = postStub().key;
       beforeEach(async () => {
         try {
           result = await service.getOnePost(postKey);
@@ -160,6 +160,7 @@ describe('PostService', () => {
 
       it('then should return interface', () => {
         expect(result).toBeDefined();
+        expect(result?.key).toEqual(postKey);
       });
 
       it('then should call db to get one post', () => {
@@ -177,7 +178,11 @@ describe('PostService', () => {
       let result: PostExportInterface | undefined;
       beforeEach(async () => {
         try {
-          result = await service.putOnePost(15, [multerFileStub()], postStub());
+          result = await service.putOnePost(
+            postStub().key,
+            [multerFileStub()],
+            postStub(),
+          );
         } catch (e) {
           result = undefined;
         }
@@ -185,6 +190,7 @@ describe('PostService', () => {
 
       it('then should return ExportInterface', () => {
         expect(result).toBeDefined();
+        expect(result).toEqual(postExportStub());
       });
 
       it('then should call db to update post', () => {
