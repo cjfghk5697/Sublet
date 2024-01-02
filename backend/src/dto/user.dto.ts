@@ -40,7 +40,7 @@ export class UserUpdateDto extends UserPartialBase {
   school?: string; //어디 학교인지
 }
 
-export class UserTagFilterDto {
+export class UserFilterDto {
   @IsOptional()
   @IsArray()
   school?: string;
