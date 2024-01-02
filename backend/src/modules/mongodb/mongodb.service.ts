@@ -10,12 +10,12 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MongodbService {
-  USER_VERSION = 2;
+  USER_VERSION = 1;
   POST_VERSION = 1;
   IMAGE_VERSION = 1;
   INCREMENTKEY_VERSION = 1;
@@ -349,7 +349,7 @@ export class MongodbService {
       throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
-    return res;
+    return true;
   }
 
   async filterPost(query: PostFilterQueryDto) {
@@ -386,7 +386,7 @@ export class MongodbService {
     return res;
   }
 
-  async filterUser(query: UserTagFilterDto) {
+  async filterUser(query: UserFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
     console.log('[mongodb.service:filterUser] post_date: ', query.school);
     const res: UserInterface[] = await this.prisma.user.findMany({

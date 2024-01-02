@@ -21,14 +21,14 @@ export class UserPartialBase {
 export class UserExportInterface extends UserBase {
   id: string;
   email: string;
+  school: string;
+  phone: string;
 }
 
 export class UserInterface extends UserExportInterface {
-  phone: string;
   password: string;
   delete: boolean;
   version: number;
-  school: string;
 }
 
 export interface customRequest extends Express.Request {
