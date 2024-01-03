@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './pages/Home';
 import RoomInfo from './pages/RoomInfo';
-import SaveSubletInfo from './pages/SaveSubletInfo';
+import SaveSubletInfo from './pages/SearchSubletInfo';
 import ReHome from './pages/ReHome';
 import Booking from './pages/Booking';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
@@ -17,7 +17,7 @@ function App() {
         {/* 기본 페이지 */}
         <Route path="/" element={<Home />} />
         <Route path="/roominfo" element={<RoomInfo />} />
-        <Route path="/SaveSubletInfo" element={<SaveSubletInfo room={roomTempData[0]} />} />
+        <Route path="/SearchSubletInfo" element={<SaveSubletInfo room={roomTempData[0]} />} />
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
       </Routes>

@@ -42,7 +42,7 @@ export default function Home() {
       {/* 임시 페이지들 링크*/}
       놀라지마세요! 임시 페이지들 링크에요.
       <Link to="/RoomInfo">RoomInfo</Link>
-      <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
+      <Link to="/SearchSubletInfo">SearchSubletInfo</Link>
       <Link to="/ReHome">ReHome</Link>
       <Link to="/Booking">Booking</Link>
       <Header />
