@@ -25,7 +25,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: test
       MONGO_INITDB_ROOT_PASSWORD: testpwd
-      MONGO_INITDB_DATABASE: mongo
+      MONGO_INITDB_DATABASE: Sublet
       MONGO_REPLICA_HOST: mongo
       MONGO_REPLICA_PORT: "27017"
     ports:

@@ -75,7 +75,7 @@ export class PostController {
       console.log("[post.controller:createPost] req.user doesn't exist");
       throw new UnauthorizedException();
     }
-    if (file.length == 0) {
+    if (!file || file.length == 0) {
       console.log(
         "[post.controller:createPost] file is empty, we're assuming bad request",
       );

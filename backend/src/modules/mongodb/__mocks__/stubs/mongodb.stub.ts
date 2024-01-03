@@ -1,4 +1,4 @@
-import { PostFilterQueryDto } from '@/dto/post.dto';
+import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
@@ -20,7 +20,7 @@ export const userStub = (): UserInterface => {
   };
 };
 
-export const postExportStub = (): PostExportInterface => {
+export const postCreateStub = (): PostCreateDto => {
   return {
     basic_info: 'mocked-basic_info',
     benefit: 'mocked-benefit',
@@ -35,14 +35,20 @@ export const postExportStub = (): PostExportInterface => {
     start_day: '2000-01-01',
     title: 'mocked-title',
     price: 1,
-    key: 1,
-    image_id: ['mocked-image_id'],
-    postuser_id: 'mocked-postuser_id',
-    post_date: 'mocked-post_date',
     limit_people: 3,
     number_room: 3,
     number_bathroom: 3,
     number_bedroom: 3,
+  };
+};
+
+export const postExportStub = (): PostExportInterface => {
+  return {
+    ...postCreateStub(),
+    key: 1,
+    image_id: ['mocked-image_id'],
+    postuser_id: 'mocked-postuser_id',
+    post_date: 'mocked-post_date',
   };
 };
 
