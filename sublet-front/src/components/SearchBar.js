@@ -4,6 +4,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material'
 import * as makeTest from '../testdata/testdata.js'
+import DatepickerComponent from './DatepickerComponent';
 
 const recommendWordTempData = makeTest.makeTestRecommendSearch(); // This is a temporary data for testing
 
@@ -75,13 +76,14 @@ export default function SearchBar() {
     )
   });
 
-  return (
+  return ( // 위치 기반 검색 기능은 지환이 형 코드 완성되면 참고해서 추가
     <div style={styles.container}>
       <div style={styles.searchBoxContainer}>
         <IconButton style={styles.searchByLocation}>
           위치
           <LocationOnIcon />
         </IconButton>
+        <DatepickerComponent />
         <IconButton style={styles.serachByDate}>
           날짜
           <DateRangeOutlinedIcon />
