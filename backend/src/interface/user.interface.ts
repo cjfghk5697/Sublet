@@ -21,12 +21,11 @@ export class UserPartialBase {
 export class UserExportInterface extends UserBase {
   id: string;
   email: string;
-  tag: string[];
-  request: boolean;
+  school: string;
+  phone: string;
 }
 
 export class UserInterface extends UserExportInterface {
-  phone: string;
   password: string;
   delete: boolean;
   version: number;

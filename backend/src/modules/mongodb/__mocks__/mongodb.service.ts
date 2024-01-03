@@ -11,7 +11,7 @@ export const MongodbService = jest.fn().mockReturnValue({
   saveImage: jest.fn().mockReturnValue(imageStub()),
   getOneUser: jest.fn().mockReturnValue(userStub()),
   getAllUser: jest.fn().mockReturnValue([userStub()]),
-  getUsersByKey: jest.fn().mockReturnValue(userStub()),
+  getUserByKey: jest.fn().mockReturnValue(userStub()),
   createUser: jest.fn().mockReturnValue(userStub()),
   validateUser: jest.fn().mockReturnValue(userStub()),
   putOneUser: jest.fn().mockReturnValue(userStub()),

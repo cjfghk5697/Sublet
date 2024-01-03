@@ -1,5 +1,5 @@
-import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
-import { UserCreateDto } from '@/dto/user.dto';
+import { PostFilterQueryDto } from '@/dto/post.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
@@ -15,8 +15,18 @@ export const userStub = (): UserInterface => {
     password: 'Mocked-password1)',
     delete: false,
     version: 1,
-    tag: ['mocked-tag'],
-    request: false,
+    school: 'ABC Univ',
+  };
+};
+
+export const userExportStub = (): UserExportInterface => {
+  return {
+    id: 'mocked-id3',
+    user_id: 'mocked-user_id3',
+    username: 'mocked-name3',
+    email: 'mocked-email3',
+    phone: 'mocked-phone3',
+    school: 'ABC Univ',
   };
 };
 
@@ -39,6 +49,10 @@ export const postCreateStub = (): PostCreateDto => {
     number_room: 3,
     number_bathroom: 3,
     number_bedroom: 3,
+    accomodation_type: '전대', //건물 유형
+    building_type: '아파트', //아파트인지, 주택인지
+    contract: false,
+    school: 'ABC univ',
   };
 };
 
@@ -96,22 +110,27 @@ export const filterStub = (): PostFilterQueryDto => {
 
 export const userCreateStub = (): UserCreateDto => {
   return {
-    username: userStub().username,
-    email: userStub().email,
-    phone: userStub().phone,
-    password: userStub().password,
-    tag: userStub().tag,
-    user_id: userStub().user_id,
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    phone: '+82010-1234-5678',
+    password: 'Mocked-password1)',
+    school: 'ABC univ',
+    user_id: 'mocked-user_id',
+  };
+};
+export const userUpdateStub = (): UserUpdateDto => {
+  return {
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    phone: '+82010-1234-5678',
+    password: 'Mocked-password1))',
+    school: 'ABC univ',
+    user_id: 'mocked-user_id',
   };
 };
 
-export const userExportStub = (id: string): UserExportInterface => {
+export const userFilterStub = (): UserFilterDto => {
   return {
-    id,
-    username: userStub().username,
-    email: userStub().email,
-    user_id: userStub().user_id,
-    tag: userStub().tag,
-    request: userStub().request,
+    school: 'ABC univ',
   };
 };
