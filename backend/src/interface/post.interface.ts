@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDateString,
   IsInt,
   IsNumber,
@@ -60,6 +61,18 @@ export class PostBase {
 
   @IsNumber()
   number_bedroom: number;
+
+  @IsString()
+  school: string; //어디 학교인지
+
+  @IsString()
+  accomodation_type: string; //건물 유형
+
+  @IsString()
+  building_type: string; //아파트인지, 주택인지
+
+  @IsBoolean()
+  contract: boolean;
 }
 
 export class PostPartialBase {
@@ -117,6 +130,22 @@ export class PostPartialBase {
   @IsNumber()
   @IsOptional()
   price?: number;
+
+  @IsOptional()
+  @IsString()
+  school?: string; //어디 학교인지
+
+  @IsOptional()
+  @IsString()
+  accomodation_type?: string; //건물 유형
+
+  @IsOptional()
+  @IsString()
+  building_type?: string; //아파트인지, 주택인지
+
+  @IsOptional()
+  @IsBoolean()
+  contract?: boolean;
 }
 
 export class PostExportInterface extends PostBase {

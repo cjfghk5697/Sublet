@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -49,11 +49,9 @@ export class UserService {
   async deleteOneUser(user_id: string) {
     console.log('[user.service:deleteOneUser] starting function');
     console.log('[user.service:deleteOneUser] user_id: ', user_id);
-    const user = await this.db.deleteOneUser(user_id);
-    console.log('[user.service:deleteOneUser] user: ', user);
-    const exportUser = this.transformExport(user);
+    const res = await this.db.deleteOneUser(user_id);
     console.log('[user.service:deleteOneUser] returning function');
-    return exportUser;
+    return res;
   }
   async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
     console.log('[user.service:putOneUser] starting function');
@@ -66,7 +64,7 @@ export class UserService {
     return exportUser;
   }
 
-  async filterUser(query: UserTagFilterDto) {
+  async filterUser(query: UserFilterDto) {
     console.log('[user.servuce:filterUser] starting function');
     console.log('[user.servuce:filterUser] query: ', query);
     const res = await this.db.filterUser(query);
@@ -78,9 +76,10 @@ export class UserService {
   }
 
   transformExport(user: UserInterface): UserExportInterface {
-    delete (user as { phone?: string }).phone;
     delete (user as { password?: string }).password;
     delete (user as { delete?: boolean }).delete;
+    delete (user as { version?: number }).version;
+
     return user;
   }
 }
