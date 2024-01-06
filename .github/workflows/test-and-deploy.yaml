@@ -5,10 +5,8 @@ on:
     branches:
       - main
   pull_request:
-    types:
-      - opened
     paths:
-      - "backend/**/*"
+      - "backend/**"
 
 jobs:
   run-test:
