@@ -204,7 +204,10 @@ describe('PostService', () => {
         };
         callPost['start_day'] = new Date(callPost['start_day']);
         callPost['end_day'] = new Date(callPost['end_day']);
-        expect(mongoDbService.putOnePost).toHaveBeenCalledWith(15, callPost);
+        expect(mongoDbService.putOnePost).toHaveBeenCalledWith(
+          postStub().key,
+          callPost,
+        );
       });
 
       it("then should call db to get post's image", () => {
@@ -226,7 +229,7 @@ describe('PostService', () => {
       let result: boolean | undefined;
       beforeEach(async () => {
         try {
-          result = await service.deleteOnePost(15, userStub());
+          result = await service.deleteOnePost(postStub().key, userStub());
         } catch (e) {
           result = undefined;
         }
@@ -242,7 +245,7 @@ describe('PostService', () => {
 
       it('then should call db to delete post with given parameters', () => {
         expect(mongoDbService.deleteOnePost).toHaveBeenCalledWith(
-          15,
+          postStub().key,
           userStub(),
         );
       });
