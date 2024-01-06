@@ -58,6 +58,6 @@ jobs:
             echo "DATABSE_URL=\"${{ secrets.ENV_DATABASE_URL }}\"
             NODE_ENV=\"${{ secrets.NODE_ENV }}\"
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
-            " > .env
+            " > backend/.env
             docker compose down -v
             docker compose up -d --build
