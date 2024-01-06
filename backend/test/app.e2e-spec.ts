@@ -6,7 +6,6 @@ import { PrismaService } from '@/modules/prisma/prisma.service';
 import { ValidationPipe } from '@nestjs/common';
 import { MongodbService } from '@/modules/mongodb/mongodb.service';
 import {
-  postStub,
   postExportStub,
   userCreateStub,
   userExportStub,
@@ -14,7 +13,7 @@ import {
   postCreateStub,
 } from '@/modules/mongodb/__mocks__/stubs/mongodb.stub';
 import { join } from 'path';
-import { unlink, readdir, readFile } from 'fs/promises';
+import { unlink, readdir } from 'fs/promises';
 
 describe('AppController (e2e)', () => {
   const time = 5000;
@@ -43,31 +42,30 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  beforeEach(async () => {
-    await _prisma.clearDatabase();
+  const deleteAllFilesInDir = async (dir: string) => {
     try {
-      const files = await readdir('./sessions');
+      const files = await readdir(dir);
       for (const file of files) {
         console.log(file);
-        await unlink(join('./sessions', file));
+        if (file === '.placeholder') continue;
+        await unlink(join(dir, file));
       }
     } catch (e) {
       console.log(e);
       throw e;
     }
+  };
+
+  beforeEach(async () => {
+    await _prisma.clearDatabase();
+    await deleteAllFilesInDir('./sessions');
+    await deleteAllFilesInDir('./public');
   });
 
   afterAll(async () => {
-    try {
-      const files = await readdir('./sessions');
-      for (const file of files) {
-        console.log(file);
-        await unlink(join('./sessions', file));
-      }
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
+    await _prisma.clearDatabase();
+    await deleteAllFilesInDir('./sessions');
+    await deleteAllFilesInDir('./public');
   });
 
   it(
@@ -94,14 +92,14 @@ describe('AppController (e2e)', () => {
         .send(userCreateStub())
         .expect(201)
         .expect(({ body }) => {
-          expect(body).toStrictEqual(userExportStub(body.id));
+          expect(body).toStrictEqual({ ...userExportStub(), id: body.id });
         });
 
       return request(app.getHttpServer())
         .get(`/user/${userCreateStub().user_id}`)
         .expect(200)
         .expect(({ body }) => {
-          expect(body).toStrictEqual(userExportStub(body.id));
+          expect(body).toStrictEqual({ ...userExportStub(), id: body.id });
         });
     });
 
@@ -371,7 +369,7 @@ describe('AppController (e2e)', () => {
 
       const createStub = postCreateStub();
       for (const [key, value] of Object.entries(createStub)) {
-        req = req.field(key, value);
+        req = req.field(key, value as string | number | boolean);
       }
       await req.expect(201).expect(({ body }) => {
         expect(body).toStrictEqual({

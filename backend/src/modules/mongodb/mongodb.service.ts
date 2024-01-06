@@ -10,7 +10,7 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class MongodbService {
   }
 
   async getPostMaxKey() {
-    let posts: PostInterface[] = await this.prisma.post.findMany({});
+    const posts: PostInterface[] = await this.prisma.post.findMany({});
     if (!posts) return 0;
     return posts.reduce((prev, cur) => {
       return Math.max(prev, cur.key);
@@ -112,7 +112,6 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
-        tag: user.tag,
         version: this.POST_VERSION,
       },
     });
@@ -360,7 +359,7 @@ export class MongodbService {
       throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
-    return res;
+    return true;
   }
 
   async filterPost(query: PostFilterQueryDto) {
@@ -384,7 +383,7 @@ export class MongodbService {
         price: range_price,
         request: true,
         position: query.position,
-        tag: { hasEvery: query.tag },
+        school: query.school,
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },
         limit_people: query.limit_people,
@@ -396,14 +395,13 @@ export class MongodbService {
     console.log('[mongodb.service:filterPost] returning function');
     return res;
   }
-
-  async filterUser(query: UserTagFilterDto) {
+  async filterUser(query: UserFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    console.log('[mongodb.service:filterUser] post_date: ', query.school);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
         version: { gte: this.USER_VERSION },
-        tag: { hasEvery: query.tag },
+        school: query.school,
       },
     });
     console.log('[mongodb.service:filterUser] returning function');

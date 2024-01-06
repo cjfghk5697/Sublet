@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
@@ -71,6 +72,12 @@ export class PostBase {
   @IsString()
   building_type: string; //아파트인지, 주택인지
 
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   @IsBoolean()
   contract: boolean;
 }
@@ -153,6 +160,8 @@ export class PostExportInterface extends PostBase {
   image_id: string[];
   postuser_id: string;
   post_date: Date | string;
+  private: boolean;
+  request: boolean;
 }
 
 export class PostInterface extends PostExportInterface {

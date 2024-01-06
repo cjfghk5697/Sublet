@@ -1,4 +1,4 @@
-import { PostFilterQueryDto } from '@/dto/post.dto';
+import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
@@ -21,12 +21,12 @@ export const userStub = (): UserInterface => {
 
 export const userExportStub = (): UserExportInterface => {
   return {
-    id: 'mocked-id3',
-    user_id: 'mocked-user_id3',
-    username: 'mocked-name3',
-    email: 'mocked-email3',
-    phone: 'mocked-phone3',
-    school: 'ABC Univ',
+    id: userStub().id,
+    phone: userStub().phone,
+    school: userStub().school,
+    username: userStub().username,
+    email: userStub().email,
+    user_id: userStub().user_id,
   };
 };
 
@@ -57,12 +57,18 @@ export const postCreateStub = (): PostCreateDto => {
 };
 
 export const postExportStub = (): PostExportInterface => {
+  const createStub = postCreateStub();
+
   return {
-    ...postCreateStub(),
+    ...createStub,
     key: 1,
     image_id: ['mocked-image_id'],
     postuser_id: 'mocked-postuser_id',
     post_date: 'mocked-post_date',
+    start_day: new Date(createStub.start_day).toISOString(),
+    end_day: new Date(createStub.end_day).toISOString(),
+    private: false,
+    request: false,
   };
 };
 
@@ -114,7 +120,7 @@ export const userCreateStub = (): UserCreateDto => {
     email: 'mocked@mocked.com',
     phone: '+82010-1234-5678',
     password: 'Mocked-password1)',
-    school: 'ABC univ',
+    school: userStub().school,
     user_id: 'mocked-user_id',
   };
 };
