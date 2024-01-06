@@ -57,5 +57,4 @@ jobs:
             NODE_ENV=\"${{ secrets.NODE_ENV }}\"
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
             " > backend/.env
-            docker compose down -v
             docker compose up -d --build
