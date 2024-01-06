@@ -15,7 +15,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class MongodbService {
-  USER_VERSION = 1;
+  USER_VERSION = 2;
   POST_VERSION = 1;
   IMAGE_VERSION = 1;
   INCREMENTKEY_VERSION = 1;
@@ -46,11 +46,19 @@ export class MongodbService {
     return posts;
   }
 
+  async getPostMaxKey() {
+    const posts: PostInterface[] = await this.prisma.post.findMany({});
+    if (!posts) return 0;
+    return posts.reduce((prev, cur) => {
+      return Math.max(prev, cur.key);
+    }, posts[0].key);
+  }
+
   async getPostKey() {
     console.log('[mongodb.service:getPostKey] starting function');
 
     // incrementKey 테이블의 첫 번째 데이터를 가져옴
-    const data: IncrementkeyInterface | null =
+    let data: IncrementkeyInterface | null =
       await this.prisma.incrementKey.findFirst({
         where: {
           version: { gte: this.INCREMENTKEY_VERSION },
@@ -58,10 +66,13 @@ export class MongodbService {
       });
     console.log(data);
     if (!data) {
-      console.log(
-        '[mongodb.service:getPostKey] data is null, returning Error!',
-      );
-      throw new Error('mongodb.service:getPostKey(), document doesnt exist');
+      data = await this.prisma.incrementKey.create({
+        data: {
+          postKey: await this.getPostMaxKey(),
+          version: this.INCREMENTKEY_VERSION,
+        },
+      });
+      if (!data) throw Error("[mongodb.service:getPostKey] can't create data");
     }
     console.log('[mongodb.service:getPostKey] data: ', data);
 
@@ -101,7 +112,6 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
-        school: user.school,
         version: this.POST_VERSION,
       },
     });
@@ -385,7 +395,6 @@ export class MongodbService {
     console.log('[mongodb.service:filterPost] returning function');
     return res;
   }
-
   async filterUser(query: UserFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
     console.log('[mongodb.service:filterUser] post_date: ', query.school);

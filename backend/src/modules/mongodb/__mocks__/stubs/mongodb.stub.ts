@@ -1,4 +1,4 @@
-import { PostFilterQueryDto } from '@/dto/post.dto';
+import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
@@ -7,12 +7,12 @@ import { Stream } from 'stream';
 
 export const userStub = (): UserInterface => {
   return {
-    id: 'mocked-id3',
-    user_id: 'mocked-user_id3',
-    username: 'mocked-name3',
-    email: 'mocked-email3',
-    phone: 'mocked-phone3',
-    password: 'mocked-password3',
+    id: 'mocked-id',
+    user_id: 'mocked-user_id',
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    phone: '+82010-1234-5678',
+    password: 'Mocked-password1)',
     delete: false,
     version: 1,
     school: 'ABC Univ',
@@ -21,16 +21,16 @@ export const userStub = (): UserInterface => {
 
 export const userExportStub = (): UserExportInterface => {
   return {
-    id: 'mocked-id3',
-    user_id: 'mocked-user_id3',
-    username: 'mocked-name3',
-    email: 'mocked-email3',
-    phone: 'mocked-phone3',
-    school: 'ABC Univ',
+    id: userStub().id,
+    phone: userStub().phone,
+    school: userStub().school,
+    username: userStub().username,
+    email: userStub().email,
+    user_id: userStub().user_id,
   };
 };
 
-export const postExportStub = (): PostExportInterface => {
+export const postCreateStub = (): PostCreateDto => {
   return {
     basic_info: 'mocked-basic_info',
     benefit: 'mocked-benefit',
@@ -45,10 +45,6 @@ export const postExportStub = (): PostExportInterface => {
     start_day: '2000-01-01',
     title: 'mocked-title',
     price: 1,
-    key: 1,
-    image_id: ['mocked-image_id'],
-    postuser_id: 'mocked-postuser_id',
-    post_date: 'mocked-post_date',
     limit_people: 3,
     number_room: 3,
     number_bathroom: 3,
@@ -57,6 +53,22 @@ export const postExportStub = (): PostExportInterface => {
     building_type: '아파트', //아파트인지, 주택인지
     contract: false,
     school: 'ABC univ',
+  };
+};
+
+export const postExportStub = (): PostExportInterface => {
+  const createStub = postCreateStub();
+
+  return {
+    ...createStub,
+    key: 1,
+    image_id: ['mocked-image_id'],
+    postuser_id: 'mocked-postuser_id',
+    post_date: 'mocked-post_date',
+    start_day: new Date(createStub.start_day).toISOString(),
+    end_day: new Date(createStub.end_day).toISOString(),
+    private: false,
+    request: false,
   };
 };
 
@@ -108,7 +120,7 @@ export const userCreateStub = (): UserCreateDto => {
     email: 'mocked@mocked.com',
     phone: '+82010-1234-5678',
     password: 'Mocked-password1)',
-    school: 'ABC univ',
+    school: userStub().school,
     user_id: 'mocked-user_id',
   };
 };
