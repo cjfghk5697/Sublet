@@ -46,12 +46,5 @@ export class PrismaService
 
       console.log('clear result:', result);
     }
-
-    return await this.incrementKey.create({
-      data: {
-        postKey: 1,
-        version: 1,
-      },
-    });
   }
 }

@@ -48,7 +48,7 @@ export class MongodbService {
 
   async getPostMaxKey() {
     const posts: PostInterface[] = await this.prisma.post.findMany({});
-    if (!posts) return 0;
+    if (!posts || posts.length === 0) return 0;
     return posts.reduce((prev, cur) => {
       return Math.max(prev, cur.key);
     }, posts[0].key);
