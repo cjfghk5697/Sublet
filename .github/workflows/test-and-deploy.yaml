@@ -55,7 +55,7 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           SCRIPT_AFTER: |
             cd ${{ secrets.REMOTE_TARGET }}
-            echo "DATABSE_URL=\"${{ secrets.ENV_DATABASE_URL }}\"
+            echo "DATABASE_URL=\"${{ secrets.ENV_DATABASE_URL }}\"
             NODE_ENV=\"${{ secrets.NODE_ENV }}\"
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
             " > backend/.env
