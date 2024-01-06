@@ -40,7 +40,7 @@ jobs:
     needs: [run-test]
     if: |
       always() &&
-      needs.run-test.result == 'success' &&
+      (needs.run-test.result == 'success' || needs.run-test.result == 'skipped') &&
       github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
