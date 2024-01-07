@@ -8,9 +8,9 @@ import {
 } from '@/dto/post.dto';
 import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
-// import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
+import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -46,8 +46,50 @@ export class MongodbService {
     return posts;
   }
 
+  async getPostMaxKey() {
+    const posts: PostInterface[] = await this.prisma.post.findMany({});
+    if (!posts || posts.length === 0) return 0;
+    return posts.reduce((prev, cur) => {
+      return Math.max(prev, cur.key);
+    }, posts[0].key);
+  }
+
   async getPostKey() {
-    return Math.floor(Math.random() * 1000000000);
+    console.log('[mongodb.service:getPostKey] starting function');
+
+    // incrementKey 테이블의 첫 번째 데이터를 가져옴
+    let data: IncrementkeyInterface | null =
+      await this.prisma.incrementKey.findFirst({
+        where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
+        },
+      });
+    console.log(data);
+    if (!data) {
+      data = await this.prisma.incrementKey.create({
+        data: {
+          postKey: await this.getPostMaxKey(),
+          version: this.INCREMENTKEY_VERSION,
+        },
+      });
+      if (!data) throw Error("[mongodb.service:getPostKey] can't create data");
+    }
+    console.log('[mongodb.service:getPostKey] data: ', data);
+
+    // postKey를 1 증가시키고 그 값을 받아옴
+    const updated: IncrementkeyInterface =
+      await this.prisma.incrementKey.update({
+        where: {
+          version: { gte: this.INCREMENTKEY_VERSION },
+          id: data.id,
+        },
+        data: { postKey: { increment: 1 } },
+      });
+    console.log('[mongodb.service:getPostKey] updated: ', updated);
+    console.log('[mongodb.service:getPostKey] returning function');
+
+    // 증가된 postKey 값을 전달
+    return updated.postKey;
   }
 
   /**
@@ -70,7 +112,6 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
-        tag: user.tag,
         version: this.POST_VERSION,
       },
     });
@@ -318,7 +359,7 @@ export class MongodbService {
       throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
-    return res;
+    return true;
   }
 
   async filterPost(query: PostFilterQueryDto) {
@@ -342,7 +383,7 @@ export class MongodbService {
         price: range_price,
         request: true,
         position: query.position,
-        tag: { hasEvery: query.tag },
+        school: query.school,
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },
         limit_people: query.limit_people,
@@ -354,14 +395,13 @@ export class MongodbService {
     console.log('[mongodb.service:filterPost] returning function');
     return res;
   }
-
-  async filterUser(query: UserTagFilterDto) {
+  async filterUser(query: UserFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    console.log('[mongodb.service:filterUser] post_date: ', query.school);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
         version: { gte: this.USER_VERSION },
-        tag: { hasEvery: query.tag },
+        school: query.school,
       },
     });
     console.log('[mongodb.service:filterUser] returning function');
