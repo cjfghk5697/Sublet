@@ -1,10 +1,9 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material'
 import * as makeTest from '../testdata/testdata.js'
-import DatepickerComponent from './DatepickerComponent';
+import DaypickerComponent from './DaypickerComponent.js';
+import PriceRangeFilter from './PriceRangeFilter.js';
 
 const recommendWordTempData = makeTest.makeTestRecommendSearch(); // This is a temporary data for testing
 
@@ -27,14 +26,6 @@ export default function SearchBar() {
       fontSize: '1.3em',
     },
     searchByLocation: {
-      fontWeight: 'bold',
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    serachByDate: {
-      fontWeight: 'bold',
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    serachByPrice: {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
     },
@@ -67,7 +58,7 @@ export default function SearchBar() {
       color: 'rgba(0, 0, 0, 1)',
     },
   }
-
+  
   let recommendWords = recommendWordTempData.map((word) => {
     return (
       <IconButton style={styles.recommendSearchKeyword}>
@@ -83,19 +74,16 @@ export default function SearchBar() {
           위치
           <LocationOnIcon />
         </IconButton>
-        <DatepickerComponent />
-        <IconButton style={styles.serachByDate}>
-          날짜
-          <DateRangeOutlinedIcon />
+        <IconButton>
+          <DaypickerComponent />
         </IconButton>
-        <IconButton style={styles.serachByDate}>
-          가격 범위
-          <BarChartIcon />
+        <IconButton style={styles.serachByPrice}>
+          <PriceRangeFilter />
         </IconButton>
         <div style={styles.serachByKeyword}>
           <input style={styles.searchKeywordInput} type="text" placeholder="필요한 숙소를 입력하세요" />
           <div style={styles.searchKeyworddescription}>
-            원하는 것을 키워드로
+            원하는 것을 키워드로 검색
           </div>
         </div>
         <IconButton>

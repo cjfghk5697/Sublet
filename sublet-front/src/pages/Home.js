@@ -1,22 +1,17 @@
 import RoomProfile from '../components/RoomProfile';
 import Header from '../components/Header';
 import React, { useEffect, useState } from "react";
-// import * as makeTest from '../testdata/testdata.js'
 import { Link } from 'react-router-dom';
 
-// import * as makeTest from "../testdata/testdata.js";
-
-// const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
-
 export default function Home() {
-  const [roomTempData, setData] = useState(null);
+  const [roomsData, setData] = useState(null);
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/post")
       .then((ele) => ele.json())
       .then((ele) => setData(ele));
   }, []);
 
-  console.log(roomTempData);
+  console.log(roomsData);
 
   const styles = {
     container: {
@@ -33,7 +28,7 @@ export default function Home() {
     },
   };
 
-  let rooms = roomTempData?.map((room) => {
+  let rooms = roomsData?.map((room) => {
     return <RoomProfile room={room} />;
   });
 
@@ -45,6 +40,7 @@ export default function Home() {
       <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
       <Link to="/ReHome">ReHome</Link>
       <Link to="/Booking">Booking</Link>
+      {/* 임시 페이지들 링크*/}
       <Header />
       <div style={styles.roomContainer}>
         {rooms}
