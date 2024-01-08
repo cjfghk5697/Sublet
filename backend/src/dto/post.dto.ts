@@ -88,10 +88,6 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
 
   @IsOptional()
   @IsString()
-  school?: string; //어디 학교인지
-
-  @IsOptional()
-  @IsString()
   accomodation_type?: string; //건물 유형
 
   @IsOptional()
@@ -101,4 +97,38 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsBoolean()
   contract?: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @IsNumber()
+  x_coordinate?: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsString()
+  y_coordinate?: number;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  gu?: string;
+
+  @IsOptional()
+  @IsString()
+  dong?: string;
+
+  @IsOptional()
+  @IsString()
+  street?: string;
+
+  @IsOptional()
+  @IsString()
+  street_number?: string;
+
+  @IsOptional()
+  @IsString()
+  post_code?: string;
 }
