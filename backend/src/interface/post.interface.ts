@@ -68,12 +68,13 @@ export class PostBase {
 
   @IsString()
   building_type: string; //아파트인지, 주택인지
+
   @IsInt()
   @IsNumber()
   x_coordinate: number;
 
   @IsInt()
-  @IsString()
+  @IsNumber()
   y_coordinate: number;
 
   @IsString()

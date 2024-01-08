@@ -18,7 +18,7 @@ export const userStub = (): UserInterface => {
     version: 1,
     school: 'ABC Univ',
     id_card: false,
-    image_id: 'defualt',
+    image_id: 'default',
   };
 };
 
