@@ -1,6 +1,5 @@
 import { ReservationInterface } from '@/interface/reservation.interface';
-import { IsDateString, IsNumber, IsString } from 'class-validator';
-import { PostFilterQueryDto } from './post.dto';
+import { IsDateString, IsString } from 'class-validator';
 
 export class ReservationDto extends ReservationInterface {
   @IsDateString()

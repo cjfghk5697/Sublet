@@ -426,7 +426,7 @@ export class MongodbService {
 
     let available = await this.filterReservation(data);
     if (available) {
-      const res: ReservationInterface = await this.prisma.reservation.create({
+      await this.prisma.reservation.create({
         data: {
           r_start_day: data.r_start_day,
           r_end_day: data.r_end_day,

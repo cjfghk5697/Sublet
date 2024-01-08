@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsArray,
   IsString,
-  IsBoolean,
 } from 'class-validator';
 
 export class UserCreateDto extends UserBase {

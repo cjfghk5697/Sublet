@@ -1,5 +1,4 @@
 import { LoggedInGuard } from '@/guards/logged-in.guard';
-import { ReservationInterface } from '@/interface/reservation.interface';
 import { customRequest } from '@/interface/user.interface';
 import {
   BadRequestException,

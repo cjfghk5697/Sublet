@@ -3,7 +3,6 @@ import { ReservationService } from './reservation.service';
 import { MongodbService } from '../mongodb/mongodb.service';
 import {
   reservationStub,
-  userExportStub,
   userStub,
 } from '../mongodb/__mocks__/stubs/mongodb.stub';
 
