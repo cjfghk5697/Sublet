@@ -1,11 +1,8 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material'
-import * as makeTest from '../testdata/testdata.js'
 import DaypickerComponent from './DaypickerComponent.js';
 import PriceRangeFilter from './PriceRangeFilter.js';
-
-const recommendWordTempData = makeTest.makeTestRecommendSearch(); // This is a temporary data for testing
 
 export default function SearchBar() {
   const styles = {
@@ -58,14 +55,6 @@ export default function SearchBar() {
       color: 'rgba(0, 0, 0, 1)',
     },
   }
-  
-  let recommendWords = recommendWordTempData.map((word) => {
-    return (
-      <IconButton style={styles.recommendSearchKeyword}>
-        {word.recommendWord}
-      </IconButton>
-    )
-  });
 
   return ( // 위치 기반 검색 기능은 지환이 형 코드 완성되면 참고해서 추가
     <div style={styles.container}>
@@ -90,9 +79,25 @@ export default function SearchBar() {
           <SearchIcon style={styles.searchIcon} />
         </IconButton>
       </div>
-      <div style={styles.recommendSearchKeywordContainer}>
-        {recommendWords}
-      </div>
+
     </div>
   )
 }
+
+
+/* 추천 검색어 (보류)
+import * as makeTest from '../testdata/testdata.js'
+const recommendWordTempData = makeTest.makeTestRecommendSearch(); // This is a temporary data for testing
+
+let recommendWords = recommendWordTempData.map((word) => {
+  return (
+    <IconButton style={styles.recommendSearchKeyword}>
+      {word.recommendWord}
+    </IconButton>
+  )
+});
+
+<div style={styles.recommendSearchKeywordContainer}>
+  {recommendWords}
+</div>
+*/

@@ -5,6 +5,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 const DaypickerComponent = (children) => {
   const [isListVisible, setIsListVisible] = useState(false);
+  const [startDate, setStartDate] = useState(); // [start, end]
   const buttonRef = useRef(null);
 
   const styles = {
@@ -26,21 +27,42 @@ const DaypickerComponent = (children) => {
     setIsListVisible(!isListVisible);
   };
 
-  return (
-    <div>
+  if (isListVisible) {
+    return (
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <DatePicker // date calander로 대체?
+          open={isListVisible}
+          onClose={toggleCalander}
+          value={startDate}
+          onChange={(newValue) => {
+            setStartDate(newValue);
+          }
+          }
+          style={styles.calanderStyle}
+          renderInput={(startProps, endProps) => (
+            <React.Fragment>
+              <input {...startProps} placeholder="시작 날짜" />
+              <input {...endProps} placeholder="종료 날짜" />
+            </React.Fragment>
+          )}
+        />
+      </LocalizationProvider>
+    );
+  }
+  else if (false) { // 만약 DatePicker에서 날짜가 선택되었다면 else if로 startProps와 endProps를 띄워준다.
+    return (
+      <></>
+    );
+  }
+  else {
+    return (
       <button ref={buttonRef} onClick={toggleCalander}>
         <div style={styles.serachByDate}>
           날짜
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DateRangeOutlinedIcon />
-          </LocalizationProvider>
+          <DateRangeOutlinedIcon />
         </div>
       </button>
-      {isListVisible && (
-
-        <DatePicker />
-      )}
-    </div>
-  );
+    );
+  }
 }
 export default DaypickerComponent;
