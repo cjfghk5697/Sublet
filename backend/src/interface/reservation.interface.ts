@@ -1,4 +1,5 @@
 import { PostExportInterface } from './post.interface';
+import { UserExportInterface } from './user.interface';
 
 export class ReservationInterface {
   id: string;
@@ -7,6 +8,7 @@ export class ReservationInterface {
   user_id: string;
   post_key: string;
 }
-export class FilterReservationInterface {
+export class ReservationExportInterface extends ReservationInterface {
+  User: UserExportInterface;
   Post: PostExportInterface;
 }

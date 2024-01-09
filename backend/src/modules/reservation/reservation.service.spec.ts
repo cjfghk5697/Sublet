@@ -2,9 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
 import { MongodbService } from '../mongodb/mongodb.service';
 import {
+  reservationExportStub,
   reservationStub,
   userStub,
 } from '../mongodb/__mocks__/stubs/mongodb.stub';
+import {
+  ReservationExportInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
 
 jest.mock('../mongodb/mongodb.service');
 
@@ -47,6 +52,29 @@ describe('ReservationService', () => {
           reservationStub(),
           userStub(),
         );
+      });
+    });
+
+    describe('TESTING getAllReservations (GET /reservation)', () => {
+      describe('When calling with NaN parameters', () => {
+        let result: ReservationExportInterface[] | Error;
+        beforeEach(async () => {
+          try {
+            result = await service.getAllReservation(userStub().user_id);
+          } catch (e) {
+            result = e;
+          }
+        });
+
+        it('should call db with default parameters', async () => {
+          expect(mongoDbService.getAllReservations).toHaveBeenCalledWith(
+            userStub().user_id,
+          );
+        });
+
+        it('should return one post', () => {
+          expect(result).toEqual([reservationExportStub()]);
+        });
       });
     });
   });

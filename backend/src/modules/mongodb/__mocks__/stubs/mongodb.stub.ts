@@ -2,7 +2,10 @@ import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { ReservationInterface } from '@/interface/reservation.interface';
+import {
+  ReservationExportInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
 
@@ -161,5 +164,21 @@ export const reservationStub = (): ReservationInterface => {
     post_key: '1',
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
+  };
+};
+
+export const reservationExportStub = (): ReservationExportInterface => {
+  return {
+    id: 'mocked-id',
+    user_id: 'mocked-userid',
+    post_key: '1',
+    r_start_day: '2024-01-10T00:00:00.000Z',
+    r_end_day: '2024-04-05T00:00:00.000Z',
+    User: {
+      ...userExportStub(),
+    },
+    Post: {
+      ...postExportStub(),
+    },
   };
 };

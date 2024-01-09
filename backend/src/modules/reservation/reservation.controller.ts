@@ -4,6 +4,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UnauthorizedException,
@@ -38,6 +39,28 @@ export class ReservationController {
       return res;
     } catch (e) {
       console.log('[reservation.controller:createReservation] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Get()
+  @UseGuards(LoggedInGuard)
+  async getAllReservation(@Req() req: customRequest) {
+    if (!req.user) {
+      console.log(
+        "[reservation.controller:getAllReservation] req.user doesn't exist",
+      );
+      throw new UnauthorizedException();
+    }
+
+    try {
+      const res = await this.reservationService.getAllReservation(
+        req.user.user_id,
+      );
+      console.log('[reservation.controller:getAllReservation] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[reservation.controller:getAllReservation] error: ', e);
       throw new BadRequestException();
     }
   }

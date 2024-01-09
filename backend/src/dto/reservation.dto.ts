@@ -1,5 +1,5 @@
 import { ReservationInterface } from '@/interface/reservation.interface';
-import { IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class ReservationDto extends ReservationInterface {
   @IsDateString()
@@ -13,4 +13,22 @@ export class ReservationDto extends ReservationInterface {
 
   @IsString()
   post_key: string;
+}
+
+export class ReservationFilterDto {
+  @IsOptional()
+  @IsDateString()
+  r_start_day?: string | Date;
+
+  @IsOptional()
+  @IsDateString()
+  r_end_day?: string | Date;
+
+  @IsOptional()
+  @IsString()
+  user_id?: string;
+
+  @IsOptional()
+  @IsString()
+  post_key?: string;
 }

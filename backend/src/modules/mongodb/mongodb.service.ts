@@ -13,9 +13,10 @@ import { UserInterface } from '@/interface/user.interface';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import {
-  FilterReservationInterface,
+  ReservationExportInterface,
   ReservationInterface,
 } from '@/interface/reservation.interface';
+import { ReservationFilterDto } from '@/dto/reservation.dto';
 
 @Injectable()
 export class MongodbService {
@@ -424,8 +425,9 @@ export class MongodbService {
     console.log('[mongodb.service:createReservation] data: ', data);
     console.log('[mongodb.service:createReservation] user: ', user);
 
-    let available = await this.filterReservation(data);
-    if (available) {
+    const available = await this.filterReservation(data);
+
+    if (available.length < 1) {
       await this.prisma.reservation.create({
         data: {
           r_start_day: data.r_start_day,
@@ -446,44 +448,84 @@ export class MongodbService {
     } else {
       throw new Error('reserved date');
     }
+
     console.log('[mongodb.service:createReservation] returning function');
     return true;
   }
 
-  async filterReservation(data: ReservationInterface) {
+  async filterReservation(data: ReservationFilterDto) {
     console.log('[mongodb.service:filterResrvation] starting function');
     console.log('[mongodb.service:filterResrvation] data: ', data);
-
-    const reservation_list: FilterReservationInterface[] =
+    const reservation_date = {
+      gte: new Date(data.r_start_day || '0'), //날짜 현재로 수정해서 지난건 안보이게?
+      lte: new Date(data.r_end_day || '9999-12-31'),
+    };
+    const reservation_list: ReservationExportInterface[] =
       await this.prisma.reservation.findMany({
         where: {
-          r_start_day: {
-            gte: new Date(data.r_start_day),
-            lte: new Date(data.r_end_day),
-          },
-          r_end_day: {
-            gte: new Date(data.r_start_day),
-            lte: new Date(data.r_end_day),
-          },
+          // Post: { 왜 안되는지 모르겠음
+          //   key: Number(data.post_key),
+          // },
+          r_start_day: reservation_date,
+          r_end_day: reservation_date,
           version: { gte: this.RESERVATION_VERSION },
           deleted: false,
         },
         include: {
+          User: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
           Post: true,
         },
       });
-
     let flag = false;
-    console.log('data.post_key', data.post_key);
     reservation_list.map((reservation) => {
       if (reservation['Post'].key == Number(data.post_key)) {
         flag = true;
         return false;
       }
     });
+    console.log(
+      '[mongodb.service:filterResrvation] reservation list:',
+      reservation_list,
+    );
+
     if (flag) {
-      throw new Error('reserved date');
+      throw new Error(
+        '[mongodb.service:filterResrvation] error: reserved date',
+      );
     }
-    return true;
+    return reservation_list;
+  }
+
+  async getAllReservations(user_id: string) {
+    console.log('[mongodb.service:getAllReservations] starting function');
+    console.log('[mongodb.service:getAllReservations] user_id: ', user_id);
+
+    // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
+
+    const reservation_list: ReservationExportInterface[] =
+      await this.prisma.reservation.findMany({
+        where: {
+          version: { gte: this.RESERVATION_VERSION },
+          deleted: false,
+          // User: { 왜 안되는지 모르겠음
+          //   user_id: user_id,
+          // },
+        },
+        include: {
+          User: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
+          Post: true,
+        },
+      });
+    let final_list: ReservationExportInterface[] = [];
+    reservation_list.map((reservation) => {
+      if (reservation['User'].user_id == user_id) {
+        final_list.push(reservation);
+      }
+    });
+    console.log(
+      '[mongodb.service:getAllReservations] returning function',
+      reservation_list,
+    );
+    return final_list;
   }
 }

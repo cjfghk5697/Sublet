@@ -1,38 +1,55 @@
 import SummaryBlock from "./SummaryBlock";
+import { useEffect, useState } from "react";
 
 function User({ user }) {
-  let reservation = false
-  {/*  if (user.reservation.length > 0) {
-    reservation = true
-  }
-*/}
+  const [loading, setLoading] = useState(true);
+  const [reservationInfo, setReservationInfo] = useState([]);
+
+  const getReservationInfo = async () => {
+    const json = await (
+      await fetch(
+        `http://localhost:4000/reservation`
+      )
+    ).json();
+
+    setLoading(false)
+    setReservationInfo(json)
+  };
+
+  useEffect(() => {
+    getReservationInfo();
+  }, []);
+
+  console.log('GuestInfo reservation Info', reservationInfo)
   return (
     <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-4">
-      <div class="ml-3">
+      <div className="ml-3">
         <div>
+
+          <img src="https://i.stack.imgur.com/l60Hf.png"></img>
           {/*<img src="http://localhost:4000/user/evan1"></img>*/}
           <p className="text-2xl font-extrabold">{user.username}</p>
           <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
           {/*<p>{user.id_card ? '인증 완료' : '인증 안됨'}</p>*/}
         </div>
       </div>
-      <div class="mb-2 ml-3 col-span-3">
+      <div className="mb-2 ml-3 col-span-3">
         <h2 className="text-2xl font-extrabold">예약 현황</h2>
         <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        {reservation ? (<SummaryBlock
-          title={user.title}
-          //host={user.postuser.user_id}
-          start_day={user.start_day}
-          end_day={user.end_day}
-          pay={user.pay}
+        {loading ? ((
+          <div>
+            <p className="text-base font-extrabold">예약이 아직 없습니다.</p>
+          </div>)
+        ) : (<SummaryBlock
+        // title={reservationInfo["Post"].title}
+        //host={user.postuser.user_id}
+        // start_day={reservationInfo.r_start_day}
+        // end_day={reservationInfo.r_end_day}
+        // pay={reservationInfo.Post.price}
         //host_image={user.postuser.user_image}
-        //room_image={user.post.image_id}
+        // room_image={reservationInfo.post.image_id}
         />
-        ) :
-          (
-            <div>
-              <p className="text-base font-extrabold">예약이 아직 없습니다.</p>
-            </div>)
+        )
         }
 
         <div /*class="border-2 rounded-lg shadow-md"*/>
