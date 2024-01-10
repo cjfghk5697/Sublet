@@ -1,14 +1,40 @@
-import { Controller, Post, Res, Req, UseGuards, Next } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Res,
+  Req,
+  UseGuards,
+  Next,
+  Body,
+} from '@nestjs/common';
 import { LocalGuard } from '../../guards/local.guard';
 import { LoggedInGuard } from '../../guards/logged-in.guard';
 import { Request, Response } from 'express';
+import { AuthService } from './auth.service';
+import { UserLoginDto } from '@/dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private authService: AuthService) {}
+
   @UseGuards(LocalGuard)
   @Post('login')
-  async login() {
-    return { ok: true };
+  async login(
+    @Body() data: UserLoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const access_token = this.authService.login(data);
+
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 10000,
+      expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
+    });
+
+    return access_token;
   }
 
   @UseGuards(LoggedInGuard)

@@ -3,7 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const fs = require('fs');
+  const httpsOptions = {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+  };
+
+  const app = await NestFactory.create(AppModule, { cors: true, httpsOptions });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -14,7 +20,14 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type, Accept',
+    exposedHeaders: ['set-cookie'],
+  });
   await app.listen(4000);
 }
 bootstrap();
