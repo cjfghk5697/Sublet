@@ -34,13 +34,6 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-      {/* 임시 페이지들 링크*/}
-      놀라지마세요! 테스트용 페이지들 링크에요.
-      <Link to="/RoomInfo">RoomInfo</Link>
-      <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
-      <Link to="/ReHome">ReHome</Link>
-      <Link to="/Booking">Booking</Link>
-      {/* 임시 페이지들 링크*/}
       <Header />
       <div style={styles.roomContainer}>
         {rooms}

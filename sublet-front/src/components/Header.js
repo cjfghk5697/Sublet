@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <div style={styles.container}>
       <IconButton style={styles.logo}>
-        <BedroomChildIcon style={styles.logoIcon} /> {/* 로고 임시 대체 */}
+        <image src="../../public/logo.png" style={styles.logoIcon} /> {/* 로고 임시 대체 */}
       </IconButton>
       <div style={styles.searchBar}>
         <SearchBar />

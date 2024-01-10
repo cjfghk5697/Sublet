@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/ko';
+
 
 const DaypickerComponent = (children) => {
   const [isListVisible, setIsListVisible] = useState(false);
@@ -29,11 +31,13 @@ const DaypickerComponent = (children) => {
 
   if (isListVisible) {
     return (
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
         <DatePicker // date calander로 대체?
           open={isListVisible}
           onClose={toggleCalander}
           value={startDate}
+          inputFormat={"yyyy-MM-dd"}
+          mask={"____-__-__"}
           onChange={(newValue) => {
             setStartDate(newValue);
           }
