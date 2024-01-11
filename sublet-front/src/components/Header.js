@@ -1,4 +1,3 @@
-import BedroomChildIcon from '@mui/icons-material/BedroomChild'; // 로고 임시 대체
 import { Favorite } from '@mui/icons-material'
 import PersonIcon from '@mui/icons-material/Person';
 import SearchBar from '../components/SearchBar';
@@ -18,8 +17,8 @@ const styles = {
     flex: 1,
   },
   logoIcon: {
-    width: '2.5em',
-    height: '2.5em',
+    width: '4em',
+    height: '4em',
     color: 'rgba(0, 0, 0, 1)',
   },
   searchBar: {
@@ -51,7 +50,7 @@ export default function Header() {
   return (
     <div style={styles.container}>
       <IconButton style={styles.logo}>
-        <image src="../../public/logo.png" style={styles.logoIcon} /> {/* 로고 임시 대체 */}
+        <img src="logo.png" style={styles.logoIcon} /> {/* 로고 임시 대체 */}
       </IconButton>
       <div style={styles.searchBar}>
         <SearchBar />

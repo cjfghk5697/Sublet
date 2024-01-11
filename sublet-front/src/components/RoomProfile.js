@@ -12,6 +12,10 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  roomTitle: {
+    fontSize: "1.2em",
+    fontWeight: "bold",
+  },
 };
 
 export default function RoomProfile(props) {
@@ -25,10 +29,10 @@ export default function RoomProfile(props) {
           props.room.image_id[0] +
           ".jpg"
         }
-        alt=""
+        alt="Room image"
       />
       <div style={styles.roomTitleAndLike}>
-        <span>
+        <span style={styles.roomTitle}>
           {props.room.city} {props.room.gu} {props.room.dong}
         </span>
         <IconButton>
@@ -36,8 +40,7 @@ export default function RoomProfile(props) {
             <Favorite />
           ) : (
             <FavoriteBorder />
-          )}{" "}
-          33 {/* 좋아유 수*/}
+          )}{33 /* 좋아유 수*/}
         </IconButton>
       </div>
       ₩{props.room.price * 30}/1개월

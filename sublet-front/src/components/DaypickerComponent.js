@@ -5,7 +5,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/ko';
 
 
-const DaypickerComponent = (children) => {
+const DaypickerComponent = () => {
   const [isListVisible, setIsListVisible] = useState(false);
   const [startDate, setStartDate] = useState(); // [start, end]
   const buttonRef = useRef(null);
@@ -26,29 +26,19 @@ const DaypickerComponent = (children) => {
   };
 
   const toggleCalander = () => {
-    setIsListVisible(!isListVisible);
+    setIsListVisible(true);
   };
 
   if (isListVisible) {
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-        <DatePicker // date calander로 대체?
-          open={isListVisible}
-          onClose={toggleCalander}
+        <DatePicker
+          startText="시작일"
+          endText="종료일"
           value={startDate}
-          inputFormat={"yyyy-MM-dd"}
-          mask={"____-__-__"}
-          onChange={(newValue) => {
-            setStartDate(newValue);
-          }
-          }
-          style={styles.calanderStyle}
-          renderInput={(startProps, endProps) => (
-            <React.Fragment>
-              <input {...startProps} placeholder="시작 날짜" />
-              <input {...endProps} placeholder="종료 날짜" />
-            </React.Fragment>
-          )}
+          onChange={(newDate) => {
+            setStartDate(newDate);
+          }}
         />
       </LocalizationProvider>
     );
