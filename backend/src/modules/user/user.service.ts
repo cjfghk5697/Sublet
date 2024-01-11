@@ -65,13 +65,13 @@ export class UserService {
   }
 
   async filterUser(query: UserFilterDto) {
-    console.log('[user.servuce:filterUser] starting function');
-    console.log('[user.servuce:filterUser] query: ', query);
+    console.log('[user.service:filterUser] starting function');
+    console.log('[user.service:filterUser] query: ', query);
     const res = await this.db.filterUser(query);
-    console.log('[user.servuce:filterUser] res: ', res);
+    console.log('[user.service:filterUser] res: ', res);
 
     const ret = res.map((user) => this.transformExport(user));
-    console.log('[user.servuce:filterUser] returning function');
+    console.log('[user.service:filterUser] returning function');
     return ret;
   }
 

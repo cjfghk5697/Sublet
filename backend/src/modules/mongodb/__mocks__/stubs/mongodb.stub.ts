@@ -2,6 +2,7 @@ import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
+import { ReservationInterface } from '@/interface/reservation.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
 
@@ -16,6 +17,8 @@ export const userStub = (): UserInterface => {
     delete: false,
     version: 1,
     school: 'ABC Univ',
+    id_card: false,
+    image_id: 'default',
   };
 };
 
@@ -27,6 +30,8 @@ export const userExportStub = (): UserExportInterface => {
     username: userStub().username,
     email: userStub().email,
     user_id: userStub().user_id,
+    image_id: userStub().image_id,
+    id_card: userStub().id_card,
   };
 };
 
@@ -52,7 +57,14 @@ export const postCreateStub = (): PostCreateDto => {
     accomodation_type: '전대', //건물 유형
     building_type: '아파트', //아파트인지, 주택인지
     contract: false,
-    school: 'ABC univ',
+    x_coordinate: 3,
+    y_coordinate: 3,
+    city: 'mock-city',
+    gu: 'mock-gu',
+    dong: 'mock-dong',
+    street: 'mock-street',
+    street_number: 'mock-street-number',
+    post_code: 'mock-post-code',
   };
 };
 
@@ -132,11 +144,22 @@ export const userUpdateStub = (): UserUpdateDto => {
     password: 'Mocked-password1))',
     school: 'ABC univ',
     user_id: 'mocked-user_id',
+    image_id: 'second image',
   };
 };
 
 export const userFilterStub = (): UserFilterDto => {
   return {
     school: 'ABC univ',
+  };
+};
+
+export const reservationStub = (): ReservationInterface => {
+  return {
+    id: 'mocked-id',
+    user_id: 'mocked-userid',
+    post_key: '1',
+    r_start_day: '2024-01-10T00:00:00.000Z',
+    r_end_day: '2024-04-05T00:00:00.000Z',
   };
 };

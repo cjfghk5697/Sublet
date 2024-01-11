@@ -38,6 +38,10 @@ export class UserUpdateDto extends UserPartialBase {
   @IsOptional()
   @IsString()
   school?: string; //어디 학교인지
+
+  @IsOptional()
+  @IsString()
+  image_id: string;
 }
 
 export class UserFilterDto {
