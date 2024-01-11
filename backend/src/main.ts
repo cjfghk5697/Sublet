@@ -10,6 +10,7 @@ async function bootstrap() {
   };
 
   const app = await NestFactory.create(AppModule, { cors: true, httpsOptions });
+  // const app = await NestFactory.create(AppModule, { cors: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -20,13 +21,23 @@ async function bootstrap() {
       },
     }),
   );
+  // var cors = require('cors');
 
+  // app.use(
+  //   cors({
+  //     origin: ['https://127.0.0.1:3000', 'https://localhost:3000'],
+  //   }),
+  // );
   app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: [
+      'https://127.0.0.1:3000',
+      'https://localhost:3000',
+      'https://192.168.18.152:3000',
+    ],
     credentials: true,
-    allowedHeaders: 'Content-Type, Accept',
-    exposedHeaders: ['set-cookie'],
+    // methods: ['GET', 'POST'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
+    // maxAge: 86400,
   });
   await app.listen(4000);
 }

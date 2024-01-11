@@ -8,7 +8,7 @@ function User({ user }) {
   const getReservationInfo = async () => {
     const json = await (
       await fetch(
-        `http://localhost:4000/reservation`
+        `https://127.0.0.1:4000/reservation`
       )
     ).json();
 
@@ -22,18 +22,17 @@ function User({ user }) {
 
   console.log('GuestInfo reservation Info', reservationInfo)
   return (
-    <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-4">
+    <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
       <div className="ml-3">
         <div>
-
-          <img src="https://i.stack.imgur.com/l60Hf.png"></img>
+          <img className="object-scale-down" src="https://i.stack.imgur.com/l60Hf.png"></img>
           {/*<img src="http://localhost:4000/user/evan1"></img>*/}
           <p className="text-2xl font-extrabold">{user.username}</p>
           <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
           {/*<p>{user.id_card ? '인증 완료' : '인증 안됨'}</p>*/}
         </div>
       </div>
-      <div className="mb-2 ml-3 col-span-3">
+      <div className="mb-2 ml-3 col-span-6">
         <h2 className="text-2xl font-extrabold">예약 현황</h2>
         <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
         {loading ? ((

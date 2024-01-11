@@ -23,6 +23,7 @@ export class AuthController {
     @Body() data: UserLoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
+    console.log('[LOGIN]', data);
     const access_token = this.authService.login(data);
 
     res.cookie('access_token', access_token, {
@@ -33,7 +34,6 @@ export class AuthController {
       maxAge: 10000,
       expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
     });
-
     return access_token;
   }
 
