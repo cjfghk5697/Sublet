@@ -20,15 +20,17 @@ export class UserPartialBase {
 
 export class UserExportInterface extends UserBase {
   id: string;
+  image_id: string;
   email: string;
+  school: string;
+  phone: string;
+  id_card: boolean;
 }
 
 export class UserInterface extends UserExportInterface {
-  phone: string;
   password: string;
   delete: boolean;
   version: number;
-  tag: string[];
 }
 
 export interface customRequest extends Express.Request {

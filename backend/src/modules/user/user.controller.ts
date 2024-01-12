@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
 
@@ -32,7 +32,7 @@ export class UserController {
   }
 
   @Get('filter')
-  async filterUser(@Query() query: UserTagFilterDto) {
+  async filterUser(@Query() query: UserFilterDto) {
     console.log('[user.controller:filterUser] starting function');
     try {
       const res = await this.userService.filterUser(query);

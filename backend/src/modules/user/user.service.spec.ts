@@ -1,164 +1,184 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { UserService } from './user.service';
-import { NotFoundException } from '@nestjs/common/exceptions';
-import { UserInterface } from '@/interface/user.interface';
-import { MongodbModule } from '../mongodb/mongodb.module';
+import { UserExportInterface } from '@/interface/user.interface';
 import { MongodbService } from '../mongodb/mongodb.service';
-import { UserUpdateDto } from '@/dto/user.dto';
+import {
+  userExportStub,
+  userFilterStub,
+  userStub,
+  userUpdateStub,
+} from '../mongodb/__mocks__/stubs/mongodb.stub';
+
+jest.mock('../mongodb/mongodb.service');
 
 describe('UserService', () => {
   let service: UserService;
-  const _users: UserInterface[] = [
-    {
-      id: '1',
-      user_id: 'evan2',
-      password: '5s34S2349!#',
-      username: 'evan2',
-      email: 'chfgadg@gmail.com',
-      phone: '+82343512534',
-      delete: false,
-      tag: ['student'],
-      version: 2,
-    },
-    {
-      id: '2',
-      user_id: 'evan',
-      username: 'evan',
-      email: 'evan91234@gmail.com',
-      phone: '+8201011111111',
-      password: 'asdfds@1!#asfseFA',
-      tag: ['student'],
-      delete: false,
-      version: 2,
-    },
-  ];
+  let mongodbService: MongodbService;
+
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [MongodbModule],
-      providers: [UserService],
+    const module = await Test.createTestingModule({
+      imports: [],
+      providers: [UserService, MongodbService],
     }).compile();
 
     service = module.get<UserService>(UserService);
-    const mongodbService = module.get<MongodbService>(MongodbService);
-    jest.spyOn(mongodbService, 'getAllUser').mockImplementation(async () => {
-      return _users;
-    });
-    jest
-      .spyOn(mongodbService, 'getUserByKey')
-      .mockImplementation(async (user_id: string) => {
-        const user = _users.find(
-          (ele) => ele.user_id === user_id && !ele.delete,
-        );
-        if (!user) throw new NotFoundException();
-        return user;
-      });
-    jest
-      .spyOn(mongodbService, 'deleteOneUser')
-      .mockImplementation(async (user_id: string) => {
-        const ind = _users.findIndex(
-          (ele) => ele.user_id === user_id && !ele.delete,
-        );
-        if (ind === -1) throw new NotFoundException();
-
-        _users[ind].delete = true;
-        const user = _users.find(
-          (ele) => ele.user_id === user_id && !ele.delete,
-        );
-        if (!user) throw new NotFoundException();
-        return user;
-      });
-    jest
-      .spyOn(mongodbService, 'putOneUser')
-      .mockImplementation(
-        async (user_id: string, putUserdata: UserUpdateDto) => {
-          const ind = _users.findIndex(
-            (ele) => ele.user_id === user_id && !ele.delete,
-          );
-          if (ind === -1) throw new NotFoundException();
-
-          const user = Object.assign(_users[ind], putUserdata);
-          return user;
-        },
-      );
+    mongodbService = module.get<MongodbService>(MongodbService);
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getAll', () => {
-    it('getAll', async () => {
-      const result = await service.getAllUser();
-      expect(result).toMatchObject(_users);
+  describe('TESTING getAllUser (GET /user)', () => {
+    describe('When calling User', () => {
+      let result: UserExportInterface[] | Error;
+
+      beforeEach(async () => {
+        try {
+          result = await service.getAllUser();
+        } catch (e) {
+          result = e;
+        }
+      });
+
+      it('should call user', () => {
+        expect(result).toEqual([userExportStub()]);
+      });
+
+      it('should be array', () => {
+        expect(result).toBeInstanceOf(Array);
+      });
     });
   });
 
-  describe('getOne', () => {
-    it('should return a user', async () => {
-      try {
-        const user = await service.getUserByKey('evan');
-        expect(user).toBeDefined();
-      } catch (e) {
-        expect(false).toBe(true);
-      }
-    });
+  describe('TESTING getUserByKey (GET /user/:user_id)', () => {
+    describe('when calling with id', () => {
+      let result: UserExportInterface | undefined;
+      const user_id = 'fsh_12';
+      beforeEach(async () => {
+        try {
+          result = await service.getUserByKey(user_id);
+        } catch (_e) {
+          result = undefined;
+        }
+      });
 
-    it('should throw notfound exception', async () => {
-      try {
-        const result = await service.getUserByKey('notid');
-        expect(result).toBeUndefined();
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-      }
+      it('then should return interface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to get a user', () => {
+        expect(mongodbService.getUserByKey).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to get one User with given parameters', () => {
+        expect(mongodbService.getUserByKey).toHaveBeenCalledWith(user_id);
+      });
+
+      it('then should call db to get one User', () => {
+        expect(mongodbService.getUserByKey).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
-  describe('createuser', () => {
-    it('create a user', async () => {
-      try {
-        const alluser = await service.getUserByKey('evan');
-        expect(alluser.user_id).toEqual('evan');
-        expect(alluser.id).toEqual('2');
-      } catch (e) {
-        // error를 던지지 말아야 함
-        expect(false).toBe(true);
-      }
+  describe('TESTING createUser (Post /user/:user_id)', () => {
+    describe('when calling with normal input', () => {
+      let result: UserExportInterface | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.createUser(userStub());
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+      it('then should return interface', () => {
+        expect(result).toBeDefined();
+      });
+      it('then should call db to create user', () => {
+        expect(mongodbService.createUser).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
-  describe('deleteUser', () => {
-    it('delete One User', async () => {
-      try {
-        expect(await service.deleteOneUser('evan')).toBeUndefined();
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-      }
-    });
-    it('should throw not found', async () => {
-      try {
-        expect(await service.deleteOneUser('notid')).toBeUndefined();
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-      }
+  describe('TESTING deleteOneUser (DELETE /user/:user_id', () => {
+    describe('when calling with user delete', () => {
+      let result: boolean | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.deleteOneUser('example');
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return boolena', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to delete user', () => {
+        expect(mongodbService.deleteOneUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to delete user with given parameters', () => {
+        expect(mongodbService.deleteOneUser).toHaveBeenCalledWith('example');
+      });
     });
   });
-  describe('putUser', () => {
-    const correctdata = {
-      user_id: 'evan2',
-      password: '5s34S2349!@',
-      username: 'evan5',
-      email: 'chfgadg@gmail.com',
-      phone: '+82343512532',
-      delete: false,
-    };
-    it('putOneUser', async () => {
-      try {
-        await service.putOneUser('evan', correctdata);
-        const getoneuser = await service.getUserByKey('evan2');
-        expect(getoneuser.username).toBe('evan5');
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-      }
+
+  describe('TESTING putOneUser (UPDATE /user/:user_id', () => {
+    describe('when calling with user update inputs', () => {
+      let result: UserExportInterface | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.putOneUser('mocked-user_id', userUpdateStub());
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to update user', () => {
+        expect(mongodbService.putOneUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should db to update user with given parameters', () => {
+        expect(mongodbService.putOneUser).toHaveBeenCalledWith(
+          'mocked-user_id',
+          userUpdateStub(),
+        );
+      });
+    });
+  });
+
+  describe('TESTING filterUser', () => {
+    describe('when calling with user filter query', () => {
+      let result: UserExportInterface[] | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.filterUser(userFilterStub());
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return array', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual([userExportStub()]);
+      });
+
+      it('then should call db to filter user', () => {
+        expect(mongodbService.filterUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to filter user with given parameters', () => {
+        expect(mongodbService.filterUser).toHaveBeenCalledWith(
+          userFilterStub(),
+        );
+      });
     });
   });
 });

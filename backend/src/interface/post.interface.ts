@@ -1,4 +1,6 @@
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsDateString,
   IsInt,
   IsNumber,
@@ -60,6 +62,47 @@ export class PostBase {
 
   @IsNumber()
   number_bedroom: number;
+
+  @IsString()
+  accomodation_type: string; //건물 유형
+
+  @IsString()
+  building_type: string; //아파트인지, 주택인지
+
+  @IsInt()
+  @IsNumber()
+  x_coordinate: number;
+
+  @IsInt()
+  @IsNumber()
+  y_coordinate: number;
+
+  @IsString()
+  city: string;
+
+  @IsString()
+  gu: string;
+
+  @IsString()
+  dong: string;
+
+  @IsString()
+  street: string;
+
+  @IsString()
+  street_number: string;
+
+  @IsString()
+  post_code: string;
+
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  contract: boolean;
 }
 
 export class PostPartialBase {
@@ -117,6 +160,52 @@ export class PostPartialBase {
   @IsNumber()
   @IsOptional()
   price?: number;
+
+  @IsOptional()
+  @IsString()
+  accomodation_type?: string; //건물 유형
+
+  @IsOptional()
+  @IsString()
+  building_type?: string; //아파트인지, 주택인지
+
+  @IsOptional()
+  @IsBoolean()
+  contract?: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @IsNumber()
+  x_coordinate?: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsString()
+  y_coordinate?: number;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  gu?: string;
+
+  @IsOptional()
+  @IsString()
+  dong?: string;
+
+  @IsOptional()
+  @IsString()
+  street?: string;
+
+  @IsOptional()
+  @IsString()
+  street_number?: string;
+
+  @IsOptional()
+  @IsString()
+  post_code?: string;
 }
 
 export class PostExportInterface extends PostBase {
@@ -124,6 +213,8 @@ export class PostExportInterface extends PostBase {
   image_id: string[];
   postuser_id: string;
   post_date: Date | string;
+  private: boolean;
+  request: boolean;
 }
 
 export class PostInterface extends PostExportInterface {

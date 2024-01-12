@@ -47,10 +47,6 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   toDate?: string | Date;
 
   @IsOptional()
-  @IsArray()
-  tag?: string[];
-
-  @IsOptional()
   @IsBoolean()
   request?: boolean;
 
@@ -89,4 +85,50 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsNumber()
   number_bedroom?: number;
+
+  @IsOptional()
+  @IsString()
+  accomodation_type?: string; //건물 유형
+
+  @IsOptional()
+  @IsString()
+  building_type?: string; //아파트인지, 주택인지
+
+  @IsOptional()
+  @IsBoolean()
+  contract?: boolean;
+
+  @IsOptional()
+  @IsInt()
+  @IsNumber()
+  x_coordinate?: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsString()
+  y_coordinate?: number;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  gu?: string;
+
+  @IsOptional()
+  @IsString()
+  dong?: string;
+
+  @IsOptional()
+  @IsString()
+  street?: string;
+
+  @IsOptional()
+  @IsString()
+  street_number?: string;
+
+  @IsOptional()
+  @IsString()
+  post_code?: string;
 }
