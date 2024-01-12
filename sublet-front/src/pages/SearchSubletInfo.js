@@ -42,7 +42,7 @@ export default function SearchSubletInfo(props) {
             </div>
           </div>
           <div className="col-span-1">
-            <Map location="건국대" />
+            <Map location="광진구" />
           </div>
         </div>
       </div>

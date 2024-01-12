@@ -12,14 +12,16 @@ function searchAddressToCoordinate(address, map) {
     if (status === window.naver.maps.Service.Status.ERROR) {
       return alert('Something Wrong!');
     }
-
+    console.log(response.v2);
     if (response.v2.meta.totalCount === 0) {
-      return alert('totalCount' + response.v2.meta.totalCount);
+      return alert('totalCount' + response.v2.meta.totalCount + '\n검색정보 없음');
     }
 
     var htmlAddresses = [],
       item = response.v2.addresses[0],
       point = new window.naver.maps.Point(item.x, item.y);
+
+
 
     if (item.roadAddress) {
       htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
