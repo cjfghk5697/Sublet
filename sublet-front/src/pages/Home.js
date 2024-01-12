@@ -45,6 +45,7 @@ export default function Home() {
       <Link to="/SearchSubletInfo">SearchSubletInfo</Link>
       <Link to="/ReHome">ReHome</Link>
       <Link to="/Booking">Booking</Link>
+      <Link to="/Temp_Login">Temp_Login</Link>
       <Header />
       <div style={styles.roomContainer}>
         {rooms}
