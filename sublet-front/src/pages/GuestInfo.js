@@ -25,7 +25,7 @@ function GuestInfo() {
       })
     };
 
-    fetch('https://127.0.0.1:4000/auth/login', requestOptions)
+    fetch('http://127.0.0.1:4000/auth/login', requestOptions)
       .then(res => res.json())
       .then(response => {
         console.log('result login', response)
@@ -43,7 +43,7 @@ function GuestInfo() {
   const getUserInfo = async () => {
     const json = await (
       await fetch(
-        `https://127.0.0.1:4000/user/evan1`
+        `http://127.0.0.1:4000/user/evan1`
       )
     ).json();
 
