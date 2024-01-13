@@ -57,8 +57,8 @@ model Post {
   building_type     String //아파트인지, 주택인지
   contract          Boolean       @default(false) //계약 여부
   Reservation       Reservation[]
-  x_coordinate      Int
-  y_coordinate      Int
+  x_coordinate      Float
+  y_coordinate      Float
   city              String
   gu                String
   dong              String
