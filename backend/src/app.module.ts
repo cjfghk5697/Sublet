@@ -11,6 +11,7 @@ import { PostModule } from './modules/post/post.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { ReservationModule } from './modules/reservation/reservation.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
       serveRoot: '/public',
     }),
     ConfigModule.forRoot(),
+    ReservationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,9 +20,11 @@ export class UserPartialBase {
 
 export class UserExportInterface extends UserBase {
   id: string;
+  image_id: string;
   email: string;
   school: string;
   phone: string;
+  id_card: boolean;
 }
 
 export class UserInterface extends UserExportInterface {

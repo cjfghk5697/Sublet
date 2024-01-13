@@ -64,13 +64,36 @@ export class PostBase {
   number_bedroom: number;
 
   @IsString()
-  school: string; //어디 학교인지
-
-  @IsString()
   accomodation_type: string; //건물 유형
 
   @IsString()
   building_type: string; //아파트인지, 주택인지
+
+  @IsInt()
+  @IsNumber()
+  x_coordinate: number;
+
+  @IsInt()
+  @IsNumber()
+  y_coordinate: number;
+
+  @IsString()
+  city: string;
+
+  @IsString()
+  gu: string;
+
+  @IsString()
+  dong: string;
+
+  @IsString()
+  street: string;
+
+  @IsString()
+  street_number: string;
+
+  @IsString()
+  post_code: string;
 
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();
@@ -140,10 +163,6 @@ export class PostPartialBase {
 
   @IsOptional()
   @IsString()
-  school?: string; //어디 학교인지
-
-  @IsOptional()
-  @IsString()
   accomodation_type?: string; //건물 유형
 
   @IsOptional()
@@ -159,6 +178,40 @@ export class PostPartialBase {
   })
   @IsBoolean()
   contract?: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @IsNumber()
+  x_coordinate?: number;
+
+  @IsOptional()
+  @IsInt()
+  @IsString()
+  y_coordinate?: number;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  gu?: string;
+
+  @IsOptional()
+  @IsString()
+  dong?: string;
+
+  @IsOptional()
+  @IsString()
+  street?: string;
+
+  @IsOptional()
+  @IsString()
+  street_number?: string;
+
+  @IsOptional()
+  @IsString()
+  post_code?: string;
 }
 
 export class PostExportInterface extends PostBase {

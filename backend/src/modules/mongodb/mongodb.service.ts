@@ -12,6 +12,10 @@ import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import {
+  FilterReservationInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
 
 @Injectable()
 export class MongodbService {
@@ -19,6 +23,7 @@ export class MongodbService {
   POST_VERSION = 1;
   IMAGE_VERSION = 1;
   INCREMENTKEY_VERSION = 1;
+  RESERVATION_VERSION: number = 1;
 
   constructor(private prisma: PrismaService) {}
 
@@ -303,6 +308,13 @@ export class MongodbService {
         number_room: query.number_room,
         number_bathroom: query.number_bathroom,
         number_bedroom: query.number_bedroom,
+        x_coordinate: query.x_coordinate,
+        y_coordinate: query.y_coordinate,
+        city: query.city,
+        gu: query.gu,
+        dong: query.dong,
+        street: query.street,
+        street_number: query.street_number,
       },
     });
     return res;
@@ -315,5 +327,73 @@ export class MongodbService {
       },
     });
     return res;
+  }
+
+  async createReservation(data: ReservationInterface, user: UserInterface) {
+    console.log('[mongodb.service:createReservation] starting function');
+    console.log('[mongodb.service:createReservation] data: ', data);
+    console.log('[mongodb.service:createReservation] user: ', user);
+
+    let available = await this.filterReservation(data);
+    if (available) {
+      await this.prisma.reservation.create({
+        data: {
+          r_start_day: data.r_start_day,
+          r_end_day: data.r_end_day,
+          User: {
+            connect: {
+              user_id: user.user_id,
+            },
+          },
+          Post: {
+            connect: {
+              key: Number(data.post_key),
+            },
+          },
+          version: this.RESERVATION_VERSION,
+        },
+      });
+    } else {
+      throw new Error('reserved date');
+    }
+    console.log('[mongodb.service:createReservation] returning function');
+    return true;
+  }
+
+  async filterReservation(data: ReservationInterface) {
+    console.log('[mongodb.service:filterResrvation] starting function');
+    console.log('[mongodb.service:filterResrvation] data: ', data);
+
+    const reservation_list: FilterReservationInterface[] =
+      await this.prisma.reservation.findMany({
+        where: {
+          r_start_day: {
+            gte: new Date(data.r_start_day),
+            lte: new Date(data.r_end_day),
+          },
+          r_end_day: {
+            gte: new Date(data.r_start_day),
+            lte: new Date(data.r_end_day),
+          },
+          version: { gte: this.RESERVATION_VERSION },
+          deleted: false,
+        },
+        include: {
+          Post: true,
+        },
+      });
+
+    let flag = false;
+    console.log('data.post_key', data.post_key);
+    reservation_list.map((reservation) => {
+      if (reservation['Post'].key == Number(data.post_key)) {
+        flag = true;
+        return false;
+      }
+    });
+    if (flag) {
+      throw new Error('reserved date');
+    }
+    return true;
   }
 }
