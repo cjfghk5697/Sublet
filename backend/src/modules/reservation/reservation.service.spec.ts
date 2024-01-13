@@ -72,7 +72,7 @@ describe('ReservationService', () => {
           );
         });
 
-        it('should return one post', () => {
+        it('should return one reservation', () => {
           expect(result).toEqual([reservationExportStub()]);
         });
       });

@@ -513,7 +513,11 @@ export class MongodbService {
         },
         include: {
           User: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
-          Post: true,
+          Post: {
+            include: {
+              postuser: true,
+            },
+          },
         },
       });
     let final_list: ReservationExportInterface[] = [];
