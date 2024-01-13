@@ -5,6 +5,7 @@ import {
   IsInt,
   IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 
@@ -69,11 +70,11 @@ export class PostBase {
   @IsString()
   building_type: string; //아파트인지, 주택인지
 
-  @IsInt()
+  @IsPositive()
   @IsNumber()
   x_coordinate: number;
 
-  @IsInt()
+  @IsPositive()
   @IsNumber()
   y_coordinate: number;
 
@@ -170,16 +171,22 @@ export class PostPartialBase {
   building_type?: string; //아파트인지, 주택인지
 
   @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   @IsBoolean()
   contract?: boolean;
 
-  @IsInt()
   @IsOptional()
+  @IsPositive()
   @IsNumber()
   x_coordinate?: number;
 
   @IsOptional()
-  @IsInt()
+  @IsPositive()
   @IsString()
   y_coordinate?: number;
 
