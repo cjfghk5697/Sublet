@@ -21,8 +21,6 @@ export class ReservationService {
   async getAllReservation(user_id: string) {
 
     const res = await this.db.getAllReservations(user_id);
-
-
     return res;
   }
 }

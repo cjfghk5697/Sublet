@@ -29,7 +29,7 @@ describe('ReservationService', () => {
 
   describe('TESTING createReservation (POST /reservation)', () => {
     describe('when calling with normal input', () => {
-      let result: Boolean | undefined;
+      let result: boolean | undefined;
 
       beforeEach(async () => {
         try {
