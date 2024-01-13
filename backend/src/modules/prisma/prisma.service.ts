@@ -17,18 +17,34 @@ export class PrismaService
   async clearDatabase() {
     console.log('CLEAR DATABASE');
 
-    return this.$runCommandRaw({
-      delte: 'Sublet',
-      deletes: [
-        {
-          q: {},
-          limit: 0,
-        },
-      ],
-      writeConcern: {
-        w: 'majority',
-        wtimeout: 10000,
-      },
+    const collectionResult = await this.$runCommandRaw({
+      listCollections: 1,
+      nameOnly: true,
     });
+    console.log(collectionResult);
+
+    const collectionList: { name: string; type: string }[] = (
+      collectionResult?.cursor as { firstBatch: any[] }
+    )['firstBatch'];
+
+    for (let i = 0; i < collectionList.length; i++) {
+      const ele = collectionList[i];
+      if (ele.type !== 'collection') continue;
+      const result = await this.$runCommandRaw({
+        delete: ele.name,
+        deletes: [
+          {
+            q: {},
+            limit: 0,
+          },
+        ],
+        writeConcern: {
+          w: 'majority',
+          wtimeout: 10000,
+        },
+      });
+
+      console.log('clear result:', result);
+    }
   }
 }

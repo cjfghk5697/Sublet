@@ -10,8 +10,12 @@ import { PostInterface } from '@/interface/post.interface';
 import { ImageInterface } from '@/interface/image.interface';
 import { IncrementkeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import {
+  FilterReservationInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
 
 @Injectable()
 export class MongodbService {
@@ -19,6 +23,7 @@ export class MongodbService {
   POST_VERSION = 1;
   IMAGE_VERSION = 1;
   INCREMENTKEY_VERSION = 1;
+  RESERVATION_VERSION: number = 1;
 
   constructor(private prisma: PrismaService) {}
 
@@ -46,11 +51,19 @@ export class MongodbService {
     return posts;
   }
 
+  async getPostMaxKey() {
+    const posts: PostInterface[] = await this.prisma.post.findMany({});
+    if (!posts || posts.length === 0) return 0;
+    return posts.reduce((prev, cur) => {
+      return Math.max(prev, cur.key);
+    }, posts[0].key);
+  }
+
   async getPostKey() {
     console.log('[mongodb.service:getPostKey] starting function');
 
     // incrementKey 테이블의 첫 번째 데이터를 가져옴
-    const data: IncrementkeyInterface | null =
+    let data: IncrementkeyInterface | null =
       await this.prisma.incrementKey.findFirst({
         where: {
           version: { gte: this.INCREMENTKEY_VERSION },
@@ -58,10 +71,13 @@ export class MongodbService {
       });
     console.log(data);
     if (!data) {
-      console.log(
-        '[mongodb.service:getPostKey] data is null, returning Error!',
-      );
-      throw new Error('mongodb.service:getPostKey(), document doesnt exist');
+      data = await this.prisma.incrementKey.create({
+        data: {
+          postKey: await this.getPostMaxKey(),
+          version: this.INCREMENTKEY_VERSION,
+        },
+      });
+      if (!data) throw Error("[mongodb.service:getPostKey] can't create data");
     }
     console.log('[mongodb.service:getPostKey] data: ', data);
 
@@ -101,7 +117,6 @@ export class MongodbService {
             user_id: user.user_id,
           },
         },
-        tag: user.tag,
         version: this.POST_VERSION,
       },
     });
@@ -349,7 +364,7 @@ export class MongodbService {
       throw Error('[mongodb.service:deleteOneUser] user doesnt exist');
     }
     console.log('[mongodb.service:deleteOneUser] returning function');
-    return res;
+    return true;
   }
 
   async filterPost(query: PostFilterQueryDto) {
@@ -373,29 +388,102 @@ export class MongodbService {
         price: range_price,
         request: true,
         position: query.position,
-        tag: { hasEvery: query.tag },
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },
         limit_people: query.limit_people,
         number_room: query.number_room,
         number_bathroom: query.number_bathroom,
         number_bedroom: query.number_bedroom,
+        x_coordinate: query.x_coordinate,
+        y_coordinate: query.y_coordinate,
+        city: query.city,
+        gu: query.gu,
+        dong: query.dong,
+        street: query.street,
+        street_number: query.street_number,
       },
     });
     console.log('[mongodb.service:filterPost] returning function');
     return res;
   }
-
-  async filterUser(query: UserTagFilterDto) {
+  async filterUser(query: UserFilterDto) {
     console.log('[mongodb.service:filterUser] starting function');
-    console.log('[mongodb.service:filterUser] post_date: ', query.tag);
+    console.log('[mongodb.service:filterUser] post_date: ', query.school);
     const res: UserInterface[] = await this.prisma.user.findMany({
       where: {
         version: { gte: this.USER_VERSION },
-        tag: { hasEvery: query.tag },
+        school: query.school,
       },
     });
     console.log('[mongodb.service:filterUser] returning function');
     return res;
+  }
+
+  async createReservation(data: ReservationInterface, user: UserInterface) {
+    console.log('[mongodb.service:createReservation] starting function');
+    console.log('[mongodb.service:createReservation] data: ', data);
+    console.log('[mongodb.service:createReservation] user: ', user);
+
+    let available = await this.filterReservation(data);
+    if (available) {
+      await this.prisma.reservation.create({
+        data: {
+          r_start_day: data.r_start_day,
+          r_end_day: data.r_end_day,
+          User: {
+            connect: {
+              user_id: user.user_id,
+            },
+          },
+          Post: {
+            connect: {
+              key: Number(data.post_key),
+            },
+          },
+          version: this.RESERVATION_VERSION,
+        },
+      });
+    } else {
+      throw new Error('reserved date');
+    }
+    console.log('[mongodb.service:createReservation] returning function');
+    return true;
+  }
+
+  async filterReservation(data: ReservationInterface) {
+    console.log('[mongodb.service:filterResrvation] starting function');
+    console.log('[mongodb.service:filterResrvation] data: ', data);
+
+    const reservation_list: FilterReservationInterface[] =
+      await this.prisma.reservation.findMany({
+        where: {
+          r_start_day: {
+            gte: new Date(data.r_start_day),
+            lte: new Date(data.r_end_day),
+          },
+          r_end_day: {
+            gte: new Date(data.r_start_day),
+            lte: new Date(data.r_end_day),
+          },
+          version: { gte: this.RESERVATION_VERSION },
+          deleted: false,
+        },
+        include: {
+          Post: true,
+        },
+      });
+
+    let flag = false;
+    console.log('data.post_key', data.post_key);
+    reservation_list.map((reservation) => {
+      if (reservation['Post'].key == Number(data.post_key)) {
+        flag = true;
+        return false;
+      }
+    });
+    if (flag) {
+      throw new Error('reserved date');
+    }
+    return true;
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserTagFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -49,11 +49,9 @@ export class UserService {
   async deleteOneUser(user_id: string) {
     console.log('[user.service:deleteOneUser] starting function');
     console.log('[user.service:deleteOneUser] user_id: ', user_id);
-    const user = await this.db.deleteOneUser(user_id);
-    console.log('[user.service:deleteOneUser] user: ', user);
-    const exportUser = this.transformExport(user);
+    const res = await this.db.deleteOneUser(user_id);
     console.log('[user.service:deleteOneUser] returning function');
-    return exportUser;
+    return res;
   }
   async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
     console.log('[user.service:putOneUser] starting function');
@@ -66,21 +64,21 @@ export class UserService {
     return exportUser;
   }
 
-  async filterUser(query: UserTagFilterDto) {
-    console.log('[user.servuce:filterUser] starting function');
-    console.log('[user.servuce:filterUser] query: ', query);
+  async filterUser(query: UserFilterDto) {
+    console.log('[user.service:filterUser] starting function');
+    console.log('[user.service:filterUser] query: ', query);
     const res = await this.db.filterUser(query);
-    console.log('[user.servuce:filterUser] res: ', res);
+    console.log('[user.service:filterUser] res: ', res);
 
     const ret = res.map((user) => this.transformExport(user));
-    console.log('[user.servuce:filterUser] returning function');
+    console.log('[user.service:filterUser] returning function');
     return ret;
   }
 
   transformExport(user: UserInterface): UserExportInterface {
-    delete (user as { phone?: string }).phone;
     delete (user as { password?: string }).password;
     delete (user as { delete?: boolean }).delete;
+    delete (user as { version?: number }).version;
     return user;
   }
 }
