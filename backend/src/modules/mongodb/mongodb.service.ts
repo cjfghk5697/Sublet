@@ -330,7 +330,7 @@ export class MongodbService {
   }
 
   async createReservation(data: ReservationInterface, user: UserInterface) {
-    let available = await this.filterReservation(data);
+    const available = await this.filterReservation(data);
     if (available) {
       await this.prisma.reservation.create({
         data: {

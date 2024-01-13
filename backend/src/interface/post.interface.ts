@@ -2,7 +2,6 @@ import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
-  IsDecimal,
   IsInt,
   IsNumber,
   IsOptional,

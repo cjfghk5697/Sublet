@@ -9,7 +9,6 @@ import {
   IsString,
   IsBoolean,
   IsNumber,
-  IsDecimal,
 } from 'class-validator';
 
 export class PostCreateDto extends PostBase {}
