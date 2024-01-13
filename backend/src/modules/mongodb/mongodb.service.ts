@@ -330,10 +330,6 @@ export class MongodbService {
   }
 
   async createReservation(data: ReservationInterface, user: UserInterface) {
-    console.log('[mongodb.service:createReservation] starting function');
-    console.log('[mongodb.service:createReservation] data: ', data);
-    console.log('[mongodb.service:createReservation] user: ', user);
-
     let available = await this.filterReservation(data);
     if (available) {
       await this.prisma.reservation.create({
@@ -356,14 +352,10 @@ export class MongodbService {
     } else {
       throw new Error('reserved date');
     }
-    console.log('[mongodb.service:createReservation] returning function');
     return true;
   }
 
   async filterReservation(data: ReservationInterface) {
-    console.log('[mongodb.service:filterResrvation] starting function');
-    console.log('[mongodb.service:filterResrvation] data: ', data);
-
     const reservation_list: FilterReservationInterface[] =
       await this.prisma.reservation.findMany({
         where: {
@@ -384,7 +376,6 @@ export class MongodbService {
       });
 
     let flag = false;
-    console.log('data.post_key', data.post_key);
     reservation_list.map((reservation) => {
       if (reservation['Post'].key == Number(data.post_key)) {
         flag = true;

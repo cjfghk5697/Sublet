@@ -2,9 +2,11 @@ import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
+  IsDecimal,
   IsInt,
   IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 
@@ -69,11 +71,11 @@ export class PostBase {
   @IsString()
   building_type: string; //아파트인지, 주택인지
 
-  @IsInt()
+  @IsPositive()
   @IsNumber()
   x_coordinate: number;
 
-  @IsInt()
+  @IsPositive()
   @IsNumber()
   y_coordinate: number;
 
@@ -179,13 +181,13 @@ export class PostPartialBase {
   @IsBoolean()
   contract?: boolean;
 
-  @IsInt()
   @IsOptional()
+  @IsPositive()
   @IsNumber()
   x_coordinate?: number;
 
   @IsOptional()
-  @IsInt()
+  @IsPositive()
   @IsString()
   y_coordinate?: number;
 
