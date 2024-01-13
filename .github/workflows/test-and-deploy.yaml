@@ -56,5 +56,6 @@ jobs:
             echo "DATABASE_URL=\"${{ secrets.ENV_DATABASE_URL }}\"
             NODE_ENV=\"${{ secrets.NODE_ENV }}\"
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
+            FRONTEND_URL=\"${{ secrets.ENV_FRONTEND_URL }}\"
             " > backend/.env
             docker compose up -d --build

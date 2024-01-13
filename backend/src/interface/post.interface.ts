@@ -151,6 +151,12 @@ export class PostPartialBase {
   building_type?: string; //아파트인지, 주택인지
 
   @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   @IsBoolean()
   contract?: boolean;
 }
