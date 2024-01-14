@@ -77,5 +77,32 @@ describe('ReservationService', () => {
         });
       });
     });
+
+    describe('TESTING deleteOneReservation (DELETE /reservation/:reservationKey)', () => {
+      describe('when calling with resevation delete inputs', () => {
+        let result: boolean | undefined;
+        beforeEach(async () => {
+          try {
+            result = await service.deleteOneReservation(reservationStub());
+          } catch (e) {
+            result = undefined;
+          }
+        });
+
+        it('then should return boolean', () => {
+          expect(result).toBeDefined();
+        });
+
+        it('then should call db to delete post', () => {
+          expect(mongoDbService.deleteOneReservation).toHaveBeenCalledTimes(1);
+        });
+
+        it('then should call db to delete post with given parameters', () => {
+          expect(mongoDbService.deleteOneReservation).toHaveBeenCalledWith(
+            reservationStub(),
+          );
+        });
+      });
+    });
   });
 });

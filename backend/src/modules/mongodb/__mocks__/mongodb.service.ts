@@ -26,4 +26,5 @@ export const MongodbService = jest.fn().mockReturnValue({
   filterUser: jest.fn().mockReturnValue([userStub()]),
   createReservation: jest.fn().mockReturnValue(reservationStub()),
   getAllReservations: jest.fn().mockReturnValue([reservationExportStub()]),
+  deleteOneReservation: jest.fn().mockReturnValue(reservationExportStub()),
 });

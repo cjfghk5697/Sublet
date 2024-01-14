@@ -9,9 +9,12 @@ import {
   Req,
   UnauthorizedException,
   UseGuards,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { ReservationDto } from '@/dto/reservation.dto';
+import { ReservationExportInterface } from '@/interface/reservation.interface';
+import { ReservationCreateDto, ReservationDto } from '@/dto/reservation.dto';
 
 @Controller('reservation')
 export class ReservationController {
@@ -20,7 +23,7 @@ export class ReservationController {
   @Post()
   @UseGuards(LoggedInGuard)
   async createReservation(
-    @Body() data: ReservationDto,
+    @Body() data: ReservationCreateDto,
     @Req() req: customRequest,
   ) {
     if (!req.user) {
@@ -61,6 +64,19 @@ export class ReservationController {
       return res;
     } catch (e) {
       console.log('[reservation.controller:getAllReservation] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Delete()
+  @UseGuards(LoggedInGuard)
+  async deleteOneReservation(@Req() req: ReservationDto) {
+    try {
+      const res = await this.reservationService.deleteOneReservation(req);
+      console.log('[reservation.controller:DeleteOneResrvation] res: ', res);
+      return { ok: res };
+    } catch (e) {
+      console.log('[reservation.controller:DeleteOneResrvation] error: ', e);
       throw new BadRequestException();
     }
   }

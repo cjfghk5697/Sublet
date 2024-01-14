@@ -1,18 +1,17 @@
-import { ReservationInterface } from '@/interface/reservation.interface';
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { ReservationBase } from '@/interface/reservation.interface';
+import {
+  IsDateString,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+export class ReservationCreateDto extends ReservationBase {}
 
-export class ReservationDto extends ReservationInterface {
-  @IsDateString()
-  r_start_day: string | Date;
-
-  @IsDateString()
-  r_end_day: string | Date;
-
-  @IsString()
-  user_id: string;
-
-  @IsString()
-  post_key: string;
+export class ReservationDto extends ReservationBase {
+  @IsNumber()
+  @IsInt()
+  key: number;
 }
 
 export class ReservationFilterDto {
@@ -31,4 +30,9 @@ export class ReservationFilterDto {
   @IsOptional()
   @IsString()
   post_key?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsInt()
+  key?: number;
 }

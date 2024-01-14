@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
 import User from "../components/GuestInfo";
-//import Cookies from 'universal-cookie';
-import cookie from 'react-cookies';
 
-//import { useParams } from "react-router-dom";
 function GuestInfo() {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
 
-
-
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
-      withCredentials: true,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -25,7 +19,7 @@ function GuestInfo() {
       })
     };
 
-    fetch('http://127.0.0.1:4000/auth/login', requestOptions)
+    fetch('https://localhost:4000/auth/login', requestOptions)
       .then(res => res.json())
       .then(response => {
         console.log('result login', response)
@@ -43,7 +37,7 @@ function GuestInfo() {
   const getUserInfo = async () => {
     const json = await (
       await fetch(
-        `http://127.0.0.1:4000/user/evan1`
+        `https://localhost:4000/user/evan1`
       )
     ).json();
 

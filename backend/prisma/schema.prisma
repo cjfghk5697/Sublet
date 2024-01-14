@@ -103,11 +103,18 @@ model Request_form {
 model Reservation {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   version     Int      @default(1)
+  key         Int      @unique
   User        User     @relation(fields: [user_id], references: [id])
   Post        Post     @relation(fields: [post_key], references: [id])
   r_start_day DateTime @db.Date
   r_end_day   DateTime @db.Date
-  user_id     String
-  post_key    String
+  user_id     String   @db.ObjectId
+  post_key    String   @db.ObjectId
   deleted     Boolean  @default(false)
+}
+
+model ReservationIncrementKey {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  version        Int    @default(1)
+  reservationKey Int
 }
