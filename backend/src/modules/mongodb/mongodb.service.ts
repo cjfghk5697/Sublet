@@ -343,11 +343,23 @@ export class MongodbService {
     const key = Number(await this.getReservationKey());
     console.log('key', key);
     const available = await this.filterReservation(data);
+
+    const getDateDiff = (d1: string | Date, d2: string | Date) => {
+      const date1 = new Date(d1);
+      const date2 = new Date(d2);
+
+      const diffDate = date1.getTime() - date2.getTime(); //gettime 함수는  number of milliseconds로 return함
+
+      return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+    };
+    const pay = getDateDiff(data.r_end_day, data.r_start_day) * data.pay;
+
     if (available.length < 1) {
       await this.prisma.reservation.create({
         data: {
           r_start_day: data.r_start_day,
           r_end_day: data.r_end_day,
+          pay: pay,
           User: {
             connect: {
               user_id: user.user_id,
@@ -436,17 +448,14 @@ export class MongodbService {
     return final_list;
   }
 
-  async deleteOneReservation(data: ReservationDto) {
+  async deleteOneReservation(key: number, user: UserInterface) {
+    //const resKey=Number(key)
+    console.log(key, user);
     await this.prisma.reservation.update({
       where: {
-        key: data.key,
-        r_start_day: data.r_start_day,
-        r_end_day: data.r_end_day,
+        key,
         User: {
-          user_id: data.user_id,
-        },
-        Post: {
-          key: Number(data.post_key),
+          user_id: user['user_id'],
         },
         version: { gte: this.POST_VERSION },
         deleted: false,

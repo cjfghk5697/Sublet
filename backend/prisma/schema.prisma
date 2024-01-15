@@ -111,6 +111,7 @@ model Reservation {
   user_id     String   @db.ObjectId
   post_key    String   @db.ObjectId
   deleted     Boolean  @default(false)
+  pay         Int
 }
 
 model ReservationIncrementKey {

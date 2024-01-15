@@ -36,3 +36,8 @@ export class ReservationFilterDto {
   @IsInt()
   key?: number;
 }
+export class reservationRequest {
+  @IsNumber()
+  @IsInt()
+  key: number;
+}

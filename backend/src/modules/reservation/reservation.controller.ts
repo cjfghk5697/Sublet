@@ -13,8 +13,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { ReservationExportInterface } from '@/interface/reservation.interface';
-import { ReservationCreateDto, ReservationDto } from '@/dto/reservation.dto';
+import {
+  ReservationCreateDto,
+  reservationRequest,
+} from '@/dto/reservation.dto';
 
 @Controller('reservation')
 export class ReservationController {
@@ -70,9 +72,22 @@ export class ReservationController {
 
   @Delete()
   @UseGuards(LoggedInGuard)
-  async deleteOneReservation(@Req() req: ReservationDto) {
+  async deleteOneReservation(
+    @Body() data: reservationRequest,
+    @Req() req: customRequest,
+  ) {
+    console.log('[post.controller:DeleteOnePost] starting function');
+    console.log('[post.controller:DeleteOnePost] key: ', data.key);
+    console.log('[post.controller:DeleteOnePost] req.user: ', req.user);
+    if (!req.user) {
+      console.log("[post.controller:DeleteOnePost] req.user doesn't exist");
+      throw new UnauthorizedException();
+    }
     try {
-      const res = await this.reservationService.deleteOneReservation(req);
+      const res = await this.reservationService.deleteOneReservation(
+        data.key,
+        req.user,
+      );
       console.log('[reservation.controller:DeleteOneResrvation] res: ', res);
       return { ok: res };
     } catch (e) {

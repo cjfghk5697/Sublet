@@ -29,27 +29,28 @@ function User({ user }) {
   }, []);
 
   const reservation = Array.from(reservationInfo)
-  const reservationComponent = (<div className="mb-4">
-    <h2 className="text-2xl font-extrabold">예약 현황</h2>
-    <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-    {loading ? ((
-      <div>
-        <p className="text-base font-extrabold">예약이 아직 없습니다.</p>
-      </div>)
-    ) : (reservation.map((res) =>
-      <SummaryBlock
-        title={res.Post.title}
-        host={res.Post.postuser.user_id}
-        start_day={res.r_start_day}
-        end_day={res.r_end_day}
-        pay={res.Post.price}
-        // host_image={res.postuser.user_image}
-        room_image={res.Post.image_id[0]}
-      />
 
-    ))
-    }
-  </div>
+  const reservationComponent = (
+    <div className="mb-4">
+      <h2 className="text-2xl font-extrabold">예약 현황</h2>
+      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      {loading ? (
+        <p className="text-base font-extrabold">예약이 아직 없 니다.</p>
+      ) : (reservation.map((res) => {
+        <SummaryBlock
+          title={res.Post.title}
+          host={res.Post.postuser.user_id}
+          start_day={res.r_start_day}
+          end_day={res.r_end_day}
+          pay={res.pay}
+          key={res.key}
+          // host_image={res.postuser.user_image}
+          room_image={res.Post.image_id[0]}
+        />
+      }
+      ))
+      }
+    </div>
   )
   const userPrivateComponent = (
     <div>
@@ -67,7 +68,7 @@ function User({ user }) {
       {/*<img src="http://localhost:4000/user/evan1"></img>*/}
       <p className="text-2xl font-extrabold">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
-      <p>{user.id_card ? '인증 완료✅' : '인증 안됨❌'}</p>
+      <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
     </div>
   )
   return (
@@ -76,13 +77,9 @@ function User({ user }) {
         {userBaseComponent}
       </div>
 
-      <div className="mb-2 ml-3 col-span-6 mt-5">
+      <div className="mb-2 ml-7 col-span-6 mt-5">
         {reservationComponent}
-
-
-        <div>
-          {userPrivateComponent}
-        </div>
+        {userPrivateComponent}
       </div>
     </div>
   );

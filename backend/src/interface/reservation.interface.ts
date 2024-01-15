@@ -15,6 +15,10 @@ export class ReservationBase {
 
   @IsString()
   post_key: string;
+
+  @IsNumber()
+  @IsInt()
+  pay: number;
 }
 export class ReservationExportInterface extends ReservationBase {
   @IsInt()

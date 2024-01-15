@@ -165,6 +165,7 @@ export const reservationStub = (): ReservationDto => {
     post_key: '1',
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
+    pay: 50000,
   };
 };
 
@@ -176,6 +177,7 @@ export const reservationExportStub = (): ReservationInterface => {
     post_key: '1',
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
+    pay: 50000,
     User: {
       ...userExportStub(),
     },

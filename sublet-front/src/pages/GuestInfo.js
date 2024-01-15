@@ -27,7 +27,6 @@ function GuestInfo() {
       .catch((e) => {
         console.log('[error] login', e)
       })
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
   };
   useEffect(() => {
     login()

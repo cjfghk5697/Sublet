@@ -30,8 +30,8 @@ export class ReservationService {
     return res;
   }
 
-  async deleteOneReservation(data: ReservationDto) {
-    const res = await this.db.deleteOneReservation(data);
+  async deleteOneReservation(key: number, user: UserInterface) {
+    const res = await this.db.deleteOneReservation(key, user);
     return res;
   }
 }
