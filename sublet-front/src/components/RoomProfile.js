@@ -16,6 +16,9 @@ const styles = {
     fontSize: "1.2em",
     fontWeight: "bold",
   },
+  price: {
+    fontSize: "1.2em",
+  },
 };
 
 export default function RoomProfile(props) {
@@ -43,7 +46,9 @@ export default function RoomProfile(props) {
           )}{33 /* 좋아유 수*/}
         </IconButton>
       </div>
-      ₩{props.room.price * 30}/1개월
+      <div style={styles.price}>
+        ₩{props.room.price * 30}/1개월
+      </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import RoomProfile from '../components/RoomProfile';
 import Header from '../components/Header';
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [roomsData, setData] = useState(null);
@@ -14,7 +13,7 @@ export default function Home() {
   console.log(roomsData);
 
   const styles = {
-    container: {
+    mainContainer: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -33,10 +32,12 @@ export default function Home() {
   });
 
   return (
-    <div style={styles.container}>
+    <div>
       <Header />
-      <div style={styles.roomContainer}>
-        {rooms}
+      <div style={styles.mainContainer}>
+        <div style={styles.roomContainer}>
+          {rooms}
+        </div>
       </div>
     </div>
   );

@@ -151,12 +151,29 @@ export default function Test() {
 }
 
 
-{/*
+/*
         모바일 용으로 쓸 만 할 듯.
         <div className="flex lg:hidden">
           <button type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" onClick={() => setMobileMenuOpen(true)}>
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
-        </div>*/
-}
+        </div>
+*/
+
+/* 추천 검색어 (보류)
+import * as makeTest from '../testdata/testdata.js'
+const recommendWordTempData = makeTest.makeTestRecommendSearch(); // This is a temporary data for testing
+
+let recommendWords = recommendWordTempData.map((word) => {
+  return (
+    <IconButton style={styles.recommendSearchKeyword}>
+      {word.recommendWord}
+    </IconButton>
+  )
+});
+
+<div style={styles.recommendSearchKeywordContainer}>
+  {recommendWords}
+</div>
+*/
