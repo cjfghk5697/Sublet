@@ -1,57 +1,8 @@
-import SummaryBlock from "./SummaryBlock";
-import { useEffect, useState } from "react";
+import ReservationInfo from "./Reservation";
 
 function User({ user }) {
-  const [loading, setLoading] = useState(true);
-  const [reservationInfo, setReservationInfo] = useState([]);
 
-  const getReservationInfo = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
 
-    const json = await (
-      await fetch(
-        `https://localhost:4000/reservation`
-        , requestOptions)
-    ).json();
-
-    setLoading(false)
-    setReservationInfo(json)
-  };
-
-  useEffect(() => {
-    getReservationInfo();
-  }, []);
-
-  const reservation = Array.from(reservationInfo)
-
-  const reservationComponent = (
-    <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-      {loading ? (
-        <p className="text-base font-extrabold">예약이 아직 없 니다.</p>
-      ) : (reservation.map((res) => {
-        <SummaryBlock
-          title={res.Post.title}
-          host={res.Post.postuser.user_id}
-          start_day={res.r_start_day}
-          end_day={res.r_end_day}
-          pay={res.pay}
-          key={res.key}
-          // host_image={res.postuser.user_image}
-          room_image={res.Post.image_id[0]}
-        />
-      }
-      ))
-      }
-    </div>
-  )
   const userPrivateComponent = (
     <div>
       <h2 className="text-2xl font-extrabold">사용자 정보</h2>
@@ -71,6 +22,8 @@ function User({ user }) {
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
     </div>
   )
+
+
   return (
     <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
       <div className="ml-3 mt-5">
@@ -78,7 +31,7 @@ function User({ user }) {
       </div>
 
       <div className="mb-2 ml-7 col-span-6 mt-5">
-        {reservationComponent}
+        <ReservationInfo />
         {userPrivateComponent}
       </div>
     </div>

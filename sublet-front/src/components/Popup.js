@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import '../style/popup.css'
-function PopUp({ main_text, sub_text, key }) {
+function PopUp({ main_text, sub_text, key_num }) {
 
   const [show, setShow] = useState(true);
   const [checkState, setCheckState] = useState(false)
@@ -13,28 +13,27 @@ function PopUp({ main_text, sub_text, key }) {
     setCheckState(!checkState)
   }
 
-  const deleteHandled = () => {
-    const deleteReservation = async () => {
-      const requestOptions = {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          key: key
-        })
-      };
+  const deleteHandled = async () => {
 
-      await (
-        await fetch(
-          `https://localhost:4000/reservation`
-          , requestOptions)
-      ).json();
+    const requestOptions = {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        key: key_num
+      })
     };
-    setDeleteState(true)
-  };
 
+    await (
+      await fetch(
+        `${env.FRONTEND_URL}/reservation`
+        , requestOptions)
+    ).json();
+    setDeleteState(true)
+
+  };
 
   return (
     <>
@@ -54,7 +53,7 @@ function PopUp({ main_text, sub_text, key }) {
             <button onClick={handleClose} className="button_left bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg ml-4 mb-3">
               나가기
             </button>
-            {checkState ? (<button onClick={deleteHandled} className="button_right bg-[#F62424] hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mb-3 mr-4">
+            {checkState ? (<button onClick={deleteHandled} className="button_right bg-[#F62424] hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mr-4 mb-3">
               취소하기
             </button>) : (<button className="button_right mr-auto bg-gray-400 font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mr-4 mb-3" disabled>
               취소하기

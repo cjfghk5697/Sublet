@@ -19,7 +19,7 @@ function GuestInfo() {
       })
     };
 
-    fetch('https://localhost:4000/auth/login', requestOptions)
+    fetch(`${env.FRONTEND_URL}/auth/login`, requestOptions)
       .then(res => res.json())
       .then(response => {
         console.log('result login', response)
@@ -36,7 +36,7 @@ function GuestInfo() {
   const getUserInfo = async () => {
     const json = await (
       await fetch(
-        `https://localhost:4000/user/evan1`
+        `${env.FRONTEND_URL}/user/evan1`
       )
     ).json();
 

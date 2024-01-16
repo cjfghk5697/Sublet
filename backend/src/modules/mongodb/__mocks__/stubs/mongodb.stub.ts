@@ -3,10 +3,7 @@ import { ReservationDto } from '@/dto/reservation.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import {
-  ReservationExportInterface,
-  ReservationInterface,
-} from '@/interface/reservation.interface';
+import { ReservationInterface } from '@/interface/reservation.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
 

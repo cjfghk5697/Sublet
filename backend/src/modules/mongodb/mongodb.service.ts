@@ -18,11 +18,9 @@ import * as bcrypt from 'bcrypt';
 import {
   ReservationExportInterface,
   ReservationInterface,
-  ReservationBase,
 } from '@/interface/reservation.interface';
 import {
   ReservationCreateDto,
-  ReservationDto,
   ReservationFilterDto,
 } from '@/dto/reservation.dto';
 
@@ -404,19 +402,6 @@ export class MongodbService {
           },
         },
       });
-    // let flag = false;
-    // reservation_list.map((reservation) => {
-    //   if (reservation['Post'].key == Number(data.post_key)) {
-    //     flag = true;
-    //     return false;
-    //   }
-    // });
-
-    // if (flag) {
-    //   throw new Error(
-    //     '[mongodb.service:filterResrvation] error: reserved date',
-    //   );
-    // }
     return reservation_list;
   }
 

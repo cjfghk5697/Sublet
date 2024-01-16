@@ -6,10 +6,7 @@ import {
   reservationStub,
   userStub,
 } from '../mongodb/__mocks__/stubs/mongodb.stub';
-import {
-  ReservationExportInterface,
-  ReservationInterface,
-} from '@/interface/reservation.interface';
+import { ReservationExportInterface } from '@/interface/reservation.interface';
 
 jest.mock('../mongodb/mongodb.service');
 
@@ -83,7 +80,10 @@ describe('ReservationService', () => {
         let result: boolean | undefined;
         beforeEach(async () => {
           try {
-            result = await service.deleteOneReservation(reservationStub());
+            result = await service.deleteOneReservation(
+              reservationStub().key,
+              userStub(),
+            );
           } catch (e) {
             result = undefined;
           }
@@ -99,7 +99,8 @@ describe('ReservationService', () => {
 
         it('then should call db to delete post with given parameters', () => {
           expect(mongoDbService.deleteOneReservation).toHaveBeenCalledWith(
-            reservationStub(),
+            reservationStub().key,
+            userStub(),
           );
         });
       });

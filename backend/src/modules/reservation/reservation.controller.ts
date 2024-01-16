@@ -9,7 +9,6 @@ import {
   Req,
   UnauthorizedException,
   UseGuards,
-  Param,
   Delete,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';

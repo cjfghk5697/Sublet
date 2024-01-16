@@ -1,15 +1,7 @@
 import { UserInterface } from '@/interface/user.interface';
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
-import {
-  ReservationExportInterface,
-  ReservationInterface,
-} from '@/interface/reservation.interface';
-import {
-  ReservationCreateDto,
-  ReservationDto,
-  ReservationFilterDto,
-} from '@/dto/reservation.dto';
+import { ReservationCreateDto } from '@/dto/reservation.dto';
 
 @Injectable()
 export class ReservationService {
