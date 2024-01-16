@@ -21,6 +21,10 @@ const Header = () => {
     }
   }, [searchButtonClicked]);
 
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   const styles = {
     container: {
       borderBottom: '1px solid gray',
@@ -33,11 +37,15 @@ const Header = () => {
       justifyContent: 'center',
       width: '100%',
     },
+    logoContainer: {
+      display: 'flex',
+      flex: 1,
+    },
     logoIcon: {
-      width: '6em',
+      width: '4em',
       height: '100%',
       color: 'rgba(0, 0, 0, 1)',
-      justifyContent: 'right',
+      justifyContent: 'left',
     },
     searchBoxContainer: {
       display: 'flex',
@@ -49,10 +57,15 @@ const Header = () => {
       borderRadius: '5px',
       padding: '1em',
       fontSize: '1.3em',
+      flex: 5,
     },
     searchByLocation: {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
+    },
+    searchByKeywordContainer: {
+      display: 'flex',
+      flex: 1,
     },
     serachByKeyword: {
       marginRight: '0.5em',
@@ -62,6 +75,8 @@ const Header = () => {
       fontWeight: 'bold',
     },
     serachByKeywordInput: {
+      display: 'flex',
+      flex: 1,
       border: '1px',
     },
     searchKeyworddescription: {
@@ -91,15 +106,14 @@ const Header = () => {
     },
   }
 
-
   return (
     <header className="bg-white" style={styles.container}>
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global" style={styles.headerContainer}>
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <IconButton onClick={handleReload} style={styles.logoContainer} className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-8" src="logo.png" style={styles.logoIcon} alt="logo" />
-          </a>
+            <img src="logo.png" style={styles.logoIcon} className="h-8" alt="logo" />
+          </IconButton>
         </div>
         <Popover.Group style={styles.searchBoxContainer} className="hidden lg:flex lg:gap-x-12"> {/* 검색창 */}
           <IconButton style={styles.searchByLocation} className="font-semibold leading-6 text-gray-900">
@@ -113,10 +127,17 @@ const Header = () => {
             <PriceRangeFilter />
           </IconButton>
           {searchButtonClicked ?
-            <input type="text" ref={inputRef} placeholder="필요한 숙소를 입력하세요" style={styles.serachByKeywordInput} />
+            <span style={styles.searchByKeywordContainer}>
+              <span>
+                <input type="text" ref={inputRef} placeholder="필요한 숙소를 입력하세요" style={styles.serachByKeywordInput} />
+              </span>
+              <IconButton onClick={alert}>
+                <SearchIcon style={styles.searchIcon} />
+              </IconButton>
+            </span>
             // focusOnInput()
             :
-            <IconButton onClick={() => setSearchButtonClicked(true)}>
+            <IconButton onClick={() => setSearchButtonClicked(true)} style={styles.searchByKeywordContainer}>
               <span style={styles.serachByKeyword} className="font-semibold leading-6 text-gray-900">
                 <div style={styles.searchKeywordBig}>
                   필요한 숙소를 입력하세요
