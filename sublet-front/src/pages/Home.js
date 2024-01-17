@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 
 export default function Home() {
   const [roomsData, setData] = useState(null);
+  const [likes, setLikes] = useState({})
 
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/post")
@@ -13,7 +14,36 @@ export default function Home() {
       .then((ele) => setData(ele));
   }, []);
 
-  console.log(roomsData);
+  const toggleFavorite = (item) => () => {
+    console.log(likes)
+    if (item.key in likes) { // likes.filter(likesItem => likesItem.key !== item.key)
+      let newLikes = {}
+      // console.log(likes)
+      Object.keys(likes).map(newItem => {
+        // console.log(item.key+"  "+newItem.toString())
+        if (likes[newItem].key !== item.key) {
+          newLikes = { ...newLikes, [newItem]: likes[newItem] }
+        }
+      })
+      setLikes(newLikes)
+      /*
+      fetch(`http://REACT_APP_BACKEND_URL:8098/likes/${item.key}`, {
+        method: 'DELETE',
+      })
+      */
+    }
+    else
+      setLikes({ ...likes, [item.key]: item })
+    /*
+    let result = fetch(`http://localhost:8098/likes`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
+    */
+  }
 
   const styles = {
     mainContainer: {
@@ -31,17 +61,16 @@ export default function Home() {
     requirementSubmitButtonAndCommunityFindButton: {
       display: 'flex',
       flexDirection: 'row',
-      margin: '1rem 0 1rem 9.5rem',
+      margin: '1rem 0 1rem 0rem',
     },
     requirementSubmitButton: {
       marginRight: '0.7em',
     },
-
   };
 
-  let rooms = roomsData?.map((room) => {
-    return <RoomProfile room={room} />;
-  });
+  let rooms = roomsData?.map((room) => (
+    <RoomProfile room={room} toggleFavorite={toggleFavorite} likes={likes} />
+  ));
 
   const RequirementSubmitAndCommunityFind = () => {
     return (
@@ -63,17 +92,11 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <RequirementSubmitAndCommunityFind />
       <div style={styles.mainContainer}>
-        {
-          roomsData?.length === 0 ?
-            <h1>게시된 방이 없어요</h1>
-            :
-            <div style={styles.roomContainer}>
-              {rooms}
-            </div>
-        }
-
+        <RequirementSubmitAndCommunityFind />
+        <div style={styles.roomContainer}>
+          {rooms}
+        </div>
       </div>
     </div>
   );
