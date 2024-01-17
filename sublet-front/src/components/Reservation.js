@@ -15,7 +15,7 @@ function FetchReservation() {
 
     const json = await (
       await fetch(
-        `${process.env.REACT_APP_FRONTEND_URL}/reservation`
+        `${process.env.REACT_APP_BACKEND_URL}/reservation`
         , requestOptions)
     ).json();
 
