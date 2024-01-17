@@ -49,3 +49,11 @@ export class UserFilterDto {
   @IsArray()
   school?: string;
 }
+
+export class UserLoginDto {
+  @IsString()
+  id: string;
+
+  @IsStrongPassword()
+  password: string;
+}

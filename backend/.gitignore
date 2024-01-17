@@ -39,3 +39,5 @@ sessions/
 
 public/
 !public/.placeholder
+key.pem
+cert.pem
