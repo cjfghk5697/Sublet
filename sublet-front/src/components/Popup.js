@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import '../style/popup.css'
+import * as s from './styles/Popup.styles'
+
 function PopUp({ main_text, sub_text, key_num }) {
 
   const [show, setShow] = useState(true);
   const [checkState, setCheckState] = useState(false)
-  const [deleteState, setDeleteState] = useState(false)
+  const [deleteState, setDeleteState] = useState(true)
 
   const handleClose = () => setShow(false);
 
@@ -28,39 +30,43 @@ function PopUp({ main_text, sub_text, key_num }) {
 
     await (
       await fetch(
-        `${env.FRONTEND_URL}/reservation`
+        `${prcess.env.REACT_APP_FRONTEND_URL}/reservation`
         , requestOptions)
     ).json();
-    setDeleteState(true)
+    setDeleteState(false)
 
   };
 
   return (
     <>
-      {deleteState ? ("") : (<Modal className="bg-white border border-gray-300 shadow-xl rounded-lg container" show={show} disabled>
-        <Modal.Body>
-          <div className='text-center'>
-            <p className="text-lg font-extrabold mt-3">{main_text}</p>
-            <div>
-              <p className="mt-3  font-medium">
-                <input type="checkbox" className="mr-1 w-4 h-4 text-blue-600 border-black-300" checked={checkState} onChange={checkHandled} />
-                {sub_text}
-              </p>
-            </div>
-          </div></Modal.Body>
-        <Modal.Footer>
-          <div className='mt-5'>
-            <button onClick={handleClose} className="button_left bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg ml-4 mb-3">
-              나가기
-            </button>
-            {checkState ? (<button onClick={deleteHandled} className="button_right bg-[#F62424] hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mr-4 mb-3">
-              취소하기
-            </button>) : (<button className="button_right mr-auto bg-gray-400 font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mr-4 mb-3" disabled>
-              취소하기
-            </button>)}
-          </div>
-        </Modal.Footer>
-      </Modal>)}
+      {deleteState && (
+        <s.container>
+          <Modal show={show} disabled>
+            <Modal.Body>
+              <div className='text-center'>
+                <p className="text-lg font-extrabold mt-3">{main_text}</p>
+                <div>
+                  <p className="mt-3  font-medium">
+                    <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+                    {sub_text}
+                  </p>
+                </div>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <div className='mt-5'>
+                <s.back_button onClick={handleClose} className="">
+                  나가기
+                </s.back_button>
+                {checkState ? (<s.delete_button_able onClick={deleteHandled} >
+                  취소하기
+                </s.delete_button_able>) : (<s.delete_button_disabled disabled>
+                  취소하기
+                </s.delete_button_disabled>)}
+              </div>
+            </Modal.Footer>
+          </Modal>
+        </s.container>)}
     </>
   );
 }

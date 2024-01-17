@@ -2,8 +2,6 @@ import SummaryBlock from "./SummaryBlock";
 import { useEffect, useState } from "react";
 
 function ReservationInfo() {
-
-
   const [loading, setLoading] = useState(true);
   const [reservationInfo, setReservationInfo] = useState([]);
   const getReservationInfo = async () => {
@@ -17,7 +15,7 @@ function ReservationInfo() {
 
     const json = await (
       await fetch(
-        `https://localhost:4000/reservation`
+        `${process.env.REACT_APP_FRONTEND_URL}/reservation`
         , requestOptions)
     ).json();
 
@@ -30,7 +28,7 @@ function ReservationInfo() {
   }, []);
 
   const reservation = Array.from(reservationInfo)
-
+  console.log('[reservation]', reservation)
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">예약 현황</h2>

@@ -1,6 +1,79 @@
 import { useState } from "react";
-import PopUp from "./Popup";
 import DateFormat from "./Date";
+import Modal from 'react-bootstrap/Modal';
+import * as s from './styles/SummaryBlock.styles.js'
+import './styles/Popup.styles.css'
+
+function PopUp({ main_text, sub_text, key_num }) {
+
+  const [show, setShow] = useState(true);
+  const [checkState, setCheckState] = useState(false)
+  const [deleteState, setDeleteState] = useState(true)
+
+  const handleClose = () => setShow(false);
+
+  const checkHandled = () => {
+    setCheckState(!checkState)
+  }
+
+  const deleteHandled = async () => {
+
+    const requestOptions = {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        key: key_num
+      })
+    };
+
+    await (
+      await fetch(
+        `${process.env.REACT_APP_FRONTEND_URL}/reservation`
+        , requestOptions)
+    ).json();
+    setDeleteState(false)
+
+  };
+
+  return (
+    <>
+      {deleteState && (
+
+        <Modal show={show} className="container bg-white border border-gray-300 shadow-xl rounded-lg">
+
+          <Modal.Body>
+            <div className='text-center'>
+              <p className="text-lg font-extrabold mt-3">{main_text}</p>
+              <div>
+                <p className="mt-3  font-medium">
+                  <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+                  {sub_text}
+                </p>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className='mt-5'>
+              <s.back_button onClick={handleClose} className="">
+                나가기
+              </s.back_button>
+              {checkState ? (<s.delete_button_able onClick={deleteHandled} >
+                취소하기
+              </s.delete_button_able>) : (<s.delete_button_disabled disabled>
+                취소하기
+              </s.delete_button_disabled>)}
+            </div>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </>
+  );
+}
+
+
 function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
   console.log('[SummaryBlock]', title, start_day, end_day, pay, host, room_image, key_num)
   const [popupState, setpopupState] = useState(false)
@@ -11,7 +84,7 @@ function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_nu
     setpopupState(!popupState)
   }
 
-  const image_link = `${env.FRONTEND_URL}/${room_image}.jpg`
+  const image_link = `${process.env.REACT_APP_FRONTEND_URL}/public/${room_image}.jpg`
   const main_text = "예약중인 숙소를 취소하시겠습니까?"
   const sub_text = "환불규정 및 취급 수수료를 확인했습니다"
 
@@ -28,20 +101,19 @@ function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_nu
         <p className="ml-3 text-lg font-medium">기간: {startStr} ~ {endStr}</p>
         <p className="ml-3 text-lg font-medium">비용: {pay}</p>
         <div>
-          <button
-            onClick={clickHandler}
-            className="bg-white hover:bg-gray-100 text-[#F62424] font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg">
+          <s.block_cancel_button
+            onClick={clickHandler}>
             취소하기
-          </button>
-          {popupState ?
+          </s.block_cancel_button>
+          {popupState &&
             (<PopUp
               main_text={main_text}
               sub_text={sub_text}
               key_num={key_num}
-            />) : ("")}
-          <button className="bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg ml-4">
+            />)}
+          <s.block_detail_button>
             상세정보
-          </button>
+          </s.block_detail_button>
         </div>
       </div>
     </div >
