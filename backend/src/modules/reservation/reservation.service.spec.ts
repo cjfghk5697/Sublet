@@ -93,11 +93,11 @@ describe('ReservationService', () => {
           expect(result).toBeDefined();
         });
 
-        it('then should call db to delete post', () => {
+        it('then should call db to delete reservation', () => {
           expect(mongoDbService.deleteOneReservation).toHaveBeenCalledTimes(1);
         });
 
-        it('then should call db to delete post with given parameters', () => {
+        it('then should call db to delete reservation with given parameters', () => {
           expect(mongoDbService.deleteOneReservation).toHaveBeenCalledWith(
             reservationStub().key,
             userStub(),
