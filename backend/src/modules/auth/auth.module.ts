@@ -6,17 +6,12 @@ import { localSerializer } from './localSerializer';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { MongodbModule } from '../mongodb/mongodb.module';
-import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
+
 @Module({
   imports: [
     UserModule,
     PassportModule.register({
       session: true,
-    }),
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
     }),
     MongodbModule,
   ],

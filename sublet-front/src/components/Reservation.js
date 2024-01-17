@@ -1,7 +1,7 @@
 import SummaryBlock from "./SummaryBlock";
 import { useEffect, useState } from "react";
 
-function ReservationInfo() {
+function FetchReservation() {
   const [loading, setLoading] = useState(true);
   const [reservationInfo, setReservationInfo] = useState([]);
   const getReservationInfo = async () => {
@@ -28,6 +28,12 @@ function ReservationInfo() {
   }, []);
 
   const reservation = Array.from(reservationInfo)
+
+  return [reservation, loading]
+}
+
+function ReservationInfo() {
+  const [reservation, loading] = FetchReservation()
   console.log('[reservation]', reservation)
   return (
     <div className="mb-4">
@@ -54,4 +60,4 @@ function ReservationInfo() {
 
 };
 
-export default ReservationInfo;
+export { ReservationInfo, FetchReservation };

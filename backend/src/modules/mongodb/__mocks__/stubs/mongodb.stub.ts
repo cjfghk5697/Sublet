@@ -166,7 +166,7 @@ export const reservationStub = (): ReservationDto => {
   };
 };
 
-export const reservationExportStub = (): ReservationInterface => {
+export const reservationInterfaceStub = (): ReservationInterface => {
   return {
     id: 'mocked-id',
     key: 2,

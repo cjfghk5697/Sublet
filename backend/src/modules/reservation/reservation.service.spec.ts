@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
 import { MongodbService } from '../mongodb/mongodb.service';
 import {
-  reservationExportStub,
+  reservationInterfaceStub,
   reservationStub,
   userStub,
 } from '../mongodb/__mocks__/stubs/mongodb.stub';
@@ -70,7 +70,7 @@ describe('ReservationService', () => {
         });
 
         it('should return one reservation', () => {
-          expect(result).toEqual([reservationExportStub()]);
+          expect(result).toEqual([reservationInterfaceStub()]);
         });
       });
     });

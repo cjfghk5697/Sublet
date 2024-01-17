@@ -3,9 +3,9 @@ import DateFormat from "./Date";
 import Modal from 'react-bootstrap/Modal';
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
+import { FetchReservation } from "./Reservation.js";
 
 function PopUp({ main_text, sub_text, key_num }) {
-
   const [show, setShow] = useState(true);
   const [checkState, setCheckState] = useState(false)
   const [deleteState, setDeleteState] = useState(true)
@@ -31,7 +31,7 @@ function PopUp({ main_text, sub_text, key_num }) {
 
     await (
       await fetch(
-        `${process.env.REACT_APP_FRONTEND_URL}/reservation`
+        `${process.env.REACT_APP_BACKEND_URL}/reservation`
         , requestOptions)
     ).json();
     setDeleteState(false)
@@ -84,7 +84,7 @@ function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_nu
     setpopupState(!popupState)
   }
 
-  const image_link = `${process.env.REACT_APP_FRONTEND_URL}/public/${room_image}.jpg`
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
   const main_text = "예약중인 숙소를 취소하시겠습니까?"
   const sub_text = "환불규정 및 취급 수수료를 확인했습니다"
 

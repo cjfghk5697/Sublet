@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Login from "../components/Login";
-import ReservationInfo from "../components/Reservation";
+import { ReservationInfo } from "../components/Reservation";
 
 function User({ user }) {
   const userPrivateComponent = (
@@ -16,7 +16,6 @@ function User({ user }) {
   const userBaseComponent = (
     <div>
       <img className="object-scale-down rounded-lg" src="https://i.stack.imgur.com/l60Hf.png"></img>
-      {/*<img src="http://localhost:4000/user/evan1"></img>*/}
       <p className="text-2xl font-extrabold">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
@@ -44,7 +43,7 @@ function GuestInfo() {
   const getUserInfo = async () => {
     const json = await (
       await fetch(
-        `${process.env.REACT_APP_FRONTEND_URL}/user/evan1`
+        `${process.env.REACT_APP_BACKEND_URL}/user/evan1`
       )
     ).json();
 
