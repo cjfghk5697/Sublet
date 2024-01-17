@@ -75,11 +75,21 @@ export class ReservationController {
     @Body() data: reservationRequest,
     @Req() req: customRequest,
   ) {
-    console.log('[post.controller:DeleteOnePost] starting function');
-    console.log('[post.controller:DeleteOnePost] key: ', data.key);
-    console.log('[post.controller:DeleteOnePost] req.user: ', req.user);
+    console.log(
+      '[reservation.controller:DeleteOneReservation] starting function',
+    );
+    console.log(
+      '[reservation.controller:DeleteOneReservation] key: ',
+      data.key,
+    );
+    console.log(
+      '[reservation.controller:DeleteOneReservation] req.user: ',
+      req.user,
+    );
     if (!req.user) {
-      console.log("[post.controller:DeleteOnePost] req.user doesn't exist");
+      console.log(
+        "[reservation.controller:DeleteOneReservation] req.user doesn't exist",
+      );
       throw new UnauthorizedException();
     }
     try {
