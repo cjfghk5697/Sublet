@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from '../components/Header';
 import Map from '../components/Map';
+import { create } from "zustand";
+import { SubletPostStore } from "../store/SubletPostStore";
 
-
-function SubletPost(props) {
-  const [subletPost, setSubletPost] = useState([]);
+function SubletPost() {
+  const asyncGetPost = SubletPostStore((state) => state.asyncGetPost);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL + "/post",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        }
-      }
-    ).then((ele) => ele.json())
-      .then((ele) => setSubletPost(ele))
+    asyncGetPost();
   }, []);
 
-  return (subletPost);
+  return (asyncGetPost);
 }
 
 
 function SubletInfo(props) {
+  const start_day = new Date(props.start_day);
+
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <div className="flex space-x-4">
@@ -42,7 +37,7 @@ function SubletInfo(props) {
           <p className="text-sm">{
             (props.position !== undefined) ? props.position : props.city + " " + props.gu + " " + props.dong + " " + props.street
           }</p>
-          <p className="text-sm">8월 30일 부터, 최소 1개월</p>
+          <p className="text-sm">{start_day.getMonth() + 1}월 {start_day.getDate()}일 부터, 최소 {props.min_duration}개월</p>
           <p className="text-lg font-bold text-[#bd1e59] text-right">₩{props.price}/1개월</p>
         </div>
       </div>
@@ -51,6 +46,8 @@ function SubletInfo(props) {
 }
 
 export default function SearchSubletInfo(props) {
+  const postExist = SubletPostStore((state) => state.postExist);
+
   return (
     <>
       <Header />
@@ -58,7 +55,7 @@ export default function SearchSubletInfo(props) {
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="flex flex-col space-y-4">
-              {SubletPost().map((ele) => <SubletInfo
+              <SubletPost />  {/* ? <></> SubletPost().map((ele) => <SubletInfo
                 key={ele.key}
                 title={ele.title}
                 position={ele.position}
@@ -67,12 +64,13 @@ export default function SearchSubletInfo(props) {
                 dong={ele.dong}
                 street={ele.street}
                 price={ele.price}
-              />)
-              }
+                min_duration={ele.min_duration}
+                start_day={ele.start_day}
+                />) : <div>없음</div> */}
             </div>
           </div>
           <div className="col-span-1">
-            <Map location="광진구" />
+            {postExist ? <Map location="광진구" /> : <div></div>}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { IsoTwoTone } from "@mui/icons-material";
 import React, { useEffect } from "react";
+import { SubletPostStore } from "../store/SubletPostStore";
 
 function searchAddressToCoordinate(address, map) {
   var infoWindow = new window.naver.maps.InfoWindow({
@@ -48,17 +49,27 @@ function searchAddressToCoordinate(address, map) {
 }
 
 export default function Map(props) {
+  const posts = SubletPostStore((state) => {
+    if (state.postExist) {
+      return state.post;
+    } else {
+      return [];
+    }
+  });
+  console.log("from map, posts=", posts);
   useEffect(() => {
     const mapDiv = document.getElementById("map");
     const map = new window.naver.maps.Map(mapDiv);
     map.setCursor("pointer");
     console.log(props.location);
     searchAddressToCoordinate(props.location, map);
+
   }, []);
+
 
   return (
     <div className="sticky top-5">
-      <div id="map" className="h-[400px] w-full rounded-lg" />
+      <div id="map" className="h-[600px] w-full rounded-lg" />
     </div>
   )
 }
