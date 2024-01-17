@@ -15,7 +15,7 @@ export default function Login(id, password) {
       })
     };
 
-    fetch(`${process.env.REACT_APP_FRONTEND_URL}auth/login`, requestOptions)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
       .then(res => res.json())
       .then(response => {
         console.log('result login', response)
