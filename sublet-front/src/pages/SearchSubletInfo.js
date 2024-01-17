@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from '../components/Header';
 import Map from '../components/Map';
+
+
+function SubletPost(props) {
+  const [subletPost, setSubletPost] = useState([]);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_BACKEND_URL + "/post",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    ).then((ele) => ele.json())
+      .then((ele) => setSubletPost(ele))
+  }, []);
+
+  return (subletPost);
+}
+
 
 function SubletInfo(props) {
   return (
@@ -18,10 +38,12 @@ function SubletInfo(props) {
           width="80"
         />
         <div className="flex flex-col justify-between">
-          <h2 className="text-lg font-semibold">강남에 직장이 있는 분을 위한 맞춤형 숙소</h2>
-          <p className="text-sm">경기도 하남시 위례동</p>
+          <h2 className="text-lg font-semibold">{props.title}</h2>
+          <p className="text-sm">{
+            (props.position !== undefined) ? props.position : props.city + " " + props.gu + " " + props.dong + " " + props.street
+          }</p>
           <p className="text-sm">8월 30일 부터, 최소 1개월</p>
-          <p className="text-lg font-bold text-[#bd1e59] text-right">₩730,000/1개월</p>
+          <p className="text-lg font-bold text-[#bd1e59] text-right">₩{props.price}/1개월</p>
         </div>
       </div>
     </div>
@@ -36,9 +58,17 @@ export default function SearchSubletInfo(props) {
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="flex flex-col space-y-4">
-              <SubletInfo />
-              <SubletInfo />
-              <SubletInfo />
+              {SubletPost().map((ele) => <SubletInfo
+                key={ele.key}
+                title={ele.title}
+                position={ele.position}
+                city={ele.city}
+                gu={ele.gu}
+                dong={ele.dong}
+                street={ele.street}
+                price={ele.price}
+              />)
+              }
             </div>
           </div>
           <div className="col-span-1">
