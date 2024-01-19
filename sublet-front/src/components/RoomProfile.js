@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-const RoomProfile = ({ room, toggleFavorite, likes }) => {
+const RoomProfile = ({ room, toggleLikes, likes }) => {
   const styles = {
     container: {
       display: "flex",
@@ -23,28 +23,36 @@ const RoomProfile = ({ room, toggleFavorite, likes }) => {
     },
   };
 
+  const moveToRoomInfo = () => {
+    window.location.href = "/room/" + room.key;
+  }
+
   if (!room) return <div></div>;
   return (
     <div style={styles.container}>
-      <img
-        src={
-          process.env.REACT_APP_BACKEND_URL +
-          "/public/" +
-          room.image_id[0] +
-          ".jpg"
-        }
-        alt="Room image"
-      />
+      <IconButton onClick={moveToRoomInfo}>
+        <img
+          src={
+            process.env.REACT_APP_BACKEND_URL +
+            "/public/" +
+            room.image_id[0] +
+            ".jpg"
+          }
+          alt="Room image"
+        />
+      </IconButton>
       <div style={styles.roomTitleAndLike}>
-        <span style={styles.roomTitle}>
-          {room.city} {room.gu} {room.dong}
+        <span onClick={moveToRoomInfo}>
+          <div style={styles.roomTitle}>
+            {room.city} {room.gu} {room.dong}
+          </div>
+          <div style={styles.price}>
+            ₩{room.price * 30}/1개월
+          </div>
         </span>
-        <IconButton onClick={toggleFavorite(room)}>
+        <IconButton onClick={toggleLikes(room)}>
           {(likes[room.key] !== undefined) ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
-      </div>
-      <div style={styles.price}>
-        ₩{room.price * 30}/1개월
       </div>
     </div>
   );

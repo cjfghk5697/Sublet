@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchButtonClicked, setSearchButtonClicked] = useState(false)
-  const loginedTest = true;
+  const [loginedTest, setLoginedTest] = useState(true); // 로그인 테스트 (true: 로그인, false: 로그아웃)
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -169,7 +169,9 @@ const Header = () => {
             </div>
             :
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in
+              <Link to={"/login"} style={styles.profile}>
+                Log in
+              </Link>
               <span aria-hidden="true">&rarr;</span>
             </a>
           }

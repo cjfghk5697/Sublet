@@ -14,7 +14,7 @@ export default function Home() {
       .then((ele) => setData(ele));
   }, []);
 
-  const toggleFavorite = (item) => () => {
+  const toggleLikes = (item) => () => {
     console.log(likes)
     if (item.key in likes) { // likes.filter(likesItem => likesItem.key !== item.key)
       let newLikes = {}
@@ -69,7 +69,7 @@ export default function Home() {
   };
 
   let rooms = roomsData?.map((room) => (
-    <RoomProfile room={room} toggleFavorite={toggleFavorite} likes={likes} />
+    <RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} />
   ));
 
   const RequirementSubmitAndCommunityFind = () => {
