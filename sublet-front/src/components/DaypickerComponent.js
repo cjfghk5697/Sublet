@@ -2,15 +2,20 @@ import React, { useState, useRef } from 'react';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { IconButton } from '@mui/material';
 import 'dayjs/locale/ko';
 
 
 const DaypickerComponent = () => {
   const [isListVisible, setIsListVisible] = useState(false);
-  const [startDate, setStartDate] = useState(); // [start, end]
+  const [searchDate, setSearchDate] = useState([null, null]); // [start, end]
   const buttonRef = useRef(null);
 
   const styles = {
+    calandersContainer: {
+      justifyContent: 'center',
+      textAlign: 'center'
+    },
     serachByDate: {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
@@ -30,16 +35,30 @@ const DaypickerComponent = () => {
   };
 
   if (isListVisible) {
+    /* range로 해야하는데 계속 깨져서, 이걸로 임시 대체 합니다. */
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-        <DatePicker
-          startText="시작일"
-          endText="종료일"
-          value={startDate}
-          onChange={(newDate) => {
-            setStartDate(newDate);
-          }}
-        />
+        <div style={styles.calandersContainer}>
+          <div>
+            <DatePicker
+              value={searchDate[0]}
+              onChange={(newDate) => {
+                setSearchDate([newDate, searchDate[1]]);
+                console.log(searchDate);
+              }}
+            />
+          </div>
+          ~
+          <div>
+            <DatePicker
+              value={searchDate[1]}
+              onChange={(newDate) => {
+                setSearchDate([searchDate[0], newDate]);
+                console.log(searchDate);
+              }}
+            />
+          </div>
+        </div>
       </LocalizationProvider>
     );
   }

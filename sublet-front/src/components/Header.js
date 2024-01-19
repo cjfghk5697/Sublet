@@ -111,7 +111,7 @@ const Header = () => {
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global" style={styles.headerContainer}>
         <div className="flex lg:flex-1">
           <IconButton onClick={handleReload} style={styles.logoContainer} className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">Sublet</span>
             <img src="logo.png" style={styles.logoIcon} className="h-8" alt="logo" />
           </IconButton>
         </div>
@@ -120,9 +120,9 @@ const Header = () => {
             위치
             <LocationOnIcon />
           </IconButton>
-          <IconButton className="font-semibold leading-6 text-gray-900">
+          <div className="font-semibold leading-6 text-gray-900">
             <DaypickerComponent />
-          </IconButton>
+          </div>
           <IconButton style={styles.serachByPrice} className="font-semibold leading-6 text-gray-900">
             <PriceRangeFilter />
           </IconButton>
