@@ -155,10 +155,12 @@ const Header = () => {
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
+                  {/*<Link>*/}
                   <Favorite />
                   <div style={styles.favoriteCount}>
                     {33 + 1}
                   </div>
+                  {/*</Link>*/}
                 </IconButton>
               </span>
               <IconButton>
