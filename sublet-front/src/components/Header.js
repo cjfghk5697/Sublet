@@ -22,7 +22,7 @@ const Header = () => {
   }, [searchButtonClicked]);
 
   const handleReload = () => {
-    window.location.reload();
+    window.location.reload(); // 새로고침이 아닌 메인 페이지로 이동하도록 변경 필요.
   };
 
   const styles = {
