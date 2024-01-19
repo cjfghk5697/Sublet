@@ -9,6 +9,7 @@ import Test from './pages/Test.js'; // Test
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import * as makeTest from './testdata/testdata.js'
+import Login from './components/Login.js';
 
 function App() {
   const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
@@ -23,8 +24,7 @@ function App() {
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path='/GuestInfo' element={<GuestInfo />} />
-        <Route path='/GuestInfo' element={<GuestInfo />} />
-        <Route path='/Test' element={<Test />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

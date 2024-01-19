@@ -99,12 +99,12 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   contract?: boolean;
 
   @IsOptional()
-  @IsInt()
+  @IsPositive()
   @IsNumber()
   x_coordinate?: number;
 
   @IsOptional()
-  @IsInt()
+  @IsPositive()
   @IsString()
   y_coordinate?: number;
 

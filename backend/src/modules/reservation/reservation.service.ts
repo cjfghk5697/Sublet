@@ -1,23 +1,29 @@
 import { UserInterface } from '@/interface/user.interface';
 import { Injectable } from '@nestjs/common';
 import { MongodbService } from '../mongodb/mongodb.service';
-import { ReservationInterface } from '@/interface/reservation.interface';
+import { ReservationCreateDto } from '@/dto/reservation.dto';
 
 @Injectable()
 export class ReservationService {
   constructor(private db: MongodbService) {}
 
-  async createReservation(data: ReservationInterface, user: UserInterface) {
-    console.log('[reservation.service:reservationRoom] starting function');
-    console.log('[reservation.service:reservationRoom] data: ', data);
-
+  async createReservation(data: ReservationCreateDto, user: UserInterface) {
     const res = await this.db.createReservation(data, user);
-    console.log('[reservation.service:reservationRoom] res: ', user);
     if (!res) {
-      console.log('[reservation.service:reservationRoom] reservation fail');
-      throw new Error('[reservation.service:reservationRoom] reservation fail');
+      throw new Error(
+        '[reservation.service:createReservation] reservation fail',
+      );
     }
-    console.log('[reservation.service:reservationRoom] returning boolean');
+    return res;
+  }
+
+  async getAllReservation(user_id: string) {
+    const res = await this.db.getAllReservations(user_id);
+    return res;
+  }
+
+  async deleteOneReservation(key: number, user: UserInterface) {
+    const res = await this.db.deleteOneReservation(key, user);
     return res;
   }
 }
