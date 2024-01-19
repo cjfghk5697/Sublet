@@ -45,6 +45,8 @@ export default function Home() {
       <Link to="/SaveSubletInfo">SaveSubletInfo</Link>
       <Link to="/ReHome">ReHome</Link>
       <Link to="/Booking">Booking</Link>
+      <Link to="/GuestInfo">GuestInfo</Link>
+      <Link to="/Login">Login</Link>
       <Header />
       <div style={styles.roomContainer}>
         {rooms}
