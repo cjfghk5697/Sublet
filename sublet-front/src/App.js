@@ -5,11 +5,10 @@ import SaveSubletInfo from './pages/SaveSubletInfo';
 import ReHome from './pages/ReHome';
 import Booking from './pages/Booking';
 import GuestInfo from './pages/GuestInfo.js'
-import Test from './pages/Test.js'; // Test
+import LoginPage from './pages/Login.js';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import * as makeTest from './testdata/testdata.js'
-import Login from './components/Login.js';
 
 function App() {
   const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
@@ -24,7 +23,7 @@ function App() {
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path='/GuestInfo' element={<GuestInfo />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );

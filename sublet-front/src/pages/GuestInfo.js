@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Login from "../components/Login";
 import { ReservationInfo } from "../components/Reservation";
 
 function User({ user }) {
@@ -54,7 +53,6 @@ function GuestInfo() {
   useEffect(() => {
     getUserInfo();
   }, []);
-  Login("evan1", "5s34S2349!#")
 
   return (
     <div>

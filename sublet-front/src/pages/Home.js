@@ -90,7 +90,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div style={styles.container}>
       <Header />
       <div style={styles.mainContainer}>
         <RequirementSubmitAndCommunityFind />

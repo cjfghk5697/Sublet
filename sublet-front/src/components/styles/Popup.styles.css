@@ -13,15 +13,3 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.button_left {
-  position: relative;
-
-  float: left;
-}
-
-.button_right {
-  position: relative;
-
-  float: right;
-}

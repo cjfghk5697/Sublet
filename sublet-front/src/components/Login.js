@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-export default function Login(id, password) {
-
+function Login({ id, password }) {
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -24,7 +22,31 @@ export default function Login(id, password) {
         console.log('[error] login', e)
       })
   };
-  useEffect(() => {
-    login()
-  }, []);
+  login()
 }
+
+function Logout() {
+  const logout = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      path: '/',
+    };
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/logout`, requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result logout', response)
+      })
+      .catch((e) => {
+        console.log('[error] logout', e)
+      })
+  };
+  logout()
+}
+
+
+export { Login, Logout };
