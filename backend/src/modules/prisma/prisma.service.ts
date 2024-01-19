@@ -15,13 +15,10 @@ export class PrismaService
   }
 
   async clearDatabase() {
-    console.log('CLEAR DATABASE');
-
     const collectionResult = await this.$runCommandRaw({
       listCollections: 1,
       nameOnly: true,
     });
-    console.log(collectionResult);
 
     const collectionList: { name: string; type: string }[] = (
       collectionResult?.cursor as { firstBatch: any[] }
@@ -30,7 +27,7 @@ export class PrismaService
     for (let i = 0; i < collectionList.length; i++) {
       const ele = collectionList[i];
       if (ele.type !== 'collection') continue;
-      const result = await this.$runCommandRaw({
+      await this.$runCommandRaw({
         delete: ele.name,
         deletes: [
           {
@@ -43,8 +40,6 @@ export class PrismaService
           wtimeout: 10000,
         },
       });
-
-      console.log('clear result:', result);
     }
   }
 }

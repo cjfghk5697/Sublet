@@ -4,13 +4,18 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UnauthorizedException,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { ReservationDto } from '@/dto/reservation.dto';
+import {
+  ReservationCreateDto,
+  reservationRequest,
+} from '@/dto/reservation.dto';
 
 @Controller('reservation')
 export class ReservationController {
@@ -19,7 +24,7 @@ export class ReservationController {
   @Post()
   @UseGuards(LoggedInGuard)
   async createReservation(
-    @Body() data: ReservationDto,
+    @Body() data: ReservationCreateDto,
     @Req() req: customRequest,
   ) {
     if (!req.user) {
@@ -38,6 +43,64 @@ export class ReservationController {
       return res;
     } catch (e) {
       console.log('[reservation.controller:createReservation] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Get()
+  @UseGuards(LoggedInGuard)
+  async getAllReservation(@Req() req: customRequest) {
+    if (!req.user) {
+      console.log(
+        "[reservation.controller:getAllReservation] req.user doesn't exist",
+      );
+      throw new UnauthorizedException();
+    }
+
+    try {
+      const res = await this.reservationService.getAllReservation(
+        req.user.user_id,
+      );
+      console.log('[reservation.controller:getAllReservation] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[reservation.controller:getAllReservation] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Delete()
+  @UseGuards(LoggedInGuard)
+  async deleteOneReservation(
+    @Body() data: reservationRequest,
+    @Req() req: customRequest,
+  ) {
+    console.log(
+      '[reservation.controller:DeleteOneReservation] starting function',
+    );
+    console.log(
+      '[reservation.controller:DeleteOneReservation] key: ',
+      data.key,
+    );
+    console.log(
+      '[reservation.controller:DeleteOneReservation] req.user: ',
+      req.user,
+    );
+    if (!req.user) {
+      console.log(
+        "[reservation.controller:DeleteOneReservation] req.user doesn't exist",
+      );
+      throw new UnauthorizedException();
+    }
+    try {
+      const res = await this.reservationService.deleteOneReservation(
+        data.key,
+        req.user,
+      );
+      console.log('[reservation.controller:DeleteOneResrvation] res: ', res);
+      return { ok: res };
+    } catch (e) {
+      console.log('[reservation.controller:DeleteOneResrvation] error: ', e);
       throw new BadRequestException();
     }
   }

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { env } from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,14 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://127.0.0.1:3000',
+      'http://localhost:3000',
+      env.FRONTEND_URL as string,
+    ],
+    credentials: true,
+  });
   await app.listen(4000);
 }
 bootstrap();

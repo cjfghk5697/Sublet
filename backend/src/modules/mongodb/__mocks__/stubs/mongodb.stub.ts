@@ -1,4 +1,5 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
+import { ReservationDto } from '@/dto/reservation.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
@@ -57,8 +58,8 @@ export const postCreateStub = (): PostCreateDto => {
     accomodation_type: '전대', //건물 유형
     building_type: '아파트', //아파트인지, 주택인지
     contract: false,
-    x_coordinate: 3,
-    y_coordinate: 3,
+    x_coordinate: 3.0,
+    y_coordinate: 3.0,
     city: 'mock-city',
     gu: 'mock-gu',
     dong: 'mock-dong',
@@ -154,12 +155,31 @@ export const userFilterStub = (): UserFilterDto => {
   };
 };
 
-export const reservationStub = (): ReservationInterface => {
+export const reservationStub = (): ReservationDto => {
   return {
-    id: 'mocked-id',
+    key: 2,
     user_id: 'mocked-userid',
     post_key: '1',
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
+    pay: 50000,
+  };
+};
+
+export const reservationInterfaceStub = (): ReservationInterface => {
+  return {
+    id: 'mocked-id',
+    key: 2,
+    user_id: 'mocked-userid',
+    post_key: '1',
+    r_start_day: '2024-01-10T00:00:00.000Z',
+    r_end_day: '2024-04-05T00:00:00.000Z',
+    pay: 50000,
+    User: {
+      ...userExportStub(),
+    },
+    Post: {
+      ...postExportStub(),
+    },
   };
 };

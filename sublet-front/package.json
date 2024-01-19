@@ -11,13 +11,18 @@
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.9.2",
+    "react-bootstrap-modal": "^4.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.2",
     "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.8",
+    "twin.macro": "^3.4.0",
     "web-vitals": "^3.5.1",
     "zustand": "^4.4.7"
   },
   "scripts": {
+    "start-s": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

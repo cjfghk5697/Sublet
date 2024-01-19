@@ -57,8 +57,8 @@ model Post {
   building_type     String //아파트인지, 주택인지
   contract          Boolean       @default(false) //계약 여부
   Reservation       Reservation[]
-  x_coordinate      Int
-  y_coordinate      Int
+  x_coordinate      Float
+  y_coordinate      Float
   city              String
   gu                String
   dong              String
@@ -103,11 +103,19 @@ model Request_form {
 model Reservation {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   version     Int      @default(1)
+  key         Int      @unique
   User        User     @relation(fields: [user_id], references: [id])
   Post        Post     @relation(fields: [post_key], references: [id])
   r_start_day DateTime @db.Date
   r_end_day   DateTime @db.Date
-  user_id     String
-  post_key    String
+  user_id     String   @db.ObjectId
+  post_key    String   @db.ObjectId
   deleted     Boolean  @default(false)
+  pay         Int
+}
+
+model ReservationIncrementKey {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  version        Int    @default(1)
+  reservationKey Int
 }
