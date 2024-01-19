@@ -3,7 +3,6 @@ import DateFormat from "./Date";
 import Modal from 'react-bootstrap/Modal';
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
-import { FetchReservation } from "./Reservation.js";
 
 function PopUp({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
@@ -41,9 +40,7 @@ function PopUp({ main_text, sub_text, key_num }) {
   return (
     <>
       {deleteState && (
-
         <Modal show={show} className="container bg-white border border-gray-300 shadow-xl rounded-lg">
-
           <Modal.Body>
             <div className='text-center'>
               <p className="text-lg font-extrabold mt-3">{main_text}</p>

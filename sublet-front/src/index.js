@@ -4,15 +4,12 @@ import './index.css';
 import "tailwindcss/tailwind.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { CookiesProvider } from 'react-cookie';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <CookiesProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </CookiesProvider>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
