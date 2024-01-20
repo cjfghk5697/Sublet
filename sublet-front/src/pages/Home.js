@@ -5,13 +5,24 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 export default function Home() {
-  const [roomsData, setData] = useState(null);
-  const [likes, setLikes] = useState({})
+  const [roomsData, setRoomsData] = useState([]);
+  const [preRoomsData, setPreRoomsData] = useState([]);
+  const [likes, setLikes] = useState({}); // 백엔드 연결 필요.
+  const [listRoomAmount, setListRoomAmount] = useState(6);
+  const [listPageAmount, setListPageAmount] = useState(1);
+
+
+  const fetchRooms = (listRoomAmount, listPageAmount) => { // 6개 저 보여주기 필요할 수도..?
+    fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
+      .then((ele) => ele.json())
+      .then((ele) => setPreRoomsData(ele));
+    if (preRoomsData.length !== 0)
+      setRoomsData([...roomsData, ...preRoomsData]);
+  }
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL + "/post")
-      .then((ele) => ele.json())
-      .then((ele) => setData(ele));
+    // fetchLikes();
+    fetchRooms(listRoomAmount, listPageAmount);
   }, []);
 
   const toggleLikes = (item) => () => {
@@ -45,7 +56,15 @@ export default function Home() {
     */
   }
 
+  const test = () => {
+    setListPageAmount(listPageAmount + 1);
+    fetchRooms(listRoomAmount, listPageAmount);
+  }
+
   const styles = {
+    container: {
+      marginBottom: "1rem",
+    },
     mainContainer: {
       display: "flex",
       flexDirection: "column",
@@ -97,6 +116,15 @@ export default function Home() {
         <div style={styles.roomContainer}>
           {rooms}
         </div>
+        {
+          preRoomsData.length !== 0
+            ?
+            <Button variant="contained" style={styles.requirementSubmitButton} onClick={test}>
+              방 더보기
+            </Button>
+            :
+            <div>더 불러올 방이 없습니다..</div>
+        }
       </div>
     </div>
   );
