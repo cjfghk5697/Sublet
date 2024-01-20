@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostController } from './post.controller';
-import { PrismaService } from '../prisma/prisma.service';
 import { PostService } from './post.service';
 import { MongodbModule } from '../mongodb/mongodb.module';
 

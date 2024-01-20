@@ -103,7 +103,7 @@ export class MongodbReservationService {
           },
         },
       });
-    let final_list: ReservationInterface[] = [];
+    const final_list: ReservationInterface[] = [];
     reservation_list.map((reservation) => {
       if (reservation['User'].user_id == user_id) {
         final_list.push(reservation);
