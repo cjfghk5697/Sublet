@@ -21,17 +21,19 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // fetchLikes();
-    fetchRooms(listRoomAmount, listPageAmount);
+    async function fetchData() {
+      const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
+      const data = await res.json();
+      setPreRoomsData(data);
+      setRoomsData([...roomsData, ...data]);
+    }
+    fetchData();
   }, []);
 
   const toggleLikes = (item) => () => {
-    console.log(likes)
-    if (item.key in likes) { // likes.filter(likesItem => likesItem.key !== item.key)
+    if (item.key in likes) {
       let newLikes = {}
-      // console.log(likes)
       Object.keys(likes).map(newItem => {
-        // console.log(item.key+"  "+newItem.toString())
         if (likes[newItem].key !== item.key) {
           newLikes = { ...newLikes, [newItem]: likes[newItem] }
         }
@@ -56,7 +58,7 @@ export default function Home() {
     */
   }
 
-  const test = () => {
+  const showMoreRooms = () => {
     setListPageAmount(listPageAmount + 1);
     fetchRooms(listRoomAmount, listPageAmount);
   }
@@ -119,7 +121,7 @@ export default function Home() {
         {
           preRoomsData.length !== 0
             ?
-            <Button variant="contained" style={styles.requirementSubmitButton} onClick={test}>
+            <Button variant="contained" style={styles.requirementSubmitButton} onClick={showMoreRooms}>
               방 더보기
             </Button>
             :
