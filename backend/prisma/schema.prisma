@@ -12,7 +12,7 @@ model User {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   version          Int            @default(1)
   user_id          String         @unique
-  image_id         String         @default("default")
+  image_id         String         @default("65abc8d6ef0482c796b8bb45")
   password         String
   username         String
   email            String         @unique
@@ -118,4 +118,12 @@ model ReservationIncrementKey {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   version        Int    @default(1)
   reservationKey Int
+}
+
+model ProfileImage {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  version    Int    @default(1)
+  filename   String
+  filetype   String
+  image_hash String
 }

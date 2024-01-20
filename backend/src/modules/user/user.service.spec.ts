@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UserExportInterface } from '@/interface/user.interface';
 import { MongodbService } from '../mongodb/mongodb.service';
 import {
+  multerFileStub,
   userExportStub,
   userFilterStub,
   userStub,

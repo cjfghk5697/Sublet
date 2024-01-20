@@ -11,10 +11,11 @@ function User({ user }) {
         <p className="text-lg font-medium">전화번호: {user.phone}</p>
       </div>
     </div>)
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
 
   const userBaseComponent = (
     <div>
-      <img className="object-scale-down rounded-lg" src="https://i.stack.imgur.com/l60Hf.png"></img>
+      <img className="object-scale-down rounded-lg" src={image_link}></img>
       <p className="text-2xl font-extrabold">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>

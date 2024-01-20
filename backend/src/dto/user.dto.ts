@@ -22,6 +22,11 @@ export class UserCreateDto extends UserBase {
   school: string; //어디 학교인지
 }
 
+export class UserImageUpdateDto {
+  @IsString()
+  image_id: string;
+}
+
 export class UserUpdateDto extends UserPartialBase {
   @IsOptional()
   @IsStrongPassword()
