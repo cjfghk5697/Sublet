@@ -1,4 +1,4 @@
-import { reservationInterfaceStub } from './stubs/mongodb.stub';
+import { reservationInterfaceStub } from '../../../stubs/mongodb.stub';
 
 export const MongodbReservationService = jest.fn().mockReturnValue({
   createReservation: jest.fn().mockReturnValue(true),

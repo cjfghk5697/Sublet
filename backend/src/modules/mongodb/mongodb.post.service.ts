@@ -26,6 +26,7 @@ export class MongodbPostService {
       where: {
         version: { gte: this.POST_VERSION },
         deleted: false,
+        local_save: false,
       },
       skip: query.maxPost * (query.page - 1),
       take: query.maxPost,
@@ -69,6 +70,7 @@ export class MongodbPostService {
         key,
         version: { gte: this.POST_VERSION },
         deleted: false,
+        local_save: false,
       },
     });
     if (!res) {
@@ -137,6 +139,22 @@ export class MongodbPostService {
         dong: query.dong,
         street: query.street,
         street_number: query.street_number,
+        deleted: false,
+        local_save: false,
+      },
+    });
+    return res;
+  }
+
+  async getLocalPost(user: UserInterface) {
+    const res: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        version: { gte: this.POST_VERSION },
+        deleted: false,
+        local_save: true,
+        postuser: {
+          user_id: user['user_id'],
+        },
       },
     });
     return res;

@@ -8,7 +8,7 @@ import {
   postExportStub,
   postStub,
   userStub,
-} from '../mongodb/__mocks__/stubs/mongodb.stub';
+} from '../../stubs/mongodb.stub';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
 import { MongodbPostImageService } from '../mongodb/mongodb.postimage.service';
 import { MongodbModule } from '../mongodb/mongodb.module';
@@ -24,7 +24,7 @@ describe('PostService', () => {
   let mongoDbPostService: MongodbPostService;
   let mongodbPostImageService: MongodbPostImageService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [MongodbModule],
       providers: [PostService],
@@ -33,6 +33,9 @@ describe('PostService', () => {
     service = module.get<PostService>(PostService);
     mongoDbPostService = module.get(MongodbPostService);
     mongodbPostImageService = module.get(MongodbPostImageService);
+  });
+
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

@@ -75,6 +75,15 @@ export class PostService {
     return ret;
   }
 
+  // GET /post/local
+  async getLocalPost(user: UserInterface) {
+    const res = await this.postdb.getLocalPost(user);
+    const ret = res.map((ele) => {
+      return this.transformExport(ele);
+    });
+    return ret;
+  }
+
   // PUT /POST/:postKey
   async putOnePost(
     key: number,

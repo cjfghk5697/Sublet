@@ -4,7 +4,7 @@ import {
   reservationInterfaceStub,
   reservationStub,
   userStub,
-} from '../mongodb/__mocks__/stubs/mongodb.stub';
+} from '../../stubs/mongodb.stub';
 import { ReservationExportInterface } from '@/interface/reservation.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbReservationService } from '../mongodb/mongodb.reservation.service';
@@ -18,7 +18,7 @@ jest.mock('../mongodb/mongodb.user.service');
 describe('ReservationService', () => {
   let service: ReservationService;
   let mongoDbService: MongodbReservationService;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [MongodbModule],
       providers: [ReservationService],
@@ -26,6 +26,9 @@ describe('ReservationService', () => {
 
     service = module.get<ReservationService>(ReservationService);
     mongoDbService = module.get(MongodbReservationService);
+  });
+
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

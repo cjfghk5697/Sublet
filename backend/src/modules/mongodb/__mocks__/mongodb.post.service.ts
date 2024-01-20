@@ -1,4 +1,4 @@
-import { postStub } from './stubs/mongodb.stub';
+import { postStub } from '../../../stubs/mongodb.stub';
 
 export const MongodbPostService = jest.fn().mockReturnValue({
   getAllPosts: jest.fn().mockReturnValue([postStub()]),

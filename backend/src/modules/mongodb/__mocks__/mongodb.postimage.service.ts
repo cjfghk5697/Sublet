@@ -1,4 +1,4 @@
-import { imageStub } from './stubs/mongodb.stub';
+import { imageStub } from '../../../stubs/mongodb.stub';
 
 export const MongodbPostImageService = jest.fn().mockReturnValue({
   getImage: jest.fn().mockReturnValue(imageStub()),

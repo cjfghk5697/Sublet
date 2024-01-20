@@ -10,7 +10,7 @@ import {
   userExportStub,
   userStub,
   postCreateStub,
-} from '@/modules/mongodb/__mocks__/stubs/mongodb.stub';
+} from '@/stubs/mongodb.stub';
 import { join } from 'path';
 import { unlink, readdir } from 'fs/promises';
 import { PostExportInterface } from '@/interface/post.interface';

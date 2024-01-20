@@ -6,7 +6,7 @@ import {
   userFilterStub,
   userStub,
   userUpdateStub,
-} from '../mongodb/__mocks__/stubs/mongodb.stub';
+} from '../../stubs/mongodb.stub';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 
@@ -20,7 +20,7 @@ describe('UserService', () => {
   let service: UserService;
   let mongodbUserService: MongodbUserService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module = await Test.createTestingModule({
       imports: [MongodbModule],
       providers: [UserService],
@@ -28,6 +28,9 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     mongodbUserService = module.get<MongodbUserService>(MongodbUserService);
+  });
+
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
