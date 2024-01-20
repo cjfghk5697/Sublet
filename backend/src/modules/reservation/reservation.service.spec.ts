@@ -1,26 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
-import { MongodbService } from '../mongodb/mongodb.service';
 import {
   reservationInterfaceStub,
   reservationStub,
   userStub,
 } from '../mongodb/__mocks__/stubs/mongodb.stub';
 import { ReservationExportInterface } from '@/interface/reservation.interface';
+import { MongodbModule } from '../mongodb/mongodb.module';
+import { MongodbReservationService } from '../mongodb/mongodb.reservation.service';
 
-jest.mock('../mongodb/mongodb.service');
+jest.mock('../mongodb/mongodb.post.service');
+jest.mock('../mongodb/mongodb.postimage.service');
+jest.mock('../mongodb/mongodb.postkey.service');
+jest.mock('../mongodb/mongodb.reservation.service');
+jest.mock('../mongodb/mongodb.user.service');
 
 describe('ReservationService', () => {
   let service: ReservationService;
-  let mongoDbService: MongodbService;
+  let mongoDbService: MongodbReservationService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [],
-      providers: [ReservationService, MongodbService],
+      imports: [MongodbModule],
+      providers: [ReservationService],
     }).compile();
 
     service = module.get<ReservationService>(ReservationService);
-    mongoDbService = module.get(MongodbService);
+    mongoDbService = module.get(MongodbReservationService);
     jest.clearAllMocks();
   });
 

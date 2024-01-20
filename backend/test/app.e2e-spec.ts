@@ -4,7 +4,6 @@ import * as request from 'supertest';
 import { AppModule } from '@/app.module';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { ValidationPipe } from '@nestjs/common';
-import { MongodbService } from '@/modules/mongodb/mongodb.service';
 import {
   postExportStub,
   userCreateStub,
@@ -20,8 +19,7 @@ import { UserCreateDto } from '@/dto/user.dto';
 describe('AppController (e2e)', () => {
   const time = 5000;
   let app: INestApplication;
-  let _prisma: PrismaService;
-  let _mongodb: MongodbService;
+  let prisma: PrismaService;
   const _tempService = 'Hello World!12';
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -39,8 +37,7 @@ describe('AppController (e2e)', () => {
       }),
     );
 
-    _mongodb = moduleFixture.get(MongodbService);
-    _prisma = moduleFixture.get(PrismaService);
+    prisma = moduleFixture.get(PrismaService);
     await app.init();
   });
 
@@ -103,13 +100,13 @@ describe('AppController (e2e)', () => {
   };
 
   beforeEach(async () => {
-    await _prisma.clearDatabase();
+    await prisma.clearDatabase();
     await deleteAllFilesInDir('./sessions');
     await deleteAllFilesInDir('./public');
   });
 
   afterAll(async () => {
-    await _prisma.clearDatabase();
+    await prisma.clearDatabase();
     await deleteAllFilesInDir('./sessions');
     await deleteAllFilesInDir('./public');
   });
