@@ -65,7 +65,7 @@ export default function Home() {
 
   const styles = {
     container: {
-      marginBottom: "1rem",
+      marginBottom: "10rem",
     },
     mainContainer: {
       display: "flex",
@@ -87,6 +87,9 @@ export default function Home() {
     requirementSubmitButton: {
       marginRight: '0.7em',
     },
+    moreRoomDescription: {
+      marginTop: '3rem',
+    }
   };
 
   let rooms = roomsData?.map((room) => (
@@ -125,7 +128,7 @@ export default function Home() {
               방 더보기
             </Button>
             :
-            <div>더 불러올 방이 없습니다..</div>
+            <div style={styles.moreRoomDescription}>더 불러올 방이 없습니다..</div>
         }
       </div>
     </div>
