@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from '../components/Header';
 import Map from '../components/Map';
-import { create } from "zustand";
 import { SubletPostStore } from "../store/SubletPostStore";
-
-function SubletPost() {
-  const asyncGetPost = SubletPostStore((state) => state.asyncGetPost);
-
-  useEffect(() => {
-    asyncGetPost();
-  }, []);
-
-  return (asyncGetPost);
-}
-
 
 function SubletInfo(props) {
   const start_day = new Date(props.start_day);
@@ -46,6 +34,12 @@ function SubletInfo(props) {
 }
 
 export default function SearchSubletInfo(props) {
+  const asyncGetPost = SubletPostStore((state) => state.asyncGetPost);
+  useEffect(() => {
+    asyncGetPost();
+  }, []);
+
+  const post = SubletPostStore((state) => state.post);
   const postExist = SubletPostStore((state) => state.postExist);
 
   return (
@@ -55,7 +49,7 @@ export default function SearchSubletInfo(props) {
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="flex flex-col space-y-4">
-              <SubletPost />  {/* ? <></> SubletPost().map((ele) => <SubletInfo
+              {postExist ? post.map((ele) => <SubletInfo
                 key={ele.key}
                 title={ele.title}
                 position={ele.position}
@@ -66,7 +60,7 @@ export default function SearchSubletInfo(props) {
                 price={ele.price}
                 min_duration={ele.min_duration}
                 start_day={ele.start_day}
-                />) : <div>없음</div> */}
+              />) : <div></div>}
             </div>
           </div>
           <div className="col-span-1">

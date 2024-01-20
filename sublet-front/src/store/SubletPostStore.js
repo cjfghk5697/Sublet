@@ -11,7 +11,6 @@ export const SubletPostStore = create((set) => ({
         process.env.REACT_APP_BACKEND_URL + "/post"
       )
     ).json();
-    console.log("jihwanki store json=", json);
     set(() => ({ post: [...json], postExist: true }))
   }
 }))
