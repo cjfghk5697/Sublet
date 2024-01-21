@@ -8,7 +8,9 @@ function User({ user }) {
       <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
       <div className="ml-4">
         <p className="text-lg font-medium">이메일: {user.email}</p>
+        {/* 이메일 수정 */}
         <p className="text-lg font-medium">전화번호: {user.phone}</p>
+        {/* 전화 번호 수정 */}
       </div>
     </div>)
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
@@ -16,9 +18,11 @@ function User({ user }) {
   const userBaseComponent = (
     <div>
       <img className="object-scale-down rounded-lg" src={image_link}></img>
+      {/* 이미지 수정 버튼 */}
       <p className="text-2xl font-extrabold">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
+      {/* 신분증 인증 버튼 */}
     </div>
   )
   return (
