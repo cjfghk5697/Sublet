@@ -12,7 +12,7 @@ model User {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   version          Int            @default(1)
   user_id          String         @unique
-  image_id         String         @default("65abc8d6ef0482c796b8bb45")
+  image_id         String         @default("default")
   password         String
   username         String
   email            String         @unique
