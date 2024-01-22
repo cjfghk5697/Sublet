@@ -1,9 +1,8 @@
 import { useState } from "react";
-import DateFormat from "./Date";
+import { DateFormat, priceToString } from "./StaticComponents.js";
 import Modal from 'react-bootstrap/Modal';
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
-import priceToString from "./Comma.js";
 
 function PopUp({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
