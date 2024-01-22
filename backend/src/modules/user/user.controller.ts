@@ -47,6 +47,21 @@ export class UserController {
     }
   }
 
+  @Get('profile')
+  @UseGuards(LoggedInGuard)
+  async getProfile(@Req() req: customRequest) {
+    console.log('[user.controller:getProfile] starting function');
+    console.log('[user.controller:getProfile] user_id: ', req.user);
+    try {
+      const res = await this.userService.getUserByKey(req.user.user_id);
+      console.log('[user.controller:getProfile] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:getProfile] error: ', e);
+      throw new NotFoundException();
+    }
+  }
+
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     console.log('[user.controller:getOneUser] starting function');

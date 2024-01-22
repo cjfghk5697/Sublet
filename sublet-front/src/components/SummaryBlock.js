@@ -3,6 +3,7 @@ import DateFormat from "./Date";
 import Modal from 'react-bootstrap/Modal';
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
+import priceToString from "./Comma.js";
 
 function PopUp({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
@@ -72,7 +73,6 @@ function PopUp({ main_text, sub_text, key_num }) {
 
 
 function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
-  console.log('[SummaryBlock]', title, start_day, end_day, pay, host, room_image, key_num)
   const [popupState, setpopupState] = useState(false)
   const startStr = DateFormat(start_day)
   const endStr = DateFormat(end_day)
@@ -84,6 +84,8 @@ function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_nu
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
   const main_text = "예약중인 숙소를 취소하시겠습니까?"
   const sub_text = "환불규정 및 취급 수수료를 확인했습니다"
+
+  pay = priceToString(pay)
 
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
