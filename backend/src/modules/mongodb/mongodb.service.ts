@@ -338,7 +338,6 @@ export class MongodbService {
   }
 
   async createReservation(data: ReservationCreateDto, user: UserInterface) {
-    const key = Number(await this.getReservationKey());
     const available = await this.filterReservation(data);
 
     const getDateDiff = (d1: string | Date, d2: string | Date) => {
