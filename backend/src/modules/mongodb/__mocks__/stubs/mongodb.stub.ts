@@ -19,7 +19,7 @@ export const userStub = (): UserInterface => {
     version: 1,
     school: 'ABC Univ',
     id_card: false,
-    image_id: '65abc8d6ef0482c796b8bb45',
+    image_id: 'default',
   };
 };
 
