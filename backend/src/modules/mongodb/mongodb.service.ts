@@ -338,8 +338,6 @@ export class MongodbService {
   }
 
   async createReservation(data: ReservationCreateDto, user: UserInterface) {
-    const key = Number(await this.getReservationKey());
-    console.log('key', key);
     const available = await this.filterReservation(data);
 
     const getDateDiff = (d1: string | Date, d2: string | Date) => {
@@ -435,7 +433,6 @@ export class MongodbService {
 
   async deleteOneReservation(key: number, user: UserInterface) {
     //const resKey=Number(key)
-    console.log(key, user);
     await this.prisma.reservation.update({
       where: {
         key,
@@ -491,5 +488,53 @@ export class MongodbService {
     return reservations.reduce((prev, cur) => {
       return Math.max(prev, cur.key);
     }, reservations[0].key);
+  }
+
+  async getUserImage(filename: string, filetype: string, image_hash: string) {
+    const res: ImageInterface | null = await this.prisma.profileImage.findFirst(
+      {
+        where: {
+          version: {
+            gte: this.IMAGE_VERSION,
+          },
+          filename,
+          filetype,
+          image_hash,
+        },
+      },
+    );
+    if (!res) {
+      throw new Error("[mongodb.service:getImage] image doesn't exist");
+    }
+    return res;
+  }
+
+  async saveUserImage(filename: string, filetype: string, image_hash: string) {
+    const res: ImageInterface = await this.prisma.profileImage.create({
+      data: {
+        filename,
+        filetype,
+        image_hash,
+        version: this.IMAGE_VERSION,
+      },
+    });
+    return res;
+  }
+
+  async putUserImage(user_id: string, image_id: string) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: {
+        image_id: image_id,
+      },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putUserImage] user doesnt exist');
+    }
+    return res;
   }
 }

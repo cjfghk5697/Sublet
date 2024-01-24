@@ -119,3 +119,11 @@ model ReservationIncrementKey {
   version        Int    @default(1)
   reservationKey Int
 }
+
+model ProfileImage {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  version    Int    @default(1)
+  filename   String
+  filetype   String
+  image_hash String
+}

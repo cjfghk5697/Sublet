@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
