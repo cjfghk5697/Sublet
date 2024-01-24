@@ -1,4 +1,3 @@
-import { IsoTwoTone } from "@mui/icons-material";
 import React, { useEffect, useRef } from "react";
 import { SubletPostStore } from "../store/SubletPostStore";
 
@@ -55,14 +54,10 @@ function searchAddressToCoordinate(address, map) {
 }
 
 export default function Map(props) {
-  const posts = SubletPostStore((state) => {
-    if (state.postExist) {
-      return state.post;
-    } else {
-      return [];
-    }
-  });
-  console.log("from map, posts=", posts);
+
+  const { posts, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+
+  console.log("from map, posts=", postAll);
 
 
   const mapRef = useRef(null);
@@ -90,6 +85,7 @@ export default function Map(props) {
     })
   });
 
+  //searchAddressToCoordinate("서울특별시 강남구 개포로 420", mapRef.current);
 
   useEffect(() => {
     function createMarker() {
@@ -99,7 +95,7 @@ export default function Map(props) {
 
   return (
     // <div className="sticky top-5">
-    <div id="map" className="h-full w-full rounded-lg" />
+    <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
     // </div>
   )
 }
