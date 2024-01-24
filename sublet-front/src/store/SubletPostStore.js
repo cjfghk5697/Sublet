@@ -17,6 +17,7 @@ export const SubletPostStore = create((set) => ({
   },
   asyncGetPostAll: async () => {
     let nowPage = 1;
+    let tempPostAll = [];
     while (true) {
       const json = await (
         await fetch(
@@ -24,9 +25,11 @@ export const SubletPostStore = create((set) => ({
         )
       ).json();
 
-      if (json.length === 0)
+      if (json.length === 0) {
+        set((state) => ({ postAll: [...state.postAll, ...tempPostAll] }))
         break;
-      set((state) => ({ postAll: [...state.postAll, ...json] }))
+      }
+      tempPostAll = [...tempPostAll, ...json];
       nowPage++;
     }
   },
