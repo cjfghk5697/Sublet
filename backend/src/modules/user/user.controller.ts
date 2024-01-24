@@ -13,12 +13,15 @@ import {
   Req,
   Res,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('user')
 export class UserController {
@@ -41,6 +44,21 @@ export class UserController {
     } catch (e) {
       console.log('[user.controller:filterUser] error: ', e);
       throw new BadRequestException();
+    }
+  }
+
+  @Get('profile')
+  @UseGuards(LoggedInGuard)
+  async getProfile(@Req() req: customRequest) {
+    console.log('[user.controller:getProfile] starting function');
+    console.log('[user.controller:getProfile] user_id: ', req.user);
+    try {
+      const res = await this.userService.getUserByKey(req.user.user_id);
+      console.log('[user.controller:getProfile] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:getProfile] error: ', e);
+      throw new NotFoundException();
     }
   }
 
@@ -69,6 +87,32 @@ export class UserController {
     } catch (e) {
       console.log('[user.controller:createUser] error: ', e);
       throw new BadRequestException();
+    }
+  }
+
+  @Put('image')
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadProfile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: customRequest,
+  ) {
+    console.log('[user.controller:uploadProfile] starting function');
+    console.log('[user.controller:uploadProfile] putUserBody: ', req);
+
+    if (!file) {
+      console.log(
+        "[user.controller:uploadProfile] file is empty, we're assuming bad request",
+      );
+      throw new BadRequestException();
+    }
+    try {
+      const res = await this.userService.uploadProfile(req.user.user_id, file);
+      console.log('[user.controller:uploadProfile] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:uploadProfile] error: ', e);
+      throw new NotFoundException();
     }
   }
 

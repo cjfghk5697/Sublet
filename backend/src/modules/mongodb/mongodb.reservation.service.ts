@@ -18,8 +18,6 @@ export class MongodbReservationService {
   constructor(private prisma: PrismaService) {}
 
   async createReservation(data: ReservationCreateDto, user: UserInterface) {
-    const key = Number(await this.getReservationKey());
-    console.log('key', key);
     const available = await this.filterReservation(data);
 
     const getDateDiff = (d1: string | Date, d2: string | Date) => {
@@ -115,7 +113,6 @@ export class MongodbReservationService {
 
   async deleteOneReservation(key: number, user: UserInterface) {
     //const resKey=Number(key)
-    console.log(key, user);
     await this.prisma.reservation.update({
       where: {
         key,

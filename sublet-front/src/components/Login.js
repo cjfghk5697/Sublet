@@ -1,4 +1,5 @@
 function Login({ id, password }) {
+  console.log("[Login]", id, password)
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
