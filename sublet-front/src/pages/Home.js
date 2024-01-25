@@ -12,12 +12,14 @@ export default function Home() {
   const [listPageAmount, setListPageAmount] = useState(1);
 
 
-  const fetchRooms = (listRoomAmount, listPageAmount) => { // 6개 저 보여주기 필요할 수도..?
+  const fetchRooms = () => { // 6개 저 보여주기 필요할 수도..?
     fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
       .then((ele) => ele.json())
       .then((ele) => setPreRoomsData(ele));
     if (preRoomsData.length !== 0)
       setRoomsData([...roomsData, ...preRoomsData]);
+    setListPageAmount(listPageAmount + 1);
+    
   }
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function Home() {
       const data = await res.json();
       setPreRoomsData(data);
       setRoomsData([...roomsData, ...data]);
+      setListPageAmount(listPageAmount + 1);
     }
     fetchData();
   }, []);
@@ -58,11 +61,6 @@ export default function Home() {
     */
   }
 
-  const showMoreRooms = () => {
-    setListPageAmount(listPageAmount + 1);
-    fetchRooms(listRoomAmount, listPageAmount);
-  }
-
   const styles = {
     container: {
       marginBottom: "10rem",
@@ -79,17 +77,22 @@ export default function Home() {
       gridTemplateColumns: "1fr 1fr 1fr",
       fontSize: '1em',
     },
-    requirementSubmitButtonAndCommunityFindButton: {
+    topButtonsContainer: {
       display: 'flex',
       flexDirection: 'row',
       margin: '1rem 0 1rem 0rem',
+      gap: '0.5rem',
+    },
+    topButtons: {
+      backgroundColor: 'black',
+      color: 'white',
     },
     requirementSubmitButton: {
       marginRight: '0.7em',
     },
     moreRoomDescription: {
       marginTop: '3rem',
-    }
+    },
   };
 
   let rooms = roomsData?.map((room) => (
@@ -98,17 +101,13 @@ export default function Home() {
 
   const RequirementSubmitAndCommunityFind = () => {
     return (
-      <div style={styles.requirementSubmitButtonAndCommunityFindButton}>
-        <Link to={"/"} style={styles.requirementSubmitButton}>
-          <Button variant="contained">
-            요청서 제출하기
-          </Button>
-        </Link>
-        <Link to={"/"} style={styles.communityFindButton}>
-          <Button variant="contained">
-            같은 커뮤니티 확인하기
-          </Button>
-        </Link>
+      <div style={styles.topButtonsContainer}>
+        <Button component={Link} to="/" style={styles.topButtons}>
+          요청서 제출하기
+        </Button>
+        <Button component={Link} to="/" style={styles.topButtons}>
+          같은 커뮤니티 확인하기
+        </Button>
       </div>
     )
   }
@@ -124,7 +123,7 @@ export default function Home() {
         {
           preRoomsData.length !== 0
             ?
-            <Button variant="contained" style={styles.requirementSubmitButton} onClick={showMoreRooms}>
+            <Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRooms}>
               방 더보기
             </Button>
             :

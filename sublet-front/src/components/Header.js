@@ -1,19 +1,19 @@
-import { useState, useRef, useEffect } from 'react'
-import { Dialog, Popover } from '@headlessui/react'
+import { useState, useRef, useEffect } from 'react';
+import { Dialog, Popover } from '@headlessui/react';
 import { IconButton } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
-import DaypickerComponent from './DaypickerComponent.js';
-import PriceRangeFilter from './PriceRangeFilter.js';
+import DaypickerComponent from './searchFilteringComponents/DaypickerComponent.js';
+import PriceRangeFilter from './searchFilteringComponents/PriceRangeFilter.js';
 import { Favorite } from '@mui/icons-material'
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useLocation } from 'react-router-dom';
 import makeHeaderStyle from './styles/Header.styles.js'; // css style here.
+import LoginLink from './LoginLink.js';
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchButtonClicked, setSearchButtonClicked] = useState(false)
-  const [loginedTest, setLoginedTest] = useState(true); // 로그인 테스트 (true: 로그인, false: 로그아웃)
+  const [loginedTest, setLoginedTest] = useState(false); // 로그인 테스트 (true: 로그인, false: 로그아웃)
   const inputRef = useRef(null);
   const location = useLocation();
   const styles = makeHeaderStyle(); // css style here.
@@ -62,7 +62,6 @@ const Header = () => {
                 <SearchIcon style={styles.searchIcon} />
               </IconButton>
             </span>
-            // focusOnInput()
             :
             <IconButton onClick={() => setSearchButtonClicked(true)} style={styles.searchByKeywordContainer}>
               <span style={styles.serachByKeyword} className="font-semibold leading-6 text-gray-900">
@@ -98,10 +97,7 @@ const Header = () => {
             </div>
             :
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              <Link to={"/login"} style={styles.profile}>
-                Log in
-              </Link>
-              <span aria-hidden="true">&rarr;</span>
+              <LoginLink style={styles.profile} />
             </a>
           }
         </div>
@@ -112,8 +108,9 @@ const Header = () => {
 
 export default Header;
 
-/*
-        모바일 용으로 쓸 만 할 듯.
+/*         모바일 용으로 쓸 만 할 듯.
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
         <div className="flex lg:hidden">
           <button type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" onClick={() => setMobileMenuOpen(true)}>
             <span className="sr-only">Open main menu</span>

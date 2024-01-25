@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { BarChart } from '@mui/x-charts';
 import { Slider } from '@mui/material';
+import { priceToString } from '../StaticComponents.js';
 
 const PriceRangeFilter = () => {
-  const priceRangeMinMax = [0, 90000] // tempData
+  const priceRangeMinMax = [0, 100] // tempData
   const [priceRange, setPriceRange] = useState(priceRangeMinMax);
   const [tempPriceRange, setTempPriceRange] = useState(priceRangeMinMax);
   const [isListVisible, setIsListVisible] = useState(false);
@@ -15,7 +16,7 @@ const PriceRangeFilter = () => {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
     },
-    pirceRangeStyle: {
+    priceRangeStyle: {
       backgroundColor: 'white',
       border: '1px solid black',
       position: 'absolute',
@@ -29,7 +30,23 @@ const PriceRangeFilter = () => {
       justifyContent: 'space-around',
       marginTop: '1em',
       marginBottom: '0.5em',
-    }
+    },
+    minPriceLineStyle: {
+      position: 'absolute',
+      left: `${tempPriceRange[0]}%`,
+      top: '20px',
+      width: '2px',
+      height: '50px',
+      backgroundColor: 'black',
+    },
+    maxPriceLineStyle: {
+      position: 'absolute',
+      right: `${tempPriceRange[1]}%`,
+      top: '20px',
+      width: '2px',
+      height: '50px',
+      backgroundColor: 'black',
+    },
   };
 
   const togglePriceFilter = () => {
@@ -37,7 +54,7 @@ const PriceRangeFilter = () => {
   };
 
   const valuetext = (value) => {
-    return value >= 10000 ? `${value / 10000}만` : `${value}`;
+    return value >= 10000 ? `${priceToString(value)}만` : `${value}`;
   }
 
   const handlePriceChange = (event, newValue) => {
@@ -64,7 +81,7 @@ const PriceRangeFilter = () => {
         </div>
       </button>
       {isListVisible && (
-        <div style={styles.pirceRangeStyle}>
+        <div style={styles.priceRangeStyle}>
           <BarChart
             series={[{ data: [1, 2, 3, 2, 1] }]}
             xAxis={[{ scaleType: 'band', data: ['₩10,000~25,000', '₩25,000~40,000', '₩40,000~55,000', '₩55,000~70,000', '₩70,000~85,000'] }]}
@@ -72,6 +89,7 @@ const PriceRangeFilter = () => {
             width={600}
             leftAxis={null}
           />
+          <div style={styles.lineStyle} />
           <Slider
             getAriaLabel={() => 'price range'}
             value={tempPriceRange}
