@@ -12,11 +12,13 @@ function searchAddressToCoordinate(address, map) {
     query: address
   }, function (status, response) {
     if (status === window.naver.maps.Service.Status.ERROR) {
-      return console.log('status ERROR');
+      console.log('status ERROR');
+      return undefined;
     }
     //console.log(response.v2);
     if (response.v2.meta.totalCount === 0) {
-      return console.log('검색정보 없음');
+      console.log('검색정보 없음');
+      return undefined;
     }
 
     let htmlAddresses = [],
@@ -24,28 +26,28 @@ function searchAddressToCoordinate(address, map) {
       point = new window.naver.maps.Point(item.x, item.y);
 
     coordinate_item = item;
-    console.log(coordinate_item);
+    //console.log(coordinate_item);
 
-    if (item.roadAddress) {
-      htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-    }
+    // if (item.roadAddress) {
+    //   htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+    // }
 
-    if (item.jibunAddress) {
-      htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-    }
+    // if (item.jibunAddress) {
+    //   htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+    // }
 
-    if (item.englishAddress) {
-      htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-    }
+    // if (item.englishAddress) {
+    //   htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+    // }
 
-    infoWindow.setContent([
-      '<div style="padding:10px;width:300px;line-height:150%;">',
-      '<h4 style="margin-top:5px;">검색 주소 : ' + address + '</h4><br />',
-      htmlAddresses[0],
-      '</div>'
-    ].join('\n'));
+    // infoWindow.setContent([
+    //   '<div style="padding:10px;width:300px;line-height:150%;">',
+    //   '<h4 style="margin-top:5px;">검색 주소 : ' + address + '</h4><br />',
+    //   htmlAddresses[0],
+    //   '</div>'
+    // ].join('\n'));
 
-    map.setCenter(point);
+    // map.setCenter(point);
     //infoWindow.open(map, point);
   });
 
@@ -53,11 +55,12 @@ function searchAddressToCoordinate(address, map) {
   return coordinate_item;
 }
 
+
 export default function Map(props) {
 
   const { posts, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
 
-  console.log("from map, posts=", postAll);
+  //console.log("from map, posts=", postAll);
 
 
   const mapRef = useRef(null);
@@ -66,32 +69,39 @@ export default function Map(props) {
   useEffect(() => {
     mapRef.current = new window.naver.maps.Map(document.getElementById("map"));
     mapRef.current.setCursor("pointer");
-    //console.log(props.location);
-    //searchAddressToCoordinate(props.location, map);
+
+    postAll?.map((post) => {
+      let coordinate = searchAddressToCoordinate(post.position, mapRef.current);
+      if (coordinate === undefined) {
+        coordinate = searchAddressToCoordinate(props.city + " " + props.gu + " " + props.dong + " " + props.street + " " + props.street_number, mapRef.current);
+        if (coordinate === undefined) {
+          coordinate = { x: post.x_coordinate, y: post.y_coordinate };
+        }
+      }
+
+      markerRef.current = new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(coordinate.y, coordinate.x),
+        map: mapRef.current
+      })
+
+      markerClickEvent(markerRef.current, post);
+
+      post.marker = markerRef.current;
+      post.marker.trigger("click");
+    });
+    //searchAddressToCoordinate("서울특별시 강남구 개포로 420", mapRef.current);
 
   }, []);
 
-  posts?.map((post) => {
-    // let coordinate = searchAddressToCoordinate(post.position, mapRef.current);
-    // if (coordinate === undefined)
-    //   coordinate = searchAddressToCoordinate(post.city + " " + post.gu + " " + post.dong + " " + post.street, mapRef.current);
-    // else if (coordinate === undefined)
-    //   console.log("error: no coordinate");
+  function markerClickEvent(marker, post) {
+    window.naver.maps.Event.addListener(marker, "click", (e) => {
+      const mapLatLng = new window.naver.maps.LatLng(Number(post?.y_coordinate), Number(post?.x_coordinate));
 
+      //부드럽게 이동하기
+      mapRef.current.panTo(mapLatLng, e?.coord);
+    });
+  }
 
-    markerRef.current = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(post.y_coordinate, post.x_coordinate),
-      map: mapRef.current
-    })
-  });
-
-  //searchAddressToCoordinate("서울특별시 강남구 개포로 420", mapRef.current);
-
-  useEffect(() => {
-    function createMarker() {
-
-    }
-  }, []);
 
   return (
     // <div className="sticky top-5">
