@@ -61,7 +61,31 @@ export class UserController {
       throw new NotFoundException();
     }
   }
+  @Put('image')
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadProfile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: customRequest,
+  ) {
+    console.log('[user.controller:uploadProfile] starting function');
+    console.log('[user.controller:uploadProfile] putUserBody: ', req);
 
+    if (!file) {
+      console.log(
+        "[user.controller:uploadProfile] file is empty, we're assuming bad request",
+      );
+      throw new BadRequestException();
+    }
+    try {
+      const res = await this.userService.uploadProfile(req.user.user_id, file);
+      console.log('[user.controller:uploadProfile] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:uploadProfile] error: ', e);
+      throw new NotFoundException();
+    }
+  }
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     console.log('[user.controller:getOneUser] starting function');
@@ -87,32 +111,6 @@ export class UserController {
     } catch (e) {
       console.log('[user.controller:createUser] error: ', e);
       throw new BadRequestException();
-    }
-  }
-
-  @Put('image')
-  @UseGuards(LoggedInGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadProfile(
-    @UploadedFile() file: Express.Multer.File,
-    @Req() req: customRequest,
-  ) {
-    console.log('[user.controller:uploadProfile] starting function');
-    console.log('[user.controller:uploadProfile] putUserBody: ', req);
-
-    if (!file) {
-      console.log(
-        "[user.controller:uploadProfile] file is empty, we're assuming bad request",
-      );
-      throw new BadRequestException();
-    }
-    try {
-      const res = await this.userService.uploadProfile(req.user.user_id, file);
-      console.log('[user.controller:uploadProfile] res: ', res);
-      return res;
-    } catch (e) {
-      console.log('[user.controller:uploadProfile] error: ', e);
-      throw new NotFoundException();
     }
   }
 

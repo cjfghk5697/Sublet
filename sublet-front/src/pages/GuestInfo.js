@@ -1,8 +1,20 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/Reservation";
+
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/GuestInfo.style"
+import { Image_Dialog } from "../components/Popup.js";
+import { imagePopUpStore } from "../components/store/guestInfoStore.js";
+
+
+
+
+
+
+
+
 function User({ user }) {
+  const { setImagePopUpState, imagePopUpState } = imagePopUpStore((state) => ({ setImagePopUpState: state.setImagePopUpState, imagePopUpState: state.imagePopUpState }))
 
   const userPrivateComponent = (
     <div>
@@ -21,12 +33,18 @@ function User({ user }) {
     </div>)
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
 
+
+
+
+
   const userBaseComponent = (
     <div>
-      <s.image_upload_button>
-        <img src={image_link} className="hover:opacity-60 object-scale-down rounded-lg rounded-lg" alt="my image" />
+      <s.image_upload_button onClick={setImagePopUpState}>
+        <img src={image_link} className="hover:opacity-60 object-scale-down rounded-lg rounded-lg" alt="my profile" />
       </s.image_upload_button>
-
+      {imagePopUpState &&
+        (<Image_Dialog
+        />)}
 
       <p className="text-2xl font-extrabold mt-3">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>

@@ -46,7 +46,7 @@ export class UserUpdateDto extends UserPartialBase {
 
 export class UserFilterDto {
   @IsOptional()
-  @IsArray()
+  @IsString()
   school?: string;
 }
 

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Modal from 'react-bootstrap/Modal';
-import {Login, Logout} from "../components/Login";
+import { Login } from "../components/Login";
 import * as s from "../components/styles/Login.styles"
 import { usePopUpStore } from "../components/store/loginStore";
+import DialogContent from '@mui/material/DialogContent';
+import Dialog from '@mui/material/Dialog';
 
 
 function PopUp() {
@@ -27,8 +28,8 @@ function PopUp() {
 
   return (
     <>
-      <Modal show={popUpState} className="container bg-white border border-gray-300 shadow-xl rounded-lg">
-        <Modal.Body>
+      <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogContent>
           <s.start_div>
             <div className="mb-4">
               <s.close_button type="button" className='float-right'>
@@ -69,8 +70,8 @@ function PopUp() {
               </div>
             </div>
           </s.start_div>
-        </Modal.Body>
-      </Modal >
+        </DialogContent>
+      </Dialog >
 
     </>
   );
@@ -84,7 +85,7 @@ function LoginPage() {
       <button onClick={popUp}>Login</button>
       {popUpState &&
         <PopUp></PopUp>}
-      
+
     </div>
   )
 }
