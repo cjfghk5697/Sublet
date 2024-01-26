@@ -23,6 +23,10 @@ import { ReservationModule } from './modules/reservation/reservation.module';
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/public',
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public_user'),
+      serveRoot: '/public_user',
+    }),
     ConfigModule.forRoot(),
     ReservationModule,
   ],

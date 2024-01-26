@@ -65,6 +65,7 @@ model Post {
   street            String
   street_number     String
   post_code         String
+  local_save        Boolean       @default(false)
 }
 
 model IncrementKey {
@@ -118,4 +119,12 @@ model ReservationIncrementKey {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   version        Int    @default(1)
   reservationKey Int
+}
+
+model ProfileImage {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  version    Int    @default(1)
+  filename   String
+  filetype   String
+  image_hash String
 }
