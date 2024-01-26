@@ -23,12 +23,13 @@ function markerHTML(price) {
         color: white;
       }
     }
-    span {
+  "><span 
+    style="
       color: black;
       font-size: 1rem;
       font-weight: bold;
       pointer-events: none;
-  }"><span>${price}</span></div>`;
+    ">&#8361;${price}</span></div>`;
 }
 
 function searchAddressToCoordinate(address, map) {
