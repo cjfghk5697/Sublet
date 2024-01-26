@@ -27,9 +27,9 @@ function markerHTML(price) {
     style="
       color: black;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 700;
       pointer-events: none;
-    ">&#8361;${price}</span></div>`;
+    ">&#8361;${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></div>`;
 }
 
 function searchAddressToCoordinate(address, map) {
