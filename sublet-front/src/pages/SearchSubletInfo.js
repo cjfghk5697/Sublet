@@ -19,18 +19,20 @@ const HoverNewPageDiv = styled.div`
   display: flex;
   cursor: pointer;
   gap: 1rem;
+  padding: 1rem;
   &:hover {
     background-color: #ceffc8;
   }
 `;
 
 function SubletInfo(props) {
-
-
   const start_day = new Date(props.start_day);
-  //console.log(props);
+
+  useEffect(() => {
+  }, [props.marker]);
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
+    <div className="bg-white rounded-lg shadow">
       <div className="flex">
         <HoverNewPageDiv onClick={() => { window.open(`/roominfo/${props.id}`) }}>
           <img
@@ -57,7 +59,7 @@ function SubletInfo(props) {
             <p className="text-lg font-bold text-[#bd1e59] text-right">₩{props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}/1개월</p>
           </div>
         </HoverNewPageDiv>
-        <HoverBtnDiv>
+        <HoverBtnDiv onClick={() => { props.marker?.trigger('click'); }}>
           <PinDropIcon></PinDropIcon>
         </HoverBtnDiv>
       </div>
@@ -83,7 +85,7 @@ export default function SearchSubletInfo(props) {
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1" style={{ maxHeight: 'calc(100vh - 250px)', overflowY: 'scroll' }}>
             <div className="flex flex-col space-y-4">
-              {postExist && postAll.map((ele) => <SubletInfo
+              {postExist && postAll?.map((ele) => <SubletInfo
                 key={ele.key}
                 id={ele.key}
                 title={ele.title}
@@ -97,6 +99,7 @@ export default function SearchSubletInfo(props) {
                 min_duration={ele.min_duration}
                 start_day={ele.start_day}
                 image_id={ele.image_id}
+                marker={ele.marker}
               />)}
             </div>
           </div>

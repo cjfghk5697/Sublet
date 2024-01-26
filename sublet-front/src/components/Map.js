@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SubletPostStore } from "../store/SubletPostStore";
+
+
 
 function searchAddressToCoordinate(address, map) {
   let infoWindow = new window.naver.maps.InfoWindow({
@@ -65,11 +67,21 @@ export default function Map(props) {
 
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const [markerAll, setMarkerAll] = useState(false);
 
   useEffect(() => {
-    mapRef.current = new window.naver.maps.Map(document.getElementById("map"));
-    mapRef.current.setCursor("pointer");
+    createMap();
+    createMarker();
+  }, [markerAll]);
 
+  function createMap() {
+    mapRef.current = new window.naver.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+    });
+    mapRef.current.setCursor("pointer");
+  }
+
+  function createMarker() {
     postAll?.map((post) => {
       let coordinate = searchAddressToCoordinate(post.position, mapRef.current);
       if (coordinate === undefined) {
@@ -85,27 +97,25 @@ export default function Map(props) {
       })
 
       markerClickEvent(markerRef.current, post);
-
       post.marker = markerRef.current;
-      post.marker.trigger("click");
-    });
-    //searchAddressToCoordinate("서울특별시 강남구 개포로 420", mapRef.current);
 
-  }, []);
+      return console.log("map end");
+    });
+
+    setMarkerAll(true);
+    console.log("markerAll=", markerAll)
+  }
+
 
   function markerClickEvent(marker, post) {
     window.naver.maps.Event.addListener(marker, "click", (e) => {
       const mapLatLng = new window.naver.maps.LatLng(Number(post?.y_coordinate), Number(post?.x_coordinate));
-
       //부드럽게 이동하기
       mapRef.current.panTo(mapLatLng, e?.coord);
     });
   }
 
-
   return (
-    // <div className="sticky top-5">
     <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
-    // </div>
   )
 }
