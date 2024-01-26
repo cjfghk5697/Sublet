@@ -5,6 +5,8 @@ export const SubletPostStore = create((set) => ({
   postExist: false,
   page: 1,
   postAll: [],
+  postMarker: false,
+  setPostMarker: (flag) => set(() => ({ postMarker: flag })),
   //setPost: (post) => set(() => ({ post: [...post], postExist: true })),
   clearPost: () => set(() => ({ post: [], postExist: false })),
   asyncGetPost: async (page) => {
@@ -26,7 +28,7 @@ export const SubletPostStore = create((set) => ({
       ).json();
 
       if (json.length === 0) {
-        set((state) => ({ postAll: [...state.postAll, ...tempPostAll] }))
+        set((state) => ({ postAll: [...state.postAll, ...tempPostAll], postExist: true }))
         break;
       }
       tempPostAll = [...tempPostAll, ...json];

@@ -28,8 +28,8 @@ const HoverNewPageDiv = styled.div`
 function SubletInfo(props) {
   const start_day = new Date(props.start_day);
 
-  useEffect(() => {
-  }, [props.marker]);
+  // useEffect(() => {
+  // }, [props.marker]);
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -59,7 +59,7 @@ function SubletInfo(props) {
             <p className="text-lg font-bold text-[#bd1e59] text-right">₩{props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}/1개월</p>
           </div>
         </HoverNewPageDiv>
-        <HoverBtnDiv onClick={() => { props.marker?.trigger('click'); }}>
+        <HoverBtnDiv onClick={() => { console.log("props.marker : ", props.marker); props.marker?.trigger('click'); }}>
           <PinDropIcon></PinDropIcon>
         </HoverBtnDiv>
       </div>
@@ -68,15 +68,16 @@ function SubletInfo(props) {
 }
 
 export default function SearchSubletInfo(props) {
-  const { page, asyncGetPost } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost }));
-  const asyncGetPostAll = SubletPostStore((state) => state.asyncGetPostAll);
-
+  const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
+  const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+  //map.js에서 포스트 마커 바꾸는 부분이 어디???
   useEffect(() => {
-    asyncGetPost(page);
+    //asyncGetPost(page);
     asyncGetPostAll();
   }, []);
 
-  const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+  useEffect(() => {
+  }, [postAll[0]?.marker]);
 
   return (
     <>

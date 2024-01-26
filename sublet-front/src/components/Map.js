@@ -59,11 +59,8 @@ function searchAddressToCoordinate(address, map) {
 
 
 export default function Map(props) {
-
   const { posts, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
-
-  //console.log("from map, posts=", postAll);
-
+  const setPostMarker = SubletPostStore((state) => state.setPostMarker);
 
   const mapRef = useRef(null);
   const markerRef = useRef(null);
@@ -99,13 +96,10 @@ export default function Map(props) {
       markerClickEvent(markerRef.current, post);
       post.marker = markerRef.current;
 
-      return console.log("map end");
     });
-
+    setPostMarker(true)
     setMarkerAll(true);
-    console.log("markerAll=", markerAll)
   }
-
 
   function markerClickEvent(marker, post) {
     window.naver.maps.Event.addListener(marker, "click", (e) => {
