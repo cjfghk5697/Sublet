@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import * as s from './styles/SummaryBlock.styles.js'
+import * as sl from "../components/styles/Login.styles"
+
 import './styles/Popup.styles.css'
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 
-export function Reservation_Dialog({ main_text, sub_text, key_num }) {
+export function ReservationDialog({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
   const [checkState, setCheckState] = useState(false)
   const [deleteState, setDeleteState] = useState(true)
@@ -66,11 +68,12 @@ export function Reservation_Dialog({ main_text, sub_text, key_num }) {
   );
 }
 
-export function Image_Dialog() {
+export function ImageDialog() {
   const [show, setShow] = useState(true);
   const [putState, setPutState] = useState(true)
 
   const [imgFile, setImgFile] = useState("");
+  const [imageUpload, setImageUpload] = useState("");
   const imgRef = useRef();
 
   // 이미지 업로드 input의 onChange
@@ -81,18 +84,18 @@ export function Image_Dialog() {
     reader.onloadend = () => {
       setImgFile(reader.result);
     };
+    setImageUpload(file)
   };
 
   const handleClose = () => setShow(false);
-
   const formData = new FormData();
-  formData.append('file', imgFile);
+  formData.append('file', imageUpload);
+
 
   const putHandled = async () => {
     const requestOptions = {
       credentials: 'include',
       method: 'PUT',
-      headers: { 'Content-Type': 'multipart/form-data' },
       body: formData
     };
 
@@ -137,6 +140,120 @@ export function Image_Dialog() {
             </s.delete_button_able>) : (<s.delete_button_disabled disabled>
               업로드하기
             </s.delete_button_disabled>)}
+          </div>
+        </Dialog>
+      )}
+    </>
+  );
+}
+
+export function EmailDialog({ originalEmail }) {
+  const [show, setShow] = useState(true);
+  const [putState, setPutState] = useState(true)
+  const handleClose = () => setShow(false);
+  const [emailState, setEmailState] = useState(originalEmail)
+
+  const emailChange = (e) => {
+    setEmailState(e.target.value)
+  }
+  const emailHandled = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: emailState
+      })
+    };
+
+    await (
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update`
+        , requestOptions)
+    ).json();
+    setPutState(false)
+
+  };
+
+  return (
+    <>
+      {putState && (
+        <Dialog open={show} className="border border-gray-300 shadow-xl rounded-lg">
+          <DialogContent className='text-center'>
+            <sl.close_button type="button" className='float-right'>
+              <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </sl.close_button>
+            <form>
+              <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
+              <input type="email" id="email" onChange={emailChange} value={emailState} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+            </form>
+          </DialogContent>
+          <div className='mt-2'>
+            <s.put_button onClick={emailHandled} >
+              수정하기
+            </s.put_button>
+          </div>
+        </Dialog>
+      )}
+    </>
+  );
+}
+
+export function PhoneDialog({ originalPhone }) {
+  const [show, setShow] = useState(true);
+  const [putState, setPutState] = useState(true)
+  const handleClose = () => setShow(false);
+
+  const [phoneState, setPhoneState] = useState(originalPhone)
+
+  const phoneChange = (e) => {
+    setPhoneState(e.target.value)
+  }
+
+  const phoneHandled = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        phone: phoneState
+      })
+    };
+
+    await (
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update`
+        , requestOptions)
+    ).json();
+    setPutState(false)
+
+  };
+  return (
+    <>
+      {putState && (
+        <Dialog open={show} className="border border-gray-300 shadow-xl rounded-lg">
+          <DialogContent className='text-center'>
+            <sl.close_button type="button" className='float-right'>
+              <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </sl.close_button>
+            <form>
+              <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
+              <input type="tel" id="tel" onChange={phoneChange} value={phoneState} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+            </form>
+
+          </DialogContent>
+          <div className='mt-2'>
+            <s.put_button onClick={phoneHandled} >
+              수정하기
+            </s.put_button>
           </div>
         </Dialog>
       )}

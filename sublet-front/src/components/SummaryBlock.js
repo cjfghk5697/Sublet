@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DateFormat, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
-import { Reservation_Dialog } from "./Popup.js";
+import { ReservationDialog } from "./Popup.js";
 
 function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
   const [popupState, setpopupState] = useState(false)
@@ -37,7 +37,7 @@ function SummaryBlock({ title, start_day, end_day, pay, host, room_image, key_nu
             취소하기
           </s.block_cancel_button>
           {popupState &&
-            (<Reservation_Dialog
+            (<ReservationDialog
               main_text={main_text}
               sub_text={sub_text}
               key_num={key_num}

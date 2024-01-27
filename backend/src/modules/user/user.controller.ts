@@ -86,6 +86,29 @@ export class UserController {
       throw new NotFoundException();
     }
   }
+
+  @Put('update')
+  @UseGuards(LoggedInGuard)
+  async putOneUser(
+    @Body() putUserBody: UserUpdateDto,
+    @Req() req: customRequest,
+  ) {
+    console.log('[user.controller:putOneUser] starting function');
+    console.log('[user.controller:putOneUser] user_id: ', req.user.user_id);
+    console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
+
+    try {
+      const res = await this.userService.putOneUser(
+        req.user.user_id,
+        putUserBody,
+      );
+      console.log('[user.controller:putOneUser] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:putOneUser] error: ', e);
+      throw new NotFoundException();
+    }
+  }
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     console.log('[user.controller:getOneUser] starting function');
@@ -111,32 +134,6 @@ export class UserController {
     } catch (e) {
       console.log('[user.controller:createUser] error: ', e);
       throw new BadRequestException();
-    }
-  }
-
-  @Put(':user_id')
-  @UseGuards(LoggedInGuard)
-  async putOneUser(
-    @Param('user_id') user_id: string,
-    @Body() putUserBody: UserUpdateDto,
-    @Req() req: customRequest,
-  ) {
-    console.log('[user.controller:putOneUser] starting function');
-    console.log('[user.controller:putOneUser] user_id: ', user_id);
-    console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
-    if (req.user.user_id !== user_id) {
-      console.log(
-        '[user.controller:putOneUser] user_id is not same as req.user.user_id',
-      );
-      throw new UnauthorizedException();
-    }
-    try {
-      const res = await this.userService.putOneUser(user_id, putUserBody);
-      console.log('[user.controller:putOneUser] res: ', res);
-      return res;
-    } catch (e) {
-      console.log('[user.controller:putOneUser] error: ', e);
-      throw new NotFoundException();
     }
   }
 
