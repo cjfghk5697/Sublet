@@ -4,7 +4,6 @@ import {
   IsPhoneNumber,
   IsStrongPassword,
   IsOptional,
-  IsArray,
   IsString,
 } from 'class-validator';
 
