@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { env } from 'process';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   // const fs = require('fs');
@@ -15,7 +16,8 @@ async function bootstrap() {
   //   httpsOptions,
   // });
   const app = await NestFactory.create(AppModule);
-
+  app.use(bodyParser.json({ limit: '8mb' }));
+  app.use(bodyParser.urlencoded({ limit: '8mb', extended: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -31,6 +33,7 @@ async function bootstrap() {
       'http://localhost:3000',
       env.FRONTEND_URL as string,
     ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
   await app.listen(4000);

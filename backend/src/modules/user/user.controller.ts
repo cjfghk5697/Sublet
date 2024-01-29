@@ -61,35 +61,6 @@ export class UserController {
       throw new NotFoundException();
     }
   }
-
-  @Get(':user_id')
-  async getOneUser(@Param('user_id') user_id: string) {
-    console.log('[user.controller:getOneUser] starting function');
-    console.log('[user.controller:getOneUser] user_id: ', user_id);
-    try {
-      const res = await this.userService.getUserByKey(user_id);
-      console.log('[user.controller:getOneUser] res: ', res);
-      return res;
-    } catch (e) {
-      console.log('[user.controller:getOneUser] error: ', e);
-      throw new NotFoundException();
-    }
-  }
-
-  @Post()
-  async createUser(@Body() data: UserCreateDto) {
-    console.log('[user.controller:createUser] starting function');
-    console.log('[user.controller:createUser] data: ', data);
-    try {
-      const res = await this.userService.createUser(data);
-      console.log('[user.controller:createUser] res: ', res);
-      return res;
-    } catch (e) {
-      console.log('[user.controller:createUser] error: ', e);
-      throw new BadRequestException();
-    }
-  }
-
   @Put('image')
   @UseGuards(LoggedInGuard)
   @UseInterceptors(FileInterceptor('file'))
@@ -116,29 +87,53 @@ export class UserController {
     }
   }
 
-  @Put(':user_id')
+  @Put('update')
   @UseGuards(LoggedInGuard)
   async putOneUser(
-    @Param('user_id') user_id: string,
     @Body() putUserBody: UserUpdateDto,
     @Req() req: customRequest,
   ) {
     console.log('[user.controller:putOneUser] starting function');
-    console.log('[user.controller:putOneUser] user_id: ', user_id);
+    console.log('[user.controller:putOneUser] user_id: ', req.user.user_id);
     console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
-    if (req.user.user_id !== user_id) {
-      console.log(
-        '[user.controller:putOneUser] user_id is not same as req.user.user_id',
-      );
-      throw new UnauthorizedException();
-    }
+
     try {
-      const res = await this.userService.putOneUser(user_id, putUserBody);
+      const res = await this.userService.putOneUser(
+        req.user.user_id,
+        putUserBody,
+      );
       console.log('[user.controller:putOneUser] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:putOneUser] error: ', e);
       throw new NotFoundException();
+    }
+  }
+  @Get(':user_id')
+  async getOneUser(@Param('user_id') user_id: string) {
+    console.log('[user.controller:getOneUser] starting function');
+    console.log('[user.controller:getOneUser] user_id: ', user_id);
+    try {
+      const res = await this.userService.getUserByKey(user_id);
+      console.log('[user.controller:getOneUser] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:getOneUser] error: ', e);
+      throw new NotFoundException();
+    }
+  }
+
+  @Post()
+  async createUser(@Body() data: UserCreateDto) {
+    console.log('[user.controller:createUser] starting function');
+    console.log('[user.controller:createUser] data: ', data);
+    try {
+      const res = await this.userService.createUser(data);
+      console.log('[user.controller:createUser] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:createUser] error: ', e);
+      throw new BadRequestException();
     }
   }
 

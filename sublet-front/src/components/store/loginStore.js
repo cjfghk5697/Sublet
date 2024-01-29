@@ -5,6 +5,5 @@ export const usePopUpStore = create((set) => ({
   setPopUpState: () => set((state) => ({
     popUpState: !state.popUpState
   })),
-
 }))
 
