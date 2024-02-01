@@ -1,4 +1,4 @@
-import SummaryBlock from "./SummaryBlock";
+import { ReservationSummaryBlock } from "./SummaryBlock";
 import { useEffect, useState } from "react";
 
 function FetchReservation() {
@@ -43,7 +43,7 @@ function ReservationInfo() {
         (
           <p className="text-base font-extrabold">예약이 아직 없습니다.</p>
         ) : (reservation.length > 0 ? reservation.map((res) => (
-          <SummaryBlock
+          <ReservationSummaryBlock
             title={res.Post.title}
             host={res.Post.postuser.user_id}
             start_day={res.r_start_day}

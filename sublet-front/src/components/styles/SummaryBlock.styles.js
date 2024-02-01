@@ -56,3 +56,12 @@ ${tw`shadow-xl rounded-lg ml-4`}
 export const change_button = styled.button`
 ${tw`bg-white hover:bg-gray-100 text-black font-semibold float-right py-1 px-1 rounded-lg ml-4`}
 `
+
+export const room_upload = styled.button`
+
+&:hover {
+  background-color: rgb(229 231 235);
+  color: rgb(17 24 39)
+}
+${tw`bg-black float-end text-white font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
+`

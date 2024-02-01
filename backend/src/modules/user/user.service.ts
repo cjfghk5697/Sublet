@@ -25,6 +25,10 @@ export class UserService {
     return exportUser;
   }
 
+  async getUserPostByKey(user_id: string) {
+    const post = await this.userdb.getUserPostByKey(user_id);
+    return post;
+  }
   async validateUser(user_id: string, password: string) {
     const user = await this.userdb.validateUser(user_id, password);
     const exportUser = this.transformExport(user);

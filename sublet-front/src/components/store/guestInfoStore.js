@@ -4,6 +4,7 @@ export const guestInfoPopUpStore = create((set) => ({
   imagePopUpState: false,
   phonePopUpState: false,
   emailPopUpState: false,
+  postPopUpState: false,
   setImagePopUpState: () => set((state) => ({
     imagePopUpState: !state.imagePopUpState
   })),
@@ -12,6 +13,9 @@ export const guestInfoPopUpStore = create((set) => ({
   })),
   setPhonePopUpState: () => set((state) => ({
     phonePopUpState: !state.phonePopUpState
+  })),
+  setPostPopUpState: () => set((state) => ({
+    postPopUpState: !state.postPopUpState
   })),
 }))
 

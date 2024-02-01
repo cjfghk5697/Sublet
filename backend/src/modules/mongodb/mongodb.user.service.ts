@@ -4,10 +4,13 @@ import { UserInterface } from '@/interface/user.interface';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 
 import * as bcrypt from 'bcrypt';
+import { PostInterface } from '@/interface/post.interface';
 
 @Injectable()
 export class MongodbUserService {
   USER_VERSION = 2;
+  POST_VERSION = 1;
+
   constructor(private prisma: PrismaService) {}
 
   async getOneUser(user_id: string) {
@@ -47,6 +50,27 @@ export class MongodbUserService {
     if (!result) {
       throw Error('[mongodb.service:getUserByKey] result null');
     }
+    return result;
+  }
+
+  async getUserPostByKey(user_id: string) {
+    const result: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        version: { gte: this.POST_VERSION },
+
+        postuser: { user_id: user_id },
+        deleted: false,
+        local_save: false,
+      },
+      include: {
+        postuser: true,
+      },
+    });
+
+    if (!result) {
+      throw Error('[mongodb.service:getUserPostByKey] result null');
+    }
+    console.log('[mongodb.service:getUserPostByKey] result', result);
     return result;
   }
 

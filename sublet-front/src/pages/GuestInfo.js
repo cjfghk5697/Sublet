@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/Reservation";
 import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
+
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
-
+import { PostInfo } from "../components/PostBlock.js";
 function User({ user }) {
   const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState, imagePopUpState, emailPopUpState, phonePopUpState } = guestInfoPopUpStore((state) => ({
     setImagePopUpState: state.setImagePopUpState,
@@ -14,6 +15,7 @@ function User({ user }) {
     emailPopUpState: state.emailPopUpState,
     phonePopUpState: state.phonePopUpState,
   }))
+
 
   const userPrivateComponent = (
     <div>
@@ -49,7 +51,8 @@ function User({ user }) {
           <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
         </div>
       </div>
-    </div>)
+    </div>
+  )
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
 
   const userBaseComponent = (
@@ -76,6 +79,7 @@ function User({ user }) {
       <div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
         <ReservationInfo />
         {userPrivateComponent}
+        <PostInfo />
       </div>
     </div>
   );

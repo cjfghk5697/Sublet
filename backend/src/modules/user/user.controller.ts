@@ -86,6 +86,19 @@ export class UserController {
       throw new NotFoundException();
     }
   }
+  @Get('post')
+  async getUserPost(@Req() req: customRequest) {
+    console.log('[user.controller:getUserPost] starting function');
+    console.log('[user.controller:getUserPost] user_id: ', req.user.user_id);
+    try {
+      const res = await this.userService.getUserPostByKey(req.user.user_id);
+      console.log('[user.controller:getUserPost] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:getUserPost] error: ', e);
+      throw new NotFoundException();
+    }
+  }
 
   @Put('update')
   @UseGuards(LoggedInGuard)
@@ -109,6 +122,7 @@ export class UserController {
       throw new NotFoundException();
     }
   }
+
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     console.log('[user.controller:getOneUser] starting function');

@@ -1,4 +1,5 @@
 import { IsOptional, IsString } from 'class-validator';
+import { PostExportInterface, PostInterface } from './post.interface';
 
 export class UserBase {
   @IsString()
