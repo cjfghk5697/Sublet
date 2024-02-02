@@ -9,6 +9,7 @@ import {
 } from '../../stubs/mongodb.stub';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
+import { PostInterface } from '@/interface/post.interface';
 
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');
@@ -86,6 +87,38 @@ describe('UserService', () => {
 
       it('then should call db to get one User', () => {
         expect(mongodbUserService.getUserByKey).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('TESTING getUserPostByKey (GET /user/post)', () => {
+    describe('when calling with id', () => {
+      let result: PostInterface[] | undefined;
+      const user_id = 'fsh_12';
+      beforeEach(async () => {
+        try {
+          result = await service.getUserPostByKey(user_id);
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return interface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to get a user', () => {
+        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should call db to get one User with given parameters', () => {
+        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledWith(
+          user_id,
+        );
+      });
+
+      it('then should call db to get one User', () => {
+        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledTimes(1);
       });
     });
   });

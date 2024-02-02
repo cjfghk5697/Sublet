@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 
-export const block_cancel_button = styled.button`
+export const reservation_cancel_button = styled.button`
 ${tw`bg-white hover:bg-gray-100 text-[#F62424] font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `
 
-export const block_detail_button = styled.button`
+export const reservation_detail_button = styled.button`
 ${tw`bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg ml-4`}
 `
 
@@ -64,4 +64,9 @@ export const room_upload = styled.button`
   color: rgb(17 24 39)
 }
 ${tw`bg-black float-end text-white font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
+`
+
+
+export const post_detail_button = styled.button`
+${tw`bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `

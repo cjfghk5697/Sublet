@@ -67,9 +67,9 @@ function User({ user }) {
       <p className="text-2xl font-extrabold mt-3">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
-      {/* 신분증 인증 버튼 */}
     </div>
   )
+
   return (
     <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
       <div className="ml-3 mt-5">
@@ -86,8 +86,6 @@ function User({ user }) {
 }
 
 function GuestInfo() {
-  //Login("evan1", "5s34S2349!#")
-
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
 

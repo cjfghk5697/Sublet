@@ -52,20 +52,21 @@ function PostInfo() {
           const address = res.city + ' ' + res.gu + ' ' + res.dong;
           const post_date = DateFormat(res.post_date);
           const price = priceToString(res.price);
-          console.log(res, address, price)
 
-          return (< PostSummaryBlock
-            title={res.title}
-            accomodation_type={res.accomodation_type}
-            post_date={post_date}
-            pay={price}
-            request={res.request}
-            private_post={res.private}
-            contract={res.contract}
-            address={address}
-            room_image={res.image_id[0]}
-          />)
-        }) : <p className="text-base font-extrabold">예약이 아직 없습니다.</p>)
+          return (
+            < PostSummaryBlock
+              title={res.title}
+              post_key={res.key}
+              accomodation_type={res.accomodation_type}
+              post_date={post_date}
+              pay={price}
+              request={res.request}
+              private_post={res.private}
+              contract={res.contract}
+              address={address}
+              room_image={res.image_id[0]}
+            />)
+        }) : <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>)
       }
     </div>
   )
