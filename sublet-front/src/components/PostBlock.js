@@ -1,44 +1,12 @@
 import { PostSummaryBlock } from "./SummaryBlock";
-import { useEffect, useState } from "react";
 import { DateFormat, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
+import { FetchPost } from "./FetchList";
 
-function FetchPost() {
-  const [loading, setLoading] = useState(true);
-  const [postInfo, setPostInfo] = useState([]);
-  const getPostInfo = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
-
-    const json = await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/post`
-        , requestOptions)
-    ).json();
-
-    setLoading(false)
-    setPostInfo(json)
-  };
-
-  useEffect(() => {
-    getPostInfo();
-  }, []);
-
-  const post = Array.from(postInfo)
-
-  return [post, loading]
-}
 
 function PostInfo() {
   const [post, loading] = FetchPost()
-  console.log('[post]', post)
-
 
   return (
     <div className="mb-4 mt-8">
@@ -70,8 +38,6 @@ function PostInfo() {
       }
     </div>
   )
-
-
 };
 
-export { PostInfo, FetchPost };
+export { PostInfo };

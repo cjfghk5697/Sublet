@@ -4,67 +4,47 @@ import * as sl from "../components/styles/Login.styles"
 
 import './styles/Popup.styles.css'
 import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import { ReservationByPostKeyInfo } from "./Reservation.js";
+import { DeletePost, FetchDeleteReservation } from "./FetchList";
 
 export function ReservationDialog({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
   const [checkState, setCheckState] = useState(false)
-  const [deleteState, setDeleteState] = useState(true)
 
   const handleClose = () => setShow(false);
 
   const checkHandled = () => {
     setCheckState(!checkState)
   }
-
-  const deleteHandled = async () => {
-
-    const requestOptions = {
-      credentials: 'include',
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        key: key_num
-      })
-    };
-
-    await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/reservation`
-        , requestOptions)
-    ).json();
-    setDeleteState(false)
-
-  };
+  const deleteReservationHandle = () => {
+    FetchDeleteReservation(key_num)
+  }
 
   return (
     <>
-      {deleteState && (
-        <Dialog open={show} className="border border-gray-300 shadow-xl rounded-lg">
-          <DialogContent className='font-black text-center'>
-            <p className="text-lg font-extrabold mt-3">{main_text}</p>
-            <div>
-              <p className="mt-3  font-medium">
-                <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
-                {sub_text}
-              </p>
-            </div>
-          </DialogContent>
-          <div className='mt-5'>
-            <s.back_button onClick={handleClose} className="">
-              나가기
-            </s.back_button>
-            {checkState ? (<s.delete_button_able onClick={deleteHandled} >
-              취소하기
-            </s.delete_button_able>) : (<s.delete_button_disabled disabled>
-              취소하기
-            </s.delete_button_disabled>)}
+      <Dialog open={show} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogContent className='font-black text-center'>
+          <p className="text-lg font-extrabold mt-3">{main_text}</p>
+          <div>
+            <p className="mt-3  font-medium">
+              <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+              {sub_text}
+            </p>
           </div>
-        </Dialog>
-      )}
+        </DialogContent>
+        <div className='mt-5'>
+          <s.back_button onClick={handleClose} className="">
+            나가기
+          </s.back_button>
+          {checkState ? (<s.delete_button_able onClick={deleteReservationHandle} >
+            취소하기
+          </s.delete_button_able>) : (<s.delete_button_disabled disabled>
+            취소하기
+          </s.delete_button_disabled>)}
+        </div>
+      </Dialog>
     </>
   );
 }
@@ -340,6 +320,50 @@ export function ReservationListDialog({ post_key }) {
 
       </Dialog>
 
+    </>
+  );
+}
+
+export function DeletePostDialog({ key_num }) {
+  const [show, setShow] = useState(true);
+  const [checkState, setCheckState] = useState(false)
+  console.log('[Key_num]', key_num)
+  const handleClose = () => setShow(false);
+
+  const checkHandled = () => {
+    setCheckState(!checkState)
+  }
+  const deleteHandle = () => {
+    DeletePost(key_num)
+  }
+  return (
+    <>
+      <Dialog open={show} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogContent className='font-black text-center'>
+          <sl.close_button type="button" className='float-right'>
+            <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </sl.close_button>
+          <p className="text-lg font-extrabold mt-3">게시글을 삭제하시겠습니까?</p>
+          <div>
+            <p className="mt-3  font-medium">
+              <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+              삭제 확인
+            </p>
+          </div>
+        </DialogContent>
+        <DialogActions>
+
+          <div className='mt-5'>
+            {checkState ? (<s.delete_button_able onClick={deleteHandle} >
+              삭제하기
+            </s.delete_button_able>) : (<s.delete_button_disabled disabled>
+              삭제하기
+            </s.delete_button_disabled>)}
+          </div>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

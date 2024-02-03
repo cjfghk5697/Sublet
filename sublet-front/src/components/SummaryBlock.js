@@ -2,7 +2,8 @@ import { useState } from "react";
 import { DateFormat, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
-import { PostDetailDialog, ReservationDialog, ReservationListDialog } from "./Popup.js";
+import { DeletePostDialog, PostDetailDialog, ReservationDialog, ReservationListDialog } from "./Popup.js";
+import { postPopUpStore } from "./store/guestInfoStore.js";
 
 function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
   const [popupState, setpopupState] = useState(false)
@@ -55,15 +56,19 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
 function PostSummaryBlock({ title, post_key, accomodation_type, post_date, pay, request, contract, private_post, address, room_image }) {
 
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
-  const [detailPopupState, setDetailPopupState] = useState(false)
 
-  const detailClickHandler = () => {
-    setDetailPopupState(!detailPopupState)
+  const [detailPopUpState, setDetailPopupState] = useState(false)
+  const [reservationPopUpState, setReservationPopupState] = useState(false)
+  const [deletePopUpState, setDeletePopupState] = useState(false)
+
+  const detailPopUpHandle = () => {
+    setDetailPopupState(!detailPopUpState)
   }
-  const [reservationPopupState, setReservationPopupState] = useState(false)
-
-  const reservationClickHandler = () => {
-    setReservationPopupState(!reservationPopupState)
+  const reservationPopUpHandle = () => {
+    setReservationPopupState(!reservationPopUpState)
+  }
+  const deletePopUpHandle = () => {
+    setDeletePopupState(!deletePopUpState)
   }
 
   return (
@@ -90,20 +95,23 @@ function PostSummaryBlock({ title, post_key, accomodation_type, post_date, pay, 
 
         <p className="ml-3 text-lg font-medium">주소: {address}</p>
         <p className="ml-3 text-lg font-medium">숙박료: {pay}</p>
-        <s.post_detail_button
-          onClick={detailClickHandler}>
+        <s.post_detail_button onClick={detailPopUpHandle}>
           상세정보
         </s.post_detail_button>
+
         <s.post_detail_button className="ml-4">
           요청서 {request ? "진행 중" : "진행하기"}
         </s.post_detail_button>
 
-        <s.post_detail_button className="ml-4"
-          onClick={reservationClickHandler}>
+        <s.post_detail_button className="ml-4" onClick={reservationPopUpHandle}>
           예약현황
         </s.post_detail_button>
 
-        {detailPopupState && <PostDetailDialog
+        <s.delete_button_able className="ml-4" onClick={deletePopUpHandle}>
+          삭제하기
+        </s.delete_button_able>
+
+        {detailPopUpState && <PostDetailDialog
           title={title}
           accomodation_type={accomodation_type}
           post_date={post_date}
@@ -114,9 +122,14 @@ function PostSummaryBlock({ title, post_key, accomodation_type, post_date, pay, 
           address={address}
           room_image={image_link}
         />}
-        {reservationPopupState &&
+        {reservationPopUpState &&
           <ReservationListDialog
             post_key={post_key}
+          />}
+
+        {deletePopUpState &&
+          <DeletePostDialog
+            key_num={post_key}
           />}
 
       </div>

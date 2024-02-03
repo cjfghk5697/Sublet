@@ -1,71 +1,9 @@
 import { DateFormat, priceToString } from "./StaticComponents";
 import { ReservationSummaryBlock } from "./SummaryBlock";
-import { useEffect, useState } from "react";
-
-function FetchReservation() {
-  const [loading, setLoading] = useState(true);
-  const [reservationInfo, setReservationInfo] = useState([]);
-  const getReservationInfo = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
-
-    const json = await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/reservation`
-        , requestOptions)
-    ).json();
-
-    setLoading(false)
-    setReservationInfo(json)
-  };
-
-  useEffect(() => {
-    getReservationInfo();
-  }, []);
-
-  const reservation = Array.from(reservationInfo)
-
-  return [reservation, loading]
-}
-function FetchReservationByPostKey(post_key) {
-  const [loading, setLoading] = useState(true);
-  const [reservationInfo, setReservationInfo] = useState([]);
-  const URL = `${process.env.REACT_APP_BACKEND_URL}/reservation/post?key=` + post_key
-
-  const getPostInfo = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
-    const json = await (
-      await fetch(
-        URL, requestOptions)
-    ).json();
-
-    setLoading(false)
-    setReservationInfo(json)
-  };
-
-  useEffect(() => {
-    getPostInfo();
-  }, []);
-
-  const reservation = Array.from(reservationInfo)
-
-  return [reservation, loading]
-}
+import { FetchReservation, FetchReservationByPostKey } from "./FetchList";
 
 function ReservationByPostKeyInfo({ post_key }) {
   const [reservation, loading] = FetchReservationByPostKey(post_key)
-
 
   return (
     <div className="mb-4">
@@ -123,4 +61,4 @@ function ReservationInfo() {
 
 };
 
-export { ReservationInfo, FetchReservation, ReservationByPostKeyInfo, FetchReservationByPostKey };
+export { ReservationInfo, ReservationByPostKeyInfo };

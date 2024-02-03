@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Login } from "../components/Login";
+import { Login } from "../components/FetchList";
 import * as s from "../components/styles/Login.styles"
 import { usePopUpStore } from "../components/store/loginStore";
 import DialogContent from '@mui/material/DialogContent';
