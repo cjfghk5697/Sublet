@@ -10,7 +10,6 @@ import {
   UnauthorizedException,
   UseGuards,
   Delete,
-  Param,
   Query,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
@@ -18,7 +17,6 @@ import {
   ReservationCreateDto,
   reservationRequest,
 } from '@/dto/reservation.dto';
-import { query } from 'express';
 
 @Controller('reservation')
 export class ReservationController {
