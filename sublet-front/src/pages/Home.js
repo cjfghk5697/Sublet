@@ -12,23 +12,31 @@ export default function Home() {
   const [listPageAmount, setListPageAmount] = useState(1);
 
 
-  const fetchRooms = () => { // 6개 저 보여주기 필요할 수도..?
+  const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
     fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
       .then((ele) => ele.json())
       .then((ele) => setPreRoomsData(ele));
     if (preRoomsData.length !== 0)
       setRoomsData([...roomsData, ...preRoomsData]);
     setListPageAmount(listPageAmount + 1);
-    
+  }
+
+  const fetchRoomsFilters = (filters) => {
+    fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요
+    .then(response => response.json())
+    .then(data => setRoomsData(data))
+    .catch(error => console.error('Error fetching data:', error));
   }
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
-      const data = await res.json();
-      setPreRoomsData(data);
+      let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
+      let data = await res.json();
       setRoomsData([...roomsData, ...data]);
-      setListPageAmount(listPageAmount + 1);
+      res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount+1}`);
+      data = await res.json();
+      setPreRoomsData(data);
+      setListPageAmount(listPageAmount + 2);
     }
     fetchData();
   }, []);
@@ -123,7 +131,7 @@ export default function Home() {
         {
           preRoomsData.length !== 0
             ?
-            <Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRooms}>
+            <Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRoomsDefault}>
               방 더보기
             </Button>
             :
