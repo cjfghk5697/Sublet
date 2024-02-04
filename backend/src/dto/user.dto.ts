@@ -4,7 +4,6 @@ import {
   IsPhoneNumber,
   IsStrongPassword,
   IsOptional,
-  IsArray,
   IsString,
 } from 'class-validator';
 
@@ -46,7 +45,7 @@ export class UserUpdateDto extends UserPartialBase {
 
 export class UserFilterDto {
   @IsOptional()
-  @IsArray()
+  @IsString()
   school?: string;
 }
 

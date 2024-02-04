@@ -9,7 +9,7 @@ import { Favorite } from '@mui/icons-material'
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useLocation } from 'react-router-dom';
 import makeHeaderStyle from './styles/Header.styles.js'; // css style here.
-import LoginLink from './LoginLink.js';
+import LoginPage from './LoginPage.js';
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false)
@@ -97,7 +97,7 @@ const Header = () => {
             </div>
             :
             <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              <LoginLink style={styles.profile} />
+              <LoginPage style={styles.profile} />
             </a>
           }
         </div>

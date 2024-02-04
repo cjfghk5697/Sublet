@@ -1,10 +1,12 @@
 import { useState } from "react";
-import Modal from 'react-bootstrap/Modal';
-import {Login, Logout} from "./Login";
+import { Login } from "./Login";
 import * as s from "./styles/Login.styles"
 import { usePopUpStore } from "./store/loginStore";
+import DialogContent from '@mui/material/DialogContent';
+import Dialog from '@mui/material/Dialog';
 
-function LoginModal() {
+
+function PopUp() {
   const [idState, setIdState] = useState('')
   const [passwordState, setPasswordState] = useState('')
   const { setPopUpState, popUpState } = usePopUpStore((state) => ({ setPopUpState: state.setPopUpState, popUpState: state.popUpState }))
@@ -23,21 +25,11 @@ function LoginModal() {
     setPopUpState()
   };
 
-  const modalBox = {
-    position: 'absolute',
-    zIndex: '1000',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 
   return (
-    <div className={modalBox}>
-      <Modal show={popUpState} className="container bg-white border border-gray-300 shadow-xl rounded-lg">
-        <Modal.Body>
+    <>
+      <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogContent>
           <s.start_div>
             <div className="mb-4">
               <s.close_button type="button" className='float-right'>
@@ -78,10 +70,24 @@ function LoginModal() {
               </div>
             </div>
           </s.start_div>
-        </Modal.Body>
-      </Modal >
-    </div>
+        </DialogContent>
+      </Dialog >
+
+    </>
   );
 }
 
-export default LoginModal;
+function LoginPage() {
+  const popUp = usePopUpStore((state) => state.setPopUpState)
+  const popUpState = usePopUpStore((state) => state.popUpState)
+  return (
+    <div>
+      <button onClick={popUp}>Login</button>
+      {popUpState &&
+        <PopUp></PopUp>}
+
+    </div>
+  )
+}
+
+export default LoginPage
