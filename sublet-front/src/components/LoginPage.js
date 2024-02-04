@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Login } from "../components/Login";
-import * as s from "../components/styles/Login.styles"
-import { usePopUpStore } from "../components/store/loginStore";
+import { Login } from "./Login";
+import * as s from "./styles/Login.styles"
+import { usePopUpStore } from "./store/loginStore";
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 
