@@ -26,4 +26,9 @@ export class ReservationService {
     const res = await this.db.deleteOneReservation(key, user);
     return res;
   }
+
+  async getReservationsbyPost(key: number) {
+    const res = await this.db.getReservationsbyPost(key);
+    return res;
+  }
 }

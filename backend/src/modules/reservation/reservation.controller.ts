@@ -10,6 +10,7 @@ import {
   UnauthorizedException,
   UseGuards,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import {
@@ -101,6 +102,21 @@ export class ReservationController {
       return { ok: res };
     } catch (e) {
       console.log('[reservation.controller:DeleteOneResrvation] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Get('post')
+  @UseGuards(LoggedInGuard)
+  async getReservationsbyPost(@Query() query: reservationRequest) {
+    try {
+      const res = await this.reservationService.getReservationsbyPost(
+        Number(query.key),
+      );
+      console.log('[reservation.controller:getReservationsbyPost] res: ', res);
+      return res;
+    } catch (e) {
+      console.log('[reservation.controller:getReservationsbyPost] error: ', e);
       throw new BadRequestException();
     }
   }

@@ -169,4 +169,29 @@ export class MongodbReservationService {
       return Math.max(prev, cur.key);
     }, reservations[0].key);
   }
+
+  async getReservationsbyPost(key: number) {
+    // 특정 유저의 게시물 모든 예약을 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
+
+    const reservation_list: ReservationInterface[] =
+      await this.prisma.reservation.findMany({
+        where: {
+          version: { gte: this.RESERVATION_VERSION },
+          deleted: false,
+          Post: {
+            key: key,
+          },
+        },
+        include: {
+          User: true,
+          Post: {
+            include: {
+              postuser: true,
+            },
+          },
+        },
+      });
+
+    return reservation_list;
+  }
 }
