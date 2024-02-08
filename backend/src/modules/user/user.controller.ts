@@ -30,16 +30,13 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   @Get()
   async getAllUser(@Req() req: customRequest) {
-    console.log('[user.controller:getAllUser] starting function');
     return req.user;
   }
 
   @Get('filter')
   async filterUser(@Query() query: UserFilterDto) {
-    console.log('[user.controller:filterUser] starting function');
     try {
       const res = await this.userService.filterUser(query);
-      console.log('[user.controller:filterUser] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:filterUser] error: ', e);
@@ -50,11 +47,8 @@ export class UserController {
   @Get('profile')
   @UseGuards(LoggedInGuard)
   async getProfile(@Req() req: customRequest) {
-    console.log('[user.controller:getProfile] starting function');
-    console.log('[user.controller:getProfile] user_id: ', req.user);
     try {
       const res = await this.userService.getUserByKey(req.user.user_id);
-      console.log('[user.controller:getProfile] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:getProfile] error: ', e);
@@ -68,9 +62,6 @@ export class UserController {
     @UploadedFile() file: Express.Multer.File,
     @Req() req: customRequest,
   ) {
-    console.log('[user.controller:uploadProfile] starting function');
-    console.log('[user.controller:uploadProfile] putUserBody: ', req);
-
     if (!file) {
       console.log(
         "[user.controller:uploadProfile] file is empty, we're assuming bad request",
@@ -79,7 +70,6 @@ export class UserController {
     }
     try {
       const res = await this.userService.uploadProfile(req.user.user_id, file);
-      console.log('[user.controller:uploadProfile] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:uploadProfile] error: ', e);
@@ -88,11 +78,8 @@ export class UserController {
   }
   @Get('post')
   async getUserPost(@Req() req: customRequest) {
-    console.log('[user.controller:getUserPost] starting function');
-    console.log('[user.controller:getUserPost] user_id: ', req.user.user_id);
     try {
       const res = await this.userService.getUserPostByKey(req.user.user_id);
-      console.log('[user.controller:getUserPost] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:getUserPost] error: ', e);
@@ -106,16 +93,11 @@ export class UserController {
     @Body() putUserBody: UserUpdateDto,
     @Req() req: customRequest,
   ) {
-    console.log('[user.controller:putOneUser] starting function');
-    console.log('[user.controller:putOneUser] user_id: ', req.user.user_id);
-    console.log('[user.controller:putOneUser] putUserBody: ', putUserBody);
-
     try {
       const res = await this.userService.putOneUser(
         req.user.user_id,
         putUserBody,
       );
-      console.log('[user.controller:putOneUser] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:putOneUser] error: ', e);
@@ -125,11 +107,8 @@ export class UserController {
 
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
-    console.log('[user.controller:getOneUser] starting function');
-    console.log('[user.controller:getOneUser] user_id: ', user_id);
     try {
       const res = await this.userService.getUserByKey(user_id);
-      console.log('[user.controller:getOneUser] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:getOneUser] error: ', e);
@@ -139,8 +118,6 @@ export class UserController {
 
   @Post()
   async createUser(@Body() data: UserCreateDto) {
-    console.log('[user.controller:createUser] starting function');
-    console.log('[user.controller:createUser] data: ', data);
     try {
       const res = await this.userService.createUser(data);
       console.log('[user.controller:createUser] res: ', res);
@@ -158,8 +135,6 @@ export class UserController {
     @Req() req: customRequest,
     @Res() res: Response,
   ) {
-    console.log('[user.controller:deleteOneUser] starting function');
-    console.log('[user.controller:deleteOneUser] user_id: ', user_id);
     if (req.user.user_id !== user_id) {
       console.log(
         '[user.controller:deleteOneUser] user_id is not same as req.user.user_id',
@@ -167,8 +142,7 @@ export class UserController {
       throw new UnauthorizedException();
     }
     try {
-      const ret = await this.userService.deleteOneUser(user_id);
-      console.log('[user.controller:deleteOneUser] res: ', ret);
+      await this.userService.deleteOneUser(user_id);
       req.logOut(function (err) {
         //middleware에 function은 err. req,res,next가 들어갈수 있다.
         if (err) {

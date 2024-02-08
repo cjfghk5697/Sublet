@@ -6,6 +6,7 @@ import { MongodbPostKeyService } from './mongodb.postkey.service';
 import { MongodbReservationService } from './mongodb.reservation.service';
 import { MongodbUserService } from './mongodb.user.service';
 import { MongodbUserImageService } from './mongodb.userimage.service';
+import { MongodbRequestService } from './mongodb.request.service';
 
 @Module({
   providers: [
@@ -16,6 +17,7 @@ import { MongodbUserImageService } from './mongodb.userimage.service';
     MongodbReservationService,
     MongodbUserService,
     MongodbUserImageService,
+    MongodbRequestService,
   ],
   exports: [
     PrismaService,
@@ -25,6 +27,7 @@ import { MongodbUserImageService } from './mongodb.userimage.service';
     MongodbReservationService,
     MongodbUserService,
     MongodbUserImageService,
+    MongodbRequestService,
   ],
 })
 export class MongodbModule {}
