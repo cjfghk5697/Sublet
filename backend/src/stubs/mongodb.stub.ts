@@ -1,4 +1,5 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
+import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
 import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
@@ -182,5 +183,26 @@ export const reservationInterfaceStub = (): ReservationInterface => {
     Post: {
       ...postExportStub(),
     },
+  };
+};
+
+export const requestStub = (): RequestDto => {
+  return {
+    key: 2,
+    price: 200000,
+    start_day: '2024-01-10T00:00:00.000Z',
+    end_day: '2024-04-05T00:00:00.000Z',
+    limit_people: 2,
+    number_room: 3,
+    number_bathroom: 3,
+    number_bedroom: 3,
+    accomodation_type: '전대',
+    building_type: '아파트',
+    contract: true,
+    city: 'seoul',
+    gu: 'jongro',
+    dong: 'aaa',
+    alarm: true,
+    school: '아주대',
   };
 };
