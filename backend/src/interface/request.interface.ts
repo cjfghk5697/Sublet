@@ -6,6 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import { UserExportInterface } from './user.interface';
+import { Transform } from 'class-transformer';
 
 export class RequestBase {
   @IsString()
@@ -23,9 +24,21 @@ export class RequestBase {
   @IsString()
   building_type: string;
 
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   @IsBoolean()
   contract: boolean;
 
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   @IsBoolean()
   alarm: boolean;
 
@@ -60,9 +73,10 @@ export class RequestBase {
 }
 
 export class RequestExportInterface extends RequestBase {
-  @IsInt()
-  @IsNumber()
   key: number;
+}
+export class RequestDeleteInterface extends RequestExportInterface {
+  delete: boolean;
 }
 
 export class RequestInterface extends RequestBase {

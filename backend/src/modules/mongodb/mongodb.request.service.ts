@@ -4,6 +4,7 @@ import { UserInterface } from '@/interface/user.interface';
 
 import {
   RequestBase,
+  RequestDeleteInterface,
   RequestExportInterface,
   RequestInterface,
 } from '@/interface/request.interface';
@@ -54,7 +55,7 @@ export class MongodbRequestService {
   }
 
   async deleteOneRequest(key: number) {
-    const res: RequestBase = await this.prisma.requestForm.update({
+    const res: RequestDeleteInterface = await this.prisma.requestForm.update({
       where: {
         key,
         version: { gte: this.REQUEST_VERSION },

@@ -17,7 +17,6 @@ import { customRequest } from '@/interface/user.interface';
 @Controller('request')
 export class RequestController {
   constructor(private readonly reservationService: RequestService) {}
-  // (Qquery) 날짜, 포스트 key, (Req) 유저정보
   @Post()
   @UseGuards(LoggedInGuard)
   async createRequest(
@@ -33,7 +32,6 @@ export class RequestController {
 
     try {
       const res = await this.reservationService.createRequest(data, req.user);
-      console.log('[reservation.controller:createRequest] res: ', res);
       return res;
     } catch (e) {
       console.log('[reservation.controller:createRequest] error: ', e);
@@ -54,8 +52,6 @@ export class RequestController {
       const res = await this.reservationService.getRequestByUserKey(
         req.user.user_id,
       );
-      console.log('[reservation.controller:getRequestByUserKey] res: ', res);
-      return res;
     } catch (e) {
       console.log('[reservation.controller:getRequestByUserKey] error: ', e);
       throw new BadRequestException();
@@ -65,12 +61,6 @@ export class RequestController {
   @Delete()
   @UseGuards(LoggedInGuard)
   async deleteOneRequest(@Body() data: requestKey, @Req() req: customRequest) {
-    console.log('[reservation.controller:deleteOneRequest] starting function');
-    console.log('[reservation.controller:deleteOneRequest] key: ', data.key);
-    console.log(
-      '[reservation.controller:deleteOneRequest] req.user: ',
-      req.user,
-    );
     if (!req.user) {
       console.log(
         "[reservation.controller:deleteOneRequest] req.user doesn't exist",
@@ -79,7 +69,6 @@ export class RequestController {
     }
     try {
       const res = await this.reservationService.deleteOneRequest(data.key);
-      console.log('[reservation.controller:deleteOneRequest] res: ', res);
       return { ok: res };
     } catch (e) {
       console.log('[reservation.controller:deleteOneRequest] error: ', e);

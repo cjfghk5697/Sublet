@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestService } from './request.service';
-import { requestStub, userStub } from '../../stubs/mongodb.stub';
+import {
+  requestDeleteStub,
+  requestStub,
+  userStub,
+} from '../../stubs/mongodb.stub';
 import { RequestBase } from '@/interface/request.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbRequestService } from '../mongodb/mongodb.request.service';
@@ -61,7 +65,7 @@ describe('RequestService', () => {
       let result: boolean | undefined;
       beforeEach(async () => {
         try {
-          result = await service.deleteOneRequest(requestStub().key);
+          result = await service.deleteOneRequest(requestDeleteStub().key);
         } catch (e) {
           result = undefined;
         }
