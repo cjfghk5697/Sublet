@@ -1,11 +1,5 @@
-import { RequestInterface, RequestBase } from '@/interface/request.interface';
-import {
-  IsDateString,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { RequestBase } from '@/interface/request.interface';
+import { IsInt, IsNumber } from 'class-validator';
 export class RequestCreateDto extends RequestBase {}
 
 export class RequestDto extends RequestBase {

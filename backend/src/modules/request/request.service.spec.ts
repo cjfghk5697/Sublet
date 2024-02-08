@@ -1,11 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestService } from './request.service';
 import { requestStub, userStub } from '../../stubs/mongodb.stub';
-import {
-  RequestBase,
-  RequestExportInterface,
-  RequestInterface,
-} from '@/interface/request.interface';
+import { RequestBase } from '@/interface/request.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbRequestService } from '../mongodb/mongodb.request.service';
 
