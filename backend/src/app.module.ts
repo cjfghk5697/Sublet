@@ -12,6 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { ReservationModule } from './modules/reservation/reservation.module';
+import { RequestModule } from './request/request.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ReservationModule } from './modules/reservation/reservation.module';
     }),
     ConfigModule.forRoot(),
     ReservationModule,
+    RequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -186,6 +186,19 @@ function Logout() {
   };
   logout()
 }
+async function FetchImage(formData) {
+  const requestOptions = {
+    credentials: 'include',
+    method: 'PUT',
+    body: formData
+  };
+
+  await (
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/image`
+      , requestOptions)
+  ).json();
+}
 
 
-export { Login, Logout, FetchDeleteReservation, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost };
+export { Login, Logout, FetchDeleteReservation, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage };

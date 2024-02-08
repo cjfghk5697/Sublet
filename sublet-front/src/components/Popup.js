@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import { ReservationByPostKeyInfo } from "./Reservation.js";
-import { DeletePost, FetchDeleteReservation } from "./FetchList";
+import { DeletePost, FetchDeleteReservation, FetchImage } from "./FetchList";
 
 export function ReservationDialog({ main_text, sub_text, key_num }) {
   const [show, setShow] = useState(true);
@@ -74,19 +74,8 @@ export function ImageDialog() {
 
 
   const putHandled = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'PUT',
-      body: formData
-    };
-
-    await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/image`
-        , requestOptions)
-    ).json();
+    FetchImage(formData)
     setPutState(false)
-
   };
 
   return (
@@ -129,9 +118,19 @@ export function ImageDialog() {
 }
 
 export function EmailDialog({ originalEmail }) {
+
   const [show, setShow] = useState(true);
   const [putState, setPutState] = useState(true)
-  const handleClose = () => setShow(false);
+  const handleClose = () => confirmAction();
+  // useConfirm("닫으시겠습니까?", setShow(true), setShow(false))
+
+  const confirmAction = () => {
+    if (window.confirm('닫으시겠습니까?')) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  }
   const [emailState, setEmailState] = useState(originalEmail)
 
   const emailChange = (e) => {
@@ -187,7 +186,14 @@ export function EmailDialog({ originalEmail }) {
 export function PhoneDialog({ originalPhone }) {
   const [show, setShow] = useState(true);
   const [putState, setPutState] = useState(true)
-  const handleClose = () => setShow(false);
+  const confirmAction = () => {
+    if (window.confirm('닫으시겠습니까?')) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  }
+  const handleClose = () => confirmAction();
 
   const [phoneState, setPhoneState] = useState(originalPhone)
 
