@@ -52,6 +52,7 @@ export class RequestController {
       const res = await this.reservationService.getRequestByUserKey(
         req.user.user_id,
       );
+      return res;
     } catch (e) {
       console.log('[reservation.controller:getRequestByUserKey] error: ', e);
       throw new BadRequestException();
