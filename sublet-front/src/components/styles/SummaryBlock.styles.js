@@ -57,7 +57,7 @@ export const change_button = styled.button`
 ${tw`bg-white hover:bg-gray-100 text-black font-semibold float-right py-1 px-1 rounded-lg ml-4`}
 `
 
-export const room_upload = styled.button`
+export const black_upload_button = styled.button`
 
 &:hover {
   background-color: rgb(229 231 235);

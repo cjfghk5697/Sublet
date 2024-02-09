@@ -113,6 +113,39 @@ async function FetchDeleteReservation(key_num) {
   ).json();
 };
 
+
+function FetchReservationPost(user_id, post_key, start_day, end_day, pay) {
+
+  const getReservationInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        post_key: post_key,
+        r_start_day: start_day,
+        r_end_day: end_day,
+        pay: pay
+      })
+    };
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/reservation`
+      , requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result reservation', response)
+      })
+      .catch((e) => {
+        console.log('[error] reservation', e)
+      })
+  };
+
+  getReservationInfo()
+}
+
 function DeletePost(key) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/post/${key}`
   const DeletePost = async () => {
@@ -201,4 +234,4 @@ async function FetchImage(formData) {
 }
 
 
-export { Login, Logout, FetchDeleteReservation, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage };
+export { Login, Logout, FetchDeleteReservation, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost };
