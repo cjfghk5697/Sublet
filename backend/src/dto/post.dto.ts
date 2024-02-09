@@ -1,4 +1,5 @@
 import { PostBase, PostPartialBase } from '@/interface/post.interface';
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsOptional,
@@ -7,7 +8,6 @@ import {
   IsEmpty,
   IsDateString,
   IsString,
-  IsBoolean,
   IsNumber,
 } from 'class-validator';
 
@@ -29,6 +29,8 @@ export class PostUpdateDto extends PostPartialBase {
 
 export class PostGetAllQueryDto {
   @IsOptional()
+  @IsInt()
+  @IsPositive()
   maxPost: number;
 
   @IsOptional()
@@ -47,7 +49,12 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   toDate?: string | Date;
 
   @IsOptional()
-  @IsBoolean()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   request?: boolean;
 
   @IsOptional()
@@ -95,7 +102,12 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   building_type?: string; //아파트인지, 주택인지
 
   @IsOptional()
-  @IsBoolean()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
   contract?: boolean;
 
   @IsOptional()
@@ -105,7 +117,7 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
 
   @IsOptional()
   @IsPositive()
-  @IsString()
+  @IsNumber()
   y_coordinate?: number;
 
   @IsOptional()

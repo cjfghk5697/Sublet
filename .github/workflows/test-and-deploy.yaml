@@ -60,4 +60,3 @@ jobs:
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
             FRONTEND_URL=\"${{ secrets.ENV_FRONTEND_URL }}\"
             " > backend/.env
-            docker compose up -d --build
