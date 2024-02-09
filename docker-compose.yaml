@@ -34,6 +34,8 @@ services:
       - "27017"
     networks:
       - backend-net
+    volumes:
+      - mongovolume:/data/db
   test-db:
     container_name: test-db-container
     build:
@@ -58,3 +60,6 @@ services:
 networks:
   backend-net:
     driver: bridge
+
+volumes:
+  mongovolume:

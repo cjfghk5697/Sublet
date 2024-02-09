@@ -120,7 +120,6 @@ export class UserController {
   async createUser(@Body() data: UserCreateDto) {
     try {
       const res = await this.userService.createUser(data);
-      console.log('[user.controller:createUser] res: ', res);
       return res;
     } catch (e) {
       console.log('[user.controller:createUser] error: ', e);

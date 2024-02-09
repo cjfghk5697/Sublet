@@ -81,17 +81,6 @@ export class PostController {
     }
   }
 
-  @Get(':postKey')
-  async getOnePost(@Param('postKey') key: number) {
-    try {
-      const res = await this.postService.getOnePost(key);
-      return res;
-    } catch (e) {
-      console.log('[post.controller:getOnePost] error: ', e);
-      throw new NotFoundException();
-    }
-  }
-
   @Get('local')
   @UseGuards(LoggedInGuard)
   async getLocalPost(@Req() req: customRequest) {
@@ -105,6 +94,17 @@ export class PostController {
     } catch (e) {
       console.log('[post.controller:getLocalPosts] error: ', e);
       throw new BadRequestException();
+    }
+  }
+
+  @Get(':postKey')
+  async getOnePost(@Param('postKey') key: number) {
+    try {
+      const res = await this.postService.getOnePost(key);
+      return res;
+    } catch (e) {
+      console.log('[post.controller:getOnePost] error: ', e);
+      throw new NotFoundException();
     }
   }
 
