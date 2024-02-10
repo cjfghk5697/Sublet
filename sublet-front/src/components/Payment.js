@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "react-credit-cards-2";
-import * as b from "../components/styles/Booking.styles"
 import * as s from "../components/styles/SummaryBlock.styles";
 import {
   formatCreditCardNumber,
@@ -11,6 +10,7 @@ import {
 } from "./utils";
 
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import { TextField } from "@mui/material";
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -79,7 +79,11 @@ export default class PaymentForm extends React.Component {
           />
           <form ref={c => (this.form = c)} onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <s.input_text
+              <TextField
+                id="standard-size-small"
+                size="small"
+                label="카드 번호"
+                variant="standard"
                 type="tel"
                 name="number"
                 className="form-control"
@@ -91,7 +95,11 @@ export default class PaymentForm extends React.Component {
               />
             </div>
             <div className="form-group">
-              <s.input_text
+              <TextField
+                id="standard-size-small"
+                size="small"
+                label="성함"
+                variant="standard"
                 type="text"
                 name="name"
                 className="form-control"
@@ -103,7 +111,11 @@ export default class PaymentForm extends React.Component {
             </div>
             <div className="row">
               <div className="col-6">
-                <s.input_text
+                <TextField
+                  id="standard-size-small"
+                  size="small"
+                  label="만료일"
+                  variant="standard"
                   type="tel"
                   name="expiry"
                   className="form-control"
@@ -115,7 +127,11 @@ export default class PaymentForm extends React.Component {
                 />
               </div>
               <div className="col-6">
-                <s.input_text
+                <TextField
+                  id="standard-size-small"
+                  size="small"
+                  label="CVC"
+                  variant="standard"
                   type="tel"
                   name="cvc"
                   className="form-control"
@@ -127,12 +143,15 @@ export default class PaymentForm extends React.Component {
                 />
               </div>
               <div className="col-6">
-                <s.input_text
+                <TextField
+                  id="standard-size-small"
+                  size="small"
+                  label="비밀번호 앞 두자리"
+                  variant="standard"
                   type="tel"
                   name="cardpassword"
                   className="form-control"
                   pattern="\d{0,9}"
-
                   placeholder="카드 비밀번호 앞 두자리"
                   required
                   onChange={this.handleInputChange}
@@ -140,7 +159,7 @@ export default class PaymentForm extends React.Component {
                 />
               </div>
             </div>
-            <s.input_text type="hidden" name="issuer" value={issuer} />
+            <TextField id="standard-size-small" size="small" label="성함" variant="standard" type="hidden" name="issuer" value={issuer} />
 
             <div className="form-actions flex justify-end">
               <s.black_upload_button >PAY</s.black_upload_button>
