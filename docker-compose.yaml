@@ -5,6 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: dev.Dockerfile
+      network: host
     working_dir: /usr/src/app
     volumes:
       - ./backend/sessions:/usr/src/app/sessions
@@ -52,7 +53,9 @@ services:
     networks:
       - backend-net
   front:
-    build: ./sublet-front
+    build:
+      context: ./sublet-front
+      network: host
     depends_on:
       - backend
     ports:
