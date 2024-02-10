@@ -219,6 +219,7 @@ function Logout() {
   };
   logout()
 }
+
 async function FetchImage(formData) {
   const requestOptions = {
     credentials: 'include',
