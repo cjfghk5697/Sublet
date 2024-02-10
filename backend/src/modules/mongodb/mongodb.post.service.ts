@@ -124,7 +124,6 @@ export class MongodbPostService {
         version: { gte: this.POST_VERSION },
         post_date: post_date,
         price: range_price,
-        request: true,
         position: query.position,
         min_duration: { lte: query.fromDuration || 1000000 },
         max_duration: { gte: query.toDuration || 0 },

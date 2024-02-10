@@ -50,18 +50,27 @@ export class PostBase {
 
   @IsInt()
   @IsNumber()
+  @IsPositive()
   price: number;
 
   @IsNumber()
+  @IsInt()
+  @IsPositive()
   limit_people: number;
 
   @IsNumber()
+  @IsInt()
+  @IsPositive()
   number_room: number;
 
   @IsNumber()
+  @IsInt()
+  @IsPositive()
   number_bathroom: number;
 
   @IsNumber()
+  @IsInt()
+  @IsPositive()
   number_bedroom: number;
 
   @IsString()
@@ -167,6 +176,7 @@ export class PostPartialBase {
   title?: string;
 
   @IsInt()
+  @IsPositive()
   @IsNumber()
   @IsOptional()
   price?: number;
@@ -229,7 +239,6 @@ export class PostPartialBase {
     else if (value === 'false') return false;
     else return undefined;
   })
-  @IsBoolean()
   @IsOptional()
   local_save?: boolean;
 }
