@@ -60,11 +60,6 @@ export default function Booking(user_id) {
 
               <p className="ml-2 text-sm">* 28일이 넘는 경우에는 월마다 결제합니다.</p>
               <w.Horizon />
-              {/* 
-              <b.justifyBlock className="font-bold flex justify-between">
-                <p className="text-xl mt-1">총 결제 금액 </p>
-                <p className="text-xl text-[#2478F6]">{priceToString(total_pay)} 원</p>
-              </b.justifyBlock> */}
             </div>
           )}
 
@@ -138,7 +133,7 @@ export default function Booking(user_id) {
       {
         checkState ? (<s.black_upload_button onClick={handlePostReservation}>예약하기</s.black_upload_button>
         ) :
-          (<s.black_upload_button_disabled onClick={handlePostReservation} disabled>예약하기</s.black_upload_button_disabled>
+          (<s.black_upload_button_disabled disabled>예약하기</s.black_upload_button_disabled>
           )
       }
     </div >
