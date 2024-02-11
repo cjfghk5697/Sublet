@@ -14,3 +14,10 @@ export function DateFormat(day) {
   const dayformat = `${new Date(day).getFullYear()}.${new Date(day).getMonth() + 1}.${new Date(day).getDate()}`;
   return dayformat
 }
+
+export function CalulateDate(date, days) {
+  const clone_date = new Date(date)
+  const cal_date = new Date()
+  cal_date.setDate(clone_date.getDate() + days)
+  return DateFormat(cal_date)
+} 
