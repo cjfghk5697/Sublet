@@ -6,14 +6,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import { SubletPostStore } from "../store/SubletPostStore";
 
-const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
 
-export default function RoomInfo(room) {
-  console.log(room)
-  const params = useParams();
-  const nowRomeNum = params.roomKey;
-
+// 새 창에서 열린다면 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
+export default function RoomInfo() {
   const styles = {
     RomeInfo_ImgContainer: {
       display: 'flex',
@@ -50,25 +47,40 @@ export default function RoomInfo(room) {
     },
   };
 
+  const params = useParams();
+  const nowRomeNum = params.roomKey;
+
+  const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+  const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
+
+
   useEffect(() => {
+    if (!postExist) {
+      asyncGetPostAll();
+    }
   }, []);
 
+  const findPost_image_id = (id) => { return postAll.find((post) => post.key == nowRomeNum).image_id[id] }
 
   return (
     <div>
       <Header />
       <div id="RomeInfo-ImgContainer" style={styles.RomeInfo_ImgContainer}>
-        <img src={roomTempData[nowRomeNum].images[0]} alt="" style={styles.RomeInfo_ImgContainer_img} />
-        <div id="RomeInfo-ImgContainer2" style={styles.RomeInfo_ImgContainer2}>
-          <div id="RomeInfo-MiniImgContainer" style={styles.RomeInfo_MiniImgContainer}>
-            <img src={roomTempData[nowRomeNum].images[1]} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
-            <img src={roomTempData[nowRomeNum].images[2]} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
-          </div>
-          <div id="RomeInfo-MiniImgContainer" style={styles.RomeInfo_MiniImgContainer}>
-            <img src={roomTempData[nowRomeNum].images[3]} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
-            <img src={roomTempData[nowRomeNum].images[4]} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
-          </div>
-        </div>
+        {postExist && (
+          <>
+            <img src={`${process.env.REACT_APP_BACKEND_URL}/public/${findPost_image_id(0)}.jpg`} alt="" style={styles.RomeInfo_ImgContainer_img} />
+            <div id="RomeInfo-ImgContainer2" style={styles.RomeInfo_ImgContainer2}>
+              <div id="RomeInfo-MiniImgContainer" style={styles.RomeInfo_MiniImgContainer}>
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/public/${findPost_image_id(1)}.jpg`} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/public/${findPost_image_id(2)}.jpg`} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
+              </div>
+              <div id="RomeInfo-MiniImgContainer" style={styles.RomeInfo_MiniImgContainer}>
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/public/${findPost_image_id(3)}.jpg`} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/public/${findPost_image_id(4)}.jpg`} alt="" style={styles.RomeInfo_MiniImgContainer_img} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
         <PersonIcon />

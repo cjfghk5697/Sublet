@@ -70,10 +70,12 @@ function SubletInfo(props) {
 export default function SearchSubletInfo(props) {
   const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
   const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
-  //map.js에서 포스트 마커 바꾸는 부분이 어디???
+
   useEffect(() => {
     //asyncGetPost(page);
-    asyncGetPostAll();
+    if (!postExist) {
+      asyncGetPostAll();
+    }
   }, []);
 
   useEffect(() => {
