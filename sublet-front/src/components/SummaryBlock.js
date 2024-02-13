@@ -3,7 +3,6 @@ import { DateFormat, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
 import { DeletePostDialog, PostDetailDialog, ReservationDialog, ReservationListDialog } from "./Popup.js";
-import { postPopUpStore } from "./store/guestInfoStore.js";
 
 function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
   const [popupState, setpopupState] = useState(false)

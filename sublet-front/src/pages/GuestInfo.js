@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/Reservation";
 import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
-
+import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
 import { PostInfo } from "../components/PostBlock.js";
+
 function User({ user }) {
   const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState, imagePopUpState, emailPopUpState, phonePopUpState } = guestInfoPopUpStore((state) => ({
     setImagePopUpState: state.setImagePopUpState,
@@ -15,7 +16,7 @@ function User({ user }) {
     emailPopUpState: state.emailPopUpState,
     phonePopUpState: state.phonePopUpState,
   }))
-
+  useTitle("프로필 - Sublet")
 
   const userPrivateComponent = (
     <div>

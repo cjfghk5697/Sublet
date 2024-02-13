@@ -3,14 +3,15 @@ import Header from '../components/Header';
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { useTitle } from '../components/hook/HookCollect';
 
 export default function Home() {
+
   const [roomsData, setRoomsData] = useState([]);
   const [preRoomsData, setPreRoomsData] = useState([]);
   const [likes, setLikes] = useState({}); // 백엔드 연결 필요.
   const [listRoomAmount, setListRoomAmount] = useState(6);
   const [listPageAmount, setListPageAmount] = useState(1);
-
 
   const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
     fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
@@ -20,12 +21,13 @@ export default function Home() {
       setRoomsData([...roomsData, ...preRoomsData]);
     setListPageAmount(listPageAmount + 1);
   }
+  useTitle("Sublet| 딱 맞는 숙소를 찾아봐요.")
 
   const fetchRoomsFilters = (filters) => {
     fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요
-    .then(response => response.json())
-    .then(data => setRoomsData(data))
-    .catch(error => console.error('Error fetching data:', error));
+      .then(response => response.json())
+      .then(data => setRoomsData(data))
+      .catch(error => console.error('Error fetching data:', error));
   }
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function Home() {
       let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
       let data = await res.json();
       setRoomsData([...roomsData, ...data]);
-      res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount+1}`);
+      res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount + 1}`);
       data = await res.json();
       setPreRoomsData(data);
       setListPageAmount(listPageAmount + 2);

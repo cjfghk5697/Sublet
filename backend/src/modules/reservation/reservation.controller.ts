@@ -40,7 +40,6 @@ export class ReservationController {
         data,
         req.user,
       );
-      console.log('[reservation.controller:createReservation] res: ', res);
       return res;
     } catch (e) {
       console.log('[reservation.controller:createReservation] error: ', e);
@@ -62,7 +61,6 @@ export class ReservationController {
       const res = await this.reservationService.getAllReservation(
         req.user.user_id,
       );
-      console.log('[reservation.controller:getAllReservation] res: ', res);
       return res;
     } catch (e) {
       console.log('[reservation.controller:getAllReservation] error: ', e);
@@ -76,17 +74,6 @@ export class ReservationController {
     @Body() data: reservationRequest,
     @Req() req: customRequest,
   ) {
-    console.log(
-      '[reservation.controller:DeleteOneReservation] starting function',
-    );
-    console.log(
-      '[reservation.controller:DeleteOneReservation] key: ',
-      data.key,
-    );
-    console.log(
-      '[reservation.controller:DeleteOneReservation] req.user: ',
-      req.user,
-    );
     if (!req.user) {
       console.log(
         "[reservation.controller:DeleteOneReservation] req.user doesn't exist",
@@ -98,7 +85,6 @@ export class ReservationController {
         data.key,
         req.user,
       );
-      console.log('[reservation.controller:DeleteOneResrvation] res: ', res);
       return { ok: res };
     } catch (e) {
       console.log('[reservation.controller:DeleteOneResrvation] error: ', e);
@@ -113,7 +99,6 @@ export class ReservationController {
       const res = await this.reservationService.getReservationsbyPost(
         Number(query.key),
       );
-      console.log('[reservation.controller:getReservationsbyPost] res: ', res);
       return res;
     } catch (e) {
       console.log('[reservation.controller:getReservationsbyPost] error: ', e);

@@ -11,7 +11,7 @@ function PostInfo() {
   return (
     <div className="mb-4 mt-8">
       <h2 className="text-2xl font-extrabold inline">방 현황</h2>
-      <s.room_upload >방 올리기</s.room_upload>
+      <s.black_upload_button >방 올리기</s.black_upload_button>
       <hr className="h-px mt-1 bg-gray-200 border-0 dark:bg-gray-700" />
       {loading ?
         (
