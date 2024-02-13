@@ -15,7 +15,7 @@ function App() {
       <Routes>
         {/* 기본 페이지 */}
         <Route path="/" element={<Home />} />
-        <Route path="/roominfo" element={<RoomInfo />} />
+        <Route path="/roominfo/:roomKey" element={<RoomInfo />} />
         <Route path="/SearchSubletInfo" element={<SearchSubletInfo />} />
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />

@@ -39,7 +39,7 @@ const Header = () => {
         <div className="flex lg:flex-1">
           <IconButton onClick={handleReload} style={styles.logoContainer} className="-m-1.5 p-1.5">
             <span className="sr-only">Sublet</span>
-            <img src="logo.png" style={styles.logoIcon} className="h-8" alt="logo" />
+            <img src={`${process.env.REACT_APP_FRONTEND_URL}/logo.png`} style={styles.logoIcon} className="h-8" alt="logo" />
           </IconButton>
         </div>
         <Popover.Group style={styles.searchBoxContainer} className="hidden lg:flex lg:gap-x-12"> {/* 검색창 */}
