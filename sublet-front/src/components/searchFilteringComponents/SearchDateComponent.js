@@ -3,18 +3,21 @@ import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { IconButton } from '@mui/material';
+import { useSearchDateStore } from '../store/searchDateStore.js';
 import 'dayjs/locale/ko';
+import dayjs from 'dayjs';
 
-
-const DaypickerComponent = () => {
+const SearchDateComponent = () => {
   const [isListVisible, setIsListVisible] = useState(false);
-  const [searchDate, setSearchDate] = useState([null, null]); // [start, end]
+  const {searchDate, setSearchDate} = useSearchDateStore(); // useState([null, null]); // [start, end]
   const buttonRef = useRef(null);
 
   const styles = {
     calandersContainer: {
       justifyContent: 'center',
-      textAlign: 'center'
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'row',
     },
     serachByDate: {
       fontWeight: 'bold',
@@ -31,46 +34,56 @@ const DaypickerComponent = () => {
   };
 
   const toggleCalander = () => {
-    setIsListVisible(true);
+    setIsListVisible(!isListVisible);
   };
 
   if (isListVisible) {
-    /* range로 해야하는데 계속 깨져서, 이걸로 임시 대체 합니다. */
+    /* range로 해야 좋은데 계속 깨져서, 이걸로 임시 대체 합니다. */
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
         <div style={styles.calandersContainer}>
-          <div>
+          <span>
             <DatePicker
-              value={searchDate[0]}
+              value={dayjs(searchDate[0])}
               onChange={(newDate) => {
-                setSearchDate([newDate, searchDate[1]]);
-                console.log(searchDate);
+                if (newDate.$d > searchDate[1]) {
+                  setSearchDate(newDate.$d, newDate.$d);
+                }
+                else{
+                  setSearchDate(newDate.$d, searchDate[1]);
+                }
+                // console.log(searchDate);
               }}
             />
-          </div>
+          </span>
           ~
-          <div>
+          <span>
             <DatePicker
-              value={searchDate[1]}
+              value={dayjs(searchDate[1])}
               onChange={(newDate) => {
-                setSearchDate([searchDate[0], newDate]);
-                console.log(searchDate);
+                if (searchDate[0] > newDate.$d) {
+                  setSearchDate(newDate.$d, newDate.$d);
+                }
+                else{
+                  setSearchDate(searchDate[0], newDate.$d);
+                }
+                // console.log(searchDate);
               }}
             />
-          </div>
+          </span>
         </div>
       </LocalizationProvider>
     );
   }
   else {
     return (
-      <button ref={buttonRef} onClick={toggleCalander}>
+      <IconButton ref={buttonRef} onClick={toggleCalander}>
         <div style={styles.serachByDate}>
           날짜
           <DateRangeOutlinedIcon />
         </div>
-      </button>
+      </IconButton>
     );
   }
 }
-export default DaypickerComponent;
+export default SearchDateComponent;

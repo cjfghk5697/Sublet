@@ -8,8 +8,7 @@ const makeHeaderStyle = () => {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
+      justifyContent: 'space-between',
     },
     logoContainer: {
       display: 'flex',
@@ -31,9 +30,13 @@ const makeHeaderStyle = () => {
       borderRadius: '5px',
       padding: '1em',
       fontSize: '1.3em',
-      flex: 5,
+      flex: 2,
     },
     searchByLocation: {
+      fontWeight: 'bold',
+      color: 'rgba(0, 0, 0, 1)',
+    },
+    searchByDate: {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
     },

@@ -14,4 +14,3 @@ export const guestInfoPopUpStore = create((set) => ({
     phonePopUpState: !state.phonePopUpState
   })),
 }))
-
