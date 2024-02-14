@@ -14,7 +14,7 @@ import { Carousel } from "@material-tailwind/react";
 export default function RoomInfo() {
   const styles = {
     RomeInfo_ImgContainer: {
-      display: 'flex',
+      display: 'inline-flex',
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'center',
@@ -65,7 +65,7 @@ export default function RoomInfo() {
     <div>
       <Header />
       <div id="RomeInfo-ImgContainer" style={styles.RomeInfo_ImgContainer}>
-        <Carousel className="rounded-xl"
+        <Carousel className="rounded-xl text-center"
           navigation={({ setActiveIndex, activeIndex, length }) => (
             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
               {new Array(length).fill("").map((_, i) => (
@@ -82,24 +82,9 @@ export default function RoomInfo() {
             <img
               src={`${process.env.REACT_APP_BACKEND_URL}/public/${image_id}.jpg`}
               alt={`image ${index}`}
-              className="h-full object-cover"
+              className="h-full object-cover m-auto"
             />
           ))}
-          <img
-            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-            alt="image 1"
-            className="h-full object-cover"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-            alt="image 2"
-            className="h-full object-cover"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-            alt="image 3"
-            className="h-full  object-cover"
-          />
         </Carousel>
       </div>
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
