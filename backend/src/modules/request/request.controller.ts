@@ -5,7 +5,9 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
+  Put,
   Req,
   UnauthorizedException,
   UseGuards,
@@ -13,10 +15,44 @@ import {
 import { RequestService } from './request.service';
 import { RequestCreateDto, requestKey } from '@/dto/request.dto';
 import { customRequest } from '@/interface/user.interface';
+import {
+  RequestBase,
+  RequestId,
+  RequestKey,
+} from '@/interface/request.interface';
 
 @Controller('request')
 export class RequestController {
-  constructor(private readonly reservationService: RequestService) {}
+  constructor(private readonly requestService: RequestService) {}
+  @Post('post/:postKey') //Put 기능으로하면 경로를 못찾음.
+  @UseGuards(LoggedInGuard)
+  async putOnePostRequest(
+    @Param('postKey') post_key: number,
+    @Body() data: requestKey,
+  ) {
+    try {
+      const res = await this.requestService.putOnePostRequest(
+        data.key,
+        post_key,
+      );
+      return { ok: res };
+    } catch (e) {
+      console.log('[request.controller:putOnePostRequest] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+  @Post('requestId')
+  @UseGuards(LoggedInGuard)
+  async getRequestByRequestId(@Body() id: RequestId) {
+    try {
+      const res = await this.requestService.getRequestByRequestId(id);
+      return res;
+    } catch (e) {
+      console.log('[request.controller:getRequestByRequestId] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
   @Post()
   @UseGuards(LoggedInGuard)
   async createRequest(
@@ -24,37 +60,36 @@ export class RequestController {
     @Req() req: customRequest,
   ) {
     if (!req.user) {
-      console.log(
-        "[reservation.controller:createRequest] req.user doesn't exist",
-      );
+      console.log("[request.controller:createRequest] req.user doesn't exist");
       throw new UnauthorizedException();
     }
 
     try {
-      const res = await this.reservationService.createRequest(data, req.user);
+      const res = await this.requestService.createRequest(data, req.user);
       return res;
     } catch (e) {
-      console.log('[reservation.controller:createRequest] error: ', e);
+      console.log('[request.controller:createRequest] error: ', e);
       throw new BadRequestException();
     }
   }
+
   @Get()
   @UseGuards(LoggedInGuard)
   async getRequestByUserKey(@Req() req: customRequest) {
     if (!req.user) {
       console.log(
-        "[reservation.controller:getRequestByUserKey] req.user doesn't exist",
+        "[request.controller:getRequestByUserKey] req.user doesn't exist",
       );
       throw new UnauthorizedException();
     }
 
     try {
-      const res = await this.reservationService.getRequestByUserKey(
+      const res = await this.requestService.getRequestByUserKey(
         req.user.user_id,
       );
       return res;
     } catch (e) {
-      console.log('[reservation.controller:getRequestByUserKey] error: ', e);
+      console.log('[request.controller:getRequestByUserKey] error: ', e);
       throw new BadRequestException();
     }
   }
@@ -64,15 +99,30 @@ export class RequestController {
   async deleteOneRequest(@Body() data: requestKey, @Req() req: customRequest) {
     if (!req.user) {
       console.log(
-        "[reservation.controller:deleteOneRequest] req.user doesn't exist",
+        "[request.controller:deleteOneRequest] req.user doesn't exist",
       );
       throw new UnauthorizedException();
     }
     try {
-      const res = await this.reservationService.deleteOneRequest(data.key);
+      const res = await this.requestService.deleteOneRequest(data.key);
       return { ok: res };
     } catch (e) {
-      console.log('[reservation.controller:deleteOneRequest] error: ', e);
+      console.log('[request.controller:deleteOneRequest] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Post(':requestKey') //Put 기능으로하면 경로를 못찾음.
+  @UseGuards(LoggedInGuard)
+  async putOneRequest(
+    @Param('requestKey') key: number,
+    @Body() data: RequestBase,
+  ) {
+    try {
+      const res = await this.requestService.putOneRequest(key, data);
+      return { ok: res };
+    } catch (e) {
+      console.log('[request.controller:putOneRequest] error: ', e);
       throw new BadRequestException();
     }
   }

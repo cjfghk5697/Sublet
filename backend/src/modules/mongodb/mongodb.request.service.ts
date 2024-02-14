@@ -4,12 +4,13 @@ import { UserInterface } from '@/interface/user.interface';
 
 import {
   RequestBase,
-  RequestDeleteInterface,
   RequestExportInterface,
+  RequestId,
   RequestInterface,
+  RequestReview,
 } from '@/interface/request.interface';
 import { requestIncrementKeyInterface } from '@/interface/incrementkey.interface';
-import { RequestCreateDto } from '@/dto/request.dto';
+import { RequestCreateDto, requestKey } from '@/dto/request.dto';
 
 @Injectable()
 export class MongodbRequestService {
@@ -17,7 +18,7 @@ export class MongodbRequestService {
   REQUEST_INCREMENTKEY_VERSION = 1;
   constructor(private prisma: PrismaService) {}
   async getRequestByUserKey(user_id: string) {
-    const result: RequestInterface[] | null =
+    const result: RequestExportInterface[] | null =
       await this.prisma.requestForm.findMany({
         where: {
           version: {
@@ -28,10 +29,29 @@ export class MongodbRequestService {
         },
         include: {
           User: true,
+          Post: true,
         },
       });
     if (!result) {
       throw Error('[mongodb.service:getRequestByKey] result null');
+    }
+    return result;
+  }
+
+  async getRequestByRequestId(id: RequestId) {
+    const result: RequestBase[] | null = await this.prisma.requestForm.findMany(
+      {
+        where: {
+          id: { in: id.id },
+          version: {
+            gte: this.REQUEST_VERSION,
+          },
+          delete: false,
+        },
+      },
+    );
+    if (!result) {
+      throw Error('[mongodb.service:getRequestByRequestId] result null');
     }
     return result;
   }
@@ -55,7 +75,7 @@ export class MongodbRequestService {
   }
 
   async deleteOneRequest(key: number) {
-    const res: RequestDeleteInterface = await this.prisma.requestForm.update({
+    const res: RequestInterface = await this.prisma.requestForm.update({
       where: {
         key,
         version: { gte: this.REQUEST_VERSION },
@@ -64,11 +84,57 @@ export class MongodbRequestService {
       data: {
         delete: true,
       },
+      include: {
+        User: true,
+        Post: true,
+      },
     });
     if (!res) {
       throw Error('[mongodb.service:deleteOneRequest] request doesnt exist');
     }
     return true;
+  }
+
+  async putOneRequest(data: RequestBase, key: number) {
+    const res: RequestInterface = await this.prisma.requestForm.update({
+      where: {
+        key,
+        version: { gte: this.REQUEST_VERSION },
+        delete: false,
+      },
+      data: {
+        ...data,
+      },
+      include: {
+        User: true,
+        Post: true,
+      },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putOneRequest] request doesnt exist');
+    }
+    return res;
+  }
+
+  async putOnePostRequest(post_key: number, request_key: number) {
+    const res: RequestBase = await this.prisma.requestForm.update({
+      where: {
+        key: request_key,
+        version: { gte: this.REQUEST_VERSION },
+        delete: false,
+      },
+      data: {
+        Post: {
+          connect: {
+            key: post_key,
+          },
+        },
+      },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putOneRequest] request doesnt exist');
+    }
+    return res;
   }
 
   async getRequestKey() {
@@ -103,8 +169,7 @@ export class MongodbRequestService {
   }
 
   async getRequestMaxKey() {
-    const request: RequestExportInterface[] =
-      await this.prisma.requestForm.findMany({});
+    const request: requestKey[] = await this.prisma.requestForm.findMany({});
     if (!request || request.length === 0) return 0;
     return request.reduce((prev, cur) => {
       return Math.max(prev, cur.key);

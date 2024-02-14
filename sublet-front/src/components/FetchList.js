@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 function FetchPost() {
-  const [loading, setLoading] = useState(true);
   const [postInfo, setPostInfo] = useState([]);
   const getPostInfo = async () => {
     const requestOptions = {
@@ -18,7 +17,6 @@ function FetchPost() {
         , requestOptions)
     ).json();
 
-    setLoading(false)
     setPostInfo(json)
   };
 
@@ -26,13 +24,13 @@ function FetchPost() {
     getPostInfo();
   }, []);
 
+
   const post = Array.from(postInfo)
 
-  return [post, loading]
+  return post
 }
 
 function FetchReservation() {
-  const [loading, setLoading] = useState(true);
   const [reservationInfo, setReservationInfo] = useState([]);
   const getReservationInfo = async () => {
     const requestOptions = {
@@ -49,7 +47,6 @@ function FetchReservation() {
         , requestOptions)
     ).json();
 
-    setLoading(false)
     setReservationInfo(json)
   };
 
@@ -57,13 +54,13 @@ function FetchReservation() {
     getReservationInfo();
   }, []);
 
+
   const reservation = Array.from(reservationInfo)
 
-  return [reservation, loading]
+  return reservation
 }
 
 function FetchReservationByPostKey(post_key) {
-  const [loading, setLoading] = useState(true);
   const [reservationInfo, setReservationInfo] = useState([]);
   const URL = `${process.env.REACT_APP_BACKEND_URL}/reservation/post?key=` + post_key
 
@@ -80,7 +77,6 @@ function FetchReservationByPostKey(post_key) {
         URL, requestOptions)
     ).json();
 
-    setLoading(false)
     setReservationInfo(json)
   };
 
@@ -88,9 +84,10 @@ function FetchReservationByPostKey(post_key) {
     getPostInfo();
   }, []);
 
+
   const reservation = Array.from(reservationInfo)
 
-  return [reservation, loading]
+  return reservation
 }
 
 async function FetchDeleteReservation(key_num) {
@@ -112,7 +109,6 @@ async function FetchDeleteReservation(key_num) {
       , requestOptions)
   ).json();
 };
-
 
 function FetchReservationPost(user_id, post_key, start_day, end_day, pay) {
 
@@ -234,5 +230,112 @@ async function FetchImage(formData) {
   ).json();
 }
 
+function FetchGetRequest() {
+  const [requestInfo, setRequestInfo] = useState([]);
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/request/`
 
-export { Login, Logout, FetchDeleteReservation, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost };
+  const getRequestInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    const json = await (
+      await fetch(
+        URL, requestOptions)
+    ).json();
+
+    setRequestInfo(json)
+  };
+
+  useEffect(() => {
+    getRequestInfo();
+  }, []);
+
+  const request = Array.from(requestInfo)
+
+  return request
+}
+
+function FetchGetRequestByRequestId(id_list) {
+  const [requestInfo, setRequestInfo] = useState([]);
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/request/requestId`
+
+  const getRequestInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id_list
+      })
+    };
+    const json = await (
+      await fetch(
+        URL, requestOptions)
+    ).json();
+
+    setRequestInfo(json)
+  };
+
+  useEffect(() => {
+    getRequestInfo();
+  }, []);
+
+  const request = Array.from(requestInfo)
+
+  return request
+
+}
+
+async function DeleteRequest(key_num) {
+
+  const requestOptions = {
+    credentials: 'include',
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      key: key_num
+    })
+  };
+
+  await (
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/request`
+      , requestOptions)
+  ).json();
+};
+
+function ConnectRequestPost(resquset_key, post_key) {
+  const link = `${process.env.REACT_APP_BACKEND_URL}/request/post/${post_key}`
+  const getReservationInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        key: resquset_key
+      })
+    };
+    fetch(
+      link,
+      requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result reservation', response)
+      })
+      .catch((e) => {
+        console.log('[error] reservation', e)
+      })
+  };
+}
+
+export { Login, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

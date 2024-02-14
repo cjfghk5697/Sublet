@@ -1,11 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestService } from './request.service';
 import {
-  requestDeleteStub,
+  postStub,
+  requestCreateStub,
+  requestInterfaceStub,
   requestStub,
   userStub,
 } from '../../stubs/mongodb.stub';
-import { RequestBase } from '@/interface/request.interface';
+import {
+  RequestBase,
+  RequestExportInterface,
+} from '@/interface/request.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbRequestService } from '../mongodb/mongodb.request.service';
 
@@ -65,7 +70,7 @@ describe('RequestService', () => {
       let result: boolean | undefined;
       beforeEach(async () => {
         try {
-          result = await service.deleteOneRequest(requestDeleteStub().key);
+          result = await service.deleteOneRequest(requestInterfaceStub().key);
         } catch (e) {
           result = undefined;
         }
@@ -106,6 +111,78 @@ describe('RequestService', () => {
 
       it('should return one request', () => {
         expect(result).toEqual([requestStub()]);
+      });
+    });
+  });
+  describe('TESTING putOneRequest (PUT /request/:requestKey)', () => {
+    describe('when calling with request update inputs', () => {
+      let result: RequestExportInterface | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.putOneRequest(
+            requestStub().key,
+            requestCreateStub(),
+          );
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual(requestStub());
+      });
+
+      it('then should call db to update post', () => {
+        expect(mongoDbService.putOneRequest).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('TESTING putOnePostRequest (POST /request/post/:postKey)', () => {
+    describe('when calling with request update inputs', () => {
+      let result: RequestBase | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.putOnePostRequest(
+            requestStub().key,
+            postStub().key,
+          );
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual(requestStub());
+      });
+
+      it('then should call db to update post', () => {
+        expect(mongoDbService.putOnePostRequest).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('TESTING getRequestByRequestId (POST /request/requestId)', () => {
+    describe('when calling with request update inputs', () => {
+      let result: RequestBase[] | undefined;
+      const id_list = { id: [requestInterfaceStub().id] };
+      beforeEach(async () => {
+        try {
+          result = await service.getRequestByRequestId(id_list);
+        } catch (e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual([requestStub()]);
+      });
+
+      it('then should call db to update post', () => {
+        expect(mongoDbService.getRequestByRequestId).toHaveBeenCalledTimes(1);
       });
     });
   });
