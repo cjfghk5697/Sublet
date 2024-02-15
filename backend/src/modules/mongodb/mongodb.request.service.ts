@@ -17,7 +17,7 @@ export class MongodbRequestService {
   REQUEST_INCREMENTKEY_VERSION = 1;
   constructor(private prisma: PrismaService) {}
   async getRequestByUserKey(user_id: string) {
-    const result: RequestExportInterface[] | null =
+    const result: RequestInterface[] | null =
       await this.prisma.requestForm.findMany({
         where: {
           version: {
@@ -38,8 +38,8 @@ export class MongodbRequestService {
   }
 
   async getRequestByRequestId(id: RequestId) {
-    const result: RequestBase[] | null = await this.prisma.requestForm.findMany(
-      {
+    const result: RequestInterface[] | null =
+      await this.prisma.requestForm.findMany({
         where: {
           id: { in: id.id },
           version: {
@@ -47,8 +47,11 @@ export class MongodbRequestService {
           },
           delete: false,
         },
-      },
-    );
+        include: {
+          User: true,
+          Post: true,
+        },
+      });
     if (!result) {
       throw Error('[mongodb.service:getRequestByRequestId] result null');
     }
@@ -74,7 +77,7 @@ export class MongodbRequestService {
   }
 
   async deleteOneRequest(key: number) {
-    const res: RequestInterface = await this.prisma.requestForm.update({
+    const res: RequestInterface | null = await this.prisma.requestForm.update({
       where: {
         key,
         version: { gte: this.REQUEST_VERSION },
@@ -95,7 +98,7 @@ export class MongodbRequestService {
   }
 
   async putOneRequest(data: RequestBase, key: number) {
-    const res: RequestInterface = await this.prisma.requestForm.update({
+    const res: RequestInterface | null = await this.prisma.requestForm.update({
       where: {
         key,
         version: { gte: this.REQUEST_VERSION },
@@ -116,7 +119,7 @@ export class MongodbRequestService {
   }
 
   async putOnePostRequest(post_key: number, request_key: number) {
-    const res: RequestBase = await this.prisma.requestForm.update({
+    const res: RequestBase | null = await this.prisma.requestForm.update({
       where: {
         key: request_key,
         version: { gte: this.REQUEST_VERSION },

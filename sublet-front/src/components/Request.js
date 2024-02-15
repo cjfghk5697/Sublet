@@ -2,7 +2,6 @@ import { DateFormat, priceToString } from "./StaticComponents"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
 export function RequestByPostKeyInfo({ Post }) {
-  console.log(Post)
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">예약 현황</h2>

@@ -111,7 +111,7 @@ export class RequestController {
   @UseGuards(LoggedInGuard)
   async putOneRequest(
     @Param('requestKey') key: number,
-    @Body() data: RequestBase,
+    @Body() data: RequestCreateDto,
   ) {
     try {
       const res = await this.requestService.putOneRequest(key, data);
