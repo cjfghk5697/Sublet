@@ -3,7 +3,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import { BarChart } from "@mui/x-charts";
 import { Slider } from "@mui/material";
 import { priceToString } from "../StaticComponents.js";
-import { useSearchPriceStore } from "../store/priceRangeStore.js";
+import { useSearchPriceStore } from "../../store/HeaderStore/searchPriceStore.js";
 import * as s from "../styles/Header.styles.js";
 
 const SearchPriceRange = () => {

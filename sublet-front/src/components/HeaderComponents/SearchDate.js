@@ -3,7 +3,7 @@ import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { IconButton } from "@mui/material";
-import { useSearchDateStore } from "../store/searchDateStore.js";
+import { useSearchDateStore } from "../../store/HeaderStore/searchDateStore.js";
 import "dayjs/locale/ko";
 import dayjs from "dayjs";
 import * as s from "../styles/Header.styles.js";

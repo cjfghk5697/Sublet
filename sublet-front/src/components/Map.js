@@ -68,6 +68,7 @@ export default function Map(props) {
 
   useEffect(() => {
     createMap();
+    props.type == "searchByMarker" && searchingByDragAdd();
     createMarker();
   }, [markerAll]);
 
@@ -109,7 +110,23 @@ export default function Map(props) {
     });
   }
 
+  const searchingByDragAdd = () => {
+    window.naver.maps.Event.addListener(
+      mapRef.current,
+      "dragend",
+      dragendEvent
+    );
+  }
+
+  const dragendEvent = () => {
+    let center = mapRef.current.getCenter();
+    props.setPos([center.y, center.x]);
+  }
+
   return (
+    props.type == "searchByMarker"?
+    <div id="map" className="h-screen w-full rounded-lg" style={{display: 'flex', height: 'calc(50vh'}} />
+    :
     <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
   )
 }

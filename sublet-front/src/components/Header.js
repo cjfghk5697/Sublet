@@ -2,14 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { Dialog, Popover } from "@headlessui/react";
 import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchDate from "./searchFilteringComponents/SearchDate.js";
-import SearchPriceRange from "./searchFilteringComponents/SearchPriceRange.js";
+import SearchDate from "./HeaderComponents/SearchDate.js";
+import SearchPriceRange from "./HeaderComponents/SearchPriceRange.js";
 import { Favorite } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link, useLocation } from "react-router-dom";
 import LoginPage from "./LoginPage.js";
 import Button from "@mui/material/Button";
-import SearchLocation from "./searchFilteringComponents/SearchLocation.js";
+import SearchLocation from "./HeaderComponents/SearchLocation.js";
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
