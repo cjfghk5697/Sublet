@@ -38,7 +38,6 @@ export function RequestByPostKeyInfo({ Post }) {
 };
 
 export function PostRequest({ request_list }) {
-  console.log(request_list)
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">요청서 현황</h2>

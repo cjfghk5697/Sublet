@@ -85,6 +85,7 @@ export const postExportStub = (): PostExportInterface => {
     end_day: new Date(createStub.end_day).toISOString(),
     private: false,
     request: false,
+    requestIDs: [],
   };
 };
 
