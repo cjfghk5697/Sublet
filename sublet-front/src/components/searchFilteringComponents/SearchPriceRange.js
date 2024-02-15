@@ -4,19 +4,16 @@ import { BarChart } from "@mui/x-charts";
 import { Slider } from "@mui/material";
 import { priceToString } from "../StaticComponents.js";
 import { useSearchPriceStore } from "../store/priceRangeStore.js";
+import * as s from "../styles/Header.styles.js";
 
-const PriceRangeFilter = () => {
+const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData
   const { priceRange, setPriceRange } = useSearchPriceStore();
   const [tempPriceRange, setTempPriceRange] = useState(priceRange); // 그래프 표현을 위한 이중화. 실제 값은 priceRange에 저장
   const [isListVisible, setIsListVisible] = useState(false);
   const buttonRef = useRef(null);
-  
+
   const styles = {
-    serachByPrice: {
-      fontWeight: "bold",
-      color: "rgba(0, 0, 0, 1)",
-    },
     priceRangeStyle: {
       backgroundColor: "white",
       border: "1px solid black",
@@ -30,23 +27,11 @@ const PriceRangeFilter = () => {
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       padding: "0 1em 0 1em",
       zIndex: 101,
+      justifyContent: "center",
     },
     priceRangeGraphStyle: {
       position: "relative",
       width: "100%",
-    },
-    displayPriceRange: {
-      display: "flex",
-      justifyContent: "space-around",
-      marginTop: "1em",
-      marginBottom: "0.5em",
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    handleButtons: {
-      display: "flex",
-      justifyContent: "space-around",
-      marginTop: "1em",
-      marginBottom: "0.5em",
     },
     minPriceLineStyle: {
       position: "absolute",
@@ -77,17 +62,16 @@ const PriceRangeFilter = () => {
 
   const handlePriceChange = (event, newValue) => {
     setTempPriceRange(newValue);
-    // console.log(tempPriceRange);
   };
 
   const handleSubmit = () => {
-    setPriceRange(tempPriceRange);
+    setPriceRange(tempPriceRange[0], tempPriceRange[1]);
     setIsListVisible(false);
   };
 
   const handleCancel = () => {
-    setPriceRange(priceRangeMinMax);
-    setTempPriceRange(priceRangeMinMax);
+    setTempPriceRange(priceRange);
+    setIsListVisible(false);
   };
 
   const [sliderValue, setSliderValue] = useState(50);
@@ -109,19 +93,19 @@ const PriceRangeFilter = () => {
   return (
     <div>
       <button ref={buttonRef} onClick={togglePriceFilter}>
-        <div style={styles.serachByPrice}>
+        <s.blackBoldFont>
           가격 범위
           <BarChartIcon />
-        </div>
+        </s.blackBoldFont>
       </button>
       {isListVisible && (
         <div style={styles.priceRangeStyle}>
           <div style={styles.priceRangeGraphStyle}>
-            <div style={styles.displayPriceRange}>
+            <displayFilteringValueWhenModifyingFilter>
               <span>₩{priceToString(tempPriceRange[0])}</span>
               <span>~</span>
               <span>₩{priceToString(tempPriceRange[1])}</span>
-            </div>
+            </displayFilteringValueWhenModifyingFilter>
             <Slider
               getAriaLabel={() => "price range"}
               value={tempPriceRange}
@@ -131,10 +115,10 @@ const PriceRangeFilter = () => {
               min={priceRangeMinMax[0]} // 검색 가능 최소 가격
               max={priceRangeMinMax[1]} // 검색 가능 최대 가격
             />
-            <div style={styles.handleButtons}>
+            <s.acceptOrCancleButton>
               <button onClick={handleSubmit}>적용</button>
-              <button onClick={handleCancel}>초기화</button>
-            </div>
+              <button onClick={handleCancel}>취소</button>
+            </s.acceptOrCancleButton>
           </div>
         </div>
       )}
@@ -142,7 +126,7 @@ const PriceRangeFilter = () => {
   );
 };
 
-export default PriceRangeFilter;
+export default SearchPriceRange;
 
 /* 가격 범위 그래프
 <BarChart

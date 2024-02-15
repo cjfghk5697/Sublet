@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect } from 'react';
-import { Dialog, Popover } from '@headlessui/react';
-import { IconButton } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SearchIcon from '@mui/icons-material/Search';
-import SearchDateComponent from './searchFilteringComponents/SearchDateComponent.js';
-import PriceRangeFilter from './searchFilteringComponents/PriceRangeFilter.js';
-import { Favorite } from '@mui/icons-material';
-import PersonIcon from '@mui/icons-material/Person';
-import { Link, useLocation } from 'react-router-dom';
-import LoginPage from './LoginPage.js';
-import Button from '@mui/material/Button';
+import { useState, useRef, useEffect } from "react";
+import { Dialog, Popover } from "@headlessui/react";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchDate from "./searchFilteringComponents/SearchDate.js";
+import SearchPriceRange from "./searchFilteringComponents/SearchPriceRange.js";
+import { Favorite } from "@mui/icons-material";
+import PersonIcon from "@mui/icons-material/Person";
+import { Link, useLocation } from "react-router-dom";
+import LoginPage from "./LoginPage.js";
+import Button from "@mui/material/Button";
+import SearchLocation from "./searchFilteringComponents/SearchLocation.js";
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
@@ -19,90 +19,82 @@ const Header = () => {
   const location = useLocation();
   const styles = {
     container: {
-      borderBottom: '1px solid gray',
-      marginBottom: '0.5em',
+      borderBottom: "1px solid gray",
+      marginBottom: "0.5em",
     },
     headerContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
     },
     logoContainer: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
     },
     logoIcon: {
-      width: '4em',
-      height: '100%',
-      color: 'rgba(0, 0, 0, 1)',
-      justifyContent: 'left',
+      width: "4em",
+      height: "100%",
+      color: "rgba(0, 0, 0, 1)",
+      justifyContent: "left",
     },
     searchBoxContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      margin: '0 0 0.5em 0',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      border: '1px solid #000000',
-      borderRadius: '5px',
-      padding: '1em',
-      fontSize: '1.3em',
-      flex: {searchBoxContainerSize},
-    },
-    searchByLocation: {
-      fontWeight: 'bold',
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    searchByDate: {
-      fontWeight: 'bold',
-      color: 'rgba(0, 0, 0, 1)',
+      display: "flex",
+      flexDirection: "row",
+      margin: "0 0 0.5em 0",
+      justifyContent: "space-between",
+      alignItems: "center",
+      border: "1px solid #000000",
+      borderRadius: "5px",
+      padding: "1em",
+      fontSize: "1.3em",
+      flex: { searchBoxContainerSize },
     },
     searchByKeywordContainer: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
     },
     serachByKeyword: {
-      marginRight: '0.5em',
+      marginRight: "0.5em",
     },
     searchKeywordBig: {
-      border: '0px',
-      fontWeight: 'bold',
+      border: "0px",
+      fontWeight: "bold",
     },
     serachByKeywordInput: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
-      border: '1px',
+      border: "1px",
     },
     searchKeyworddescription: {
-      fontSize: '0.6em',
-      textAlign: 'left',
+      fontSize: "0.6em",
+      textAlign: "left",
     },
     searchIcon: {
-      fontWeight: 'bold',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      color: 'white',
-      fontSize: '1em',
+      fontWeight: "bold",
+      backgroundColor: "rgba(0, 0, 0, 0.9)",
+      color: "white",
+      fontSize: "1em",
     },
     rightNavigation: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'right',
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "right",
       flex: 1,
     },
     favorite: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginRight: '1em',
-      color: 'rgba(0, 0, 0, 1)',
+      display: "flex",
+      flexDirection: "column",
+      marginRight: "1em",
+      color: "rgba(0, 0, 0, 1)",
     },
     favoriteCount: {
-      fontSize: '0.8em',
+      fontSize: "0.8em",
     },
     profile: {
-      color: 'rgba(0, 0, 0, 1)',
+      color: "rgba(0, 0, 0, 1)",
     },
-  }
+  };
 
   useEffect(() => {
     if (searchButtonClicked) {
@@ -111,57 +103,74 @@ const Header = () => {
   }, [searchButtonClicked]);
 
   const handleReload = () => {
-    if (location.pathname === '/') {
+    if (location.pathname === "/") {
       window.location.reload();
-    }
-    else {
-      window.location.href = '/';
+    } else {
+      window.location.href = "/";
     }
   };
 
   const doSearch = () => {
-    if (location.pathname === '/SearchSubletInfo') {
+    if (location.pathname === "/SearchSubletInfo") {
       window.location.reload();
-    }
-    else {
-      window.location.href = '/SearchSubletInfo';
+    } else {
+      window.location.href = "/SearchSubletInfo";
     }
   };
-  
+
   return (
     <header className="bg-white" style={styles.container}>
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global" style={styles.headerContainer}>
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+        style={styles.headerContainer}
+      >
         <div className="flex lg:flex-1">
-          <IconButton onClick={handleReload} style={styles.logoContainer} className="-m-1.5 p-1.5">
+          <IconButton
+            onClick={handleReload}
+            style={styles.logoContainer}
+            className="-m-1.5 p-1.5"
+          >
             <span className="sr-only">Sublet</span>
-            <img src="logo.png" style={styles.logoIcon} className="h-8" alt="logo" />
+            <img
+              src="logo.png"
+              style={styles.logoIcon}
+              className="h-8"
+              alt="logo"
+            />
           </IconButton>
         </div>
-        <Popover.Group style={styles.searchBoxContainer} className="hidden lg:flex lg:gap-x-12"> {/* 검색창 */}
-          <IconButton style={styles.searchByLocation} className="font-semibold leading-6 text-gray-900">
-            위치
-            <LocationOnIcon />
-          </IconButton>
-          <span style={styles.searchByDate} className="font-semibold leading-6 text-gray-900">
-            <SearchDateComponent />
+        <Popover.Group
+          style={styles.searchBoxContainer}
+          className="hidden lg:flex lg:gap-x-12"
+        >
+          <span
+            className="font-semibold leading-6 text-gray-900"
+          >
+            <SearchLocation/>
           </span>
-          <IconButton style={styles.serachByPrice} className="font-semibold leading-6 text-gray-900">
-            <PriceRangeFilter />
+          <span
+            className="font-semibold leading-6 text-gray-900"
+          >
+            <SearchDate />
+          </span>
+          <IconButton
+            className="font-semibold leading-6 text-gray-900"
+          >
+            <SearchPriceRange />
           </IconButton>
           <Button component={Link} onClick={doSearch} style={styles.searchIcon}>
-            <SearchIcon/>
+            <SearchIcon />
           </Button>
         </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end"> {/* 로그인 or 즐겨찾기, 프로필 */}
-          {loginedTest ?
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {loginedTest ? (
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
                   <Link to={"/SaveSubletInfo"}>
                     <Favorite />
-                    <div style={styles.favoriteCount}>
-                      {33 + 1}
-                    </div>
+                    <div style={styles.favoriteCount}>{33 + 1}</div>
                   </Link>
                 </IconButton>
               </span>
@@ -171,16 +180,19 @@ const Header = () => {
                 </Link>
               </IconButton>
             </div>
-            :
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          ) : (
+            <a
+              href="#"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
               <LoginPage style={styles.profile} />
             </a>
-          }
+          )}
         </div>
       </nav>
-    </header >
-  )
-}
+    </header>
+  );
+};
 
 export default Header;
 
