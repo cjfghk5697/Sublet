@@ -52,11 +52,11 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
       <div className="ml-2">
         {complete ?
           (
-            <p>
+            <p className="ml-3 text-lg text-[#F62424] font-medium">
               요청서 완료
             </p>) :
           (
-            <p>
+            <p className="ml-3 text-base text-blue-700 font-medium">
               요청서 진행중
             </p>
           )}

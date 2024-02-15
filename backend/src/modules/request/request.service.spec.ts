@@ -158,7 +158,7 @@ describe('RequestService', () => {
         expect(result).toEqual(requestStub());
       });
 
-      it('then should call db to update post', () => {
+      it('then should call db to get request', () => {
         expect(mongoDbService.putOnePostRequest).toHaveBeenCalledTimes(1);
       });
     });

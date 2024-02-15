@@ -174,11 +174,11 @@ function Login({ id, password }) {
       headers: {
         'Content-Type': 'application/json'
       },
-      path: '/',
       body: JSON.stringify({
         id: id,
         password: password
-      })
+      }),
+      path: '/'
     };
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
