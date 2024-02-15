@@ -7,7 +7,6 @@ import {
   Get,
   Param,
   Post,
-  Put,
   Req,
   UnauthorizedException,
   UseGuards,
@@ -15,11 +14,7 @@ import {
 import { RequestService } from './request.service';
 import { RequestCreateDto, requestKey } from '@/dto/request.dto';
 import { customRequest } from '@/interface/user.interface';
-import {
-  RequestBase,
-  RequestId,
-  RequestKey,
-} from '@/interface/request.interface';
+import { RequestBase, RequestId } from '@/interface/request.interface';
 
 @Controller('request')
 export class RequestController {
