@@ -14,7 +14,7 @@ import {
 import { RequestService } from './request.service';
 import { RequestCreateDto, requestKey } from '@/dto/request.dto';
 import { customRequest } from '@/interface/user.interface';
-import { RequestBase, RequestId } from '@/interface/request.interface';
+import { RequestId } from '@/interface/request.interface';
 
 @Controller('request')
 export class RequestController {

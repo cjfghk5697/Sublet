@@ -4,7 +4,6 @@ import { UserInterface } from '@/interface/user.interface';
 
 import {
   RequestBase,
-  RequestExportInterface,
   RequestId,
   RequestInterface,
 } from '@/interface/request.interface';
