@@ -107,6 +107,7 @@ export default function Map(props) {
       const mapLatLng = new window.naver.maps.LatLng(Number(post?.y_coordinate), Number(post?.x_coordinate));
       //부드럽게 이동하기
       mapRef.current.panTo(mapLatLng, e?.coord);
+      console.log(e?.coord);
     });
   }
 
@@ -116,6 +117,8 @@ export default function Map(props) {
       "dragend",
       dragendEvent
     );
+    const mapLatLng = new window.naver.maps.LatLng(Number(props?.currentPos[0]), Number(props?.currentPos[1]));
+    mapRef.current.panTo(mapLatLng, {x: props.currentPos[0], y: props.currentPos[1]});
   }
 
   const dragendEvent = () => {

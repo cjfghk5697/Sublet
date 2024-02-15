@@ -10,6 +10,11 @@ const SearchLocation = (props) => {
   const [isListVisible, setIsListVisible] = useState(false);
   const buttonRef = useRef(null);
 
+
+  console.log("searchLocation: "+searchLocation);
+  console.log("tempPos: "+tempPos);
+
+
   const styles = {
     priceRangeStyle: {
       backgroundColor: "white",
@@ -47,7 +52,6 @@ const SearchLocation = (props) => {
   };
 
   const handleSubmit = () => {
-    // setSearchLocation(tempPos[0], tempPos[1]);
     setSearchLocation(tempPos[0], tempPos[1]);
     setIsListVisible(false);
   };
@@ -74,7 +78,7 @@ const SearchLocation = (props) => {
           </s.displayFilteringValueWhenModifyingFilter>
           <div style={styles.searchByMap}>
             <LocationOnIcon style={styles.mapMarker} />
-            <Map type="searchByMarker" setPos={setTempPos}/>
+            <Map type="searchByMarker" currentPos={searchLocation} setPos={setTempPos}/>
           </div>
           <s.acceptOrCancleButton>
             <button onClick={handleSubmit}>적용</button>
