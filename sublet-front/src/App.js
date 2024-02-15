@@ -20,7 +20,8 @@ function App() {
         <Route path="/SearchSubletInfo" element={<SearchSubletInfo />} />
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
-        <Route path='/GuestInfo' element={<GuestInfo />} />
+        <Route path='/Profile' element={<GuestInfo />} />
+
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />
         <Route path='/TestPage' element={<TestPage />} />

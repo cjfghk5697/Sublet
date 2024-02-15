@@ -9,20 +9,20 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  version          Int            @default(1)
-  user_id          String         @unique
-  image_id         String         @default("default")
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  version          Int           @default(1)
+  user_id          String        @unique
+  image_id         String        @default("default")
   password         String
   username         String
-  email            String         @unique
-  phone            String         @unique
+  email            String        @unique
+  phone            String        @unique
   reservation_post Reservation[]
   Post             Post[]
-  delete           Boolean        @default(false)
-  Request          Request_form[]
-  school           String         @default("무소속")
-  id_card          Boolean        @default(false)
+  delete           Boolean       @default(false)
+  Request          RequestForm[]
+  school           String        @default("무소속")
+  id_card          Boolean       @default(false)
 }
 
 model Post {
@@ -82,21 +82,26 @@ model Image {
   image_hash String
 }
 
-model Request_form {
+model RequestForm {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   version           Int      @default(1)
+  key               Int      @unique
+  delete            Boolean  @default(false)
   limit_people      Int
   number_room       Int
   number_bathroom   Int
   number_bedroom    Int
   price             Int
-  position          String
+  city              String
+  gu                String
+  dong              String
   start_day         DateTime @db.Date
   end_day           DateTime @db.Date
-  remind            Int      @default(7)
   accomodation_type String //건물 유형
   building_type     String //아파트인지, 주택인지
-  contract          Boolean  @default(false) //계약 여부
+  school            String //안전한 사용자 -> 같은 학교, 완전한 인증
+  alarm             Boolean  @default(false)
+  contract          Boolean  @default(false)
   User              User     @relation(fields: [userId], references: [id])
   userId            String   @db.ObjectId
 }
@@ -119,6 +124,12 @@ model ReservationIncrementKey {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   version        Int    @default(1)
   reservationKey Int
+}
+
+model RequestIncrementKey {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  version    Int    @default(1)
+  requestKey Int
 }
 
 model ProfileImage {
