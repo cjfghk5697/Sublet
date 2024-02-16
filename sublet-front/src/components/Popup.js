@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import * as s from './styles/SummaryBlock.styles.js'
-import * as sl from "../components/styles/Login.styles"
-
 import './styles/Popup.styles.css'
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import { FetchImage } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
+import { Alert } from "./StaticComponents.js";
 
 export function ImageDialog() {
   const [putState, setPutState] = useState(true)
@@ -124,11 +123,11 @@ export function EmailDialog({ originalEmail }) {
     <>
       <Dialog open={emailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogContent className='text-center'>
-          <sl.close_button type="button" className='float-right'>
+          <s.close_button type="button" className='float-right'>
             <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </sl.close_button>
+          </s.close_button>
           <form>
             <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
             <input type="email" id="email" onChange={emailChange} value={emailState} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
@@ -188,11 +187,11 @@ export function PhoneDialog({ originalPhone }) {
     <>
       <Dialog open={phonePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogContent className='text-center'>
-          <sl.close_button type="button" className='float-right'>
+          <s.close_button type="button" className='float-right'>
             <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </sl.close_button>
+          </s.close_button>
           <form>
             <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
             <input type="tel" id="tel" onChange={phoneChange} value={phoneState} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
@@ -207,4 +206,24 @@ export function PhoneDialog({ originalPhone }) {
       </Dialog>
     </>
   );
+}
+
+export function ShareDialog({ content }) {
+  const copyLinkRef = useRef();
+  const pageLink = window.location.href
+  const [backUp, setBackUp] = useState(false)
+  const copyTextUrl = () => {
+    copyLinkRef.current.focus();
+    copyLinkRef.current.select();
+    setBackUp(true)
+    navigator.clipboard.writeText(copyLinkRef.current.value)
+  }
+  return (
+    <>
+      <input type="text" ref={copyLinkRef} value={pageLink} />
+      <s.black_upload_button onClick={copyTextUrl}>복사하기</s.black_upload_button>
+      {backUp && <Alert />}
+    </>
+  )
+  // 선택 후 복사
 }

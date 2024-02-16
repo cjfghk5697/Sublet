@@ -2,7 +2,6 @@ import { useState } from "react";
 import { DateFormat, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import * as w from './styles/Wrapper.style.js'
-import * as sl from "../components/styles/Login.styles"
 
 import './styles/Popup.styles.css'
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
@@ -74,11 +73,11 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
       <div name="requestDetailDialog">
         <Dialog open={detailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogContent className='text-left'>
-            <sl.close_button type="button" className='float-right' name="detailPopUpState" onClick={onChange} >
+            <s.close_button type="button" className='float-right' name="detailPopUpState" onClick={onChange} >
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </sl.close_button>
+            </s.close_button>
 
             <w.SecondHead>{address} </w.SecondHead>
 
@@ -103,11 +102,11 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
         <Dialog open={respondPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogContent className='text-left'>
             <form>
-              <sl.close_button type="button" name="respondPopUpState" onClick={onChange} className='float-right'>
+              <s.close_button type="button" name="respondPopUpState" onClick={onChange} className='float-right'>
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
-              </sl.close_button>
+              </s.close_button>
             </form>
             {Post.length > 0 ?
               <RequestByPostKeyInfo
@@ -123,11 +122,11 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
         <Dialog open={deletePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogContent className='font-black text-center'>
             <form>
-              <sl.close_button type="button" onClick={onChange} name="deletePopUpState" className='float-right'>
+              <s.close_button type="button" onClick={onChange} name="deletePopUpState" className='float-right'>
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
-              </sl.close_button>
+              </s.close_button>
             </form>
             <p className="text-lg font-extrabold mt-3">요청서를 삭제하시겠습니까?</p>
             <div>
@@ -321,11 +320,11 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={detailDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent className='text-left'>
               <form>
-                <sl.close_button type="button" name="detailDialogShow" onClick={onChange} className='float-right'>
+                <s.close_button type="button" name="detailDialogShow" onClick={onChange} className='float-right'>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </sl.close_button>
+                </s.close_button>
               </form>
               <div className="inline-block">
                 <h2 className="text-2xl font-extrabold float-start mr-4">{title} </h2>
@@ -358,11 +357,11 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={reservationDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent className='text-left'>
               <form>
-                <sl.close_button type="button" name="reservationDialogShow" onClick={onChange} className='float-right'>
+                <s.close_button type="button" name="reservationDialogShow" onClick={onChange} className='float-right'>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </sl.close_button>
+                </s.close_button>
               </form>
               <ReservationByPostKeyInfo
                 post_key={post_key} />
@@ -376,11 +375,11 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={deletelDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent className='font-black text-center'>
               <form>
-                <sl.close_button type="button" onClick={onChange} name="deletelDialogShow" className='float-right'>
+                <s.close_button type="button" onClick={onChange} name="deletelDialogShow" className='float-right'>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </sl.close_button>
+                </s.close_button>
               </form>
               <p className="text-lg font-extrabold mt-3">게시글을 삭제하시겠습니까?</p>
               <div>
@@ -411,11 +410,11 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={requestDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent className='text-left'>
               <form>
-                <sl.close_button type="button" name="requestDialogShow" onClick={onChange} className='float-right'>
+                <s.close_button type="button" name="requestDialogShow" onClick={onChange} className='float-right'>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </sl.close_button>
+                </s.close_button>
               </form>
               {request_list !== false &&
                 <PostRequest
