@@ -1,85 +1,26 @@
-const makeHeaderStyle = () => {
-  const styles = {
-    container: {
-      borderBottom: '1px solid gray',
-      marginBottom: '0.5em',
-    },
-    headerContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-    },
-    logoContainer: {
-      display: 'flex',
-      flex: 1,
-    },
-    logoIcon: {
-      width: '4em',
-      height: '100%',
-      color: 'rgba(0, 0, 0, 1)',
-      justifyContent: 'left',
-    },
-    searchBoxContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      margin: '0 0 0.5em 0',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      border: '1px solid #000000',
-      borderRadius: '5px',
-      padding: '1em',
-      fontSize: '1.3em',
-      flex: 5,
-    },
-    searchByLocation: {
-      fontWeight: 'bold',
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    searchByKeywordContainer: {
-      display: 'flex',
-      flex: 1,
-    },
-    serachByKeyword: {
-      marginRight: '0.5em',
-    },
-    searchKeywordBig: {
-      border: '0px',
-      fontWeight: 'bold',
-    },
-    serachByKeywordInput: {
-      display: 'flex',
-      flex: 1,
-      border: '1px',
-    },
-    searchKeyworddescription: {
-      fontSize: '0.6em',
-      textAlign: 'left',
-    },
-    searchIcon: {
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    rightNavigation: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'right',
-      flex: 1,
-    },
-    favorite: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginRight: '1em',
-      color: 'rgba(0, 0, 0, 1)',
-    },
-    favoriteCount: {
-      fontSize: '0.8em',
-    },
-    profile: {
-      color: 'rgba(0, 0, 0, 1)',
-    },
-  }
-  return styles;
-};
+import styled from "styled-components";
 
-export default makeHeaderStyle;
+
+// 유의 : state 값에 따른 디자인 변경으로 인해, 몇몇 요소는 직접 .js 코드에서 react style과 혼용해서 사용.
+
+
+// searchFilteringComponents 의 스타일.
+export const blackBoldFont = styled.div`
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1);
+`;
+
+export const displayFilteringValueWhenModifyingFilter = styled.div`
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 1);
+`;
+
+export const acceptOrCancleButton = styled.div`
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+`;
