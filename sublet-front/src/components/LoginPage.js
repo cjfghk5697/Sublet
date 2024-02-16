@@ -6,7 +6,6 @@ import { usePopUpStore } from "../components/store/loginStore";
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 
-
 function PopUp() {
   const [idState, setIdState] = useState('')
   const [passwordState, setPasswordState] = useState('')
@@ -25,7 +24,6 @@ function PopUp() {
     Login({ id, password })
     setPopUpState()
   };
-
 
   return (
     <>
