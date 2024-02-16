@@ -1,6 +1,12 @@
 import { PostExportInterface } from './post.interface';
 import { UserExportInterface } from './user.interface';
-import { IsDateString, IsInt, IsNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsInt,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class ReservationBase {
   @IsDateString()
@@ -16,12 +22,11 @@ export class ReservationBase {
   post_key: string;
 
   @IsNumber()
+  @IsPositive()
   @IsInt()
   pay: number;
 }
 export class ReservationExportInterface extends ReservationBase {
-  @IsInt()
-  @IsNumber()
   key: number;
 }
 
