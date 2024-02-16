@@ -8,6 +8,7 @@ import GuestInfo from './pages/GuestInfo.js'
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestPage from './pages/TestPage.js';
+import TestPage2 from './pages/TestPage2.js';
 
 function App() {
 
