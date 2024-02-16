@@ -66,6 +66,8 @@ model Post {
   street_number     String
   post_code         String
   local_save        Boolean       @default(false)
+  RequestForm       RequestForm[] @relation(fields: [requestIDs], references: [id])
+  requestIDs        String[]      @db.ObjectId
 }
 
 model IncrementKey {
@@ -104,6 +106,9 @@ model RequestForm {
   contract          Boolean  @default(false)
   User              User     @relation(fields: [userId], references: [id])
   userId            String   @db.ObjectId
+  Post              Post[]   @relation(fields: [postId], references: [id])
+  postId            String[] @db.ObjectId
+  complete          Boolean  @default(false)
 }
 
 model Reservation {

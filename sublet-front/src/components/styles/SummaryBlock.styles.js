@@ -65,7 +65,7 @@ export const black_upload_button = styled.button`
   background-color: rgb(229 231 235);
   color: rgb(17 24 39)
 }
-${tw`bg-black float-end text-white font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
+${tw`bg-black clear-both float-end text-white font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
 `
 export const black_upload_button_disabled = styled.button`
 
