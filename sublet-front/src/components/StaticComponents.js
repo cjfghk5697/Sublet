@@ -25,29 +25,8 @@ export function CalulateDate(date, days) {
 }
 
 export function Alert() {
-  const animateCSS = (element, animation, prefix = 'animate__') =>
-    // We create a Promise and return it
-    new Promise((resolve) => {
-      const animationName = `${prefix}${animation}`;
-      const node = document.querySelector(element);
-
-      node.classList.add(`${prefix}animated`, animationName);
-
-      // When the animation ends, we clean the classes and resolve the Promise
-      function handleAnimationEnd(event) {
-        event.stopPropagation();
-        node.classList.remove(`${prefix}animated`, animationName);
-        resolve('Animation ended');
-      }
-
-      node.addEventListener('animationend', handleAnimationEnd, { once: true });
-    });
-  animateCSS('#my-element', 'animate__backInUp').then(() => {
-    animateCSS('#my-element', 'animate__backOutDown')
-  });
-
   return (
-    <div id="my-element" className="shadow p-2 bg-white items-center text-indigo-100 boarder-black leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+    <div className="animate__animated  animate__delay-1s animate__slower animate__fadeOut shadow p-2 bg-white items-center text-indigo-100 boarder-black leading-none lg:rounded-full flex lg:inline-flex" role="alert">
       <span className="flex rounded-full bg-green-500 uppercase px-2 py-1 text-xs font-bold mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" /></svg></span>
       <span className="font-semibold text-black mr-2 text-left flex-auto">완료되었습니다!</span>
     </div>

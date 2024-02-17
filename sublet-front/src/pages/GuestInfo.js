@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog, ShareDialog } from "../components/Popup.js";
+import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
 import { PostInfo } from "../components/PostBlock.js";
 import { FetchGetRequest } from "../components/FetchList.js";
-import { Alert, DateFormat, priceToString } from "../components/StaticComponents.js";
+import { DateFormat, priceToString } from "../components/StaticComponents.js";
 import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
-import { Dialog, DialogContent } from "@mui/material";
 
 function RequestListComponent() {
   const request = FetchGetRequest()
@@ -55,50 +54,46 @@ function User({ user }) {
     setEmailPopUpState: state.setEmailPopUpState,
     setPhonePopUpState: state.setPhonePopUpState,
   }))
-  const [inputs, setInputs] = useState({
-    sharePopUpState: false
-  })
-  const {
-    sharePopUpState
-  } = inputs;
 
-  const onChange = e => {
-    setInputs({
-      ...inputs,
-      [e.currentTarget.name]: !inputs[e.currentTarget.name]
-    });
-  };
   const userPrivateComponent = (
     <div>
       <h2 className="text-2xl font-extrabold">사용자 정보</h2>
 
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <w.Horizon />
       <div className="ml-4 mt-4">
         <div className="w-2/6">
           <label className="block mb-0.5 text-sm font-semibold text-gray-900">이메일</label>
-          <p className="text-lg font-medium inline-flex">{user.email}</p>
-          <s.change_button onClick={setEmailPopUpState}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" /></svg>
-          </s.change_button>
-
+          <div>
+            <div className="inline-block">
+              <p className="text-lg font-medium justify-start">{user.email}</p>
+            </div>
+            <s.change_button onClick={setEmailPopUpState} className="justify-end">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" /></svg>
+            </s.change_button>
+          </div>
+          <w.Horizon />
           <EmailDialog
             originalEmail={user.email}
           />
 
-          <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
         </div>
         <div className="mt-4 w-2/6">
           <label className="block mb-0.5 text-sm font-semibold text-gray-900">전화번호</label>
-          <p className="text-lg font-medium inline-flex">{user.phone}</p>
-          <s.change_button onClick={setPhonePopUpState}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="fill-gray-700" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" />
-            </svg>
-          </s.change_button>
+          <div>
+            <div className="inline-block">
+              <p className="text-lg font-medium inline-flex">{user.phone}</p>
+            </div>
+            <s.change_button onClick={setPhonePopUpState}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="fill-gray-700" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" />
+              </svg>
+            </s.change_button>
+          </div>
+          <w.Horizon />
+
           <PhoneDialog
             originalPhone={user.phone}
           />
-          <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
         </div>
       </div>
     </div>
@@ -106,7 +101,7 @@ function User({ user }) {
 
   const userBaseComponent = (
     <div>
-      <s.image_upload_button onClick={setImagePopUpState}>
+      <s.image_upload_button onClick={setImagePopUpState} className="object-cover w-46 h-26">
         <img src={image_link} className="hover:opacity-60 object-scale-down rounded-lg rounded-lg" alt="my profile" />
       </s.image_upload_button>
       <ImageDialog
@@ -115,23 +110,6 @@ function User({ user }) {
       <p className="text-2xl font-extrabold mt-3">{user.username}</p>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
-      <s.black_upload_button name="sharePopUpState" onClick={onChange}>프로필 공유하기</s.black_upload_button>
-      {sharePopUpState && (
-        <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
-          <DialogContent className='text-left'>
-            <form>
-              <s.close_button type="button" name="sharePopUpState" onClick={onChange} className='float-right'>
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </s.close_button>
-            </form>
-            <p>자동으로 알려드릴게요</p>
-            <ShareDialog
-              content="localhost" />
-          </DialogContent >
-        </Dialog>
-      )}
     </div>
   )
 

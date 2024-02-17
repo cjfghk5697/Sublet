@@ -1,6 +1,7 @@
 import { DateFormat, priceToString } from "./StaticComponents";
 import { ReservationSummaryBlock } from "./SummaryBlock";
 import { FetchReservation, FetchReservationByPostKey } from "./FetchList";
+import { Horizon } from "./styles/Wrapper.style";
 
 function ReservationByPostKeyInfo({ post_key }) {
   const reservation = FetchReservationByPostKey(post_key)
@@ -8,7 +9,7 @@ function ReservationByPostKeyInfo({ post_key }) {
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <Horizon />
       {reservation.length > 0 ? (reservation.map((res) => {
         const startStr = DateFormat(res.r_start_day)
         const endStr = DateFormat(res.r_end_day)
@@ -19,7 +20,7 @@ function ReservationByPostKeyInfo({ post_key }) {
             <p className="ml-3 text-lg font-medium">게스트: {res.User.username}</p>
             <p className="ml-3 text-lg font-medium">기간: {startStr} ~ {endStr}</p>
             <p className="ml-3 text-lg font-medium">비용: {pay}</p>
-            <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <Horizon />
           </>
         )
 
@@ -35,7 +36,7 @@ function ReservationInfo() {
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <Horizon />
       {reservation.length > 0 ? reservation.map((res) => (
         <ReservationSummaryBlock
           title={res.Post.title}

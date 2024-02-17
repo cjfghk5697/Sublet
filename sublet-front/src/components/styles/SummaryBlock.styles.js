@@ -13,7 +13,7 @@ export const delete_button_able = styled.button`
 position: relative;
 margin-right: 12px;
 float: right;
-${tw`bg-[#F62424] hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mb-3`}
+${tw`bg-[#F62424] hover:bg-red-700 text-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `
 
 export const delete_button_disabled = styled.button`
@@ -77,6 +77,9 @@ ${tw`bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border
 
 export const input_text = styled.input`
 ${tw`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
+`
+export const input_text_without_block = styled.input`
+${tw`rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
 `
 
 export const fetch_button = styled.button`
