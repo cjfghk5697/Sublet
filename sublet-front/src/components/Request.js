@@ -4,8 +4,8 @@ import * as s from "../components/styles/SummaryBlock.styles.js"
 export function RequestByPostKeyInfo({ Post }) {
   return (
     <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <h2 className="text-2xl font-extrabold">응답 현황</h2>
+      <w.Horizon />
       {Post.map((res) => {
         const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${res.image_id[0]}.jpg`
         const price = priceToString(res.price)
@@ -14,7 +14,7 @@ export function RequestByPostKeyInfo({ Post }) {
           <>
             <div className="mt-2 grid grid-cols-4">
               <div>
-                <img src={image_link} className="object-scale-down rounded-lg rounded-lg" alt="request post image" />
+                <img src={image_link} className="object-cover w-23 h-13 rounded-lg rounded-lg" alt="request post image" />
               </div>
               <div className="ml-2 col-span-3">
                 <w.SecondHead>{res.title}</w.SecondHead>
@@ -40,7 +40,7 @@ export function PostRequest({ request_list }) {
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-extrabold">요청서 현황</h2>
-      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <w.Horizon />
       {request_list.map((res) => {
         const price = priceToString(res.price)
         const address = res.city + ' ' + res.gu + ' ' + res.dong;
