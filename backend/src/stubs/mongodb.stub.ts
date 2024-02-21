@@ -23,7 +23,7 @@ export const userStub = (): UserInterface => {
     id_card: false,
     image_id: 'default',
     gender: '남',
-    birth: '2002.06.15',
+    birth: '2024-01-10T00:00:00.000Z',
     student_id: 21,
     verify_school: true,
     verify_email: true,
