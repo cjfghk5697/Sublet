@@ -25,8 +25,8 @@ export const userStub = (): UserInterface => {
     gender: '남',
     birth: '2024-01-10T00:00:00.000Z',
     student_id: 21,
-    verify_school: true,
-    verify_email: true,
+    verify_school: false,
+    verify_email: false,
     verify_phone: false,
   };
 };
