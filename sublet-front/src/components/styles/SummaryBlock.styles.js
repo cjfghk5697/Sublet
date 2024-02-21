@@ -23,28 +23,9 @@ float: right;
 ${tw`bg-gray-400 font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `
 
-export const back_button = styled.button`
-position: relative;
-float: left;
-&:hover {
-  background-color: rgb(229 231 235);
-  color: rgb(17 24 39)
-}
-${tw`bg-white text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg ml-4 mb-3`}
-`
 
 export const input_checkbox = styled.input`
 ${tw`mr-1 w-4 h-4 text-blue-600`}
-`
-
-export const put_button = styled.button`
-position: relative;
-float: right;
-&:hover {
-  background-color: rgb(229 231 235);
-  color: rgb(17 24 39)
-}
-${tw`bg-white font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg mb-3 mr-3`}
 `
 
 export const image_upload_button = styled.button`
@@ -100,4 +81,12 @@ ${tw`font-semibold text-gray-400 hover:text-indigo-600`}
 
 export const close_button = styled.button`
 ${tw`bg-white rounded-md inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500`}
+`
+
+export const justify_block = styled.div`
+${tw`font-semibold flex justify-between`}
+`
+
+export const info_text = styled.p`
+${tw`font-light text-gray-600 text-xs`}
 `

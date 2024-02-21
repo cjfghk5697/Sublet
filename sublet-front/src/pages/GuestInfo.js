@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { ReservationInfo } from "../components/Reservation";
+import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
 import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
-import { PostInfo } from "../components/PostBlock.js";
+import { PostInfo } from "../components/guestInfoComponents/PostBlock.js";
 import { FetchGetRequest } from "../components/FetchList.js";
 import { DateFormat, priceToString } from "../components/StaticComponents.js";
 import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
+import Header from "../components/Header.js";
 
 function RequestListComponent() {
   const request = FetchGetRequest()
@@ -114,16 +115,20 @@ function User({ user }) {
   )
 
   return (
-    <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
-      <div className="ml-3 mt-5">
-        {userBaseComponent}
-      </div>
+    <div>
+      <Header />
 
-      <div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
-        <ReservationInfo />
-        {userPrivateComponent}
-        <PostInfo />
-        <RequestListComponent />
+      <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
+        <div className="ml-3 mt-5">
+          {userBaseComponent}
+        </div>
+
+        <div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
+          <ReservationInfo />
+          {userPrivateComponent}
+          <PostInfo />
+          <RequestListComponent />
+        </div>
       </div>
     </div>
   );

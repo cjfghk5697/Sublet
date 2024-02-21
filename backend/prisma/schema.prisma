@@ -23,6 +23,12 @@ model User {
   Request          RequestForm[]
   school           String        @default("무소속")
   id_card          Boolean       @default(false)
+  verify_school    Boolean       @default(false)
+  verify_email     Boolean       @default(false)
+  verify_phone     Boolean       @default(false)
+  birth            DateTime      @db.Date
+  student_id       Int
+  gender           String
 }
 
 model Post {

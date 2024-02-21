@@ -22,6 +22,12 @@ export const userStub = (): UserInterface => {
     school: 'ABC Univ',
     id_card: false,
     image_id: 'default',
+    gender: '남',
+    birth: '2002.06.15',
+    student_id: 21,
+    verify_school: true,
+    verify_email: true,
+    verify_phone: false,
   };
 };
 
@@ -35,6 +41,12 @@ export const userExportStub = (): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
+    gender: userStub().gender,
+    birth: userStub().birth,
+    student_id: userStub().student_id,
+    verify_school: userStub().verify_school,
+    verify_email: userStub().verify_email,
+    verify_phone: userStub().verify_phone,
   };
 };
 
@@ -139,6 +151,9 @@ export const userCreateStub = (): UserCreateDto => {
     password: 'Mocked-password1)',
     school: userStub().school,
     user_id: 'mocked-user_id',
+    gender: '남',
+    birth: userStub().birth,
+    student_id: 21,
   };
 };
 export const userUpdateStub = (): UserUpdateDto => {

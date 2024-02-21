@@ -166,7 +166,7 @@ function DeletePost(key) {
   DeletePost()
 }
 
-function Login({ id, password }) {
+function FetchLogin({ id, password }) {
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -338,4 +338,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { Login, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

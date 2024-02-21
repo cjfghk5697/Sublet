@@ -1,6 +1,6 @@
-import { DateFormat, priceToString } from "./StaticComponents"
-import * as w from "../components/styles/Wrapper.style"
-import * as s from "../components/styles/SummaryBlock.styles.js"
+import { DateFormat, priceToString } from "../StaticComponents"
+import * as w from "../styles/Wrapper.style"
+import * as s from "../styles/SummaryBlock.styles.js"
 export function RequestByPostKeyInfo({ Post }) {
   return (
     <div className="mb-4">
