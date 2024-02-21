@@ -2,6 +2,7 @@ import { Test } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { UserExportInterface } from '@/interface/user.interface';
 import {
+  userCreateStub,
   userExportStub,
   userFilterStub,
   userStub,
@@ -128,7 +129,7 @@ describe('UserService', () => {
       let result: UserExportInterface | undefined;
       beforeEach(async () => {
         try {
-          result = await service.createUser(userStub());
+          result = await service.createUser(userCreateStub());
         } catch (_e) {
           result = undefined;
         }

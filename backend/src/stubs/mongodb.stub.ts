@@ -156,6 +156,7 @@ export const userCreateStub = (): UserCreateDto => {
     student_id: 21,
   };
 };
+
 export const userUpdateStub = (): UserUpdateDto => {
   return {
     username: 'mocked-username',
