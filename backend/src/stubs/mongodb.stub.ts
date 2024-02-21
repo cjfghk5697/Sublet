@@ -94,6 +94,7 @@ export const postStub = (): PostInterface => {
     id: 'mocked-id',
     deleted: false,
     version: 1,
+    postuser: userStub(),
   };
 };
 

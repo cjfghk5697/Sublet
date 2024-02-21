@@ -7,6 +7,7 @@ import { MongodbReservationService } from './mongodb.reservation.service';
 import { MongodbUserService } from './mongodb.user.service';
 import { MongodbUserImageService } from './mongodb.userimage.service';
 import { MongodbRequestService } from './mongodb.request.service';
+import { MongodbChatService } from './mongodb.chat.service';
 
 @Module({
   providers: [
@@ -18,6 +19,7 @@ import { MongodbRequestService } from './mongodb.request.service';
     MongodbUserService,
     MongodbUserImageService,
     MongodbRequestService,
+    MongodbChatService,
   ],
   exports: [
     PrismaService,
@@ -28,6 +30,7 @@ import { MongodbRequestService } from './mongodb.request.service';
     MongodbUserService,
     MongodbUserImageService,
     MongodbRequestService,
+    MongodbChatService,
   ],
 })
 export class MongodbModule {}

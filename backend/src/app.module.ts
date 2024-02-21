@@ -13,6 +13,7 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { RequestModule } from './modules/request/request.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RequestModule } from './modules/request/request.module';
     ConfigModule.forRoot(),
     ReservationModule,
     RequestModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

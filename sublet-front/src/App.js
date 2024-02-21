@@ -5,8 +5,10 @@ import SearchSubletInfo from './pages/SearchSubletInfo';
 import ReHome from './pages/ReHome';
 import Booking from './pages/Booking';
 import GuestInfo from './pages/GuestInfo.js'
+import TestChat from './pages/test_chat/TestChat.js'
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
+import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path='/Profile' element={<GuestInfo />} />
+        <Route path="/test/chat" element={<TestChat />} />
+        <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
 
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />

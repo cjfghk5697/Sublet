@@ -8,6 +8,7 @@ import {
   IsPositive,
   IsString,
 } from 'class-validator';
+import { UserInterface } from './user.interface';
 
 export class PostBase {
   @IsString()
@@ -256,4 +257,5 @@ export class PostInterface extends PostExportInterface {
   id: string;
   deleted: boolean;
   version: number;
+  postuser: UserInterface;
 }
