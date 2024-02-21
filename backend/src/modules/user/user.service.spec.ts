@@ -5,7 +5,6 @@ import {
   userCreateStub,
   userExportStub,
   userFilterStub,
-  userStub,
   userUpdateStub,
 } from '../../stubs/mongodb.stub';
 import { MongodbModule } from '../mongodb/mongodb.module';
