@@ -70,7 +70,6 @@ export class MongodbUserService {
     if (!result) {
       throw Error('[mongodb.service:getUserPostByKey] result null');
     }
-    console.log('[mongodb.service:getUserPostByKey] result', result);
     return result;
   }
 

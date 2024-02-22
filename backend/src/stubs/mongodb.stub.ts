@@ -22,6 +22,7 @@ export const userStub = (): UserInterface => {
     school: 'ABC Univ',
     id_card: false,
     image_id: 'default',
+    like_post_id: [],
   };
 };
 
@@ -35,6 +36,7 @@ export const userExportStub = (): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
+    like_post_id: [],
   };
 };
 
@@ -86,6 +88,8 @@ export const postExportStub = (): PostExportInterface => {
     private: false,
     request: false,
     requestIDs: [],
+    like_count: 0,
+    like_user_id: [],
   };
 };
 

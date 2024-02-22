@@ -18,11 +18,13 @@ model User {
   email            String        @unique
   phone            String        @unique
   reservation_post Reservation[]
-  Post             Post[]
+  post             Post[]
   delete           Boolean       @default(false)
   Request          RequestForm[]
   school           String        @default("무소속")
   id_card          Boolean       @default(false)
+  like_post_id     String[]      @db.ObjectId
+  like_post        Post[]        @relation("like", fields: [like_post_id], references: [id])
 }
 
 model Post {
@@ -68,6 +70,9 @@ model Post {
   local_save        Boolean       @default(false)
   RequestForm       RequestForm[] @relation(fields: [requestIDs], references: [id])
   requestIDs        String[]      @db.ObjectId
+  like_count        Int           @default(0)
+  like_user_id      String[]      @db.ObjectId
+  like_user         User[]        @relation("like", fields: [like_user_id], references: [id])
 }
 
 model IncrementKey {

@@ -149,10 +149,10 @@ describe('AppController (e2e)', () => {
     it('cannot login to non-existing user', async () => {
       await request(app.getHttpServer())
         .get(`/user/${userCreateStub().user_id}`)
+        .expect(404)
         .expect(({ body }) => {
-          console.log(body);
-        })
-        .expect(404);
+          expect(body).toStrictEqual({ message: 'Not Found', statusCode: 404 });
+        });
 
       return request(app.getHttpServer())
         .post('/auth/login')

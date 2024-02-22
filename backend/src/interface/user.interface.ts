@@ -25,6 +25,7 @@ export class UserExportInterface extends UserBase {
   school: string;
   phone: string;
   id_card: boolean;
+  like_post_id: string[];
 }
 
 export class UserInterface extends UserExportInterface {

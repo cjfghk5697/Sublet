@@ -251,6 +251,8 @@ export class PostExportInterface extends PostBase {
   private: boolean;
   request: boolean;
   requestIDs: string[];
+  like_count: number;
+  like_user_id: string[];
 }
 
 export class PostInterface extends PostExportInterface {
