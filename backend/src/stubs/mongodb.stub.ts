@@ -27,6 +27,7 @@ export const userStub = (): UserInterface => {
     school: 'ABC Univ',
     id_card: false,
     image_id: 'default',
+    like_post_id: [],
     gender: '남',
     birth: '2024-01-10T00:00:00.000Z',
     student_id: 21,
@@ -46,6 +47,7 @@ export const userExportStub = (): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
+    like_post_id: [],
     gender: userStub().gender,
     birth: userStub().birth,
     student_id: userStub().student_id,
@@ -103,6 +105,8 @@ export const postExportStub = (): PostExportInterface => {
     private: false,
     request: false,
     requestIDs: [],
+    like_count: 0,
+    like_user_id: [],
   };
 };
 
