@@ -1,7 +1,12 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { RequestBase, RequestInterface } from '@/interface/request.interface';
@@ -23,6 +28,12 @@ export const userStub = (): UserInterface => {
     id_card: false,
     image_id: 'default',
     like_post_id: [],
+    gender: '남',
+    birth: '2024-01-10T00:00:00.000Z',
+    student_id: 21,
+    verify_school: false,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 
@@ -37,6 +48,12 @@ export const userExportStub = (): UserExportInterface => {
     image_id: userStub().image_id,
     id_card: userStub().id_card,
     like_post_id: [],
+    gender: userStub().gender,
+    birth: userStub().birth,
+    student_id: userStub().student_id,
+    verify_school: userStub().verify_school,
+    verify_email: userStub().verify_email,
+    verify_phone: userStub().verify_phone,
   };
 };
 
@@ -143,8 +160,12 @@ export const userCreateStub = (): UserCreateDto => {
     password: 'Mocked-password1)',
     school: userStub().school,
     user_id: 'mocked-user_id',
+    gender: '남',
+    birth: userStub().birth,
+    student_id: 21,
   };
 };
+
 export const userUpdateStub = (): UserUpdateDto => {
   return {
     username: 'mocked-username',
@@ -154,6 +175,13 @@ export const userUpdateStub = (): UserUpdateDto => {
     school: 'ABC univ',
     user_id: 'mocked-user_id',
     image_id: 'second image',
+  };
+};
+export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
+  return {
+    verify_school: true,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 

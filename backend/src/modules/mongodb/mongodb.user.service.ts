@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 
 import * as bcrypt from 'bcrypt';
 import { PostInterface } from '@/interface/post.interface';
@@ -115,6 +120,20 @@ export class MongodbUserService {
     });
     if (!res) {
       throw Error('[mongodb.service:putOneUser] user doesnt exist');
+    }
+    return res;
+  }
+  async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: putUserBody,
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putVerifyUser] user doesnt exist');
     }
     return res;
   }

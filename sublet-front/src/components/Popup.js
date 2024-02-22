@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import * as s from './styles/SummaryBlock.styles.js'
-import './styles/Popup.styles.css'
+import * as w from './styles/Wrapper.style.js'
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
-import { FetchImage } from "./FetchList";
+import { FetchImage, FetchLogin } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
-import { Alert } from "./StaticComponents.js";
-import { DialogTitle } from "@mui/material";
+import { Alert, Information, StyleComponent } from "./StaticComponents.js";
+import { DialogTitle, DialogActions } from "@mui/material";
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore((state) => ({
@@ -52,10 +52,10 @@ export function ImageDialog() {
     <>
       <Dialog open={imagePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" className='float-right'>
-            <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <s.close_button type="button" onClick={handleClose} className='float-right'>
+            <StyleComponent
+              content="CloseButton"
+            />
           </s.close_button>
         </DialogTitle>
 
@@ -65,14 +65,11 @@ export function ImageDialog() {
             {imgFile ? (
               <img src={imgFile} alt="프로필 이미지" />
             ) : (
-              <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                </div>
+              <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100">
+                <StyleComponent
+                  content="ImageDrop"
+                />
+
                 <input id="dropzone-file" type="file" className="hidden"
                   onChange={saveImgFile}
                   ref={imgRef}
@@ -160,16 +157,16 @@ export function EmailDialog({ originalEmail }) {
         <DialogTitle>
           <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
 
-          <s.close_button type="button" className='float-right'>
-            <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <s.close_button type="button" onClick={handleClose} className='float-right'>
+            <StyleComponent
+              content="CloseButton"
+            />
           </s.close_button>
         </DialogTitle>
         <DialogContent className='text-center' sx={{ height: 120, width: 312 }}>
 
           <form>
-            <input type="email" id="email" onChange={emailChange} value={emailState} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+            <input type="email" id="email" onChange={emailChange} value={emailState} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required />
           </form>
 
           <div className='mt-4'>
@@ -236,16 +233,16 @@ export function PhoneDialog({ originalPhone }) {
         <DialogTitle>
           <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
 
-          <s.close_button type="button" className='float-right'>
-            <svg class="h-6 w-6" onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <s.close_button type="button" onClick={handleClose} className='float-right'>
+            <StyleComponent
+              content="CloseButton"
+            />
           </s.close_button>
         </DialogTitle>
         <DialogContent sx={{ height: 120, width: 312 }} className='text-center'>
 
           <form>
-            <input type="tel" id="tel" onChange={phoneChange} value={phoneState} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+            <input type="tel" id="tel" onChange={phoneChange} value={phoneState} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required />
           </form>
           <div className='mt-4'>
             <s.black_upload_button onClick={clickHandle} >
@@ -309,4 +306,136 @@ export function ShareDialog({ content }) {
     </div >
   )
   // 선택 후 복사
+}
+
+export function RequestSummaryDetailDialog({ address, contract, accomodation_type, pay, start_date, end_date }) {
+  const info_list = {
+    '숙소 유형': accomodation_type,
+    '요금': pay,
+    '체크인': start_date,
+    '체크아웃': end_date,
+  }
+  return (
+    <>
+      <w.SecondHead>{address} </w.SecondHead>
+
+      <w.Horizon />
+      {
+        contract ?
+          (<p>계약된 매물만 확인</p>) :
+          (<p>계약 안된 매물도 확인</p>)
+      }
+      {
+        Object.keys(info_list).map((k => (
+          <Information title={k}
+            info={info_list[k]} />
+        )))
+      }
+    </>
+  )
+}
+
+export function PostSummaryDetailDialog({ title, contract, private_post, accomodation_type, post_date, pay, address }) {
+  const info_list = {
+    '숙소 유형': accomodation_type,
+    '게시일': post_date,
+    '요금': pay,
+    '주소': address,
+  }
+  return (
+    <>
+      <div className="inline-block">
+        <h2 className="text-2xl font-extrabold float-start mr-4">{title} </h2>
+        {contract ?
+          (
+            <StyleComponent
+              content="VerifyRoom" />
+          ) :
+          (
+            <StyleComponent
+              content="UnverifyRoom" />
+          )}
+      </div>
+      {private_post ? <p className="font-sm text-black font-bold">공개</p>
+        : <p className="font-sm text-gray-600 font-bold">비공개</p>}
+      {/* 공개 변경 버튼 추가 */}
+      <hr className="h-px bg-gray-200 border-0" />
+      {Object.keys(info_list).map((k => (
+        <Information title={k}
+          info={info_list[k]} />
+      )))}
+    </>
+  )
+}
+
+export function LoginDialog() {
+  const [idState, setIdState] = useState('')
+  const [passwordState, setPasswordState] = useState('')
+  const [popUpState, setPopUpState] = useState(false)
+  const idChange = (e) => {
+    setIdState(e.target.value)
+  }
+  const passwordChange = (e) => {
+    setPasswordState(e.target.value)
+  }
+
+  const loginHandled = () => {
+    const id = idState
+    const password = passwordState
+    FetchLogin({ id, password })
+    setPopUpState(false)
+  };
+
+
+  return (
+    <div>
+      <button onClick={() => { setPopUpState(!popUpState) }}>Login</button>
+      <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogTitle>
+          <s.close_button type="button" onClick={() => { setPopUpState(!popUpState) }} className='float-right'>
+            <StyleComponent
+              content='CloseButton' />
+          </s.close_button>
+        </DialogTitle>
+        <DialogContent>
+          <s.start_div>
+            <div className="mb-4">
+              <div className="float-left">
+                <p className="text-2xl font-extrabold">로그인</p>
+                <p className="text-base text-gray"> 합리적인 가격의 다양한 집을 확인하세요.</p>
+              </div>
+            </div>
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+
+              <div>
+                <s.label for="id">email</s.label>
+                <div class="mt-2">
+                  <s.input_text required="" type="text" placeholder="아이디" onChange={idChange} value={idState} />
+                </div>
+              </div>
+
+              <div>
+                <div class="mt-2 flex items-center justify-between">
+                  <s.label for="password">Password</s.label>
+                  <div class="text-sm">
+                    <s.forget_password href="#">Forgot password?</s.forget_password>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <s.input_text type="password" placeholder="비밀번호" onChange={passwordChange} value={passwordState} />
+                </div>
+              </div>
+            </div>
+          </s.start_div>
+        </DialogContent>
+        <DialogActions>
+          <div>
+            <s.fetch_button type="submit" onClick={loginHandled} className="">
+              로그인 하기
+            </s.fetch_button>
+          </div>
+        </DialogActions>
+      </Dialog >
+    </div>
+  )
 }

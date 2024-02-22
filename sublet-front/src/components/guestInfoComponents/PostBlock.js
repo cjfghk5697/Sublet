@@ -1,9 +1,8 @@
-import { PostSummaryBlock } from "./SummaryBlock";
-import { DateFormat, priceToString } from "./StaticComponents.js";
-import * as s from './styles/SummaryBlock.styles.js'
-import './styles/Popup.styles.css'
-import { FetchPost } from "./FetchList";
-import * as w from "./styles/Wrapper.style.js";
+import { PostSummaryBlock } from "../SummaryBlock";
+import { DateFormat, priceToString } from "../StaticComponents.js";
+import * as s from '../styles/SummaryBlock.styles.js'
+import { FetchPost } from "../FetchList";
+import * as w from "../styles/Wrapper.style.js";
 
 
 function PostInfo() {
@@ -20,7 +19,7 @@ function PostInfo() {
         const price = priceToString(res.price);
 
         return (
-          < PostSummaryBlock
+          <PostSummaryBlock
             requestForm={res.RequestForm}
             id_list={res.requestIDs}
             title={res.title}

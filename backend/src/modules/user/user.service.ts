@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { createHash } from 'crypto';
 import { writeFile } from 'fs/promises';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
@@ -52,7 +57,11 @@ export class UserService {
     const exportUser = this.transformExport(user);
     return exportUser;
   }
-
+  async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+    const user = await this.userdb.putOneUser(user_id, putUserBody);
+    const exportUser = this.transformExport(user);
+    return exportUser;
+  }
   async filterUser(query: UserFilterDto) {
     const res = await this.userdb.filterUser(query);
 
