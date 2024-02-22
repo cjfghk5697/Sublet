@@ -7,7 +7,8 @@ import SearchPriceRange from "./HeaderComponents/SearchPriceRange.js";
 import { Favorite } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link, useLocation } from "react-router-dom";
-import LoginPage from "./LoginPage.js";
+import { LoginDialog } from "./Popup.js";
+
 import Button from "@mui/material/Button";
 import SearchLocation from "./HeaderComponents/SearchLocation.js";
 
@@ -147,7 +148,7 @@ const Header = () => {
           <span
             className="font-semibold leading-6 text-gray-900"
           >
-            <SearchLocation/>
+            <SearchLocation />
           </span>
           <span
             className="font-semibold leading-6 text-gray-900"
@@ -185,7 +186,7 @@ const Header = () => {
               href="#"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
-              <LoginPage style={styles.profile} />
+              <LoginDialog style={styles.profile} />
             </a>
           )}
         </div>

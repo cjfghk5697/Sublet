@@ -1,7 +1,7 @@
-import { DateFormat, priceToString } from "./StaticComponents";
-import { ReservationSummaryBlock } from "./SummaryBlock";
-import { FetchReservation, FetchReservationByPostKey } from "./FetchList";
-import { Horizon } from "./styles/Wrapper.style";
+import { DateFormat, priceToString } from "../StaticComponents";
+import { ReservationSummaryBlock } from "../SummaryBlock";
+import { FetchReservation, FetchReservationByPostKey } from "../FetchList";
+import { Horizon } from "../styles/Wrapper.style";
 
 function ReservationByPostKeyInfo({ post_key }) {
   const reservation = FetchReservationByPostKey(post_key)
