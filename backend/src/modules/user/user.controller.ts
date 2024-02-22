@@ -18,7 +18,12 @@ import {
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -101,6 +106,23 @@ export class UserController {
       return res;
     } catch (e) {
       console.log('[user.controller:putOneUser] error: ', e);
+      throw new NotFoundException();
+    }
+  }
+  @Put('verifyupdate')
+  @UseGuards(LoggedInGuard)
+  async putVerifyUser(
+    @Body() putUserBody: UserVerifyUpdateDto,
+    @Req() req: customRequest,
+  ) {
+    try {
+      const res = await this.userService.putVerifyUser(
+        req.user.user_id,
+        putUserBody,
+      );
+      return res;
+    } catch (e) {
+      console.log('[user.controller:putVerifyUser] error: ', e);
       throw new NotFoundException();
     }
   }

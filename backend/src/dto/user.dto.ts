@@ -69,7 +69,9 @@ export class UserUpdateDto extends UserPartialBase {
   @IsNumber()
   @IsInt()
   student_id?: number;
+}
 
+export class UserVerifyUpdateDto extends UserPartialBase {
   @IsOptional()
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();

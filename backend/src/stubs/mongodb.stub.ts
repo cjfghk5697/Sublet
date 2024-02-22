@@ -1,7 +1,12 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { RequestBase, RequestInterface } from '@/interface/request.interface';
@@ -166,6 +171,13 @@ export const userUpdateStub = (): UserUpdateDto => {
     school: 'ABC univ',
     user_id: 'mocked-user_id',
     image_id: 'second image',
+  };
+};
+export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
+  return {
+    verify_school: true,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 
