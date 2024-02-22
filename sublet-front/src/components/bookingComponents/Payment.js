@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "react-credit-cards-2";
-import * as s from "../components/styles/SummaryBlock.styles";
+import * as s from "../styles/SummaryBlock.styles";
 import {
   formatCreditCardNumber,
   formatCVC,

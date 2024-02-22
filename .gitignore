@@ -128,3 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+sublet-front/src/pages/TestPage.js
+sublet-front/src/pages/TestPage2.js
+sublet-front/src/store/HeaderStore/testDataStore.js

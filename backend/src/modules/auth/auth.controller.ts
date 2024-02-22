@@ -26,6 +26,5 @@ export class AuthController {
       }
       res.send({ ok: true });
     });
-    console.log('logout');
   }
 }

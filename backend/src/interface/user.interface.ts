@@ -25,6 +25,13 @@ export class UserExportInterface extends UserBase {
   school: string;
   phone: string;
   id_card: boolean;
+  like_post_id: string[];
+  gender: string;
+  birth: string | Date;
+  student_id: number;
+  verify_school: boolean;
+  verify_email: boolean;
+  verify_phone: boolean;
 }
 
 export class UserInterface extends UserExportInterface {
