@@ -250,6 +250,9 @@ export class PostExportInterface extends PostBase {
   post_date: Date | string;
   private: boolean;
   request: boolean;
+  requestIDs: string[];
+  like_count: number;
+  like_user_id: string[];
 }
 
 export class PostInterface extends PostExportInterface {

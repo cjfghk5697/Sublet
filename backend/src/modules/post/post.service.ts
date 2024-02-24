@@ -160,6 +160,16 @@ export class PostService {
     return res;
   }
 
+  async likePost(post_key: number, user: UserInterface) {
+    const res = await this.postdb.likePost(post_key, user);
+    return res;
+  }
+
+  async unlikePost(post_key: number, user: UserInterface) {
+    const res = await this.postdb.unlikePost(post_key, user);
+    return res;
+  }
+
   transformExport(post: PostInterface): PostExportInterface {
     delete (post as { id?: string }).id;
     delete (post as { deleted?: boolean }).deleted;

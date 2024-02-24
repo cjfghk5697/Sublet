@@ -97,6 +97,7 @@ export default function Map(props) {
 
   useEffect(() => {
     createMap();
+    props.type == "searchByMarker" && searchingByDragAdd();
     createMarker();
   }, [markerAll]);
 
@@ -140,10 +141,29 @@ export default function Map(props) {
       const mapLatLng = new window.naver.maps.LatLng(Number(post?.y_coordinate), Number(post?.x_coordinate));
       //부드럽게 이동하기
       mapRef.current.panTo(mapLatLng, e?.coord);
+      console.log(e?.coord);
     });
   }
 
+  const searchingByDragAdd = () => {
+    window.naver.maps.Event.addListener(
+      mapRef.current,
+      "dragend",
+      dragendEvent
+    );
+    const mapLatLng = new window.naver.maps.LatLng(Number(props?.currentPos[0]), Number(props?.currentPos[1]));
+    mapRef.current.panTo(mapLatLng, {x: props.currentPos[0], y: props.currentPos[1]});
+  }
+
+  const dragendEvent = () => {
+    let center = mapRef.current.getCenter();
+    props.setPos([center.y, center.x]);
+  }
+
   return (
+    props.type == "searchByMarker"?
+    <div id="map" className="h-screen w-full rounded-lg" style={{display: 'flex', height: 'calc(50vh'}} />
+    :
     <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
   )
 }

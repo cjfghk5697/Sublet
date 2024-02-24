@@ -1,10 +1,15 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { RequestDeleteInterface } from '@/interface/request.interface';
+import { RequestBase, RequestInterface } from '@/interface/request.interface';
 import { ReservationInterface } from '@/interface/reservation.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
@@ -22,6 +27,13 @@ export const userStub = (): UserInterface => {
     school: 'ABC Univ',
     id_card: false,
     image_id: 'default',
+    like_post_id: [],
+    gender: '남',
+    birth: '2024-01-10T00:00:00.000Z',
+    student_id: 21,
+    verify_school: false,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 
@@ -35,6 +47,13 @@ export const userExportStub = (): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
+    like_post_id: [],
+    gender: userStub().gender,
+    birth: userStub().birth,
+    student_id: userStub().student_id,
+    verify_school: userStub().verify_school,
+    verify_email: userStub().verify_email,
+    verify_phone: userStub().verify_phone,
   };
 };
 
@@ -85,6 +104,9 @@ export const postExportStub = (): PostExportInterface => {
     end_day: new Date(createStub.end_day).toISOString(),
     private: false,
     request: false,
+    requestIDs: [],
+    like_count: 0,
+    like_user_id: [],
   };
 };
 
@@ -138,8 +160,12 @@ export const userCreateStub = (): UserCreateDto => {
     password: 'Mocked-password1)',
     school: userStub().school,
     user_id: 'mocked-user_id',
+    gender: '남',
+    birth: userStub().birth,
+    student_id: 21,
   };
 };
+
 export const userUpdateStub = (): UserUpdateDto => {
   return {
     username: 'mocked-username',
@@ -149,6 +175,13 @@ export const userUpdateStub = (): UserUpdateDto => {
     school: 'ABC univ',
     user_id: 'mocked-user_id',
     image_id: 'second image',
+  };
+};
+export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
+  return {
+    verify_school: true,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 
@@ -187,6 +220,27 @@ export const reservationInterfaceStub = (): ReservationInterface => {
   };
 };
 
+export const requestCreateStub = (): RequestBase => {
+  return {
+    price: 200000,
+    start_day: '2024-01-10T00:00:00.000Z',
+    end_day: '2024-04-05T00:00:00.000Z',
+    limit_people: 2,
+    number_room: 3,
+    number_bathroom: 3,
+    number_bedroom: 3,
+    accomodation_type: '전대',
+    building_type: '아파트',
+    contract: true,
+    city: 'seoul',
+    gu: 'jongro',
+    dong: 'aaa',
+    alarm: true,
+    school: '아주대',
+    complete: false,
+  };
+};
+
 export const requestStub = (): RequestDto => {
   return {
     key: 2,
@@ -205,10 +259,13 @@ export const requestStub = (): RequestDto => {
     dong: 'aaa',
     alarm: true,
     school: '아주대',
+    complete: false,
   };
 };
-export const requestDeleteStub = (): RequestDeleteInterface => {
+export const requestInterfaceStub = (): RequestInterface => {
   return {
+    id: '3',
+    delete: true,
     key: 2,
     price: 200000,
     start_day: '2024-01-10T00:00:00.000Z',
@@ -225,6 +282,14 @@ export const requestDeleteStub = (): RequestDeleteInterface => {
     dong: 'aaa',
     alarm: true,
     school: '아주대',
-    delete: true,
+    complete: true,
+    User: {
+      ...userExportStub(),
+    },
+    Post: [
+      {
+        ...postExportStub(),
+      },
+    ],
   };
 };

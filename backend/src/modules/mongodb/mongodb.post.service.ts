@@ -158,4 +158,59 @@ export class MongodbPostService {
     });
     return res;
   }
+
+  async likePost(post_key: number, user: UserInterface) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key: post_key,
+        version: { gte: this.POST_VERSION },
+        deleted: false,
+        like_user: {
+          none: {
+            id: user['id'],
+          },
+        },
+      },
+      data: {
+        like_count: {
+          increment: 1,
+        },
+        like_user: {
+          connect: {
+            id: user['id'],
+          },
+        },
+      },
+    });
+    return res;
+  }
+
+  async unlikePost(post_key: number, user: UserInterface) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key: post_key,
+        version: { gte: this.POST_VERSION },
+        deleted: false,
+        like_user: {
+          some: {
+            id: user['id'],
+          },
+        },
+      },
+      data: {
+        like_count: {
+          decrement: 1,
+        },
+        like_user: {
+          disconnect: {
+            id: user['id'],
+          },
+        },
+      },
+      include: {
+        like_user: true,
+      },
+    });
+    return res;
+  }
 }
