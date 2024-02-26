@@ -249,9 +249,6 @@ async function GetOneUser(user_id) {
 
     setRequestInfo(json)
   }
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   return requestInfo
 }

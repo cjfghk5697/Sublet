@@ -9,7 +9,7 @@ import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 import { Alert, Information, StyleComponent } from "./StaticComponents.js";
 import { DialogTitle, DialogActions } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import GoogleButton from "./loginComponents/Google.js"
+import { GoogleButton } from "./loginComponents/Google.js"
 import NaverLogin from "./loginComponents/Naver.js";
 
 export function ImageDialog() {

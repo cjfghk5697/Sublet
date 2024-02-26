@@ -1,5 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
-import { FetchLogin, GetOneUser } from '../FetchList';
+import { FetchLogin } from '../FetchList';
 
 function decodeJwtResponse(token) {
   var base64Url = token.split('.')[1];
@@ -10,7 +10,7 @@ function decodeJwtResponse(token) {
 
   return JSON.parse(jsonPayload);
 }
-export default function GoogleButton() {
+export function GoogleButton() {
 
   return (
     <>
@@ -18,17 +18,19 @@ export default function GoogleButton() {
         onSuccess={credentialResponse => {
           console.log(credentialResponse.credential);
           const decodeding = decodeJwtResponse(credentialResponse.credential);
-          if (GetOneUser(decodeding.email)) {
-            FetchLogin(decodeding.email, 'googleloginmethod')
-          } else {
-            /*
-            구글 정보 가져올 부분
-            username=name, email=email, userId=email, verifyemail=true, passworrd: googlelogin
-            추가 입력되어야함
-            school, student_id, phone, gender, birth 
-            */
-            console.log('회원가입으로 넘어가기 구현안됨')
-          }
+          const email = decodeding.email
+          FetchLogin({ id: email, password: 'googleLogin!2#1' })
+          // if (GetOneUser(email)) {
+          //   FetchLogin({ id: email, password: 'googleLogin!2#1' })
+          // } else {
+          //   /*
+          //   구글 정보 가져올 부분
+          //   username=name, email=email, userId=email, verifyemail=true, passworrd: googlelogin
+          //   추가 입력되어야함
+          //   school, student_id, phone, gender, birth 
+          //   */
+          //   console.log('회원가입으로 넘어가기 구현안됨')
+          // }
 
         }}
         onError={() => {
