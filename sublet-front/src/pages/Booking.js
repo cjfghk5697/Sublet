@@ -13,7 +13,7 @@ import { Box, TextField } from "@mui/material";
 import { useTitle } from "../components/hook/HookCollect"
 
 export default function Booking(user_id) {
-  useTitle("예약하기 | Sublet")
+  useTitle("예약하기 | ItHome")
   const { temp_start_day, temp_end_day, day_pay, total_pay, post_key } = bookingPopUpStore((state) => ({
     temp_start_day: state.temp_start_day,
     temp_end_day: state.temp_end_day,
@@ -52,7 +52,7 @@ export default function Booking(user_id) {
         <div>
           {total_day >= 28 && (
             <div className="ml-2 mt-4">
-              <s.justify_block className="font-semibold flex justify-between">
+              <s.justify_block>
                 <p className="text-l">매월 결제 금액</p>
                 <p className="text-l mr-4">{priceToString(month_pay)} 원</p>
               </s.justify_block>

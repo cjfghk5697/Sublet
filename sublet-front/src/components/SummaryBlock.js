@@ -174,10 +174,10 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
           src={image_link}></img>
       </div>
       <div className="mb-2 ml-3 col-span-4">
-        <h2 className="text-2xl font-extrabold">{title}</h2>
-        <p className="ml-3 text-lg font-medium">호스트: {host}</p>
-        <p className="ml-3 text-lg font-medium">기간: {startStr} ~ {endStr}</p>
-        <p className="ml-3 text-lg font-medium">비용: {pay}</p>
+        <w.SecondHead>{title}</w.SecondHead>
+        <w.DetailParagraph>호스트: {host}</w.DetailParagraph>
+        <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
+        <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
         <div>
           <div>
             <s.reservation_cancel_button
@@ -271,7 +271,7 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <div className="inline-block">
-          <h2 className="text-2xl font-extrabold float-start mr-4">{title} </h2>
+          <w.SecondHead className="float-start mr-4">{title} </w.SecondHead>
           {contract ?
             (
               <StyleComponent
@@ -282,8 +282,8 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
             )}
         </div>
 
-        <p className="ml-3 text-lg font-medium">주소: {address}</p>
-        <p className="ml-3 text-lg font-medium">숙박료: {pay}</p>
+        <w.DetailParagraph>주소: {address}</w.DetailParagraph>
+        <w.DetailParagraph>숙박료: {pay}</w.DetailParagraph>
         <div className="block">
           <s.post_detail_button name="detailDialogShow" onClick={onChange}>
             상세 정보
