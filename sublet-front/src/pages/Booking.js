@@ -116,7 +116,6 @@ export default function Booking(user_id) {
             }
             <s.info_text className="mt-2">
               <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
-
               체크박스를 클릭하시면 이체를 완료하셨음을 동의하는 것입니다.
             </s.info_text>
           </Box>
