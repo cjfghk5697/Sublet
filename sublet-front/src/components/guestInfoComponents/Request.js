@@ -4,7 +4,7 @@ import * as s from "../styles/SummaryBlock.styles.js"
 export function RequestByPostKeyInfo({ Post }) {
   return (
     <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">응답 현황</h2>
+      <w.SecondHead>응답 현황</w.SecondHead>
       <w.Horizon />
       {Post.map((res) => {
         const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${res.image_id[0]}.jpg`
@@ -39,7 +39,7 @@ export function RequestByPostKeyInfo({ Post }) {
 export function PostRequest({ request_list }) {
   return (
     <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">요청서 현황</h2>
+      <w.SecondHead>요청서 현황</w.SecondHead>
       <w.Horizon />
       {request_list.map((res) => {
         const price = priceToString(res.price)

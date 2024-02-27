@@ -47,18 +47,13 @@ export const black_upload_button = styled.button`
 ${tw`bg-black clear-both float-end text-white font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
 `
 export const black_upload_button_disabled = styled.button`
-
 ${tw`bg-gray-400 float-end text-black font-semibold py-1 px-2 border border-gray-200 shadow-xl rounded-lg`}
 `
-
 
 export const post_detail_button = styled.button`
 ${tw`bg-white hover:bg-gray-100 text-black font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `
 
-export const input_text = styled.input`
-${tw`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-`
 export const input_text_without_block = styled.input`
 ${tw`rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
 `
@@ -68,11 +63,7 @@ ${tw`flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-sem
 `
 
 export const label = styled.label`
-${tw`block text-sm font-medium leading-6 text-gray-900 ml-1`}
-`
-
-export const start_div = styled.label`
-${tw`flex min-h-full flex-col justify-center px-6 py-12 lg:px-8`}
+${tw`block mb-0.5 text-sm font-semibold text-gray-900`}
 `
 
 export const forget_password = styled.a`
