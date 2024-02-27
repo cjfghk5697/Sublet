@@ -9,6 +9,14 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { MongodbChatService } from '../mongodb/mongodb.chat.service';
+import {
+  ChatDeleteDto,
+  ChatGetLogDto,
+  ChatJoinRoomDto,
+  ChatLeaveRoomDto,
+  ChatLoginDto,
+  ChatSendMessageDto,
+} from '@/dto/chat.dto';
 
 @WebSocketGateway({
   cors: {
@@ -29,18 +37,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log('disconnect, ', client.id);
   }
 
-  @SubscribeMessage('connection')
-  handleConnect(): string {
-    console.log('wow!');
-    return 'Hello World!!!!';
-  }
-
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() data: string): string {
-    console.log('data', data);
-    return 'Hello world!';
-  }
-
   @SubscribeMessage('testing')
   handleTesting(@MessageBody() data: string): string {
     console.log('Testing message: data', data);
@@ -49,7 +45,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('login')
   async handleLogin(
-    @MessageBody() user_id: string,
+    @MessageBody() { user_id }: ChatLoginDto,
     @ConnectedSocket() client: Socket,
   ) {
     const roomsInfo = await this.mongoDb.getRoom(user_id);
@@ -61,10 +57,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('join_chatroom')
-  async handleJoinChatroom(
-    @MessageBody() chatInfo: { user1: string; user2: string; postKey: number },
-    @ConnectedSocket() client: Socket,
-  ) {
+  async handleJoinChatroom(@MessageBody() chatInfo: ChatJoinRoomDto) {
     if (chatInfo.user1 === chatInfo.user2) {
       throw Error('same user tried to make room');
     }
@@ -76,10 +69,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (room) {
       throw Error('room already exists');
     }
-    console.log('user1', chatInfo);
-
-    console.log(this.server.sockets.adapter.rooms);
-    console.log('client', client.id);
     const result = await this.mongoDb.makeRoom(
       chatInfo.user1,
       chatInfo.user2,
@@ -94,16 +83,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('send_message')
-  async sendMessage(
-    @MessageBody()
-    message: {
-      user_id: string;
-      user_custom_id: string;
-      message: string;
-      room_id: string;
-    },
-    @ConnectedSocket() client: Socket,
-  ) {
+  async sendMessage(@MessageBody() message: ChatSendMessageDto) {
     const ret = await this.mongoDb.addChatLog(
       message.room_id,
       message.user_id,
@@ -115,15 +95,25 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('get_chatlog')
-  async getChatLog(@MessageBody() room_id: string) {
+  async getChatLog(@MessageBody() { room_id }: ChatGetLogDto) {
     const ret = await this.mongoDb.getChatLog(room_id);
     return ret;
   }
 
   @SubscribeMessage('delete_message')
-  async deleteChatLog(@MessageBody() chat_id: string) {
+  async deleteChatLog(@MessageBody() { chat_id }: ChatDeleteDto) {
     const ret = await this.mongoDb.deleteChatLog(chat_id);
     this.server.to(ret.chatroom_id).emit('delete_message', ret.id);
+    return ret;
+  }
+
+  @SubscribeMessage('leave_chatroom')
+  async leaveChatRoom(
+    @MessageBody() { room_id, user_id }: ChatLeaveRoomDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    client.leave(room_id);
+    const ret = await this.mongoDb.leaveChatRoom(room_id, user_id);
     return ret;
   }
 }

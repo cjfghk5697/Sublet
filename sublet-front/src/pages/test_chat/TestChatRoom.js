@@ -29,9 +29,9 @@ const TestChatRoom = () => {
 
   useEffect(() => {
     if (!socket)
-      setSocket(io("http://localhost:4000"));
+      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
     else {
-      socket.emit("get_chatlog", params.chatId, (ret) => {
+      socket.emit("get_chatlog", { chat_id: params.chatId }, (ret) => {
         console.log("get chatlog responded!");
         console.log(ret);
         setChatLog(ret);
@@ -53,7 +53,7 @@ const TestChatRoom = () => {
 
   useEffect(() => {
     if (socket && user?.id) {
-      socket.emit("login", user.id, (rooms) => { console.log("after login, socket has rooms", rooms); });
+      socket.emit("login", { user_id: user.id }, (rooms) => { console.log("after login, socket has rooms", rooms); });
     }
   }, [socket, user])
 
@@ -64,7 +64,7 @@ const TestChatRoom = () => {
       {
         chatLog ? chatLog.map((chat, index) => {
           return <li key={index}>{`${chat.user.user_id}: ${chat.message}`} <button onClick={() => {
-            socket.emit("delete_message", chat.id)
+            socket.emit("delete_message", { chat_id: chat.id })
           }}> Delete </button></li>
         }) : <li>No ChatLog</li>
       }

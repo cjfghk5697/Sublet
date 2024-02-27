@@ -90,4 +90,18 @@ export class MongodbChatService {
     });
     return ret;
   }
+
+  async leaveChatRoom(room_id: string, user_id: string) {
+    const ret = await this.prisma.chat.deleteMany({
+      where: {
+        chatroom: {
+          id: room_id,
+        },
+        user: {
+          id: user_id,
+        },
+      },
+    });
+    return ret;
+  }
 }

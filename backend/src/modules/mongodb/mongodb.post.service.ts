@@ -203,6 +203,9 @@ export class MongodbPostService {
           },
         },
       },
+      include: {
+        postuser: true,
+      },
     });
     return res;
   }
@@ -231,6 +234,7 @@ export class MongodbPostService {
       },
       include: {
         like_user: true,
+        postuser: true,
       },
     });
     return res;

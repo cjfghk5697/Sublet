@@ -1,15 +1,13 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client"
-import { create, createStore } from "zustand";
-import axios from "axios";
-import { Link, Route, Routes } from "react-router-dom";
-import TestChatRoom from "./TestChatRoom.js";
+import { create } from "zustand";
+import { Link } from "react-router-dom";
 
 const testStore = create((set) => {
   return {
     user: {},
     setUser: async () => {
-      const resp = await fetch("http://localhost:4000/user", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "GET",
         credentials: "include"
       });
@@ -20,7 +18,7 @@ const testStore = create((set) => {
       }
     },
     login: async (id, password) => {
-      const resp = await fetch("http://localhost:4000/auth/login", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/login`, {
         method: "POST",
         body: JSON.stringify({
           id: id,
@@ -32,7 +30,7 @@ const testStore = create((set) => {
       });
       const json = await resp.json();
       console.log(json);
-      const resp2 = await fetch("http://localhost:4000/user", {
+      const resp2 = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "GET",
         credentials: "include"
       });
@@ -42,16 +40,19 @@ const testStore = create((set) => {
         console.log(json);
       }
     },
-    register: async (id, password) => {
-      const resp = await fetch("http://localhost:4000/user", {
+    register: async (id, password, email, phone) => {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "POST",
         body: JSON.stringify({
           user_id: id,
           username: "username",
-          email: "emailformat@google.com",
+          email: email,
           password: password,
-          phone: "+821012341234",
-          school: "aaaa"
+          phone: phone,
+          school: "aaaa",
+          gender: "male",
+          birth: "1999-01-01",
+          student_id: 123234
         }),
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,7 @@ const testStore = create((set) => {
       console.log(json);
     },
     logOut: async (afterFunc) => {
-      const resp = await fetch("http://localhost:4000/auth/logout", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +76,7 @@ const testStore = create((set) => {
       afterFunc();
     },
     printUser: async () => {
-      const resp = await fetch("http://localhost:4000/user", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +89,7 @@ const testStore = create((set) => {
     },
     posts: [],
     getPostsFromBackend: async () => {
-      const resp = await fetch("http://localhost:4000/post", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/post`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +145,7 @@ const testStore = create((set) => {
       for (const [key, value] of Object.entries(roomInfo)) {
         formData.append(key, value);
       }
-      const resp = await fetch("http://localhost:4000/post", {
+      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/post`, {
         method: "POST",
         body: formData,
         credentials: "include"
@@ -180,12 +181,12 @@ const TestChat = () => {
     getPostsFromBackend();
     setUser();
     if (!socket)
-      setSocket(io("localhost:4000"));
+      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
   }, []);
 
   useEffect(() => {
     if (!socket) {
-      setSocket(io("localhost:4000"));
+      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
     } else {
       socket.on("post", (post) => {
         setPost(post);
@@ -209,7 +210,7 @@ const TestChat = () => {
 
   useEffect(() => {
     if (socket && user?.id) {
-      socket.emit("login", user.id, (rooms) => {
+      socket.emit("login", { user_id: user.id }, (rooms) => {
         rooms = rooms.map((room) => { return { 'room_id': room, "new_message": false } });
         setRooms(rooms);
       });
@@ -223,11 +224,11 @@ const TestChat = () => {
   }}>Button Click</button>
     <ul>
       <li><button onClick={
-        async () => { register("user1", "PassWord1@!") }
+        async () => { register("user1", "PassWord1@!", "emailformat@email.com", "+821011111111") }
       }>Register user1</button><button onClick={
-        async () => { register("user2", "PassWord2@@") }
+        async () => { register("user2", "PassWord2@@", "emailformat2@email.com", "+821022222222") }
       }>Register user2</button><button onClick={
-        async () => { register("user3", "PassWord3###") }
+        async () => { register("user3", "PassWord3###", "emailformat3@email.com", "+821033333333") }
       }>Register user3</button></li>
       <li><button onClick={
         async () => { login("user1", "PassWord1@!"); }

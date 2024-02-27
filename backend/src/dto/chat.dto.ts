@@ -21,3 +21,33 @@ export class ChatLogBase {
 }
 
 export class ChatLogInterface extends ChatLogBase {}
+
+export class ChatLoginDto {
+  user_id: string;
+}
+
+export class ChatJoinRoomDto {
+  user1: string;
+  user2: string;
+  postKey: number;
+}
+
+export class ChatSendMessageDto {
+  user_id: string;
+  user_custom_id: string;
+  message: string;
+  room_id: string;
+}
+
+export class ChatGetLogDto {
+  room_id: string;
+}
+
+export class ChatDeleteDto {
+  chat_id: string;
+}
+
+export class ChatLeaveRoomDto {
+  room_id: string;
+  user_id: string;
+}
