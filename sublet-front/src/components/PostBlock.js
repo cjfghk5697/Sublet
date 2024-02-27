@@ -4,15 +4,19 @@ import * as s from './styles/SummaryBlock.styles.js'
 import './styles/Popup.styles.css'
 import { FetchPost } from "./FetchList";
 import * as w from "./styles/Wrapper.style.js";
+import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 
 
 function PostInfo() {
+  const { setPostPopUpState } = guestInfoPopUpStore((state) => ({
+    setPostPopUpState: state.setPostPopUpState,
+  }))
   const post = FetchPost()
 
   return (
     <div className="mb-4 mt-8">
       <w.SecondHead className="inline">방 현황</w.SecondHead>
-      <s.black_upload_button >방 올리기</s.black_upload_button>
+      <s.black_upload_button onClick={setPostPopUpState}>방 올리기</s.black_upload_button>
       <w.Horizon />
       {post.length > 0 ? post.map((res) => {
         const address = res.city + ' ' + res.gu + ' ' + res.dong;

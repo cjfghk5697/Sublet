@@ -23,13 +23,6 @@ export default function Home() {
   }
   useTitle("Sublet| 딱 맞는 숙소를 찾아봐요.")
 
-  const fetchRoomsFilters = (filters) => {
-    fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요
-      .then(response => response.json())
-      .then(data => setRoomsData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }
-
   useEffect(() => {
     async function fetchData() {
       let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);

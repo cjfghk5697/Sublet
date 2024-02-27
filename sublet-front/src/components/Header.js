@@ -175,7 +175,7 @@ const Header = () => {
                 </IconButton>
               </span>
               <IconButton>
-                <Link to={"/GuestInfo"} style={styles.profile}>
+                <Link to={"/profile"} style={styles.profile}>
                   <PersonIcon />
                 </Link>
               </IconButton>

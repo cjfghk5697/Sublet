@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, Fragment } from "react";
 import * as s from './styles/SummaryBlock.styles.js'
+import * as psd from './styles/PostUploadDialog.styles.js'
 import './styles/Popup.styles.css'
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +9,16 @@ import { FetchImage } from "./FetchList";
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 import { Alert } from "./StaticComponents.js";
 import { DialogTitle } from "@mui/material";
+
+import { TextInputTag, TextAreaTag, NumberInputTag } from "./Input/TextInputTag.js";
+import DropBoxSelect from "./Input/DropBoxSelect.js";
+import { DoubleSlideInput } from "./Input/DoubleSlideInput.js";
+import { SingleSlideInput } from "../components/Input/SingleSlideInput.js";
+import * as ValueViewer from "../components/Input/ValueViewer.js";
+import { LocationInput } from "../components/Input/LocationInput.js";
+import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
+import { priceToString } from "../components/StaticComponents.js";
+import { ImageUploadComponent } from "./Input/ImageInput.js";
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore((state) => ({
@@ -310,3 +321,261 @@ export function ShareDialog({ content }) {
   )
   // 선택 후 복사
 }
+
+
+export const PostUploadDialog = (props) => {
+  const { setPostPopUpState, postPopUpState } = guestInfoPopUpStore(
+    (state) => ({
+      setPostPopUpState: state.setPostPopUpState,
+      postPopUpState: state.postPopUpState,
+    })
+  );
+  const [accomodationType, setAccomodationType] =
+    useState("숙소 종류를 선택하세요");
+  const [limitPeople, setLimitPeople] = useState(1);
+  const [buildingType, setBuildingType] = useState("건물 종류를 선택하세요");
+  const [numberBathroom, setNumberBathroom] = useState(1);
+  const [numberRoom, setNumberRoom] = useState(1);
+  const [numberBedroom, setNumberBedroom] = useState(1);
+  const [title, setTitle] = useState("제목을 입력해주세요.");
+  const [basicInfo, setBasicInfo] = useState("기본정보을 입력해주세요.");
+  const [pos, setPos] = useState([37.574583, 126.994143]); // xCoordinate, yCoordinate // 추후 위치 기반으로 초기화.
+  const [city, setCity] = useState("");
+  const [gu, setGu] = useState("");
+  const [dong, setDong] = useState("");
+  const [streetNumber, setStreetNumber] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [street, setStreet] = useState("");
+  const [postDate, setPostDate] = useState([1, 1]); // startDay, endDay
+  const [duration, setDuration] = useState([ new Date(), new Date(new Date().setMonth(new Date().getMonth() + 1))]); // minDuration, maxDuration
+  const [price, setPrice] = useState(10000);
+  const [tempPrice, setTempPrice] = useState("10000");
+  const [images, setImages] = useState([]);
+  const [school, setSchool] = useState("학교을 입력해주세요.");
+  const [rule, setRule] = useState("숙소 규칙을 입력해주세요.");
+  const [benefit, setBenefit] = useState("혜택을 입력해주세요.");
+  const [refundPolicy, setRefundPolicy] = useState("환불정책을 입력해주세요.");
+  const [contract, setContract] = useState("계약을 입력해주세요.");
+
+  // data
+
+  // data
+
+  const handleClose = () => confirmAction();
+
+  const confirmAction = () => {
+    if (window.confirm("임시저장 하시겠습니까?")) {
+      // 임시 저장 전역 저장.
+      alert("임시 저장 되었습니다."); // if 문 비워두지 않기 위한 임시 alert
+    }
+    setPostPopUpState(false);
+  };
+  // const [, ] = useState() // 방 현황 새로고침 할 때 활용?
+
+  const uploadPost = async () => {
+    const requestOptions = {
+      credentials: "include",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        test: "test",
+      }),
+    };
+
+    await (
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update`,
+        requestOptions
+      )
+    ).json();
+  };
+
+  const handleLimitPeople = (event, newValue) => {
+    setLimitPeople(newValue);
+  };
+
+  const handleNumberBathroom = (event, newValue) => {
+    setNumberBathroom(newValue);
+  };
+
+  const handleNumberBedroom = (event, newValue) => {
+    setNumberBedroom(newValue);
+  };
+
+  const handlePrice = (event, newValue) => {
+    setPrice(newValue);
+    setTempPrice(priceToString(price));
+  };
+
+  // benefit, refund policy, contract
+  const InputColumn = {
+    required: [
+      ["title", "제목", "제목을 입력해주세요."],
+      ["basic_info", "기본정보", "기본정보을 입력해주세요."],
+      ["school", "학교", "학교을 입력해주세요."],
+      ["rule", "숙소 규칙", "숙소 규칙을 입력해주세요."],
+    ],
+    not_required: [
+      ["benefit", "혜택", "혜택을 입력해주세요."],
+      ["refund_policy", "환불정책", "환불정책을 입력해주세요."],
+      ["contract", "계약", "계약을 입력해주세요."],
+    ],
+  };
+
+  return (
+    <>
+      <Dialog
+        open={postPopUpState}
+        className="border border-gray-300 shadow-xl rounded-lg"
+      >
+        <DialogContent className="text-center">
+          <s.close_button type="button" className="float-right">
+            <svg
+              class="h-6 w-6"
+              onClick={handleClose}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </s.close_button>
+          <p>
+            --------------추후 슬라이더로 변경 (현재는
+            스크롤)---------------
+          </p>
+          <form>
+            <div style={psd.gridStyle.mainContainer}>
+              <p style={psd.gridStyle.inputContainer}>
+                  <h3 style={psd.gridStyle.infoType}>
+                    숙소 기본정보를 작성하세요
+                  </h3>
+                  <DropBoxSelect
+                    state={accomodationType}
+                    setState={setAccomodationType}
+                    labelName="계약 형태"
+                    labelId="accomodation_type"
+                    id="accomodation_type"
+                    menuItems={[
+                      "전대(sublet)",
+                      "전대(sublease)",
+                      "임대(lease)",
+                      "룸메이트",
+                    ]}
+                  />
+
+                  <div>
+                    <div>
+                      <ValueViewer.SingleValueViewer
+                        value={"최대인원: " + limitPeople + "명"}
+                      />
+                      <SingleSlideInput
+                        value={limitPeople}
+                        onChange={handleLimitPeople}
+                        minMax={[1, 10]}
+                      />
+                    </div>
+                    <DropBoxSelect
+                      state={buildingType}
+                      setState={setBuildingType}
+                      labelName="건물 유형"
+                      labelId="building_type"
+                      id="building_type"
+                      menuItems={["오피스텔", "원룸", "아파트", "빌라", "기타"]}
+                    />
+                  </div>
+                  <div>
+                    <div>
+                      <ValueViewer.SingleValueViewer
+                        value={"욕실 갯수: " + numberBathroom}
+                      />
+                      <SingleSlideInput
+                        value={numberBathroom}
+                        onChange={handleNumberBathroom}
+                        minMax={[1, 10]}
+                      />
+                    </div>
+                    <div>
+                      <ValueViewer.SingleValueViewer
+                        value={"침실 갯수: " + numberBedroom}
+                      />
+                      <SingleSlideInput
+                        value={numberBedroom}
+                        onChange={handleNumberBedroom}
+                        minMax={[1, 10]}
+                      />
+                    </div>
+                  </div>
+              </p>
+                <p style={psd.gridStyle.inputContainer}>
+                  <h3 style={psd.gridStyle.infoType}>
+                    숙소의 매력을 작성하세요
+                  </h3>
+                  <TextInputTag
+                    id="title"
+                    label="제목"
+                    placeholder="제목을 입력해주세요."
+                    required={true}
+                  />
+                  <TextAreaTag
+                    id="basic_info"
+                    label="기본정보"
+                    placeholder="기본정보을 입력해주세요."
+                    required={true}
+                  />
+                </p>
+
+                <p style={psd.gridStyle.inputContainer}>
+                  <h3 style={psd.gridStyle.infoType}>
+                      숙소 위치 입력하기
+                  </h3>
+                  <LocationInput pos={pos} currentPos={pos} setPos={setPos}/>
+                </p>
+                
+                <p style={psd.gridStyle.inputContainer}>
+                  <h3 style={psd.gridStyle.infoType}>
+                      기간 및 금액
+                  </h3>
+                  <DoubleDatePicker searchDate={duration} setSearchDate={setDuration}/>
+                  
+                  <ValueViewer.SingleValueViewer
+                        value={"금액: ₩" + priceToString(price) + "원"}
+                      />
+                  {/*
+                  <NumberInputTag
+                    id="price"
+                    label="가격"
+                    placeholder="가격을 입력해주세요."
+                    handleState={handlePrice}
+                    required={true}
+                  />
+                   */}
+                  <SingleSlideInput value={price} onChange={handlePrice} minMax={[0, 1000000]}/>
+                </p>
+
+                <p style={psd.gridStyle.inputContainer}>
+                  <h3 style={psd.gridStyle.infoType}>
+                      숙소 사진을 올려주세요.
+                  </h3>
+                  <ImageUploadComponent />
+                </p>
+            </div>
+          </form>
+        </DialogContent>
+        <div className="mt-2">
+          <s.put_button onClick={uploadPost}>방 올리기</s.put_button>
+        </div>
+      </Dialog>
+    </>
+  );
+};
+
