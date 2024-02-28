@@ -55,11 +55,11 @@ export function ImageDialog() {
     <>
       <Dialog open={imagePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
 
         <DialogContent sx={{ height: 324, width: 400 }} className='font-black text-center'>
@@ -160,11 +160,11 @@ export function EmailDialog({ originalEmail }) {
         <DialogTitle>
           <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent className='text-center' sx={{ height: 120, width: 312 }}>
 
@@ -234,11 +234,11 @@ export function PhoneDialog({ originalPhone }) {
         <DialogTitle>
           <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent sx={{ height: 120, width: 312 }} className='text-center'>
 
@@ -267,11 +267,11 @@ export function ShareDialog({ content }) {
   <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent sx={{ height: 224 }} className='text-left'>
               <form className="flot-right">
-                <s.close_button type="button" name="sharePopUpState" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="sharePopUpState" onClick={onChange}>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </s.close_button>
+                </s.change_button>
               </form>
 
               <ShareDialog content="localhost" className="clear-both" />
@@ -398,10 +398,10 @@ export function LoginDialog() {
       <button onClick={() => { setPopUpState(!popUpState) }}>Login</button>
       <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={() => { setPopUpState(!popUpState) }} className='float-right'>
+          <s.change_button type="button" onClick={() => { setPopUpState(!popUpState) }}>
             <StyleComponent
               content='CloseButton' />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent>
           <div className="float-left">
@@ -431,9 +431,9 @@ export function LoginDialog() {
 
 
           <div>
-            <s.fetch_button type="submit" onClick={loginHandled} className="">
+            <s.black_upload_button type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
               로그인 하기
-            </s.fetch_button>
+            </s.black_upload_button>
           </div>
 
         </DialogContent>
@@ -453,10 +453,7 @@ export function LoginDialog() {
 
         </DialogActions>
 
-        {/* 
-          <s.fetch_button type="submit" onClick={() => {
-            window.location.href = KAKAO_AUTH_URL
-          }} >카카오 로그인</s.fetch_button> */}
+
 
       </Dialog >
     </div >

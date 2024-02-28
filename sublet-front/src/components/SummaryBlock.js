@@ -55,12 +55,12 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
       </div>
       {/* 공개 변경 버튼 추가 */}
       <div className="block">
-        <s.reservation_detail_button name="detailPopUpState" onClick={onChange}>
+        <s.post_detail_button className="ml-4" name="detailPopUpState" onClick={onChange}>
           상세 정보
-        </s.reservation_detail_button>
-        <s.reservation_detail_button name="respondPopUpState" onClick={onChange}>
+        </s.post_detail_button>
+        <s.post_detail_button className="ml-4" name="respondPopUpState" onClick={onChange}>
           응답 리스트
-        </s.reservation_detail_button>
+        </s.post_detail_button>
         <s.delete_button_able name="deletePopUpState" onClick={onChange}>
           삭제하기
         </s.delete_button_able>
@@ -70,10 +70,10 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
         <Dialog open={detailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.close_button type="button" className='float-right' name="detailPopUpState" onClick={onChange} >
+              <s.change_button type="button" name="detailPopUpState" onClick={onChange} >
                 <StyleComponent
                   content="CloseButton" />
-              </s.close_button>
+              </s.change_button>
             </form>
           </DialogTitle>
           <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -93,10 +93,10 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
         <Dialog open={respondPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.close_button type="button" name="respondPopUpState" onClick={onChange} className='float-right'>
+              <s.change_button type="button" name="respondPopUpState" onClick={onChange}>
                 <StyleComponent
                   content="CloseButton" />
-              </s.close_button>
+              </s.change_button>
             </form>
           </DialogTitle>
           <DialogContent className='text-left'>
@@ -115,10 +115,10 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
         <Dialog open={deletePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.close_button type="button" onClick={onChange} name="deletePopUpState" className='float-right'>
+              <s.change_button type="button" onClick={onChange} name="deletePopUpState">
                 <StyleComponent
                   content="CloseButton" />
-              </s.close_button>
+              </s.change_button>
             </form>
           </DialogTitle>
           <DialogContent className='font-black text-center'>
@@ -180,32 +180,32 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
         <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
         <div>
           <div>
-            <s.reservation_cancel_button
+            <s.delete_button_able
               onClick={clickHandler}>
               취소하기
-            </s.reservation_cancel_button>
+            </s.delete_button_able>
 
-            <s.reservation_detail_button>
+            <s.post_detail_button className="ml-4">
               상세 정보
-            </s.reservation_detail_button>
+            </s.post_detail_button>
           </div>
           <>
             <Dialog open={popupState} className="border border-gray-300 shadow-xl rounded-lg">
               <DialogTitle>
                 <form>
-                  <s.close_button type="button" onClick={clickHandler} className='float-right'>
+                  <s.change_button type="button" onClick={clickHandler}>
                     <StyleComponent
                       content="CloseButton" />
-                  </s.close_button>
+                  </s.change_button>
                 </form>
               </DialogTitle>
               <DialogContent className='font-black text-center'>
                 <p className="text-lg font-extrabold mt-3">예약중인 숙소를 취소하시겠습니까?</p>
                 <div>
-                  <p className="mt-3 text-sm font-thin mt-1">
+                  <s.info_text className="mt-3 ">
                     <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
                     환불규정을 확인하였습니다.
-                  </p>
+                  </s.info_text>
                 </div>
               </DialogContent>
               <DialogActions>
@@ -306,10 +306,10 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={detailDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.close_button type="button" name="detailDialogShow" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="detailDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.close_button>
+                </s.change_button>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -332,10 +332,10 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={reservationDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.close_button type="button" name="reservationDialogShow" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="reservationDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.close_button>
+                </s.change_button>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -352,10 +352,10 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
             <DialogTitle>
 
               <form>
-                <s.close_button type="button" onClick={onChange} name="deletelDialogShow" className='float-right'>
+                <s.change_button type="button" onClick={onChange} name="deletelDialogShow">
                   <StyleComponent
                     content="CloseButton" />
-                </s.close_button>
+                </s.change_button>
               </form>
             </DialogTitle>
             <DialogContent className='font-black text-center'>
@@ -381,10 +381,10 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
           <Dialog open={requestDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.close_button type="button" name="requestDialogShow" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="requestDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.close_button>
+                </s.change_button>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>

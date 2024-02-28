@@ -72,7 +72,7 @@ function User({ user }) {
             </div>
             <s.change_button onClick={setEmailPopUpState} className="justify-end">
               <StyleComponent
-                content="CloseButton"
+                content="FixInfo"
               />
             </s.change_button>
           </div>
@@ -90,7 +90,7 @@ function User({ user }) {
             </div>
             <s.change_button onClick={setPhonePopUpState}>
               <StyleComponent
-                content="CloseButton"
+                content="FixInfo"
               />
             </s.change_button>
           </div>

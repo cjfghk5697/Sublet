@@ -122,6 +122,7 @@ export default function Booking(user_id) {
         </div>
       </div >
       <div>
+
         <w.SecondHead className="mt-4">규칙 / 정책</w.SecondHead>
         <w.Horizon />
         <div className="mt-2 ml-4">
