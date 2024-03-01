@@ -88,7 +88,7 @@ export class UserService {
 
   async verifyTokenEmail(email: string) {
     //https://4sii.tistory.com/437#google_vignette
-    var nodemailer = require('nodemailer'); //노드메일러 모듈을 사용할 거다!
+    var { nodemailer } = require('nodemailer'); //노드메일러 모듈을 사용할 거다!
     var user_email = email; //받아온 email user_email에 초기화
     var number = Math.floor(Math.random() * 1000000) + 100000;
     if (number > 1000000) {
@@ -97,7 +97,7 @@ export class UserService {
 
     await this.cacheManager.set(user_email, number); //cache 생성
 
-    var transporter = nodemailer.createTransport({
+    var { transporter } = nodemailer.createTransport({
       service: 'gmail', //사용하고자 하는 서비스
       auth: {
         user: env.EMAIL_ADDRESS, //gmail주소입력
