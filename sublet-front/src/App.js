@@ -10,6 +10,8 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 import KakaoConfirm from './components/loginComponents/Kakao.js';
+import TestDB from './pages/test_chat/TestDB.js';
+import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 
 function App() {
 
@@ -25,7 +27,10 @@ function App() {
         <Route path='/Profile' element={<GuestInfo />} />
         <Route path="/test/chat" element={<TestChat />} />
         <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
-        <Route path='/Oauth/kakao' element={<KakaoConfirm />} />
+        <Route path="/test/db/" element={<TestDB />} />
+        <Route path="/test/db/:name" element={<TestDBDetail />} />
+
+        {/* <Route path='/Oauth/kakao' element={<KakaoConfirm />} /> */}
 
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />

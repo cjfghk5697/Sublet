@@ -8,6 +8,7 @@ import { MongodbUserService } from './mongodb.user.service';
 import { MongodbUserImageService } from './mongodb.userimage.service';
 import { MongodbRequestService } from './mongodb.request.service';
 import { MongodbChatService } from './mongodb.chat.service';
+import { MongodbTestDBService } from './mongodb.testdb';
 
 @Module({
   providers: [
@@ -20,6 +21,7 @@ import { MongodbChatService } from './mongodb.chat.service';
     MongodbUserImageService,
     MongodbRequestService,
     MongodbChatService,
+    MongodbTestDBService,
   ],
   exports: [
     PrismaService,
@@ -31,6 +33,7 @@ import { MongodbChatService } from './mongodb.chat.service';
     MongodbUserImageService,
     MongodbRequestService,
     MongodbChatService,
+    MongodbTestDBService,
   ],
 })
 export class MongodbModule {}

@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { RequestModule } from './modules/request/request.module';
 import { EventsModule } from './modules/events/events.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { EventsModule } from './modules/events/events.module';
     ReservationModule,
     RequestModule,
     EventsModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService],
