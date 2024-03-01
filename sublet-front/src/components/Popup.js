@@ -11,6 +11,7 @@ import { DialogTitle, DialogActions } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleButton } from "./loginComponents/Google.js"
 import NaverLogin from "./loginComponents/Naver.js";
+import { VerifyEmailComponents } from "./verifyComponents/Email.js";
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore((state) => ({
@@ -105,6 +106,39 @@ export function ImageDialog() {
   );
 }
 
+export function VerifyEmailDialog({ email }) {
+  const { setVerifyEmailPopUpState, verifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState,
+    verifyEmailPopUpState: state.verifyEmailPopUpState,
+  }))
+
+  const handleClose = () => setVerifyEmailPopUpState(false);
+
+  return (
+    <>
+      <Dialog open={verifyEmailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogTitle>
+          <label for="VerifyEmail" className="block mb-2 text-sm font-medium text-gray-900 float-left">이메일 인증</label>
+
+          <s.change_button type="button" onClick={handleClose}>
+            <StyleComponent
+              content="CloseButton"
+            />
+          </s.change_button>
+        </DialogTitle>
+        <DialogContent className='text-center' >
+
+          <VerifyEmailComponents
+            email={email}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+
+
 export function EmailDialog({ originalEmail }) {
   const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore((state) => ({
     setEmailPopUpState: state.setEmailPopUpState,
@@ -113,15 +147,6 @@ export function EmailDialog({ originalEmail }) {
   const [backUp, setBackUp] = useState(false)
 
   const handleClose = () => setEmailPopUpState(false);
-  // useConfirm("닫으시겠습니까?", setShow(true), setShow(false))
-
-  // const confirmAction = () => {
-  //   if (window.confirm('닫으시겠습니까?')) {
-  //     setEmailPopUpState(false);
-  //   } else {
-  //     setEmailPopUpState(true);
-  //   }
-  // }
   const [emailState, setEmailState] = useState(originalEmail)
 
   const emailChange = (e) => {
