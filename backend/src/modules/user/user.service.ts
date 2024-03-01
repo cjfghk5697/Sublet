@@ -105,7 +105,7 @@ export class UserService {
       },
     });
 
-    var info = await transporter.sendMail({
+    await transporter.sendMail({
       from: env.EMAIL_ADDRESS, //보내는 주소 입력
       to: user_email, //위에서 선언해준 받는사람 이메일
       subject: 'ItHome 인증번호입니다', //메일 제목

@@ -28,7 +28,6 @@ import {
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { VerifyInterface } from '@/interface/auth.interface';
 
 @Controller('user')
 export class UserController {
