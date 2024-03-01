@@ -179,6 +179,8 @@ export const userUpdateStub = (): UserUpdateDto => {
 };
 export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
   return {
+    tokenKey: 'mocked@mocked.com',
+    verifyToken: 123456,
     verify_school: true,
     verify_email: false,
     verify_phone: false,

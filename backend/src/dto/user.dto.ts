@@ -1,4 +1,8 @@
-import { UserBase, UserPartialBase } from '@/interface/user.interface';
+import {
+  UserBase,
+  UserPartialBase,
+  VerifyInterface,
+} from '@/interface/user.interface';
 import { Transform } from 'class-transformer';
 import {
   IsEmail,
@@ -72,6 +76,12 @@ export class UserUpdateDto extends UserPartialBase {
 }
 
 export class UserVerifyUpdateDto extends UserPartialBase {
+  @IsString()
+  tokenKey: string;
+
+  @IsNumber()
+  verifyToken: number;
+
   @IsOptional()
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();
@@ -125,3 +135,5 @@ export class UserLoginDto {
   @IsStrongPassword()
   password: string;
 }
+
+export class UserEmailVerifyDto extends VerifyInterface {}

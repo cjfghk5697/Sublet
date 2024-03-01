@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
+import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
@@ -11,10 +11,10 @@ import { DateFormat, StyleComponent, priceToString } from "../components/StaticC
 import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
 import Header from "../components/Header.js";
 
+
 function RequestListComponent() {
   const request = FetchGetRequest()
-  const CLIENT = process.env.REACT_APP_CLIENT_ID
-  console.log('pd', CLIENT)
+
 
   return (
     <div className="mb-4 mt-8">
@@ -52,11 +52,16 @@ function User({ user }) {
 
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
 
-  const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState } = guestInfoPopUpStore((state) => ({
+  const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
     setImagePopUpState: state.setImagePopUpState,
     setEmailPopUpState: state.setEmailPopUpState,
     setPhonePopUpState: state.setPhonePopUpState,
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState
   }))
+
+  const onVerifyEmailHandle = () => {
+    setVerifyEmailPopUpState(true)
+  }
 
   const userPrivateComponent = (
     <div>
@@ -72,7 +77,7 @@ function User({ user }) {
             </div>
             <s.change_button onClick={setEmailPopUpState} className="justify-end">
               <StyleComponent
-                content="CloseButton"
+                content="FixInfo"
               />
             </s.change_button>
           </div>
@@ -82,6 +87,24 @@ function User({ user }) {
           />
 
         </div>
+
+        {user.verify_email ?
+          (
+            <div>
+              <p>인증 완료✅</p>
+            </div>
+          ) :
+          (
+            <div>
+              <s.black_upload_button onClick={onVerifyEmailHandle}>
+                인증하기
+              </s.black_upload_button>
+            </div>
+          )
+        }
+        <VerifyEmailDialog
+          email={user.email}
+        />
         <div className="mt-4 w-2/6">
           <s.label>전화번호</s.label>
           <div>
@@ -90,7 +113,7 @@ function User({ user }) {
             </div>
             <s.change_button onClick={setPhonePopUpState}>
               <StyleComponent
-                content="CloseButton"
+                content="FixInfo"
               />
             </s.change_button>
           </div>

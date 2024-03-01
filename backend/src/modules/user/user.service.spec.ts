@@ -11,6 +11,7 @@ import {
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { PostInterface } from '@/interface/post.interface';
+import { CacheModule } from '@nestjs/cache-manager';
 
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');
@@ -24,7 +25,7 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [MongodbModule],
+      imports: [MongodbModule, CacheModule.register()],
       providers: [UserService],
     }).compile();
 
