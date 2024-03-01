@@ -1,8 +1,4 @@
-import {
-  UserExportInterface,
-  UserInterface,
-  customRequest,
-} from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
@@ -15,14 +11,8 @@ import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { MongodbUserImageService } from '../mongodb/mongodb.userimage.service';
 import { env } from 'process';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import _ from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -100,7 +90,6 @@ export class UserService {
     //https://4sii.tistory.com/437#google_vignette
     var nodemailer = require('nodemailer'); //노드메일러 모듈을 사용할 거다!
     var user_email = email; //받아온 email user_email에 초기화
-    console.log('전송 완');
     var number = Math.floor(Math.random() * 1000000) + 100000;
     if (number > 1000000) {
       number = number - 100000;
@@ -126,7 +115,6 @@ export class UserService {
 
   async verifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
     const cache_verifyToken = await this.cacheManager.get(putUserBody.tokenKey); // cache-manager를 통해 확인
-    console.log(cache_verifyToken);
     if (cache_verifyToken !== putUserBody.verifyToken) {
       throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
     } else {
