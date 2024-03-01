@@ -166,7 +166,6 @@ export class MongodbUserService {
   }
 
   async verifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
-    console.log(putUserBody);
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id: user_id,
