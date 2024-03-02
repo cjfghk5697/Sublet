@@ -80,28 +80,27 @@ function User({ user }) {
                 content="FixInfo"
               />
             </s.change_button>
+            {user.verify_email ?
+              (
+                <div>
+                  <p>인증 완료✅</p>
+                </div>
+              ) :
+              (
+                <div>
+                  <s.black_upload_button onClick={onVerifyEmailHandle}>
+                    인증하기
+                  </s.black_upload_button>
+                </div>
+              )
+            }
           </div>
           <w.Horizon />
           <EmailDialog
             originalEmail={user.email}
           />
-
         </div>
 
-        {user.verify_email ?
-          (
-            <div>
-              <p>인증 완료✅</p>
-            </div>
-          ) :
-          (
-            <div>
-              <s.black_upload_button onClick={onVerifyEmailHandle}>
-                인증하기
-              </s.black_upload_button>
-            </div>
-          )
-        }
         <VerifyEmailDialog
           email={user.email}
         />

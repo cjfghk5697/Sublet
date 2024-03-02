@@ -76,12 +76,6 @@ export class UserUpdateDto extends UserPartialBase {
 }
 
 export class UserVerifyUpdateDto extends UserPartialBase {
-  @IsString()
-  tokenKey: string;
-
-  @IsNumber()
-  verifyToken: number;
-
   @IsOptional()
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();
@@ -111,6 +105,13 @@ export class UserVerifyUpdateDto extends UserPartialBase {
   })
   @IsBoolean()
   verify_phone?: boolean;
+}
+export class UserTokenVerifyUpdateDto extends UserVerifyUpdateDto {
+  @IsString()
+  tokenKey: string;
+
+  @IsNumber()
+  verifyToken: number;
 }
 
 export class UserFilterDto {

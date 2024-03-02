@@ -22,6 +22,7 @@ import {
   UserCreateDto,
   UserEmailVerifyDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
@@ -148,7 +149,7 @@ export class UserController {
   @UseGuards(LoggedInGuard)
   async verifyUser(
     @Req() req: customRequest,
-    @Body() data: UserVerifyUpdateDto,
+    @Body() data: UserTokenVerifyUpdateDto,
   ) {
     console.log(data, req);
     const res = await this.userService.verifyUser(req.user.user_id, data);

@@ -2,6 +2,7 @@ import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
@@ -13,7 +14,7 @@ import { env } from 'process';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class UserService {
@@ -113,7 +114,7 @@ export class UserService {
     });
   }
 
-  async verifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+  async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
     const cache_verifyToken = await this.cacheManager.get(putUserBody.tokenKey); // cache-manager를 통해 확인
     if (cache_verifyToken !== putUserBody.verifyToken) {
       throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
