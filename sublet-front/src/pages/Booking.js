@@ -13,7 +13,7 @@ import { Box, TextField } from "@mui/material";
 import { useTitle } from "../components/hook/HookCollect"
 
 export default function Booking(user_id) {
-  useTitle("예약하기 | Sublet")
+  useTitle("예약하기 | ItHome")
   const { temp_start_day, temp_end_day, day_pay, total_pay, post_key } = bookingPopUpStore((state) => ({
     temp_start_day: state.temp_start_day,
     temp_end_day: state.temp_end_day,
@@ -52,7 +52,7 @@ export default function Booking(user_id) {
         <div>
           {total_day >= 28 && (
             <div className="ml-2 mt-4">
-              <s.justify_block className="font-semibold flex justify-between">
+              <s.justify_block>
                 <p className="text-l">매월 결제 금액</p>
                 <p className="text-l mr-4">{priceToString(month_pay)} 원</p>
               </s.justify_block>
@@ -116,13 +116,13 @@ export default function Booking(user_id) {
             }
             <s.info_text className="mt-2">
               <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
-
               체크박스를 클릭하시면 이체를 완료하셨음을 동의하는 것입니다.
             </s.info_text>
           </Box>
         </div>
       </div >
       <div>
+
         <w.SecondHead className="mt-4">규칙 / 정책</w.SecondHead>
         <w.Horizon />
         <div className="mt-2 ml-4">

@@ -8,6 +8,10 @@ import { FetchImage, FetchLogin } from "./FetchList";
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 import { Alert, Information, StyleComponent } from "./StaticComponents.js";
 import { DialogTitle, DialogActions } from "@mui/material";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleButton } from "./loginComponents/Google.js"
+import NaverLogin from "./loginComponents/Naver.js";
+import { VerifyEmailComponents } from "./verifyComponents/Email.js";
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore((state) => ({
@@ -52,11 +56,11 @@ export function ImageDialog() {
     <>
       <Dialog open={imagePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
 
         <DialogContent sx={{ height: 324, width: 400 }} className='font-black text-center'>
@@ -102,6 +106,39 @@ export function ImageDialog() {
   );
 }
 
+export function VerifyEmailDialog({ email }) {
+  const { setVerifyEmailPopUpState, verifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState,
+    verifyEmailPopUpState: state.verifyEmailPopUpState,
+  }))
+
+  const handleClose = () => setVerifyEmailPopUpState(false);
+
+  return (
+    <>
+      <Dialog open={verifyEmailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogTitle>
+          <label for="VerifyEmail" className="block mb-2 text-sm font-medium text-gray-900 float-left">이메일 인증</label>
+
+          <s.change_button type="button" onClick={handleClose}>
+            <StyleComponent
+              content="CloseButton"
+            />
+          </s.change_button>
+        </DialogTitle>
+        <DialogContent className='text-center' >
+
+          <VerifyEmailComponents
+            email={email}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+
+
 export function EmailDialog({ originalEmail }) {
   const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore((state) => ({
     setEmailPopUpState: state.setEmailPopUpState,
@@ -110,15 +147,6 @@ export function EmailDialog({ originalEmail }) {
   const [backUp, setBackUp] = useState(false)
 
   const handleClose = () => setEmailPopUpState(false);
-  // useConfirm("닫으시겠습니까?", setShow(true), setShow(false))
-
-  // const confirmAction = () => {
-  //   if (window.confirm('닫으시겠습니까?')) {
-  //     setEmailPopUpState(false);
-  //   } else {
-  //     setEmailPopUpState(true);
-  //   }
-  // }
   const [emailState, setEmailState] = useState(originalEmail)
 
   const emailChange = (e) => {
@@ -157,16 +185,16 @@ export function EmailDialog({ originalEmail }) {
         <DialogTitle>
           <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent className='text-center' sx={{ height: 120, width: 312 }}>
 
           <form>
-            <input type="email" id="email" onChange={emailChange} value={emailState} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required />
+            <w.InputText type="email" id="email" onChange={emailChange} value={emailState} placeholder="john.doe@company.com" required />
           </form>
 
           <div className='mt-4'>
@@ -179,9 +207,7 @@ export function EmailDialog({ originalEmail }) {
               )}
             </div>
           </div>
-
         </DialogContent>
-
       </Dialog>
     </>
   );
@@ -233,16 +259,16 @@ export function PhoneDialog({ originalPhone }) {
         <DialogTitle>
           <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent sx={{ height: 120, width: 312 }} className='text-center'>
 
           <form>
-            <input type="tel" id="tel" onChange={phoneChange} value={phoneState} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required />
+            <w.InputText type="tel" id="tel" onChange={phoneChange} value={phoneState} placeholder="john.doe@company.com" required />
           </form>
           <div className='mt-4'>
             <s.black_upload_button onClick={clickHandle} >
@@ -266,11 +292,11 @@ export function ShareDialog({ content }) {
   <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent sx={{ height: 224 }} className='text-left'>
               <form className="flot-right">
-                <s.close_button type="button" name="sharePopUpState" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="sharePopUpState" onClick={onChange}>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </s.close_button>
+                </s.change_button>
               </form>
 
               <ShareDialog content="localhost" className="clear-both" />
@@ -291,7 +317,7 @@ export function ShareDialog({ content }) {
   return (
     <div className="z-10 inline-block mr-6">
       <div clssName="">
-        <p className="text-2xl font-extrabold">숙소를 공유하세요!</p>
+        <w.SecondHead>숙소를 공유하세요!</w.SecondHead>
         <p className="text-base text-gray"> 복사하여 편하게 보내세요</p>
       </div>
       <div className="mt-2">
@@ -345,7 +371,7 @@ export function PostSummaryDetailDialog({ title, contract, private_post, accomod
   return (
     <>
       <div className="inline-block">
-        <h2 className="text-2xl font-extrabold float-start mr-4">{title} </h2>
+        <w.SecondHead className="float-start mr-4">{title} </w.SecondHead>
         {contract ?
           (
             <StyleComponent
@@ -384,58 +410,77 @@ export function LoginDialog() {
     const password = passwordState
     FetchLogin({ id, password })
     setPopUpState(false)
-  };
 
+  };
+  const idList = {
+    "google": process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    "kakao": process.env.REACT_APP_KAKAO_CLIENT_ID,
+  }
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${idList.kakao}&redirect_uri=https://localhost:3000/&response_type=code`
 
   return (
     <div>
       <button onClick={() => { setPopUpState(!popUpState) }}>Login</button>
       <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={() => { setPopUpState(!popUpState) }} className='float-right'>
+          <s.change_button type="button" onClick={() => { setPopUpState(!popUpState) }}>
             <StyleComponent
               content='CloseButton' />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent>
-          <s.start_div>
-            <div className="mb-4">
-              <div className="float-left">
-                <p className="text-2xl font-extrabold">로그인</p>
-                <p className="text-base text-gray"> 합리적인 가격의 다양한 집을 확인하세요.</p>
-              </div>
-            </div>
-            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-
-              <div>
-                <s.label for="id">email</s.label>
-                <div class="mt-2">
-                  <s.input_text required="" type="text" placeholder="아이디" onChange={idChange} value={idState} />
-                </div>
-              </div>
-
-              <div>
-                <div class="mt-2 flex items-center justify-between">
-                  <s.label for="password">Password</s.label>
-                  <div class="text-sm">
-                    <s.forget_password href="#">Forgot password?</s.forget_password>
-                  </div>
-                </div>
-                <div class="mt-2">
-                  <s.input_text type="password" placeholder="비밀번호" onChange={passwordChange} value={passwordState} />
-                </div>
-              </div>
-            </div>
-          </s.start_div>
-        </DialogContent>
-        <DialogActions>
-          <div>
-            <s.fetch_button type="submit" onClick={loginHandled} className="">
-              로그인 하기
-            </s.fetch_button>
+          <div className="float-left">
+            <w.SecondHead>로그인</w.SecondHead>
+            <p className="text-base text-gray"> 합리적인 가격의 다양한 집을 확인하세요.</p>
           </div>
+          <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <div>
+              <s.label for="id">Id</s.label>
+              <div class="mt-2">
+                <w.InputText required="" type="text" placeholder="아이디" onChange={idChange} value={idState} />
+              </div>
+            </div>
+
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="password">Password</s.label>
+                <div class="text-sm">
+                  <s.forget_password href="#">Forgot password?</s.forget_password>
+                </div>
+              </div>
+              <div class="mt-2">
+                <w.InputText type="password" placeholder="비밀번호" onChange={passwordChange} value={passwordState} />
+              </div>
+            </div>
+          </div>
+
+
+          <div>
+            <s.black_upload_button type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
+              로그인 하기
+            </s.black_upload_button>
+          </div>
+
+        </DialogContent>
+        <w.Horizon />
+        <DialogActions>
+          <div className="w-4/5 h-4/5">
+            <div>
+              <GoogleOAuthProvider clientId={idList.google}>
+                <GoogleButton />
+              </GoogleOAuthProvider>
+            </div>
+
+            <div className="my-4 w-40"  >
+              <NaverLogin />
+            </div>
+          </div>
+
         </DialogActions>
+
+
+
       </Dialog >
-    </div>
+    </div >
   )
 }

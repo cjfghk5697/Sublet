@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
@@ -10,12 +9,18 @@ import { createHash } from 'crypto';
 import { writeFile } from 'fs/promises';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { MongodbUserImageService } from '../mongodb/mongodb.userimage.service';
+import { env } from 'process';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Cache } from 'cache-manager';
+import nodemailer from 'nodemailer';
 
 @Injectable()
 export class UserService {
   constructor(
     private userdb: MongodbUserService,
     private userimagedb: MongodbUserImageService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   async getAllUser() {
@@ -80,6 +85,43 @@ export class UserService {
     );
     const ret = this.transformExport(res);
     return ret;
+  }
+
+  async verifyTokenEmail(email: string) {
+    //https://4sii.tistory.com/437#google_vignette
+    var user_email = email; //받아온 email user_email에 초기화
+    var number = Math.floor(Math.random() * 1000000) + 100000;
+    if (number > 1000000) {
+      number = number - 100000;
+    }
+
+    await this.cacheManager.set(user_email, number); //cache 생성
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail', //사용하고자 하는 서비스
+      auth: {
+        user: env.EMAIL_ADDRESS, //gmail주소입력
+        pass: env.EMAIL_PASSWORD, //gmail패스워드 입력
+      },
+    });
+
+    await transporter.sendMail({
+      from: env.EMAIL_ADDRESS, //보내는 주소 입력
+      to: user_email, //위에서 선언해준 받는사람 이메일
+      subject: 'ItHome 인증번호입니다', //메일 제목
+      text: String(number), //내용
+    });
+  }
+
+  async verifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+    const cache_verifyToken = await this.cacheManager.get(putUserBody.tokenKey); // cache-manager를 통해 확인
+    if (cache_verifyToken !== putUserBody.verifyToken) {
+      throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
+    } else {
+      await this.cacheManager.del(putUserBody.tokenKey); // 인증이 완료되면 del을 통해 삭제
+      await this.userdb.verifyUser(user_id, putUserBody);
+    }
+    return true;
   }
 
   calculateHash(buffer: Buffer) {

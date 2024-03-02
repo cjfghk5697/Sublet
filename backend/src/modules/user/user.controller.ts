@@ -20,6 +20,7 @@ import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
 import {
   UserCreateDto,
+  UserEmailVerifyDto,
   UserFilterDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
@@ -136,6 +137,22 @@ export class UserController {
       console.log('[user.controller:getOneUser] error: ', e);
       throw new NotFoundException();
     }
+  }
+
+  @Post('email')
+  async verifyEmail(@Body() data: UserEmailVerifyDto) {
+    await this.userService.verifyTokenEmail(data.email);
+  }
+
+  @Post('verifyUser')
+  @UseGuards(LoggedInGuard)
+  async verifyUser(
+    @Req() req: customRequest,
+    @Body() data: UserVerifyUpdateDto,
+  ) {
+    console.log(data, req);
+    const res = await this.userService.verifyUser(req.user.user_id, data);
+    return res;
   }
 
   @Post()

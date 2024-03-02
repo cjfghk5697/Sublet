@@ -21,7 +21,7 @@ export default function Home() {
       setRoomsData([...roomsData, ...preRoomsData]);
     setListPageAmount(listPageAmount + 1);
   }
-  useTitle("Sublet| 딱 맞는 숙소를 찾아봐요.")
+  useTitle("ItHome | 딱 맞는 숙소를 찾아봐요.")
 
   const fetchRoomsFilters = (filters) => {
     fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요

@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog } from "../components/Popup.js";
+import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
 import { PostInfo } from "../components/guestInfoComponents/PostBlock.js";
 import { FetchGetRequest } from "../components/FetchList.js";
-import { DateFormat, priceToString } from "../components/StaticComponents.js";
+import { DateFormat, StyleComponent, priceToString } from "../components/StaticComponents.js";
 import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
 import Header from "../components/Header.js";
 
+
 function RequestListComponent() {
   const request = FetchGetRequest()
+
 
   return (
     <div className="mb-4 mt-8">
@@ -46,30 +48,37 @@ function RequestListComponent() {
 }
 
 function User({ user }) {
-  useTitle("프로필 - Sublet")
+  useTitle("프로필 | ItHome")
 
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
 
-  const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState } = guestInfoPopUpStore((state) => ({
+  const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
     setImagePopUpState: state.setImagePopUpState,
     setEmailPopUpState: state.setEmailPopUpState,
     setPhonePopUpState: state.setPhonePopUpState,
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState
   }))
+
+  const onVerifyEmailHandle = () => {
+    setVerifyEmailPopUpState(true)
+  }
 
   const userPrivateComponent = (
     <div>
-      <h2 className="text-2xl font-extrabold">사용자 정보</h2>
+      <w.SecondHead>사용자 정보</w.SecondHead>
 
       <w.Horizon />
       <div className="ml-4 mt-4">
         <div className="w-2/6">
-          <label className="block mb-0.5 text-sm font-semibold text-gray-900">이메일</label>
+          <s.label>이메일</s.label>
           <div>
             <div className="inline-block">
               <p className="text-lg font-medium justify-start">{user.email}</p>
             </div>
             <s.change_button onClick={setEmailPopUpState} className="justify-end">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" /></svg>
+              <StyleComponent
+                content="FixInfo"
+              />
             </s.change_button>
           </div>
           <w.Horizon />
@@ -78,16 +87,34 @@ function User({ user }) {
           />
 
         </div>
+
+        {user.verify_email ?
+          (
+            <div>
+              <p>인증 완료✅</p>
+            </div>
+          ) :
+          (
+            <div>
+              <s.black_upload_button onClick={onVerifyEmailHandle}>
+                인증하기
+              </s.black_upload_button>
+            </div>
+          )
+        }
+        <VerifyEmailDialog
+          email={user.email}
+        />
         <div className="mt-4 w-2/6">
-          <label className="block mb-0.5 text-sm font-semibold text-gray-900">전화번호</label>
+          <s.label>전화번호</s.label>
           <div>
             <div className="inline-block">
               <p className="text-lg font-medium inline-flex">{user.phone}</p>
             </div>
             <s.change_button onClick={setPhonePopUpState}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="fill-gray-700" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z" />
-              </svg>
+              <StyleComponent
+                content="FixInfo"
+              />
             </s.change_button>
           </div>
           <w.Horizon />
@@ -108,7 +135,7 @@ function User({ user }) {
       <ImageDialog
       />
 
-      <p className="text-2xl font-extrabold mt-3">{user.username}</p>
+      <w.SecondHead className="mt-3">{user.username}</w.SecondHead>
       <p className="text-base font-extrabold underline text-gray-400/200">{user.school}</p>
       <p className="text-base">신분증 {user.id_card ? '인증 완료✅' : '인증 안됨'}</p>
     </div>
