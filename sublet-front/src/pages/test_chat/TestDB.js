@@ -19,7 +19,7 @@ const TestDB = () => {
 
   return <div>{
     data.map((ele, i) => {
-      return <Link key={i} to={`/test/db/${ele}`}>{ele}</Link>
+      return <><Link key={i} to={`/test/db/${ele}`}>{ele}</Link><br /></>
     })
   }</div>;
 }

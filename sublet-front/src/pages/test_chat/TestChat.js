@@ -145,12 +145,11 @@ const testStore = create((set) => {
       for (const [key, value] of Object.entries(roomInfo)) {
         formData.append(key, value);
       }
-      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/post`, {
+      await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/post`, {
         method: "POST",
         body: formData,
         credentials: "include"
       });
-      const json = await resp.json();
 
     },
     setPost: (posts) => {
@@ -182,7 +181,7 @@ const TestChat = () => {
     setUser();
     if (!socket)
       setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
-  }, []);
+  });
 
   useEffect(() => {
     if (!socket) {

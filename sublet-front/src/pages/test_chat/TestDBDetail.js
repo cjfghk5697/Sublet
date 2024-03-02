@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+const JsonDisplay = ({ json }) => {
+
+  return <div>
+    {
+      json ? Object.keys(json).map((ele, i) => {
+        return <><span key={i}>{"[" + ele + ": " + json[ele] + "]"}</span><br /></>
+      }) : <span></span>
+    }
+  </div>
+}
+
 const TestDBDetail = () => {
 
   const [data, setData] = useState([]);
@@ -27,7 +38,7 @@ const TestDBDetail = () => {
   return <ul>{
     data.map((ele, i) => {
       return <li key={i}>
-
+        <JsonDisplay json={ele}></JsonDisplay>
         <button onClick={() => { deleteData(ele.id) }}>Delete!</button>
       </li>
     })

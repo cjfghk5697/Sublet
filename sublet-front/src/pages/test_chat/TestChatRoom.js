@@ -4,18 +4,12 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const TestChatRoom = () => {
-  const { user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket } = testStore(
-    ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket }) =>
-      ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket })
+  const { user, setUser, socket, setSocket } = testStore(
+    ({ user, setUser, socket, setSocket }) =>
+      ({ user, setUser, socket, setSocket })
   );
 
   const [chatLog, setChatLog] = useState([]);
-  const addMessage = (userid, message) => {
-    const messageList = document.querySelector("ul.messageUl");
-    const messageLi = document.createElement("li");
-    messageLi.innerText = `${userid}: ${message}`;
-    messageList.appendChild(messageLi);
-  }
 
   const params = useParams();
   console.log(params);
