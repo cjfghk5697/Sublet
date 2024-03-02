@@ -6,7 +6,6 @@ import {
   UserFilterDto,
   UserTokenVerifyUpdateDto,
   UserUpdateDto,
-  UserVerifyUpdateDto,
 } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
