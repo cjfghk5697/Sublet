@@ -6,6 +6,7 @@ export const guestInfoPopUpStore = create((set) => ({
   emailPopUpState: false,
   verifyEmailPopUpState: false,
   postPopUpState: false,
+  signUpPopUpState: false,
   setVerifyEmailPopUpState: () => set((state) => ({
     verifyEmailPopUpState: !state.verifyEmailPopUpState
   })),
@@ -21,6 +22,9 @@ export const guestInfoPopUpStore = create((set) => ({
   setPostPopUpState: () => set((state) => ({
     postPopUpState: !state.postPopUpState
   })),
+  setSignUpPopUpState: () => set((state) => ({
+    signUpPopUpState: !state.signUpPopUpState
+  }))
 
 }))
 

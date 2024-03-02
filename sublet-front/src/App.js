@@ -7,7 +7,7 @@ import Booking from './pages/Booking';
 import GuestInfo from './pages/GuestInfo.js'
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
-import KakaoConfirm from './components/loginComponents/Kakao.js';
+import GuestRequest from './pages/GuestRequest.js';
 
 function App() {
 
@@ -21,8 +21,7 @@ function App() {
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path='/Profile' element={<GuestInfo />} />
-        <Route path='/Oauth/kakao' element={<KakaoConfirm />} />
-
+        <Route path='/Request' element={<GuestRequest />} />
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />
       </Routes>
