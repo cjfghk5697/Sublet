@@ -32,6 +32,7 @@ export class UserExportInterface extends UserBase {
   verify_school: boolean;
   verify_email: boolean;
   verify_phone: boolean;
+  chat_id: string[];
 }
 
 export class UserInterface extends UserExportInterface {

@@ -32,11 +32,9 @@ export class PostService {
     if (query.maxPost > 50) query.maxPost = 6;
 
     query.page = this.isPositiveInt(query.page, 1);
-
     const result = await this.postdb.getAllPosts(query);
 
     const ret = result.map((post) => this.transformExport(post));
-
     return ret;
   }
 
@@ -162,18 +160,21 @@ export class PostService {
 
   async likePost(post_key: number, user: UserInterface) {
     const res = await this.postdb.likePost(post_key, user);
-    return res;
+    const ret = this.transformExport(res);
+    return ret;
   }
 
   async unlikePost(post_key: number, user: UserInterface) {
     const res = await this.postdb.unlikePost(post_key, user);
-    return res;
+    const ret = this.transformExport(res);
+    return ret;
   }
 
   transformExport(post: PostInterface): PostExportInterface {
     delete (post as { id?: string }).id;
     delete (post as { deleted?: boolean }).deleted;
     delete (post as { version?: number }).version;
+    delete (post as { postuser?: UserInterface }).postuser;
     return post;
   }
 }

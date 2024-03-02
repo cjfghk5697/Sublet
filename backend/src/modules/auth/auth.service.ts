@@ -15,9 +15,7 @@ export class AuthService {
    */
   async validateUser(id: string, pass: string) {
     try {
-      console.log(id, pass);
       const user = await this.usersService.validateUser(id, pass);
-      console.log('user found');
       return user;
     } catch (e) {
       console.log('user not found');

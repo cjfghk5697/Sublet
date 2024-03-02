@@ -34,6 +34,7 @@ export const userStub = (): UserInterface => {
     verify_school: false,
     verify_email: false,
     verify_phone: false,
+    chat_id: [],
   };
 };
 
@@ -54,6 +55,7 @@ export const userExportStub = (): UserExportInterface => {
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
+    chat_id: userStub().chat_id
   };
 };
 
