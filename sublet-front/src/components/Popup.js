@@ -3,14 +3,19 @@ import * as s from './styles/SummaryBlock.styles.js'
 import * as w from './styles/Wrapper.style.js'
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
-import { FetchImage, FetchLogin } from "./FetchList";
+import { FetchImage, FetchLogin, SignUp } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 import { Alert, Information, StyleComponent } from "./StaticComponents.js";
-import { DialogTitle, DialogActions } from "@mui/material";
+import { DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleButton } from "./loginComponents/Google.js"
 import NaverLogin from "./loginComponents/Naver.js";
+import { VerifyEmailComponents } from "./verifyComponents/Email.js";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs';
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore((state) => ({
@@ -55,11 +60,11 @@ export function ImageDialog() {
     <>
       <Dialog open={imagePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
 
         <DialogContent sx={{ height: 324, width: 400 }} className='font-black text-center'>
@@ -105,6 +110,37 @@ export function ImageDialog() {
   );
 }
 
+export function VerifyEmailDialog({ email }) {
+  const { setVerifyEmailPopUpState, verifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState,
+    verifyEmailPopUpState: state.verifyEmailPopUpState,
+  }))
+
+  const handleClose = () => setVerifyEmailPopUpState(false);
+
+  return (
+    <>
+      <Dialog open={verifyEmailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogTitle>
+          <label for="VerifyEmail" className="block mb-2 text-sm font-medium text-gray-900 float-left">이메일 인증</label>
+
+          <s.change_button type="button" onClick={handleClose}>
+            <StyleComponent
+              content="CloseButton"
+            />
+          </s.change_button>
+        </DialogTitle>
+        <DialogContent className='text-center' >
+
+          <VerifyEmailComponents
+            email={email}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
 export function EmailDialog({ originalEmail }) {
   const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore((state) => ({
     setEmailPopUpState: state.setEmailPopUpState,
@@ -113,15 +149,6 @@ export function EmailDialog({ originalEmail }) {
   const [backUp, setBackUp] = useState(false)
 
   const handleClose = () => setEmailPopUpState(false);
-  // useConfirm("닫으시겠습니까?", setShow(true), setShow(false))
-
-  // const confirmAction = () => {
-  //   if (window.confirm('닫으시겠습니까?')) {
-  //     setEmailPopUpState(false);
-  //   } else {
-  //     setEmailPopUpState(true);
-  //   }
-  // }
   const [emailState, setEmailState] = useState(originalEmail)
 
   const emailChange = (e) => {
@@ -140,12 +167,24 @@ export function EmailDialog({ originalEmail }) {
       })
     };
 
-    await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/update`
-        , requestOptions)
-    ).json();
 
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/update`
+      , requestOptions)
+      .then(
+        await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`
+          , {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              verify_email: 'false'
+            })
+          })
+      )
   };
   const clickHandle = () => {
     emailHandled()
@@ -160,11 +199,11 @@ export function EmailDialog({ originalEmail }) {
         <DialogTitle>
           <label for="email" className="block mb-2 text-sm font-medium text-gray-900 float-left">Email address</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent className='text-center' sx={{ height: 120, width: 312 }}>
 
@@ -234,11 +273,11 @@ export function PhoneDialog({ originalPhone }) {
         <DialogTitle>
           <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 float-left">Phone number</label>
 
-          <s.close_button type="button" onClick={handleClose} className='float-right'>
+          <s.change_button type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent sx={{ height: 120, width: 312 }} className='text-center'>
 
@@ -267,11 +306,11 @@ export function ShareDialog({ content }) {
   <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogContent sx={{ height: 224 }} className='text-left'>
               <form className="flot-right">
-                <s.close_button type="button" name="sharePopUpState" onClick={onChange} className='float-right'>
+                <s.change_button type="button" name="sharePopUpState" onClick={onChange}>
                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                </s.close_button>
+                </s.change_button>
               </form>
 
               <ShareDialog content="localhost" className="clear-both" />
@@ -369,39 +408,232 @@ export function PostSummaryDetailDialog({ title, contract, private_post, accomod
   )
 }
 
+export function SignUpDialog() {
+  const { signUpPopUpState, setSignUpPopUpState } = guestInfoPopUpStore((state) => ({
+    setSignUpPopUpState: state.setSignUpPopUpState,
+    signUpPopUpState: state.signUpPopUpState,
+  }))
+
+  const [inputs, setInputs] = useState({
+    idState: '',
+    passwordState: '',
+    userNameState: '',
+    emailState: '',
+    phoneState: '',
+    schoolState: '',
+    genderState: '여',
+    studentIdState: ''
+  })
+  const [birthState, setBirthState] = useState(Date.now())
+  const {
+    idState,
+    passwordState,
+    userNameState,
+    emailState,
+    phoneState,
+    schoolState,
+    genderState,
+    studentIdState
+  } = inputs;
+
+  const inputHandle = (e) => {
+    setInputs({
+      ...inputs,
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+  };
+  const autoHyphen = (target) => {
+    target = target
+      .replace(/[^0-9]/g, '')
+      .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+  }
+
+  const signUpHandled = () => {
+    const birth = new Date(birthState)
+
+    SignUp({
+      user_id: idState,
+      password: passwordState,
+      username: userNameState,
+      email: emailState,
+      phone: phoneState.replace(/-/gi, '').replace('010', '+82'),
+      school: schoolState,
+      gender: genderState,
+      birth: birth.toISOString(),
+      student_id: Number(studentIdState)
+    })
+    setSignUpPopUpState()
+  };
+
+  return (
+    <>
+      <Dialog open={signUpPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+        <DialogTitle>
+          <s.change_button type="button" onClick={setSignUpPopUpState}>
+            <StyleComponent
+              content='CloseButton' />
+          </s.change_button>
+          <div className="float-left">
+            <w.SecondHead>회원가입</w.SecondHead>
+          </div>
+
+        </DialogTitle>
+        <DialogContent>
+          <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <s.justify_block>
+              <div>
+                <s.label for="id">아이디</s.label>
+                <div class="mt-2">
+                  <w.InputText name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} required />
+                </div>
+              </div>
+
+              <div className="ml-2">
+                <s.label for="password">패스워드</s.label>
+                <div class="mt-2">
+                  <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} required />
+                </div>
+              </div>
+
+            </s.justify_block>
+
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="username">별명</s.label>
+              </div>
+              <div class="mt-2">
+                <w.InputText type="text" name="userNameState" placeholder="별명" onChange={inputHandle} value={userNameState} required />
+              </div>
+            </div>
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="password">생년월일</s.label>
+              </div>
+              <div class="mt-2">
+                <LocalizationProvider dateAdapter={AdapterDayjs} required>
+                  <DatePicker name="birthState" onChange={(newDate) => setBirthState(newDate)} value={dayjs(birthState)} />
+                </LocalizationProvider>
+              </div>
+            </div>
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="email">이메일</s.label>
+              </div>
+              <div class="mt-2">
+                <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+              </div>
+            </div>
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="phone">전화번호</s.label>
+              </div>
+              <div class="mt-2">
+                <w.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
+                  onChange={inputHandle}
+                  value={phoneState
+                    .replace(/[^0-9]/g, '')
+                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+                    .replace(/(\-{1,2})$/g, "")}
+                  required />
+              </div>
+            </div>
+
+
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="studentId">학번</s.label>
+              </div>
+              <div class="mt-2">
+                <w.InputText type="number" max="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
+              </div>
+            </div>
+
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="university">대학교</s.label>
+              </div>
+              <div class="mt-2">
+                {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                <w.InputText type="text" name="schoolState" placeholder="대학교" value="고려대학교" required />
+              </div>
+            </div>
+            <div>
+              <div class="mt-2 flex items-center justify-between">
+                <s.label for="gender">성별</s.label>
+              </div>
+              <div class="mt-2">
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="여"
+                  name="genderState"
+                  value={genderState}
+                  onChange={inputHandle}
+                  required>
+                  <FormControlLabel value="여" control={<Radio />} label="여" />
+                  <FormControlLabel value="남" control={<Radio />} label="남" />
+                </RadioGroup>
+              </div>
+            </div>
+
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <s.black_upload_button type="submit" onClick={signUpHandled} className="flex w-full justify-center my-2">
+            회원가입
+          </s.black_upload_button>
+
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
+
 export function LoginDialog() {
-  const [idState, setIdState] = useState('')
-  const [passwordState, setPasswordState] = useState('')
+  const { setSignUpPopUpState } = guestInfoPopUpStore((state) => ({
+    setSignUpPopUpState: state.setSignUpPopUpState,
+  }))
+
+  const [inputs, setInputs] = useState({
+    idState: '',
+    passwordState: '',
+  })
+
+  const { idState, passwordState } = inputs;
+
+  const inputHandle = (e) => {
+    setInputs({
+      ...inputs,
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+  };
+
   const [popUpState, setPopUpState] = useState(false)
-  const idChange = (e) => {
-    setIdState(e.target.value)
-  }
-  const passwordChange = (e) => {
-    setPasswordState(e.target.value)
-  }
 
   const loginHandled = () => {
     const id = idState
     const password = passwordState
     FetchLogin({ id, password })
     setPopUpState(false)
-
   };
+
+  const signUpHandled = () => {
+    setPopUpState(false)
+    setSignUpPopUpState(true)
+  }
+
   const idList = {
     "google": process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    "kakao": process.env.REACT_APP_KAKAO_CLIENT_ID,
   }
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${idList.kakao}&redirect_uri=https://localhost:3000/&response_type=code`
 
   return (
     <div>
       <button onClick={() => { setPopUpState(!popUpState) }}>Login</button>
       <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.close_button type="button" onClick={() => { setPopUpState(!popUpState) }} className='float-right'>
+          <s.change_button type="button" onClick={() => { setPopUpState(!popUpState) }}>
             <StyleComponent
               content='CloseButton' />
-          </s.close_button>
+          </s.change_button>
         </DialogTitle>
         <DialogContent>
           <div className="float-left">
@@ -412,7 +644,7 @@ export function LoginDialog() {
             <div>
               <s.label for="id">Id</s.label>
               <div class="mt-2">
-                <w.InputText required="" type="text" placeholder="아이디" onChange={idChange} value={idState} />
+                <w.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
               </div>
             </div>
 
@@ -424,18 +656,20 @@ export function LoginDialog() {
                 </div>
               </div>
               <div class="mt-2">
-                <w.InputText type="password" placeholder="비밀번호" onChange={passwordChange} value={passwordState} />
+                <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} />
               </div>
             </div>
           </div>
 
 
           <div>
-            <s.fetch_button type="submit" onClick={loginHandled} className="">
+            <s.black_upload_button type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
               로그인 하기
-            </s.fetch_button>
+            </s.black_upload_button>
           </div>
-
+          <div class="text-sm">
+            <s.forget_password className="mt-2 ml-1 text-m font-bold" href="#" onClick={signUpHandled}>회원가입</s.forget_password>
+          </div>
         </DialogContent>
         <w.Horizon />
         <DialogActions>
@@ -453,12 +687,11 @@ export function LoginDialog() {
 
         </DialogActions>
 
-        {/* 
-          <s.fetch_button type="submit" onClick={() => {
-            window.location.href = KAKAO_AUTH_URL
-          }} >카카오 로그인</s.fetch_button> */}
+
 
       </Dialog >
+      <SignUpDialog />
+
     </div >
   )
 }

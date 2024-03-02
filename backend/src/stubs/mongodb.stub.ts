@@ -4,8 +4,8 @@ import { ReservationDto } from '@/dto/reservation.dto';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
-  UserVerifyUpdateDto,
 } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
@@ -180,8 +180,10 @@ export const userUpdateStub = (): UserUpdateDto => {
     image_id: 'second image',
   };
 };
-export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
+export const userVerifyUpdateStub = (): UserTokenVerifyUpdateDto => {
   return {
+    tokenKey: 'mocked@mocked.com',
+    verifyToken: 123456,
     verify_school: true,
     verify_email: false,
     verify_phone: false,

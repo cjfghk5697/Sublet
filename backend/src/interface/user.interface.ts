@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UserBase {
   @IsString()
@@ -43,4 +43,9 @@ export class UserInterface extends UserExportInterface {
 
 export interface customRequest extends Express.Request {
   user: UserInterface;
+}
+
+export class VerifyInterface {
+  @IsEmail()
+  email: string;
 }

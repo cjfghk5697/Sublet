@@ -282,6 +282,40 @@ function FetchGetRequest() {
   return request
 }
 
+function SignUp({ user_id, password, username, email, phone, school, gender, birth, student_id }) {
+  const SignUp = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        password: password,
+        username: username,
+        email: email,
+        phone: phone,
+        school: school,
+        gender: gender,
+        birth: birth,
+        student_id: student_id
+      }),
+      path: '/'
+    };
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/`, requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result signup', response)
+      })
+      .catch((e) => {
+        console.log('[error] signup', e)
+      })
+  };
+  SignUp()
+}
+
 function FetchGetRequestByRequestId(id_list) {
   const [requestInfo, setRequestInfo] = useState([]);
   const URL = `${process.env.REACT_APP_BACKEND_URL}/request/requestId`
@@ -313,6 +347,59 @@ function FetchGetRequestByRequestId(id_list) {
 
   return request
 
+}
+function VerifyEmail({ email }) {
+
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    credentials: 'include',
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+      {
+        email: email
+      }
+    ),
+  }
+
+  fetch(link, requestOptions).then(res => res.json())
+    .then(response => {
+      console.log('result verify', response)
+    })
+    .catch((e) => {
+      console.log('[error] verify', e)
+    })
+  return true
+}
+
+function VerifyUser({ method, tokenKey, verifyToken }) {
+  //학교 인증은 우리가 확인(김과외처럼)
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/verifyUser`
+  const json = {
+    "verify_email": method === 'email' ? 'true' : 'false',
+    "verify_phone": method === 'phone' ? 'true' : 'false',
+    "tokenKey": tokenKey,
+    "verifyToken": verifyToken
+  }
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    method: "POST",
+    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+      json
+    )
+  };
+
+  fetch(link, requestOptions).then(res => res.json())
+    .then(response => {
+      console.log('result verify', response)
+    })
+    .catch((e) => {
+      console.log('[error] verify', e)
+    })
+  return true
 }
 
 async function DeleteRequest(key_num) {
@@ -361,4 +448,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { VerifyUser, SignUp, VerifyEmail, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

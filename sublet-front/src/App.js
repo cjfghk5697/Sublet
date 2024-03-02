@@ -12,6 +12,7 @@ import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 import KakaoConfirm from './components/loginComponents/Kakao.js';
 import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
+import GuestRequest from './pages/GuestRequest.js';
 
 function App() {
 
@@ -32,10 +33,11 @@ function App() {
 
         {/* <Route path='/Oauth/kakao' element={<KakaoConfirm />} /> */}
 
+        <Route path='/Request' element={<GuestRequest />} />
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />
-      </Routes>
-    </BrowserRouter>
+      </Routes >
+    </BrowserRouter >
   );
 }
 

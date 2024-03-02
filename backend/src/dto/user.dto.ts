@@ -1,4 +1,8 @@
-import { UserBase, UserPartialBase } from '@/interface/user.interface';
+import {
+  UserBase,
+  UserPartialBase,
+  VerifyInterface,
+} from '@/interface/user.interface';
 import { Transform } from 'class-transformer';
 import {
   IsEmail,
@@ -102,6 +106,13 @@ export class UserVerifyUpdateDto extends UserPartialBase {
   @IsBoolean()
   verify_phone?: boolean;
 }
+export class UserTokenVerifyUpdateDto extends UserVerifyUpdateDto {
+  @IsString()
+  tokenKey: string;
+
+  @IsNumber()
+  verifyToken: number;
+}
 
 export class UserFilterDto {
   @IsOptional()
@@ -125,3 +136,5 @@ export class UserLoginDto {
   @IsStrongPassword()
   password: string;
 }
+
+export class UserEmailVerifyDto extends VerifyInterface {}

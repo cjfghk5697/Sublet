@@ -4,6 +4,7 @@ import { UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
@@ -163,6 +164,24 @@ export class MongodbUserService {
         school: query.school,
       },
     });
+    return res;
+  }
+
+  async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id: user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: {
+        verify_email: putUserBody.verify_email,
+        verify_phone: putUserBody.verify_phone,
+      },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:verifyUser] user doesnt exist');
+    }
     return res;
   }
 }
