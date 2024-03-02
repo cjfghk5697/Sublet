@@ -4,6 +4,7 @@ import { UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
@@ -165,7 +166,7 @@ export class MongodbUserService {
     return res;
   }
 
-  async verifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+  async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id: user_id,

@@ -282,6 +282,40 @@ function FetchGetRequest() {
   return request
 }
 
+function SignUp({ user_id, password, username, email, phone, school, gender, birth, student_id }) {
+  const SignUp = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        password: password,
+        username: username,
+        email: email,
+        phone: phone,
+        school: school,
+        gender: gender,
+        birth: birth,
+        student_id: student_id
+      }),
+      path: '/'
+    };
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/`, requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result signup', response)
+      })
+      .catch((e) => {
+        console.log('[error] signup', e)
+      })
+  };
+  SignUp()
+}
+
 function FetchGetRequestByRequestId(id_list) {
   const [requestInfo, setRequestInfo] = useState([]);
   const URL = `${process.env.REACT_APP_BACKEND_URL}/request/requestId`
@@ -414,4 +448,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { VerifyUser, VerifyEmail, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { VerifyUser, SignUp, VerifyEmail, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

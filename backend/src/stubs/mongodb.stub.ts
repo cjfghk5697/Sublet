@@ -4,6 +4,7 @@ import { ReservationDto } from '@/dto/reservation.dto';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
@@ -177,7 +178,7 @@ export const userUpdateStub = (): UserUpdateDto => {
     image_id: 'second image',
   };
 };
-export const userVerifyUpdateStub = (): UserVerifyUpdateDto => {
+export const userVerifyUpdateStub = (): UserTokenVerifyUpdateDto => {
   return {
     tokenKey: 'mocked@mocked.com',
     verifyToken: 123456,
