@@ -38,7 +38,7 @@ export const userStub = (): UserInterface => {
   };
 };
 
-export const userExportStub = (user_id: string | undefined): UserExportInterface => {
+export const userExportStub = (user_id?: string): UserExportInterface => {
   return {
     id: user_id ? user_id : userStub().id,
     phone: userStub().phone,
@@ -93,7 +93,7 @@ export const postCreateStub = (): PostCreateDto => {
   };
 };
 
-export const postExportStub = (user_id: string | undefined): PostExportInterface => {
+export const postExportStub = (user_id?: string): PostExportInterface => {
   const createStub = postCreateStub();
 
   return {

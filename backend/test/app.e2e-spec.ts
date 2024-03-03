@@ -486,7 +486,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toStrictEqual({
-            ...postExportStub(),
+            ...postExportStub(body.postuser.id),
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,
@@ -513,7 +513,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toStrictEqual({
-            ...postExportStub(),
+            ...postExportStub(body.postuser.id),
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,
