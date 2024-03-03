@@ -1,7 +1,5 @@
-import { ImageInterface } from '@/interface/image.interface';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { MongodbUserService } from './mongodb.user.service';
 
 @Injectable()
 export class MongodbTestDBService {
