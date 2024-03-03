@@ -83,6 +83,7 @@ export class MongodbUserService {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(data.password, salt);
     data.password = hashPassword;
+    data.birth = new Date(data.birth);
     const result: UserInterface = await this.prisma.user.create({
       data: { ...data, version: this.USER_VERSION },
     });
