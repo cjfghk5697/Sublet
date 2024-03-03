@@ -152,7 +152,7 @@ export default function Map(props) {
       dragendEvent
     );
     const mapLatLng = new window.naver.maps.LatLng(Number(props?.currentPos[0]), Number(props?.currentPos[1]));
-    mapRef.current.panTo(mapLatLng, {x: props.currentPos[0], y: props.currentPos[1]});
+    mapRef.current.panTo(mapLatLng, { x: props.currentPos[0], y: props.currentPos[1] });
   }
 
   const dragendEvent = () => {
@@ -161,9 +161,9 @@ export default function Map(props) {
   }
 
   return (
-    props.type == "searchByMarker"?
-    <div id="map" className="h-screen w-full rounded-lg" style={{display: 'flex', height: 'calc(50vh'}} />
-    :
-    <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
+    props.type == "searchByMarker" ?
+      <div id="map" className="h-screen w-full rounded-lg" style={{ display: 'flex', height: 'calc(50vh)' }} />
+      :
+      <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
   )
 }

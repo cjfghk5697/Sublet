@@ -56,7 +56,7 @@ function SubletInfo(props) {
               props.city + " " + props.gu + " " + props.dong + " " + props.street + " " + props.street_number
             }</p>
             <p className="text-sm">{start_day.getMonth() + 1}월 {start_day.getDate()}일 부터, 최소 {props.min_duration}개월</p>
-            <p className="text-lg font-bold text-[#bd1e59] text-right">₩{(props.price * 30).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}/1개월</p>
+            <p className="text-lg font-bold text-[#bd1e59] text-right">₩{(props.price * 30).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / 30일</p>
           </div>
         </HoverNewPageDiv>
         <HoverBtnDiv onClick={() => { console.log("props.marker : ", props.marker); props.marker?.trigger('click'); }}>

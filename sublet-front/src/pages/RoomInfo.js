@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { SubletPostStore } from "../store/SubletPostStore";
 import { Carousel } from "@material-tailwind/react";
 import Map from '../components/Map';
+import SearchDate from '../components/HeaderComponents/SearchDate.js';
 
 
 export default function RoomInfo() {
@@ -62,8 +63,8 @@ export default function RoomInfo() {
     if (!postExist) {
       asyncGetPostAll();
     }
-    setNowRoomPost({ nowRoomPost: postAll.find((post) => post.key == nowRoomNum) });
-  }, []);
+    setNowRoomPost({ ...postAll.find((post) => post.key == nowRoomNum) });
+  }, [postExist]);
 
   return (
     <div>
@@ -91,29 +92,106 @@ export default function RoomInfo() {
           ))}
         </Carousel>
       </div>
-      <h3>방 정보</h3>
-      <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
-        <div>
-          <PersonIcon />
-          최대 {nowRoomPost.limit_people} 인
-        </div>
-        <div>
-          <SingleBedIcon />
-          방 {nowRoomPost.number_room} 개
-        </div>
-        <div>
-          <HomeIcon />
-          침실 {nowRoomPost.number_bedroom} 개
-        </div>
-        <div>
-          <BathtubIcon />
-          화장실 {nowRoomPost.number_bathroom} 개
-        </div>
-      </div>
-      <div>
-        <h3>지도</h3>
-        {postExist && <Map />}
-      </div>
+      {postExist && nowRoomPost &&
+        <>
+          {console.log(nowRoomPost)}
+
+          <section className="text-3xl font-bold mx-3 mt-1 mb-6">{nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}</section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md mx-3 mb-6">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-lg font-bold">30박</div>
+                <div className="text-3xl font-bold mt-1">{(nowRoomPost.price * 30).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원~</div>
+                <div className="text-sm font-bold mt-2">1박 당 {(nowRoomPost.price * 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
+                <div className="flex flex-col text-sm text-gray-500 mt-3">{new Date(nowRoomPost.start_day).getMonth() + 1}월 {new Date(nowRoomPost.start_day).getDate()}일 부터, 최소 {nowRoomPost.min_duration}개월</div>
+              </div>
+            </div>
+          </section>
+
+          <section className='mx-3 mb-6'>
+            <div className="text-xl font-bold">방 정보</div>
+            <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
+              <div>
+                <PersonIcon />
+                최대 {nowRoomPost.limit_people} 인
+              </div>
+              <div>
+                <SingleBedIcon />
+                방 {nowRoomPost.number_room} 개
+              </div>
+              <div>
+                <HomeIcon />
+                침실 {nowRoomPost.number_bedroom} 개
+              </div>
+              <div>
+                <BathtubIcon />
+                화장실 {nowRoomPost.number_bathroom} 개
+              </div>
+            </div>
+
+            <div className="text-sm font-bold">
+              <p>{nowRoomPost.content}</p>
+              <p>{nowRoomPost.description}</p>
+            </div>
+          </section>
+
+          <section className='mx-3 mb-6'>
+            <div className="text-xl font-bold">지도</div>
+            <div className='h-1/6 overflow-hidden'>
+              {postExist && <Map />}
+            </div>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md mx-3 mb-6">
+            <div className="text-xl font-bold">예약하기</div>
+            <SearchDate />
+            <div className="mt-4 mb-2 text-2xl font-bold">
+              {`받아온 날짜 수 * 일간 가격`/* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/} 원
+              <span className="text-sm font-normal">/{`SearchDate에서 선택된 날짜 받아오기..`} 일</span>
+            </div>
+            <button className="w-full rounded-lg bg-gray-300 text-black p-1">예약하기</button>
+            <div className="mt-2 mb-2 text-sm text-gray-600">예약 확정 전에 환불 규정을 확인 하셨나요?</div>
+          </section>
+
+          <section className="bg-white p-4 rounded-lg shadow-md mx-3 mb-6">
+            <div className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
+              <div className="flex-shrink-0">
+                <img
+                  alt="Profile"
+                  className="h-32 w-32 rounded-full"
+                  height="64"
+                  src="/logo.png"
+                  style={{
+                    aspectRatio: "64/64",
+                    objectFit: "cover",
+                  }}
+                  width="64"
+                />
+              </div>
+
+              <section className="flex flex-col">
+                <div className="bg-[#ffa500] text-white text-center rounded-md px-4 py-1 text-sm">호스트</div>
+                <div className="bg-[#007bff] text-white text-center rounded-md px-4 py-1 text-sm">아주대</div>
+                <div className="bg-[#6f42c1] text-white text-center rounded-md px-4 py-1 text-sm">삼성전자</div>
+              </section>
+
+              <div>
+                <div className="text-2xl font-bold">호스트 이름</div>
+                <div className="text-sm">호스트 소개</div>
+                <div className="flex space-x-4 mt-1">
+                  <span className="text-sm text-gray-700">후기 1,220개</span>
+                  <span className="text-sm text-gray-700">경력 7년</span>
+                </div>
+              </div>
+            </div>
+
+            <button className="w-full rounded-lg bg-gray-300 text-black p-1">메세지 보내기</button>
+          </section>
+
+
+        </>
+      }
     </div >
   );
 }
