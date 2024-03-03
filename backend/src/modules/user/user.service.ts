@@ -90,15 +90,15 @@ export class UserService {
 
   async verifyTokenEmail(email: string) {
     //https://4sii.tistory.com/437#google_vignette
-    var user_email = email; //받아온 email user_email에 초기화
-    var number = Math.floor(Math.random() * 1000000) + 100000;
+    const user_email = email; //받아온 email user_email에 초기화
+    let number = Math.floor(Math.random() * 1000000) + 100000;
     if (number > 1000000) {
       number = number - 100000;
     }
 
     await this.cacheManager.set(user_email, number); //cache 생성
 
-    var transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: 'gmail', //사용하고자 하는 서비스
       auth: {
         user: env.EMAIL_ADDRESS, //gmail주소입력

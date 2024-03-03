@@ -120,6 +120,7 @@ model RequestForm {
   Post              Post[]   @relation(fields: [postId], references: [id])
   postId            String[] @db.ObjectId
   complete          Boolean  @default(false)
+  request_text      String
 }
 
 model Reservation {
