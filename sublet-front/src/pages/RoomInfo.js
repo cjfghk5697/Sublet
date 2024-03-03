@@ -43,7 +43,6 @@ export default function RoomInfo() {
       width: '80%',
       marginLeft: '10%',
       flexWrap: 'wrap',
-      flexDirection: 'column',
       alignContent: 'center',
       flexDirection: 'row',
       justifyContent: 'space-around'
@@ -52,17 +51,18 @@ export default function RoomInfo() {
 
   // 새 창에서 열린다면 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
   const params = useParams();
-  const nowRomeNum = params.roomKey;
+  const nowRoomNum = params.roomKey;
+
+  const [nowRoomPost, setNowRoomPost] = useState({});
 
   const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
   const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
-
 
   useEffect(() => {
     if (!postExist) {
       asyncGetPostAll();
     }
-
+    setNowRoomPost({ nowRoomPost: postAll.find((post) => post.key == nowRoomNum) });
   }, []);
 
   return (
@@ -82,7 +82,7 @@ export default function RoomInfo() {
               ))}
             </div>
           )}>
-          {postExist && postAll.find((post) => post.key == nowRomeNum).image_id.map((image_id, index) => (
+          {postExist && postAll.find((post) => post.key == nowRoomNum).image_id.map((image_id, index) => (
             <img
               src={`${process.env.REACT_APP_BACKEND_URL}/public/${image_id}.jpg`}
               alt={`image ${index}`}
@@ -91,26 +91,28 @@ export default function RoomInfo() {
           ))}
         </Carousel>
       </div>
+      <h3>방 정보</h3>
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
         <div>
           <PersonIcon />
-          최대 {``} 인
+          최대 {nowRoomPost.limit_people} 인
         </div>
         <div>
           <SingleBedIcon />
-          방 {``} 개
+          방 {nowRoomPost.number_room} 개
         </div>
         <div>
           <HomeIcon />
-          침실 {``} 개
+          침실 {nowRoomPost.number_bedroom} 개
         </div>
         <div>
           <BathtubIcon />
-          화장실 {``} 개
+          화장실 {nowRoomPost.number_bathroom} 개
         </div>
       </div>
       <div>
-        <Map />
+        <h3>지도</h3>
+        {postExist && <Map />}
       </div>
     </div >
   );
