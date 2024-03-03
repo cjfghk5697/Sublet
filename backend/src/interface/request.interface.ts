@@ -6,9 +6,9 @@ import {
   IsPositive,
   IsString,
 } from 'class-validator';
-import { UserExportInterface } from './user.interface';
+import { UserExportInterface, UserInterface } from './user.interface';
 import { Transform } from 'class-transformer';
-import { PostExportInterface } from './post.interface';
+import { PostExportInterface, PostInterface } from './post.interface';
 
 export class RequestBase {
   @IsString()
@@ -105,6 +105,8 @@ export class RequestExportInterface extends RequestBase {
 export class RequestInterface extends RequestExportInterface {
   id: string;
   delete: boolean;
+  User: UserInterface;
+  Post: PostInterface[];
 }
 
 export class RequestKey {

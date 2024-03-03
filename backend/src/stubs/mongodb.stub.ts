@@ -34,12 +34,13 @@ export const userStub = (): UserInterface => {
     verify_school: false,
     verify_email: false,
     verify_phone: false,
+    chat_id: [],
   };
 };
 
-export const userExportStub = (): UserExportInterface => {
+export const userExportStub = (user_id?: string): UserExportInterface => {
   return {
-    id: userStub().id,
+    id: user_id ? user_id : userStub().id,
     phone: userStub().phone,
     school: userStub().school,
     username: userStub().username,
@@ -54,6 +55,7 @@ export const userExportStub = (): UserExportInterface => {
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
+    chat_id: userStub().chat_id,
   };
 };
 
@@ -91,7 +93,7 @@ export const postCreateStub = (): PostCreateDto => {
   };
 };
 
-export const postExportStub = (): PostExportInterface => {
+export const postExportStub = (user_id?: string): PostExportInterface => {
   const createStub = postCreateStub();
 
   return {
@@ -107,6 +109,7 @@ export const postExportStub = (): PostExportInterface => {
     requestIDs: [],
     like_count: 0,
     like_user_id: [],
+    postuser: userExportStub(user_id),
   };
 };
 
@@ -116,6 +119,7 @@ export const postStub = (): PostInterface => {
     id: 'mocked-id',
     deleted: false,
     version: 1,
+    postuser: userStub(),
   };
 };
 
@@ -289,11 +293,11 @@ export const requestInterfaceStub = (): RequestInterface => {
     complete: true,
     request_text: 'mock-post-text',
     User: {
-      ...userExportStub(),
+      ...userStub(),
     },
     Post: [
       {
-        ...postExportStub(),
+        ...postStub(),
       },
     ],
   };
