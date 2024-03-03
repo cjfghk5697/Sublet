@@ -14,11 +14,10 @@ const testStore = create((set) => {
       if (resp.ok) {
         const json = await resp.json();
         set({ user: json });
-        console.log(json);
       }
     },
     login: async (id, password) => {
-      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/login`, {
+      await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/login`, {
         method: "POST",
         body: JSON.stringify({
           id: id,
@@ -28,8 +27,6 @@ const testStore = create((set) => {
         },
         credentials: "include"
       });
-      const json = await resp.json();
-      console.log(json);
       const resp2 = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "GET",
         credentials: "include"
@@ -37,11 +34,10 @@ const testStore = create((set) => {
       if (resp2.ok) {
         const json = await resp2.json();
         set({ user: json });
-        console.log(json);
       }
     },
     register: async (id, password, email, phone) => {
-      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
+      await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/user`, {
         method: "POST",
         body: JSON.stringify({
           user_id: id,
@@ -59,19 +55,15 @@ const testStore = create((set) => {
         },
         credentials: "include"
       });
-      const json = await resp.json();
-      console.log(json);
     },
     logOut: async (afterFunc) => {
-      const resp = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/logout`, {
+      await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include"
       });
-      const json = await resp.json();
-      console.log(json);
       set({ user: {} });
       afterFunc();
     },
@@ -85,7 +77,6 @@ const testStore = create((set) => {
       });
       const json = await resp.json();
       console.log(json);
-
     },
     posts: [],
     getPostsFromBackend: async () => {
@@ -152,9 +143,6 @@ const testStore = create((set) => {
       });
 
     },
-    setPost: (posts) => {
-      set({ posts })
-    },
     rooms: [],
     setRooms: (rooms) => {
       set({ rooms });
@@ -171,31 +159,22 @@ export { testStore };
 
 const TestChat = () => {
 
-  const { user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket } = testStore(
-    ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket }) =>
-      ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, setPost, rooms, setRooms, socket, setSocket })
+  const { user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, rooms, setRooms, socket, setSocket } = testStore(
+    ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, rooms, setRooms, socket, setSocket }) =>
+      ({ user, setUser, login, register, logOut, printUser, posts, getPostsFromBackend, sendPost, rooms, setRooms, socket, setSocket })
   );
 
   useEffect(() => {
     getPostsFromBackend();
     setUser();
-    if (!socket)
-      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
-  });
-
-  useEffect(() => {
     if (!socket) {
-      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
-    } else {
-      socket.on("post", (post) => {
-        setPost(post);
-      });
-
+      setSocket(io(process.env.REACT_APP_BACKEND_WS_URL));
     }
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
+
     socket.on("receive_message", (log) => {
       const newRooms = rooms.map((room) => {
         if (room.room_id === log.chatroom_id) {

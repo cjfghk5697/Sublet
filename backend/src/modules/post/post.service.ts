@@ -7,10 +7,11 @@ import {
   PostUpdateDto,
 } from '@/dto/post.dto';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { UserInterface } from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { createHash } from 'crypto';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
 import { MongodbPostImageService } from '../mongodb/mongodb.postimage.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PostService {
@@ -174,7 +175,8 @@ export class PostService {
     delete (post as { id?: string }).id;
     delete (post as { deleted?: boolean }).deleted;
     delete (post as { version?: number }).version;
-    delete (post as { postuser?: UserInterface }).postuser;
+    (post as { postuser: UserExportInterface }).postuser =
+      UserService.transformExport(post.postuser);
     return post;
   }
 }

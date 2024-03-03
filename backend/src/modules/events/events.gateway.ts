@@ -103,7 +103,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('delete_message')
   async deleteChatLog(@MessageBody() { chat_id }: ChatDeleteDto) {
     const ret = await this.mongoDb.deleteChatLog(chat_id);
-    this.server.to(ret.chatroom_id).emit('delete_message', {id: ret.id});
+    this.server.to(ret.chatroom_id).emit('delete_message', { id: ret.id });
     return ret;
   }
 

@@ -28,12 +28,12 @@ const TestDBDetail = () => {
     await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/test/db/${name}/${id}`, {
       method: "DELETE"
     });
-    fetchData()
+    fetchData();
   }
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return <ul>{
     data.map((ele, i) => {

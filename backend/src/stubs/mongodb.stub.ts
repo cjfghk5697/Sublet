@@ -55,7 +55,7 @@ export const userExportStub = (): UserExportInterface => {
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
-    chat_id: userStub().chat_id
+    chat_id: userStub().chat_id,
   };
 };
 
@@ -109,6 +109,7 @@ export const postExportStub = (): PostExportInterface => {
     requestIDs: [],
     like_count: 0,
     like_user_id: [],
+    postuser: userExportStub(),
   };
 };
 
@@ -289,11 +290,11 @@ export const requestInterfaceStub = (): RequestInterface => {
     school: '아주대',
     complete: true,
     User: {
-      ...userExportStub(),
+      ...userStub(),
     },
     Post: [
       {
-        ...postExportStub(),
+        ...postStub(),
       },
     ],
   };

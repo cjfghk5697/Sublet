@@ -12,7 +12,6 @@ const TestChatRoom = () => {
   const [chatLog, setChatLog] = useState([]);
 
   const params = useParams();
-  console.log(params);
 
   const onReceiveMessage = (chatlog) => {
     console.log("receive message from server,", chatlog);
@@ -23,7 +22,7 @@ const TestChatRoom = () => {
 
   useEffect(() => {
     if (!socket)
-      setSocket(io(`${process.env.REACT_APP_TEST_BACKEND_URL}`));
+      setSocket(io(process.env.REACT_APP_BACKEND_WS_URL));
     else {
       socket.emit("get_chatlog", { chat_id: params.chatId }, (ret) => {
         console.log("get chatlog responded!");
