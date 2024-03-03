@@ -8,9 +8,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { SubletPostStore } from "../store/SubletPostStore";
 import { Carousel } from "@material-tailwind/react";
+import Map from '../components/Map';
 
 
-// 새 창에서 열린다면 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
 export default function RoomInfo() {
   const styles = {
     RomeInfo_ImgContainer: {
@@ -45,9 +45,12 @@ export default function RoomInfo() {
       flexWrap: 'wrap',
       flexDirection: 'column',
       alignContent: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around'
     },
   };
 
+  // 새 창에서 열린다면 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
   const params = useParams();
   const nowRomeNum = params.roomKey;
 
@@ -59,6 +62,7 @@ export default function RoomInfo() {
     if (!postExist) {
       asyncGetPostAll();
     }
+
   }, []);
 
   return (
@@ -90,13 +94,24 @@ export default function RoomInfo() {
       <div id="RomeInfo-detail" style={styles.RomeInfo_detail}>
         <div>
           <PersonIcon />
-          최대 인원 : {``}인
+          최대 {``} 인
         </div>
-        <SingleBedIcon />
-        <HomeIcon />
-        <BathtubIcon />
+        <div>
+          <SingleBedIcon />
+          방 {``} 개
+        </div>
+        <div>
+          <HomeIcon />
+          침실 {``} 개
+        </div>
+        <div>
+          <BathtubIcon />
+          화장실 {``} 개
+        </div>
       </div>
-
+      <div>
+        <Map />
+      </div>
     </div >
   );
 }
