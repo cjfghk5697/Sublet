@@ -68,7 +68,7 @@ describe('AppController (e2e)', () => {
       .expect(201)
       .expect(({ body }) => {
         post = {
-          ...postExportStub(),
+          ...postExportStub(body.postuser.id),
           image_id: body.image_id,
           key: body.key,
           post_date: body.post_date,

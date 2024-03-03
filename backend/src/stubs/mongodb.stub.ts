@@ -38,9 +38,9 @@ export const userStub = (): UserInterface => {
   };
 };
 
-export const userExportStub = (): UserExportInterface => {
+export const userExportStub = (user_id: string | undefined): UserExportInterface => {
   return {
-    id: userStub().id,
+    id: user_id ? user_id : userStub().id,
     phone: userStub().phone,
     school: userStub().school,
     username: userStub().username,
@@ -93,7 +93,7 @@ export const postCreateStub = (): PostCreateDto => {
   };
 };
 
-export const postExportStub = (): PostExportInterface => {
+export const postExportStub = (user_id: string | undefined): PostExportInterface => {
   const createStub = postCreateStub();
 
   return {
@@ -109,7 +109,7 @@ export const postExportStub = (): PostExportInterface => {
     requestIDs: [],
     like_count: 0,
     like_user_id: [],
-    postuser: userExportStub(),
+    postuser: userExportStub(user_id),
   };
 };
 
