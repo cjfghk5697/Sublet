@@ -18,6 +18,7 @@ export class AuthService {
       const user = await this.usersService.validateUser(id, pass);
       return user;
     } catch (e) {
+      console.log('user not found');
       return null;
     }
   }

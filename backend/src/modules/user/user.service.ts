@@ -26,13 +26,13 @@ export class UserService {
 
   async getAllUser() {
     const user = await this.userdb.getAllUser();
-    const userExport = user.map((ele) => this.transformExport(ele));
+    const userExport = user.map((ele) => UserService.transformExport(ele));
     return userExport;
   }
 
   async getUserByKey(user_id: string) {
     const user = await this.userdb.getUserByKey(user_id);
-    const exportUser = this.transformExport(user);
+    const exportUser = UserService.transformExport(user);
     return exportUser;
   }
 
@@ -42,7 +42,7 @@ export class UserService {
   }
   async validateUser(user_id: string, password: string) {
     const user = await this.userdb.validateUser(user_id, password);
-    const exportUser = this.transformExport(user);
+    const exportUser = UserService.transformExport(user);
     return exportUser;
   }
 
@@ -50,7 +50,7 @@ export class UserService {
     const res = await this.userdb.createUser({
       ...user,
     });
-    const exportUser = this.transformExport(res);
+    const exportUser = UserService.transformExport(res);
     return exportUser;
   }
 
@@ -60,18 +60,18 @@ export class UserService {
   }
   async putOneUser(user_id: string, putUserBody: UserUpdateDto) {
     const user = await this.userdb.putOneUser(user_id, putUserBody);
-    const exportUser = this.transformExport(user);
+    const exportUser = UserService.transformExport(user);
     return exportUser;
   }
   async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
     const user = await this.userdb.putOneUser(user_id, putUserBody);
-    const exportUser = this.transformExport(user);
+    const exportUser = UserService.transformExport(user);
     return exportUser;
   }
   async filterUser(query: UserFilterDto) {
     const res = await this.userdb.filterUser(query);
 
-    const ret = res.map((user) => this.transformExport(user));
+    const ret = res.map((user) => UserService.transformExport(user));
     return ret;
   }
 
@@ -84,21 +84,21 @@ export class UserService {
       user_id,
       image_id,
     );
-    const ret = this.transformExport(res);
+    const ret = UserService.transformExport(res);
     return ret;
   }
 
   async verifyTokenEmail(email: string) {
     //https://4sii.tistory.com/437#google_vignette
-    var user_email = email; //받아온 email user_email에 초기화
-    var number = Math.floor(Math.random() * 1000000) + 100000;
+    const user_email = email; //받아온 email user_email에 초기화
+    let number = Math.floor(Math.random() * 1000000) + 100000;
     if (number > 1000000) {
       number = number - 100000;
     }
 
     await this.cacheManager.set(user_email, number); //cache 생성
 
-    var transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: 'gmail', //사용하고자 하는 서비스
       auth: {
         user: env.EMAIL_ADDRESS, //gmail주소입력
@@ -166,7 +166,7 @@ export class UserService {
     return res;
   }
 
-  transformExport(user: UserInterface): UserExportInterface {
+  static transformExport(user: UserInterface): UserExportInterface {
     delete (user as { password?: string }).password;
     delete (user as { delete?: boolean }).delete;
     delete (user as { version?: number }).version;
