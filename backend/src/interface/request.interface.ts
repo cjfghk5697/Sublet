@@ -21,8 +21,7 @@ export class RequestBase {
   dong: string;
 
   @IsString()
-  @IsOptional()
-  accomodation_type?: string;
+  accomodation_type: string;
 
   @IsString()
   building_type: string;
@@ -44,26 +43,22 @@ export class RequestBase {
   alarm: boolean;
 
   @IsString()
-  @IsOptional()
-  school?: string;
+  school: string;
 
   @IsInt()
   @IsPositive()
   @IsNumber()
-  @IsOptional()
-  number_room?: number;
+  number_room: number;
 
   @IsInt()
   @IsPositive()
   @IsNumber()
-  @IsOptional()
-  limit_people?: number;
+  limit_people: number;
 
   @IsInt()
   @IsPositive()
   @IsNumber()
-  @IsOptional()
-  price?: number;
+  price: number;
 
   @IsDateString()
   end_day: string | Date;
@@ -74,14 +69,12 @@ export class RequestBase {
   @IsInt()
   @IsPositive()
   @IsNumber()
-  @IsOptional()
-  number_bathroom?: number;
+  number_bathroom: number;
 
   @IsInt()
   @IsNumber()
   @IsPositive()
-  @IsOptional()
-  number_bedroom?: number;
+  number_bedroom: number;
 
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();
@@ -92,8 +85,7 @@ export class RequestBase {
   complete: boolean;
 
   @IsString()
-  @IsOptional()
-  request_text?: string;
+  request_text: string;
 }
 
 export class RequestExportInterface extends RequestBase {

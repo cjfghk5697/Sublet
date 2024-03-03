@@ -1,5 +1,16 @@
 import 'animate.css';
 import * as s from "./styles/SummaryBlock.styles"
+
+export function checkEmailFormat(target, school) {
+  if (school === "고려대학교") {
+    if (typeof (target) == "string" && target.split("@", 2)[1] == "korea.ac.kr") {
+      return true
+    }
+  }
+  return false
+}
+
+
 export function priceToString(price) {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
