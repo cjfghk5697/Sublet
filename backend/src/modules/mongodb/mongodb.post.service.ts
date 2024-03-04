@@ -30,12 +30,19 @@ export class MongodbPostService {
       },
       skip: query.maxPost * (query.page - 1),
       take: query.maxPost,
+      include: {
+        postuser: true,
+      },
     });
     return posts;
   }
 
   async getPostMaxKey() {
-    const posts: PostInterface[] = await this.prisma.post.findMany({});
+    const posts: PostInterface[] = await this.prisma.post.findMany({
+      include: {
+        postuser: true,
+      },
+    });
     if (!posts || posts.length === 0) return 0;
     return posts.reduce((prev, cur) => {
       return Math.max(prev, cur.key);
@@ -60,6 +67,9 @@ export class MongodbPostService {
         },
         version: this.POST_VERSION,
       },
+      include: {
+        postuser: true,
+      },
     });
     return res;
   }
@@ -71,6 +81,9 @@ export class MongodbPostService {
         version: { gte: this.POST_VERSION },
         deleted: false,
         local_save: false,
+      },
+      include: {
+        postuser: true,
       },
     });
     if (!res) {
@@ -85,6 +98,9 @@ export class MongodbPostService {
         key,
         version: { gte: this.POST_VERSION },
         deleted: false,
+      },
+      include: {
+        postuser: true,
       },
       data: putPostBody,
     });
@@ -141,6 +157,9 @@ export class MongodbPostService {
         deleted: false,
         local_save: false,
       },
+      include: {
+        postuser: true,
+      },
     });
     return res;
   }
@@ -154,6 +173,68 @@ export class MongodbPostService {
         postuser: {
           user_id: user['user_id'],
         },
+      },
+      include: {
+        postuser: true,
+      },
+    });
+    return res;
+  }
+
+  async likePost(post_key: number, user: UserInterface) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key: post_key,
+        version: { gte: this.POST_VERSION },
+        deleted: false,
+        like_user: {
+          none: {
+            id: user['id'],
+          },
+        },
+      },
+      data: {
+        like_count: {
+          increment: 1,
+        },
+        like_user: {
+          connect: {
+            id: user['id'],
+          },
+        },
+      },
+      include: {
+        postuser: true,
+      },
+    });
+    return res;
+  }
+
+  async unlikePost(post_key: number, user: UserInterface) {
+    const res: PostInterface = await this.prisma.post.update({
+      where: {
+        key: post_key,
+        version: { gte: this.POST_VERSION },
+        deleted: false,
+        like_user: {
+          some: {
+            id: user['id'],
+          },
+        },
+      },
+      data: {
+        like_count: {
+          decrement: 1,
+        },
+        like_user: {
+          disconnect: {
+            id: user['id'],
+          },
+        },
+      },
+      include: {
+        like_user: true,
+        postuser: true,
       },
     });
     return res;

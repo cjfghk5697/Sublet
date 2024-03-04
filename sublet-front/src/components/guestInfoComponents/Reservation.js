@@ -1,15 +1,15 @@
-import { DateFormat, priceToString } from "./StaticComponents";
-import { ReservationSummaryBlock } from "./SummaryBlock";
-import { FetchReservation, FetchReservationByPostKey } from "./FetchList";
-import { Horizon } from "./styles/Wrapper.style";
+import { DateFormat, priceToString } from "../StaticComponents";
+import { ReservationSummaryBlock } from "../SummaryBlock";
+import { FetchReservation, FetchReservationByPostKey } from "../FetchList";
+import * as w from "../styles/Wrapper.style";
 
 function ReservationByPostKeyInfo({ post_key }) {
   const reservation = FetchReservationByPostKey(post_key)
 
   return (
     <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <Horizon />
+      <w.SecondHead>예약 현황</w.SecondHead>
+      <w.Horizon />
       {reservation.length > 0 ? (reservation.map((res) => {
         const startStr = DateFormat(res.r_start_day)
         const endStr = DateFormat(res.r_end_day)
@@ -17,10 +17,10 @@ function ReservationByPostKeyInfo({ post_key }) {
 
         return (
           <>
-            <p className="ml-3 text-lg font-medium">게스트: {res.User.username}</p>
-            <p className="ml-3 text-lg font-medium">기간: {startStr} ~ {endStr}</p>
-            <p className="ml-3 text-lg font-medium">비용: {pay}</p>
-            <Horizon />
+            <w.DetailParagraph>게스트: {res.User.username}</w.DetailParagraph>
+            <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
+            <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
+            <w.Horizon />
           </>
         )
 
@@ -35,8 +35,8 @@ function ReservationInfo() {
   const reservation = FetchReservation()
   return (
     <div className="mb-4">
-      <h2 className="text-2xl font-extrabold">예약 현황</h2>
-      <Horizon />
+      <w.SecondHead>예약 현황</w.SecondHead>
+      <w.Horizon />
       {reservation.length > 0 ? reservation.map((res) => (
         <ReservationSummaryBlock
           title={res.Post.title}

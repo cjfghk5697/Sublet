@@ -13,6 +13,9 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { RequestModule } from './modules/request/request.module';
+import { EventsModule } from './modules/events/events.module';
+import { TestModule } from './test/test.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -20,6 +23,11 @@ import { RequestModule } from './modules/request/request.module';
     UserModule,
     AuthModule,
     PostModule,
+    CacheModule.register({
+      ttl: 300000, // 데이터 캐싱 시간(밀리 초 단위)
+      max: 100, // 최대 캐싱 개수
+      isGlobal: true,
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/public',
@@ -31,6 +39,8 @@ import { RequestModule } from './modules/request/request.module';
     ConfigModule.forRoot(),
     ReservationModule,
     RequestModule,
+    EventsModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

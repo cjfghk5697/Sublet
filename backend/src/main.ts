@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { env } from 'process';
 import * as bodyParser from 'body-parser';
+import { MongoIoAdapter } from './modules/events/mongo.adapter';
 
 async function bootstrap() {
   // const fs = require('fs');
@@ -36,6 +37,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+
+  const mongoIoAdapter = new MongoIoAdapter(app);
+  await mongoIoAdapter.connectToMongo();
   await app.listen(4000);
 }
 bootstrap();

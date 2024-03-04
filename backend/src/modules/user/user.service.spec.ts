@@ -2,14 +2,16 @@ import { Test } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { UserExportInterface } from '@/interface/user.interface';
 import {
+  userCreateStub,
   userExportStub,
   userFilterStub,
-  userStub,
   userUpdateStub,
+  userVerifyUpdateStub,
 } from '../../stubs/mongodb.stub';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { PostInterface } from '@/interface/post.interface';
+import { CacheModule } from '@nestjs/cache-manager';
 
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');
@@ -23,7 +25,7 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [MongodbModule],
+      imports: [MongodbModule, CacheModule.register()],
       providers: [UserService],
     }).compile();
 
@@ -128,7 +130,7 @@ describe('UserService', () => {
       let result: UserExportInterface | undefined;
       beforeEach(async () => {
         try {
-          result = await service.createUser(userStub());
+          result = await service.createUser(userCreateStub());
         } catch (_e) {
           result = undefined;
         }
@@ -169,7 +171,7 @@ describe('UserService', () => {
     });
   });
 
-  describe('TESTING putOneUser (UPDATE /user/:user_id', () => {
+  describe('TESTING putOneUser (UPDATE /user/update', () => {
     describe('when calling with user update inputs', () => {
       let result: UserExportInterface | undefined;
       beforeEach(async () => {
@@ -192,6 +194,37 @@ describe('UserService', () => {
         expect(mongodbUserService.putOneUser).toHaveBeenCalledWith(
           'mocked-user_id',
           userUpdateStub(),
+        );
+      });
+    });
+  });
+
+  describe('TESTING putVerifyUser (UPDATE /user/verifyupdate', () => {
+    describe('when calling with user update inputs', () => {
+      let result: UserExportInterface | undefined;
+      beforeEach(async () => {
+        try {
+          result = await service.putOneUser(
+            'mocked-user_id',
+            userVerifyUpdateStub(),
+          );
+        } catch (_e) {
+          result = undefined;
+        }
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+      });
+
+      it('then should call db to update user', () => {
+        expect(mongodbUserService.putOneUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should db to update user with given parameters', () => {
+        expect(mongodbUserService.putOneUser).toHaveBeenCalledWith(
+          'mocked-user_id',
+          userVerifyUpdateStub(),
         );
       });
     });

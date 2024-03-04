@@ -7,10 +7,11 @@ import {
   PostUpdateDto,
 } from '@/dto/post.dto';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { UserInterface } from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { createHash } from 'crypto';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
 import { MongodbPostImageService } from '../mongodb/mongodb.postimage.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PostService {
@@ -32,11 +33,9 @@ export class PostService {
     if (query.maxPost > 50) query.maxPost = 6;
 
     query.page = this.isPositiveInt(query.page, 1);
-
     const result = await this.postdb.getAllPosts(query);
 
     const ret = result.map((post) => this.transformExport(post));
-
     return ret;
   }
 
@@ -160,10 +159,24 @@ export class PostService {
     return res;
   }
 
+  async likePost(post_key: number, user: UserInterface) {
+    const res = await this.postdb.likePost(post_key, user);
+    const ret = this.transformExport(res);
+    return ret;
+  }
+
+  async unlikePost(post_key: number, user: UserInterface) {
+    const res = await this.postdb.unlikePost(post_key, user);
+    const ret = this.transformExport(res);
+    return ret;
+  }
+
   transformExport(post: PostInterface): PostExportInterface {
     delete (post as { id?: string }).id;
     delete (post as { deleted?: boolean }).deleted;
     delete (post as { version?: number }).version;
+    (post as { postuser: UserExportInterface }).postuser =
+      UserService.transformExport(post.postuser);
     return post;
   }
 }

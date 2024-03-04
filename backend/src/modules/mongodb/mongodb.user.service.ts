@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserInterface } from '@/interface/user.interface';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserTokenVerifyUpdateDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 
 import * as bcrypt from 'bcrypt';
 import { PostInterface } from '@/interface/post.interface';
@@ -70,7 +76,6 @@ export class MongodbUserService {
     if (!result) {
       throw Error('[mongodb.service:getUserPostByKey] result null');
     }
-    console.log('[mongodb.service:getUserPostByKey] result', result);
     return result;
   }
 
@@ -78,6 +83,7 @@ export class MongodbUserService {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(data.password, salt);
     data.password = hashPassword;
+    data.birth = new Date(data.birth);
     const result: UserInterface = await this.prisma.user.create({
       data: { ...data, version: this.USER_VERSION },
     });
@@ -119,6 +125,20 @@ export class MongodbUserService {
     }
     return res;
   }
+  async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: putUserBody,
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putVerifyUser] user doesnt exist');
+    }
+    return res;
+  }
 
   async deleteOneUser(user_id: string) {
     const res: UserInterface = await this.prisma.user.update({
@@ -144,6 +164,24 @@ export class MongodbUserService {
         school: query.school,
       },
     });
+    return res;
+  }
+
+  async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id: user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: {
+        verify_email: putUserBody.verify_email,
+        verify_phone: putUserBody.verify_phone,
+      },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:verifyUser] user doesnt exist');
+    }
     return res;
   }
 }

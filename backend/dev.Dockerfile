@@ -18,4 +18,4 @@ RUN npx prisma generate
 RUN npm run build
 
 # Start the server using the production build
-CMD node dist/main.js
+CMD bash ./container_run.sh

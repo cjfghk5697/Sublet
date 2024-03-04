@@ -97,6 +97,43 @@ export class PostController {
     }
   }
 
+  @Post('like')
+  @UseGuards(LoggedInGuard)
+  async likePost(
+    @Body() data: { post_key: number },
+    @Req() request: customRequest,
+  ) {
+    if (!request.user) throw new UnauthorizedException();
+
+    try {
+      const res = await this.postService.likePost(data.post_key, request.user);
+      return res;
+    } catch (e) {
+      console.log('[post.controller:likePost] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
+  @Delete('like')
+  @UseGuards(LoggedInGuard)
+  async unlikePost(
+    @Body() data: { post_key: number },
+    @Req() request: customRequest,
+  ) {
+    if (!request.user) throw new UnauthorizedException();
+
+    try {
+      const res = await this.postService.unlikePost(
+        data.post_key,
+        request.user,
+      );
+      return res;
+    } catch (e) {
+      console.log('[post.controller:unlikePost] error: ', e);
+      throw new BadRequestException();
+    }
+  }
+
   @Get(':postKey')
   async getOnePost(@Param('postKey') key: number) {
     try {
