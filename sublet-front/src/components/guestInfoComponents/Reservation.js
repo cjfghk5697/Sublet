@@ -2,6 +2,7 @@ import { DateFormat, priceToString } from "../StaticComponents";
 import { ReservationSummaryBlock } from "../SummaryBlock";
 import { FetchReservation, FetchReservationByPostKey } from "../FetchList";
 import * as w from "../styles/Wrapper.style";
+import * as s from "../styles/SummaryBlock.styles";
 
 function ReservationByPostKeyInfo({ post_key }) {
   const reservation = FetchReservationByPostKey(post_key)
@@ -25,7 +26,7 @@ function ReservationByPostKeyInfo({ post_key }) {
         )
 
       }
-      )) : (<p className="text-base font-extrabold">예약이 아직 없습니다.</p>)
+      )) : (<s.p_normal>예약이 아직 없습니다.</s.p_normal>)
       }
     </div>
   )
@@ -36,7 +37,6 @@ function ReservationInfo() {
   return (
     <div className="mb-4">
       <w.SecondHead>예약 현황</w.SecondHead>
-      <w.Horizon />
       {reservation.length > 0 ? reservation.map((res) => (
         <ReservationSummaryBlock
           title={res.Post.title}
@@ -48,7 +48,7 @@ function ReservationInfo() {
           room_image={res.Post.image_id[0]}
         />
       )
-      ) : <p className="text-base font-extrabold">예약이 아직 없습니다.</p>
+      ) : <s.p_normal>예약이 아직 없습니다.</s.p_normal>
       }
     </div>
   )

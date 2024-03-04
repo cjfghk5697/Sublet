@@ -348,12 +348,13 @@ export function ShareDialog({ content }) {
   // 선택 후 복사
 }
 
-export function RequestSummaryDetailDialog({ address, contract, accomodation_type, pay, start_date, end_date }) {
+export function RequestSummaryDetailDialog({ request_text, address, contract, accomodation_type, pay, start_date, end_date }) {
   const info_list = {
     '숙소 유형': accomodation_type,
     '요금': pay,
     '체크인': start_date,
     '체크아웃': end_date,
+    '요청사항': request_text
   }
   return (
     <>

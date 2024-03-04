@@ -54,7 +54,8 @@ export function PostRequest({ request_list }) {
           '침실 개수': res.number_bedroom,
           '계약 형태': res.accomodation_type,
           '건물': res.building_type,
-          '학교': res.school
+          '학교': res.school,
+          '요청사항': res.request_text
         }
 
         return (

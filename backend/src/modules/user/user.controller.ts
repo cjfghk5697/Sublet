@@ -83,10 +83,10 @@ export class UserController {
     }
   }
 
-  @Get('post')
-  async getUserPost(@Req() req: customRequest) {
+  @Get('post/:user_id')
+  async getUserPost(@Param('user_id') user_id: string) {
     try {
-      const res = await this.userService.getUserPostByKey(req.user.user_id);
+      const res = await this.userService.getUserPostByKey(user_id);
       return res;
     } catch (e) {
       console.log('[user.controller:getUserPost] error: ', e);

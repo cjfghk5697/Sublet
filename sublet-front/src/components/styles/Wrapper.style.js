@@ -5,7 +5,7 @@ export const SecondHead = styled.h2`
 ${tw`text-xl font-extrabold`}
 `
 export const Horizon = styled.hr`
-${tw`h-px bg-gray-200 border-0 dark:bg-gray-700 clear-both`}
+${tw`h-px bg-gray-200 border-0 clear-both`}
 `
 export const DetailParagraph = styled.p`
 ${tw`ml-3 font-medium`}
