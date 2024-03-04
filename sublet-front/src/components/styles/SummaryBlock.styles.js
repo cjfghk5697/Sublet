@@ -15,6 +15,9 @@ float: right;
 ${tw`bg-gray-400 font-semibold py-2 px-4 border border-gray-200 shadow-xl rounded-lg`}
 `
 
+export const p_normal = styled.p`
+${tw`text-base font-medium`}
+`
 
 export const input_checkbox = styled.input`
 ${tw`mr-1 w-4 h-4 text-blue-600`}

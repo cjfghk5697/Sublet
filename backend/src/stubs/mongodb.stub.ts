@@ -244,6 +244,7 @@ export const requestCreateStub = (): RequestBase => {
     alarm: true,
     school: '아주대',
     complete: false,
+    request_text: 'mock-post-text',
   };
 };
 
@@ -266,6 +267,7 @@ export const requestStub = (): RequestDto => {
     alarm: true,
     school: '아주대',
     complete: false,
+    request_text: 'mock-post-text',
   };
 };
 export const requestInterfaceStub = (): RequestInterface => {
@@ -289,6 +291,7 @@ export const requestInterfaceStub = (): RequestInterface => {
     alarm: true,
     school: '아주대',
     complete: true,
+    request_text: 'mock-post-text',
     User: {
       ...userStub(),
     },

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
-function FetchPost() {
+function FetchPost(user_id) {
   const [postInfo, setPostInfo] = useState([]);
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/post/${user_id}`
+
   const getPostInfo = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -13,7 +15,7 @@ function FetchPost() {
 
     const json = await (
       await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/post`
+        URL
         , requestOptions)
     ).json();
 
@@ -231,7 +233,9 @@ async function FetchImage(formData) {
 }
 
 async function GetOneUser(user_id) {
-  const [requestInfo, setRequestInfo] = useState([]);
+  console.log('123', user_id)
+  const [loading, setLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${user_id}`
 
   const getUserInfo = async () => {
@@ -246,11 +250,15 @@ async function GetOneUser(user_id) {
       await fetch(
         URL, requestOptions)
     ).json();
-
-    setRequestInfo(json)
+    setLoading(true)
+    setUserInfo(json)
   }
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
-  return requestInfo
+
+  return { userInfo, loading }
 }
 
 function FetchGetRequest() {
