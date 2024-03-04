@@ -1,7 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SubletPostStore } from "../store/SubletPostStore";
+import styled from "styled-components";
 
 
+function markerHTML(price) {
+  return `<div class="marker" 
+  style="
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 30px;
+    padding: 0 35px;
+    border : 1px solid #afafaf;
+    border-radius: 15px;
+    background-color: white;
+    cursor: pointer;
+    &:hover {
+      background-color: #ceffc8;
+      span {
+        color: white;
+      }
+    }
+  "><span 
+    style="
+      color: black;
+      font-size: 1rem;
+      font-weight: 700;
+      pointer-events: none;
+    ">&#8361;${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></div>`;
+}
 
 function searchAddressToCoordinate(address, map) {
   let infoWindow = new window.naver.maps.InfoWindow({
@@ -91,7 +120,12 @@ export default function Map(props) {
 
       markerRef.current = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(coordinate.y, coordinate.x),
-        map: mapRef.current
+        map: mapRef.current,
+        icon: {
+          content: markerHTML(post.price),
+          //size: new window.naver.maps.Size(22, 35),
+          anchor: new window.naver.maps.Point(10, 15),
+        },
       })
 
       markerClickEvent(markerRef.current, post);
@@ -118,7 +152,7 @@ export default function Map(props) {
       dragendEvent
     );
     const mapLatLng = new window.naver.maps.LatLng(Number(props?.currentPos[0]), Number(props?.currentPos[1]));
-    mapRef.current.panTo(mapLatLng, {x: props.currentPos[0], y: props.currentPos[1]});
+    mapRef.current.panTo(mapLatLng, { x: props.currentPos[0], y: props.currentPos[1] });
   }
 
   const dragendEvent = () => {
@@ -127,9 +161,9 @@ export default function Map(props) {
   }
 
   return (
-    props.type == "searchByMarker"?
-    <div id="map" className="h-screen w-full rounded-lg" style={{display: 'flex', height: 'calc(50vh'}} />
-    :
-    <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
+    props.type == "searchByMarker" ?
+      <div id="map" className="h-screen w-full rounded-lg" style={{ display: 'flex', height: 'calc(50vh)' }} />
+      :
+      <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
   )
 }

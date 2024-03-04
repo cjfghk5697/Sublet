@@ -456,7 +456,7 @@ export function SignUpDialog() {
       password: passwordState,
       username: userNameState,
       email: emailState,
-      phone: phoneState.replace(/-/gi, '').replace('010', '+82'),
+      phone: phoneState.replace(/-/gi, '').replace('010', '+8210'),
       school: schoolState,
       gender: genderState,
       birth: birth.toISOString(),

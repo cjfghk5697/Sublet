@@ -54,47 +54,97 @@ function CreateSubletInfo() {
     });
 
 
+    // const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, {
+    //   method: 'POST',
+    //   credentials: "include",
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     title,
+    //     basic_info,
+    //     price,
+    //     description,
+    //     position,
+    //     rule,
+    //     refund_policy,
+    //     benefit,
+    //     extra_info,
+    //     start_day,
+    //     end_day,
+    //     min_duration,
+    //     max_duration,
+    //     limit_people,
+    //     number_room,
+    //     number_bathroom,
+    //     number_bedroom,
+    //     accomodation_type,
+    //     building_type,
+    //     contract,
+    //     x_coordinate,
+    //     y_coordinate,
+    //     city,
+    //     gu,
+    //     dong,
+    //     street,
+    //     street_number,
+    //     post_code,
+    //   }),
+    //});
+
+
+    const roomResp = await fetch("https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsb2ZmaWNlNF9waG90b19vZl9hX2ZyYW1lX2luX3RoZV9saXZpbmdfcm9vbV9pbl90aGVfc3R5bF85YWM1MjY1ZS02OTdjLTQ4OWMtYTFmYS03NzgzMjJlMTEwODNfMi5qcGc.jpg", {
+      method: "GET",
+    });
+    const roomBlobq = await roomResp.blob();
+    console.log(roomBlobq);
+    const formData = new FormData();
+    formData.append("images", roomBlobq);
+    const roomInfo = {
+      title: "title",
+      content: "content",
+      price: 1000,
+      category: "category",
+      basic_info: "basic_info",
+      benefit: "benefit",
+      description: "description",
+      end_day: (new Date()).toISOString(),
+      extra_info: "extra_info",
+      max_duration: 2,
+      min_duration: 1,
+      position: "position",
+      refund_policy: "refund_policy",
+      rule: "rule",
+      start_day: (new Date()).toISOString(),
+      limit_people: 2,
+      number_room: 2,
+      number_bathroom: 2,
+      number_bedroom: 2,
+      accomodation_type: "accom",
+      building_type: "apart",
+      x_coordinate: 127.086415,
+      y_coordinate: 37.53799,
+      city: "city",
+      gu: "gu",
+      dong: "dong",
+      street: "street",
+      street_number: "street_number",
+      post_code: "post_code",
+      contract: "true",
+      local_save: "false"
+    };
+    for (const [key, value] of Object.entries(roomInfo)) {
+      formData.append(key, value);
+    }
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, {
-      method: 'POST',
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title,
-        basic_info,
-        price,
-        description,
-        position,
-        rule,
-        refund_policy,
-        benefit,
-        extra_info,
-        start_day,
-        end_day,
-        min_duration,
-        max_duration,
-        limit_people,
-        number_room,
-        number_bathroom,
-        number_bedroom,
-        accomodation_type,
-        building_type,
-        contract,
-        x_coordinate,
-        y_coordinate,
-        city,
-        gu,
-        dong,
-        street,
-        street_number,
-        post_code,
-      }),
+      method: "POST",
+      body: formData,
+      credentials: "include"
     });
 
 
-    const data = await response.json();
-    console.log(data);
+    //const data = await response.json();
+    console.log(response);
   };
 
   return (
