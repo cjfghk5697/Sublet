@@ -7,10 +7,12 @@ export const LocationInput = ({ pos, currentPos, setPos }) => {
   const styles = {
     searchByMap: {
       display: "relative",
+      // width: "200px", // 예시 너비
+      // height: "100px", // 예시 높이
     },
     mapMarker: {
       position: "absolute",
-      zIndex: 100,
+      // zIndex: 100,
       top: "50%",
       left: "50%",
       color: "red",
@@ -20,20 +22,22 @@ export const LocationInput = ({ pos, currentPos, setPos }) => {
   };
 
   return (
-    <>
+    <div>
       <inputStyle.displayFilteringValueWhenModifyingFilter>
         <span>posx: {pos[0]}</span>
         <span>,</span>
         <span>posy: {pos[1]}</span>
       </inputStyle.displayFilteringValueWhenModifyingFilter>
       <div style={styles.searchByMap}>
-        <LocationOnIcon style={styles.mapMarker} />
         <Map
           type="searchByMarker"
           currentPos={currentPos}
           setPos={setPos}
         />
+        <div style={styles.mapMarker}>
+          <LocationOnIcon/>
+        </div>
       </div>
-    </>
+    </div>
   );
 };

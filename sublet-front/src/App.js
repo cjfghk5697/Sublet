@@ -7,6 +7,7 @@ import Booking from './pages/Booking';
 import GuestInfo from './pages/GuestInfo.js'
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
+import TestPage from './pages/TestPage.js';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
 
         {/* test host page */}
         <Route path='/CreateSubletInfo' element={<CreateSubletInfo />} />
+        <Route path='/TestPage' element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );
