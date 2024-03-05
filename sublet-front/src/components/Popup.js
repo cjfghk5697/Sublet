@@ -27,6 +27,7 @@ import DropBoxSelect from "./Input/DropBoxSelect.js";
 import { DoubleSlideInput } from "./Input/DoubleSlideInput.js";
 import { SingleSlideInput } from "../components/Input/SingleSlideInput.js";
 import * as ValueViewer from "../components/Input/ValueViewer.js";
+import Map from '../components/Map.js';
 import { LocationInput } from "../components/Input/LocationInput.js";
 import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
 import { priceToString } from "../components/StaticComponents.js";
@@ -686,7 +687,6 @@ export function LoginDialog() {
             </div>
           </div>
 
-
           <div>
             <s.black_upload_button type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
               로그인 하기
@@ -711,9 +711,6 @@ export function LoginDialog() {
           </div>
 
         </DialogActions>
-
-
-
       </Dialog >
       <SignUpDialog />
 
@@ -728,41 +725,40 @@ export const PostUploadDialog = (props) => {
       postPopUpState: state.postPopUpState,
     })
   );
-  const [accomodationType, setAccomodationType] =
-    useState("숙소 종류를 선택하세요");
+  const [accomodationType, setAccomodationType] = useState("");
   const [limitPeople, setLimitPeople] = useState(1);
-  const [buildingType, setBuildingType] = useState("건물 종류를 선택하세요");
+  const [buildingType, setBuildingType] = useState("");
   const [numberBathroom, setNumberBathroom] = useState(1);
   const [numberRoom, setNumberRoom] = useState(1);
   const [numberBedroom, setNumberBedroom] = useState(1);
-  const [title, setTitle] = useState("제목을 입력해주세요.");
-  const [basicInfo, setBasicInfo] = useState("기본정보을 입력해주세요.");
+  const [title, setTitle] = useState("");
+  const [basicInfo, setBasicInfo] = useState("");
   const [pos, setPos] = useState([37.574583, 126.994143]); // xCoordinate, yCoordinate // 추후 위치 기반으로 초기화.
+  const [fullAddress, setFullAddress] = useState("");
   const [city, setCity] = useState("");
   const [gu, setGu] = useState("");
   const [dong, setDong] = useState("");
+  const [street, setStreet] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
   const [postCode, setPostCode] = useState("");
-  const [street, setStreet] = useState("");
   const [postDate, setPostDate] = useState([1, 1]); // startDay, endDay
   const [duration, setDuration] = useState([
     new Date(),
     new Date(new Date().setMonth(new Date().getMonth() + 1)),
   ]); // minDuration, maxDuration
   const [price, setPrice] = useState(10000);
-  const [tempPrice, setTempPrice] = useState("10000");
   const [imageFiles, setImageFiles] = useState([]);
-  const [school, setSchool] = useState("학교을 입력해주세요.");
-  const [rule, setRule] = useState("숙소 규칙을 입력해주세요.");
-  const [benefit, setBenefit] = useState("혜택을 입력해주세요.");
-  const [refundPolicy, setRefundPolicy] = useState("환불정책을 입력해주세요.");
-  const [contract, setContract] = useState("계약을 입력해주세요.");
+  const [school, setSchool] = useState("");
+  const [rule, setRule] = useState("");
+  const [benefit, setBenefit] = useState("");
+  const [refundPolicy, setRefundPolicy] = useState("");
+  const [contract, setContract] = useState(""); // ?
 
   const handleClose = () => confirmAction();
 
   const confirmAction = () => {
     if (window.confirm("임시저장 하시겠습니까?")) {
-      // 임시 저장 전역 저장.
+      
       alert("임시 저장 되었습니다."); // if 문 비워두지 않기 위한 임시 alert
     }
     setPostPopUpState(false);
@@ -772,18 +768,48 @@ export const PostUploadDialog = (props) => {
   const uploadPost = async () => {
     const requestOptions = {
       credentials: "include",
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        test: "test",
+        title: {title},
+        content: "content", // ?
+        price: 1000,
+        category: "category", // ?
+        basic_info: {basicInfo},
+        benefit: {benefit},
+        description: "description", // ?
+        end_day: (new Date()).toISOString(),
+        extra_info: "extra_info", // ?
+        max_duration: 2, // 추가 필요
+        min_duration: 1, // 추가 필요
+        position: {fullAddress}, // ?
+        refund_policy: {refundPolicy},
+        rule: {rule},
+        start_day: (new Date()).toISOString(),
+        limit_people: {limitPeople},
+        number_room: {numberRoom},
+        number_bathroom: {numberBathroom},
+        number_bedroom: {numberBedroom},
+        accomodation_type: {accomodationType},
+        building_type: {buildingType},
+        x_coordinate: pos[0],
+        y_coordinate: pos[1],
+        city: {city},
+        gu: {gu},
+        dong: {dong},
+        street: {street},
+        street_number: {streetNumber},
+        post_code: {postCode},
+        contract: "true", // ?
+        local_save: "false"
       }),
     };
 
     await (
       await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/update`,
+        `${process.env.REACT_APP_BACKEND_URL}/post`,
         requestOptions
       )
     ).json();
@@ -805,6 +831,38 @@ export const PostUploadDialog = (props) => {
     setPrice(event.target.value);
   };
 
+  const handleTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleBasicInfo = (event) => {
+    setBasicInfo(event.target.value);
+  };
+
+  const handleCity = (event) => {
+    setCity(event.target.value);
+  }
+
+  const handleGu = (event) => {
+    setGu(event.target.value);
+  }
+
+  const handleDong = (event) => {
+    setDong(event.target.value);
+  }
+
+  const handleStreet = (event) => {
+    setStreet(event.target.value);
+  }
+
+  const handleStreetNumber = (event) => {
+    setStreetNumber(event.target.value);
+  }
+
+  const handlePostCode = (event) => {
+    setPostCode(event.target.value);
+  }
+
   const handleSetImages = (newImage) => {
     setImageFiles((prevImages) => [...prevImages, newImage]);
   };
@@ -816,27 +874,14 @@ export const PostUploadDialog = (props) => {
         className="border border-gray-300 shadow-xl rounded-lg"
       >
         <DialogContent className="text-center">
-          <s.close_button type="button" className="float-right">
-            <svg
-              class="h-6 w-6"
-              onClick={handleClose}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </s.close_button>
-          <p>
+        <s.change_button type="button" onClick={handleClose}>
+            <StyleComponent
+              content="CloseButton"
+            />
+          </s.change_button>
+          {/* <p>
             --------------추후 슬라이더로 변경 (현재는 스크롤)---------------
-          </p>
+          </p> */}
           <form>
             <div style={psd.gridStyle.mainContainer}>
               <p style={psd.gridStyle.inputContainer}>
@@ -906,19 +951,75 @@ export const PostUploadDialog = (props) => {
                   id="title"
                   label="제목"
                   placeholder="제목을 입력해주세요."
+                  handleState={handleTitle}
                   required={true}
                 />
                 <TextAreaTag
                   id="basic_info"
                   label="기본정보"
                   placeholder="기본정보을 입력해주세요."
+                  handleState={handleBasicInfo}
                   required={true}
                 />
               </p>
 
               <p style={psd.gridStyle.inputContainer}>
                 <h3 style={psd.gridStyle.infoType}>숙소 위치 입력하기</h3>
-                <LocationInput pos={pos} currentPos={pos} setPos={setPos} />
+                {/* <TextInputTag
+                  id="full_address"
+                  label="주소"
+                  placeholder="주소를 입력해주세요."
+                  handleState={handleFullAddress}
+                  required={true}
+                /> */}
+                {/* <TextInputTag
+                  id="city"
+                  label="시"
+                  placeholder="시를 입력해주세요."
+                  handleState={handleCity}
+                  required={true}
+                />
+                <TextInputTag
+                  id="gu"
+                  label="구"
+                  placeholder="구를 입력해주세요."
+                  handleState={handleGu}
+                  required={true}
+                />
+                <TextInputTag
+                  id="dong"
+                  label="동"
+                  placeholder="동을 입력해주세요."
+                  handleState={handleDong}
+                  required={true}
+                />
+                <TextInputTag
+                  id="street"
+                  label="길"
+                  placeholder="길을 입력해주세요."
+                  handleState={handleStreet}
+                  required={true}
+                />
+                <TextInputTag
+                  id="street_number"
+                  label="번지"
+                  placeholder="번지를 입력해주세요."
+                  handleState={handleStreetNumber}
+                  required={true}
+                />
+                <TextInputTag
+                  id="post_code"
+                  label="우편번호"
+                  placeholder="우편번호를 입력해주세요."
+                  handleState={handlePostCode}
+                  required={true}
+                />
+                <Map
+                  type="searchByMarker"
+                  currentPos={pos}
+                  setPos={setPos}
+                />   */}
+                <LocationInput pos={pos} currentPos={pos} setPos={setPos} /> {/* 이렇게만 하면 안되고, 직접 친 후에 맵을 띄울 수도 있어야함. 위 주석 참고. */}
               </p>
 
               <p style={psd.gridStyle.inputContainer}>
@@ -954,9 +1055,9 @@ export const PostUploadDialog = (props) => {
           </form>
         </DialogContent>
 
-        <div className="mt-2">
-          <s.put_button onClick={uploadPost}>방 올리기</s.put_button>
-        </div>
+        <s.black_upload_button className="ml-2" onClick={uploadPost}>
+          방 올리기
+        </s.black_upload_button>
       </Dialog>
     </>
   );

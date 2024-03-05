@@ -1,4 +1,4 @@
-export const TextInputTag = ({ id, label, placeholder, required }) => (
+export const TextInputTag = ({ id, label, placeholder, required, handleState }) => (
   <div>
     <label
       for={id}
@@ -11,6 +11,7 @@ export const TextInputTag = ({ id, label, placeholder, required }) => (
         type="text"
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleState}
         placeholder={placeholder}
         required
       />
@@ -19,13 +20,14 @@ export const TextInputTag = ({ id, label, placeholder, required }) => (
         type="text"
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleState}
         placeholder={placeholder}
       />
     )}
   </div>
 );
 
-export const TextAreaTag = ({ id, label, placeholder, required }) => (
+export const TextAreaTag = ({ id, label, placeholder, required, handleState }) => (
   <div>
     <label
       for={id}
@@ -38,6 +40,7 @@ export const TextAreaTag = ({ id, label, placeholder, required }) => (
         type="text"
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleState}
         placeholder={placeholder}
         required
       />
@@ -46,6 +49,7 @@ export const TextAreaTag = ({ id, label, placeholder, required }) => (
         type="text"
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleState}
         placeholder={placeholder}
       />
     )}
