@@ -9,7 +9,7 @@ import { ReservationByPostKeyInfo } from "./guestInfoComponents/Reservation.js";
 import { PostRequest, RequestByPostKeyInfo } from "./guestInfoComponents/Request.js";
 import { PostSummaryDetailDialog, RequestSummaryDetailDialog } from "./Popup.js";
 
-function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_type, start_date, end_date, pay, complete, contract }) {
+function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, accomodation_type, start_date, end_date, pay, complete, contract }) {
   const address = city + ' ' + gu + ' ' + dong;
 
 
@@ -83,7 +83,9 @@ function RequsetSummaryBlock({ city, Post, request_key, gu, dong, accomodation_t
               accomodation_type={accomodation_type}
               pay={pay}
               start_date={start_date}
-              end_date={end_date} />
+              end_date={end_date}
+              request_text={request_text}
+            />
           </DialogContent>
         </Dialog>
 
@@ -232,7 +234,7 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
 }
 
 
-function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_date, pay, contract, private_post, address, room_image }) {
+function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomodation_type, post_date, pay, contract, private_post, address, room_image }) {
 
   const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
   const [inputs, setInputs] = useState({
@@ -285,21 +287,26 @@ function PostSummaryBlock({ title, post_key, id_list, accomodation_type, post_da
         <w.DetailParagraph>주소: {address}</w.DetailParagraph>
         <w.DetailParagraph>숙박료: {pay}</w.DetailParagraph>
         <div className="block">
-          <s.post_detail_button name="detailDialogShow" onClick={onChange}>
-            상세 정보
-          </s.post_detail_button>
+          {guest_mode &&
+            <>
+              <s.post_detail_button name="detailDialogShow" onClick={onChange}>
+                상세 정보
+              </s.post_detail_button>
 
-          <s.post_detail_button className="ml-4" name="requestDialogShow" onClick={onChange}>
-            받은 요청서
-          </s.post_detail_button>
+              <s.post_detail_button className="ml-4" name="requestDialogShow" onClick={onChange}>
+                받은 요청서
+              </s.post_detail_button>
 
-          <s.post_detail_button className="ml-4" name="reservationDialogShow" onClick={onChange}>
-            예약현황
-          </s.post_detail_button>
+              <s.post_detail_button className="ml-4" name="reservationDialogShow" onClick={onChange}>
+                예약현황
+              </s.post_detail_button>
 
-          <s.delete_button_able className="ml-4" name="deletelDialogShow" onClick={onChange}>
-            삭제하기
-          </s.delete_button_able>
+              <s.delete_button_able className="ml-4" name="deletelDialogShow" onClick={onChange}>
+                삭제하기
+              </s.delete_button_able>
+            </>
+          }
+
         </div>
 
         <div name="detailDialog">

@@ -7,8 +7,8 @@ import Dialog from '@mui/material/Dialog';
 import { FetchImage, FetchLogin, SignUp } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
-import { Alert, Information, StyleComponent } from "./StaticComponents.js";
-import { DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Alert, Information, StyleComponent, checkEmailFormat } from "./StaticComponents.js";
+import { DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup, Checkbox, FormGroup, FormControl, Select, MenuItem } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleButton } from "./loginComponents/Google.js"
 import NaverLogin from "./loginComponents/Naver.js";
@@ -376,12 +376,13 @@ export function ShareDialog({ content }) {
   // 선택 후 복사
 }
 
-export function RequestSummaryDetailDialog({ address, contract, accomodation_type, pay, start_date, end_date }) {
+export function RequestSummaryDetailDialog({ request_text, address, contract, accomodation_type, pay, start_date, end_date }) {
   const info_list = {
     '숙소 유형': accomodation_type,
     '요금': pay,
     '체크인': start_date,
     '체크아웃': end_date,
+    '요청사항': request_text
   }
   return (
     <>
@@ -441,6 +442,7 @@ export function SignUpDialog() {
     setSignUpPopUpState: state.setSignUpPopUpState,
     signUpPopUpState: state.signUpPopUpState,
   }))
+  const [emailFormatState, setEmailFormatState] = useState(true)
 
   const [inputs, setInputs] = useState({
     idState: '',
@@ -448,11 +450,12 @@ export function SignUpDialog() {
     userNameState: '',
     emailState: '',
     phoneState: '',
-    schoolState: '',
+    schoolState: '고려대학교',
     genderState: '여',
-    studentIdState: ''
+    studentIdState: '24',
+    jobState: '학생',
   })
-  const [birthState, setBirthState] = useState(Date.now())
+  const [birthState, setBirthState] = useState(Date.now());
   const {
     idState,
     passwordState,
@@ -461,30 +464,50 @@ export function SignUpDialog() {
     phoneState,
     schoolState,
     genderState,
-    studentIdState
+    studentIdState,
+    jobState,
   } = inputs;
 
   const inputHandle = (e) => {
+    if (e.currentTarget.name === "emailState") {
+      setEmailFormatState(checkEmailFormat(e.currentTarget.value, schoolState))
+
+    }
     setInputs({
       ...inputs,
       [e.currentTarget.name]: e.currentTarget.value
     });
   };
-  const autoHyphen = (target) => {
-    target = target
-      .replace(/[^0-9]/g, '')
-      .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-  }
 
   const signUpHandled = () => {
     const birth = new Date(birthState)
+    if (checkEmailFormat(emailState, schoolState)) {
+      setEmailFormatState(true)
+      SignUp({
+        user_id: idState,
+        password: passwordState,
+        username: userNameState,
+        email: emailState,
+        phone: phoneState.replace(/-/gi, '').replace('010', '+8210'),
+        school: schoolState,
+        gender: genderState,
+        jobState: jobState,
+        birth: birth.toISOString(),
+        student_id: Number(studentIdState)
+      })
+      setSignUpPopUpState()
+    } else {
+      console.log('잘못된 이메일 양식입니다.', emailFormatState)
+      setEmailFormatState(false)
+    }
+
 
     SignUp({
       user_id: idState,
       password: passwordState,
       username: userNameState,
       email: emailState,
-      phone: phoneState.replace(/-/gi, '').replace('010', '+82'),
+      phone: phoneState.replace(/-/gi, '').replace('010', '+8210'),
       school: schoolState,
       gender: genderState,
       birth: birth.toISOString(),
@@ -542,14 +565,7 @@ export function SignUpDialog() {
                 </LocalizationProvider>
               </div>
             </div>
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="email">이메일</s.label>
-              </div>
-              <div class="mt-2">
-                <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
-              </div>
-            </div>
+
             <div>
               <div class="mt-2 flex items-center justify-between">
                 <s.label for="phone">전화번호</s.label>
@@ -565,40 +581,118 @@ export function SignUpDialog() {
               </div>
             </div>
 
+            <w.Horizon className="mt-2" />
 
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="studentId">학번</s.label>
-              </div>
-              <div class="mt-2">
-                <w.InputText type="number" max="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
-              </div>
-            </div>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                defaultValue="학생"
+                name="jobState"
+                value={jobState}
+                onChange={inputHandle}
+                required>
+                <FormControlLabel value="학생" control={<Radio />} label="학생" />
+                <FormControlLabel value="사업자" control={<Radio />} label="사업자" />
+              </RadioGroup>
+            </FormControl>
+            {jobState === "학생" ? (
+              <>
 
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="university">대학교</s.label>
-              </div>
-              <div class="mt-2">
-                {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                <w.InputText type="text" name="schoolState" placeholder="대학교" value="고려대학교" required />
-              </div>
-            </div>
+                <div>
+                  <div class="mt-2 flex items-center justify-between">
+                    <s.label for="university">대학교</s.label>
+                  </div>
+                  <div class="mt-2">
+                    {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                    <Select
+                      labelId="demo-simple-select-required-label"
+                      id="demo-simple-select-required"
+                      value={schoolState}
+                      label="대학교 *"
+                      onChange={inputHandle}
+                    >
+                      <MenuItem value="고려대학교">고려대학교</MenuItem>
+                    </Select>
+                  </div>
+                </div>
+                <div>
+                  <div class="mt-2 flex items-center justify-between">
+                    <s.label for="studentId">학번</s.label>
+                  </div>
+                  <div class="mt-2">
+                    <w.InputText type="tel" maxlength="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
+                  </div>
+                </div>
+                <div>
+                  <div class="mt-2 flex items-center justify-between">
+                    <s.label for="email">대학교 이메일</s.label>
+                  </div>
+                  <div class="mt-2">
+                    {emailFormatState ?
+                      <>
+                        <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+
+                      </>
+                      :
+                      <>
+                        <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+                        <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                          대학교 이메일 양식이 안맞습니다.
+                        </span>
+                      </>
+
+                    }
+                  </div>
+                </div>
+              </>) :
+              (
+                <>
+                  <div>
+                    <div class="mt-2 flex items-center justify-between">
+                      <s.label for="university">업체명</s.label>
+                    </div>
+                    <div class="mt-2">
+                      {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                      <w.InputText type="text" name="schoolState" placeholder="업체명" required />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="mt-2 flex items-center justify-between">
+                      <s.label for="email">이메일</s.label>
+                    </div>
+                    <div class="mt-2">
+                      {emailFormatState ?
+                        <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+                        :
+                        <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />}
+
+                    </div>
+                  </div>
+                </>
+              )}
+
+
             <div>
               <div class="mt-2 flex items-center justify-between">
                 <s.label for="gender">성별</s.label>
               </div>
               <div class="mt-2">
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="여"
-                  name="genderState"
-                  value={genderState}
-                  onChange={inputHandle}
-                  required>
-                  <FormControlLabel value="여" control={<Radio />} label="여" />
-                  <FormControlLabel value="남" control={<Radio />} label="남" />
-                </RadioGroup>
+
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    defaultValue="여"
+                    name="genderState"
+                    value={genderState}
+                    onChange={inputHandle}
+                    required>
+                    <FormControlLabel value="여" control={<Radio />} label="여" />
+                    <FormControlLabel value="남" control={<Radio />} label="남" />
+                  </RadioGroup>
+                </FormControl>
+
               </div>
             </div>
 

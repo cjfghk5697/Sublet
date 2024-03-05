@@ -83,6 +83,9 @@ export class RequestBase {
     else return undefined;
   })
   complete: boolean;
+
+  @IsString()
+  request_text: string;
 }
 
 export class RequestExportInterface extends RequestBase {

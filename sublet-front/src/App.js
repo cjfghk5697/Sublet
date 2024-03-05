@@ -9,10 +9,10 @@ import TestChat from './pages/test_chat/TestChat.js'
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestChatRoom from './pages/test_chat/TestChatRoom.js';
-import KakaoConfirm from './components/loginComponents/Kakao.js';
 import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 import GuestRequest from './pages/GuestRequest.js';
+import HostInfo from './pages/HostInfo.js';
 
 function App() {
 
@@ -21,11 +21,12 @@ function App() {
       <Routes>
         {/* 기본 페이지 */}
         <Route path="/" element={<Home />} />
-        <Route path="/roominfo" element={<RoomInfo />} />
+        <Route path="/roominfo/:roomKey" element={<RoomInfo />} />
         <Route path="/SearchSubletInfo" element={<SearchSubletInfo />} />
         <Route path="/ReHome" element={<ReHome />} />
         <Route path="/Booking" element={<Booking />} />
-        <Route path='/Profile' element={<GuestInfo />} />
+        <Route path='/Profile/me' element={<GuestInfo />} />
+        <Route path="/profile/:userId" element={<HostInfo />} />
         <Route path="/test/chat" element={<TestChat />} />
         <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
         <Route path="/test/db/" element={<TestDB />} />
