@@ -1,7 +1,7 @@
 import { useState } from "react"
 import * as w from "../styles/Wrapper.style"
 import * as s from "../styles/SummaryBlock.styles.js"
-import { Alert } from "../StaticComponents"
+import { Alert, FailAlert } from "../StaticComponents"
 import { VerifyEmail, VerifyUser } from "../FetchList.js"
 
 
@@ -10,7 +10,8 @@ export function VerifyEmailComponents({ email }) {
 
 
   const [numberState, setNumberState] = useState(0)
-  const [backUp, setBackUp] = useState(false)
+  const [successState, setSuccessState] = useState(false)
+  const [failState, setFailState] = useState(false)
   const [activeVerify, setActiveVerify] = useState(false)
 
   const numberChange = (e) => {
@@ -30,16 +31,31 @@ export function VerifyEmailComponents({ email }) {
   }
   const numberHandled = () => {
 
-    const res = VerifyUser({ method: 'email', tokenKey: email, verifyToken: (numberState) })
+    VerifyUser({ method: 'email', tokenKey: email, verifyToken: numberState })
+      .then(response => {
+        if (!response.ok) {
+          // create error object and reject if not a 2xx response code
+          let err = new Error("HTTP status code: " + response.status)
+          err.response = response
+          err.status = response.status
+          setFailState(true)
+          setTimeout(() => {
+            setFailState(false)
+          }, 5000);
+        } else {
+          setSuccessState(true)
+          setTimeout(() => {
+            setSuccessState(false)
+          }, 5000);
 
-    if (res) {
-      setBackUp(true)
-      setTimeout(() => {
-        setBackUp(false)
-      }, 5000);
-    } else {
-      console.log('틀렸습니다')
-    }
+        }
+      })
+      .catch((err) => {
+        setFailState(true)
+        setTimeout(() => {
+          setFailState(false)
+        }, 5000);
+      })
   };
   return (
     <>
@@ -48,7 +64,7 @@ export function VerifyEmailComponents({ email }) {
         (
           <div>
             <form>
-              <w.InputText maxlength='6' type="number" onChange={numberChange} value={numberState} placeholder="인증번호 6자리를 입력하세요" required />
+              <w.InputText maxlength='6' type="tel" onChange={numberChange} value={numberState} placeholder="인증번호 6자리를 입력하세요" required />
             </form>
 
             <div className='mt-4'>
@@ -59,7 +75,7 @@ export function VerifyEmailComponents({ email }) {
                   </s.black_upload_button_disabled>
                 ) :
                 (
-                  <s.black_upload_button onClick={numberHandled} disabled>
+                  <s.black_upload_button onClick={numberHandled}>
                     인증하기
                   </s.black_upload_button>)
               }
@@ -68,11 +84,7 @@ export function VerifyEmailComponents({ email }) {
               <s.black_upload_button onClick={verifyEmailHandleAgain} >
                 다시 발송하기
               </s.black_upload_button>
-              <div>
-                {backUp && (
-                  <Alert />
-                )}
-              </div>
+
             </div>
 
           </div>
@@ -84,6 +96,14 @@ export function VerifyEmailComponents({ email }) {
         )
 
       }
+      <div className="clear-both">
+        {successState && (
+          <Alert />
+        )}
+        {failState && (
+          < FailAlert />
+        )}
+      </div>
     </>
   )
 }
