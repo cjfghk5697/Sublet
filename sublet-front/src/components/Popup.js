@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import { FetchImage, FetchLogin, SignUp } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
-import { Alert, Information, StyleComponent, checkEmailFormat } from "./StaticComponents.js";
+import { Alert, Information, StyleComponent, FailAlert, checkEmailFormat } from "./StaticComponents.js";
 import { DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup, Checkbox, FormGroup, FormControl, Select, MenuItem } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleButton } from "./loginComponents/Google.js"
@@ -26,7 +26,8 @@ export function ImageDialog() {
   const [imageUpload, setImageUpload] = useState("");
   const imgRef = useRef();
 
-  const [backUp, setBackUp] = useState(false)
+  const [successState, setSuccessState] = useState(false)
+  const [failState, setFailState] = useState(false)
 
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
@@ -48,14 +49,34 @@ export function ImageDialog() {
 
 
   const putHandled = async () => {
-    FetchImage(formData)
-    setBackUp(true)
-    setTimeout(() => {
-      setBackUp(false)
-    }, 5000);
-  };
 
+    FetchImage(formData).then(response => {
+      if (!response.ok) {
+        // create error object and reject if not a 2xx response code
+        let err = new Error("HTTP status code: " + response.status)
+        err.response = response
+        err.status = response.status
+        setFailState(true)
+        setTimeout(() => {
+          setFailState(false)
+        }, 5000);
+      } else {
+        setSuccessState(true)
+        setTimeout(() => {
+          setSuccessState(false)
+        }, 5000);
 
+      }
+    })
+      .catch((err) => {
+        setFailState(true)
+        setTimeout(() => {
+          setFailState(false)
+        }, 5000);
+
+      })
+
+  }
   return (
     <>
       <Dialog open={imagePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
@@ -95,8 +116,11 @@ export function ImageDialog() {
             </s.black_upload_button_disabled>)}
 
             <div>
-              {backUp && (
+              {successState && (
                 <Alert />
+              )}
+              {failState && (
+                < FailAlert />
               )}
             </div>
 
@@ -130,7 +154,7 @@ export function VerifyEmailDialog({ email }) {
             />
           </s.change_button>
         </DialogTitle>
-        <DialogContent className='text-center' >
+        <DialogContent sx={{ height: 300, width: 300 }} className='text-center' >
 
           <VerifyEmailComponents
             email={email}
@@ -146,7 +170,8 @@ export function EmailDialog({ originalEmail }) {
     setEmailPopUpState: state.setEmailPopUpState,
     emailPopUpState: state.emailPopUpState,
   }))
-  const [backUp, setBackUp] = useState(false)
+  const [successState, setSuccessState] = useState(false)
+  const [failState, setFailState] = useState(false)
 
   const handleClose = () => setEmailPopUpState(false);
   const [emailState, setEmailState] = useState(originalEmail)
@@ -184,14 +209,36 @@ export function EmailDialog({ originalEmail }) {
               verify_email: 'false'
             })
           })
-      )
+      ).then(response => {
+        if (!response.ok) {
+          // create error object and reject if not a 2xx response code
+          let err = new Error("HTTP status code: " + response.status)
+          err.response = response
+          err.status = response.status
+          setFailState(true)
+          setTimeout(() => {
+            setFailState(false)
+          }, 5000);
+        } else {
+          setSuccessState(true)
+          setTimeout(() => {
+            setSuccessState(false)
+          }, 5000);
+
+        }
+      })
+      .catch((err) => {
+        setFailState(true)
+        setTimeout(() => {
+          setFailState(false)
+        }, 5000);
+
+      })
   };
   const clickHandle = () => {
+
     emailHandled()
-    setBackUp(true)
-    setTimeout(() => {
-      setBackUp(false)
-    }, 5000);
+
   }
   return (
     <>
@@ -216,8 +263,11 @@ export function EmailDialog({ originalEmail }) {
               수정하기
             </s.black_upload_button>
             <div>
-              {backUp && (
+              {successState && (
                 <Alert />
+              )}
+              {failState && (
+                <FailAlert />
               )}
             </div>
           </div>
@@ -225,6 +275,7 @@ export function EmailDialog({ originalEmail }) {
       </Dialog>
     </>
   );
+
 }
 
 export function PhoneDialog({ originalPhone }) {
@@ -232,8 +283,8 @@ export function PhoneDialog({ originalPhone }) {
     setPhonePopUpState: state.setPhonePopUpState,
     phonePopUpState: state.phonePopUpState,
   }))
-  const [backUp, setBackUp] = useState(false)
-
+  const [successState, setSuccessState] = useState(false)
+  const [failState, setFailState] = useState(false)
   const handleClose = () => setPhonePopUpState(false);
 
   const [phoneState, setPhoneState] = useState(originalPhone)
@@ -254,18 +305,37 @@ export function PhoneDialog({ originalPhone }) {
       })
     };
 
-    await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/update`
-        , requestOptions)
-    ).json();
+
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/update`
+      , requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          // create error object and reject if not a 2xx response code
+          let err = new Error("HTTP status code: " + response.status)
+          err.response = response
+          err.status = response.status
+          setFailState(true)
+          setTimeout(() => {
+            setFailState(false)
+          }, 5000);
+        } else {
+          setSuccessState(true)
+          setTimeout(() => {
+            setSuccessState(false)
+          }, 5000);
+        }
+      })
+      .catch((err) => {
+        setFailState(true)
+        setTimeout(() => {
+          setFailState(false)
+        }, 5000);
+
+      })
   };
   const clickHandle = () => {
     phoneHandled()
-    setBackUp(true)
-    setTimeout(() => {
-      setBackUp(false)
-    }, 5000);
   }
   return (
     <>
@@ -289,8 +359,11 @@ export function PhoneDialog({ originalPhone }) {
               수정하기
             </s.black_upload_button>
             <div>
-              {backUp && (
+              {successState && (
                 <Alert />
+              )}
+              {failState && (
+                <FailAlert />
               )}
             </div>
           </div>
@@ -312,7 +385,7 @@ export function ShareDialog({ content }) {
                   </svg>
                 </s.change_button>
               </form>
-
+ 
               <ShareDialog content="localhost" className="clear-both" />
             </DialogContent >
           </Dialog> 
