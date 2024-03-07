@@ -820,16 +820,16 @@ export const PostUploadDialog = (props) => {
       postPopUpState: state.postPopUpState,
     })
   );
-  const [accomodationType, setAccomodationType] = useState("test");
+  const [accomodationType, setAccomodationType] = useState("");
   const [limitPeople, setLimitPeople] = useState(1);
-  const [buildingType, setBuildingType] = useState("test");
+  const [buildingType, setBuildingType] = useState("");
   const [numberBathroom, setNumberBathroom] = useState(1);
   const [numberRoom, setNumberRoom] = useState(1);
   const [numberBedroom, setNumberBedroom] = useState(1);
-  const [title, setTitle] = useState("test"); // 테스트 데이터
-  const [basicInfo, setBasicInfo] = useState("test"); // 테스트 데이터
+  const [title, setTitle] = useState("");
+  const [basicInfo, setBasicInfo] = useState("");
   const [pos, setPos] = useState([37.574583, 126.994143]); // xCoordinate, yCoordinate // 추후 위치 기반으로 초기화.
-  const [fullAddress, setFullAddress] = useState("테스트"); // 테스트 데이터
+  const [fullAddress, setFullAddress] = useState("테스트");
   const [city, setCity] = useState("서울"); // 테스트 데이터
   const [gu, setGu] = useState("은평구"); // 테스트 데이터
   const [dong, setDong] = useState("갈현동"); // 테스트 데이터
@@ -845,7 +845,6 @@ export const PostUploadDialog = (props) => {
   const [benefit, setBenefit] = useState("혜택");
   const [refundPolicy, setRefundPolicy] = useState("환불정책");
   const [contract, setContract] = useState("계약"); // ?
-
 
   const handleClose = () => confirmAction();
 
@@ -871,6 +870,7 @@ export const PostUploadDialog = (props) => {
   const makeFormData = () => {
     const formData = new FormData();
 
+    // 모든 데이터가 적절히 입력되었는지 확인하고 아니라면 alert 띄워주기.
     formData.append("title", title);
     formData.append("price", price);
     formData.append("basic_info", basicInfo);
@@ -905,17 +905,28 @@ export const PostUploadDialog = (props) => {
     // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
     // formData.append("post_date", (new Date()).toISOString());
     // formData.append("images", imageFiles[0]);
+
     imageFiles.forEach((file, index) => {
       formData.append("images", file);
     });
+
+    for (let [key, value] of formData.entries()) {
+      // console.log(`${key}: ${value}`);
+      if (value === "" || value === null || value === undefined) {
+        return (null);
+      }
+    }
 
     return (formData);
   }
 
   const uploadPost = async () => {
     const formData = makeFormData();
-    formData.append("local_save", false); // 임시저장 유무
-
+    if (formData === null) {
+      alert("모든 정보를 입력해주세요.");
+      return;
+    }
+    formData.append("local_save", false);
     const requestOptions = {
       credentials: "include",
       method: "POST",
