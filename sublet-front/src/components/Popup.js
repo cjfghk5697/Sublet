@@ -365,10 +365,6 @@ export function PhoneDialog({ originalPhone }) {
   };
   const clickHandle = () => {
     phoneHandled()
-    setBackUp(true)
-    setTimeout(() => {
-      setBackUp(false)
-    }, 5000);
   }
   return (
     <>
