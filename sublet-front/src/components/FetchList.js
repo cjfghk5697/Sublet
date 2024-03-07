@@ -231,6 +231,32 @@ async function FetchImage(formData) {
 
 }
 
+async function GetMyUser() {
+  const [userInfo, setUserInfo] = useState();
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`
+
+  const getUserInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    const json = await (
+      await fetch(
+        URL, requestOptions)
+    ).json();
+    setUserInfo(json)
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  return (userInfo);
+}
+
+
 async function GetOneUser(user_id) {
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
@@ -254,7 +280,6 @@ async function GetOneUser(user_id) {
   useEffect(() => {
     getUserInfo();
   }, []);
-
 
   return { userInfo, loading }
 }
@@ -448,4 +473,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { VerifyUser, SignUp, VerifyEmail, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { VerifyUser, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
