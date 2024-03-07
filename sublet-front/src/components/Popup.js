@@ -32,6 +32,7 @@ import { LocationInput } from "../components/Input/LocationInput.js";
 import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
 import { priceToString } from "../components/StaticComponents.js";
 import { ImageUploadComponent } from "./Input/ImageInput.js";
+import { ValueRangeViewer } from "./Input/ValueViewer.js"
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore(
@@ -517,194 +518,194 @@ export function SignUpDialog() {
   };
 
   return (
-      <Dialog open={signUpPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
-          <s.change_button type="button" onClick={setSignUpPopUpState}>
-            <StyleComponent
-              content='CloseButton' />
-          </s.change_button>
-          <div className="float-left">
-            <w.SecondHead>회원가입</w.SecondHead>
+    <Dialog open={signUpPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+      <DialogTitle>
+        <s.change_button type="button" onClick={setSignUpPopUpState}>
+          <StyleComponent
+            content='CloseButton' />
+        </s.change_button>
+        <div className="float-left">
+          <w.SecondHead>회원가입</w.SecondHead>
+        </div>
+
+      </DialogTitle>
+      <DialogContent>
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <s.justify_block>
+            <div>
+              <s.label for="id">아이디</s.label>
+              <div class="mt-2">
+                <w.InputText name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} required />
+              </div>
+            </div>
+
+            <div className="ml-2">
+              <s.label for="password">패스워드</s.label>
+              <div class="mt-2">
+                <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} required />
+              </div>
+            </div>
+
+          </s.justify_block>
+
+          <div>
+            <div class="mt-2 flex items-center justify-between">
+              <s.label for="username">별명</s.label>
+            </div>
+            <div class="mt-2">
+              <w.InputText type="text" name="userNameState" placeholder="별명" onChange={inputHandle} value={userNameState} required />
+            </div>
+          </div>
+          <div>
+            <div class="mt-2 flex items-center justify-between">
+              <s.label for="password">생년월일</s.label>
+            </div>
+            <div class="mt-2">
+              <LocalizationProvider dateAdapter={AdapterDayjs} required>
+                <DatePicker name="birthState" onChange={(newDate) => setBirthState(newDate)} value={dayjs(birthState)} />
+              </LocalizationProvider>
+            </div>
           </div>
 
-        </DialogTitle>
-        <DialogContent>
-          <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <s.justify_block>
-              <div>
-                <s.label for="id">아이디</s.label>
-                <div class="mt-2">
-                  <w.InputText name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} required />
-                </div>
-              </div>
-
-              <div className="ml-2">
-                <s.label for="password">패스워드</s.label>
-                <div class="mt-2">
-                  <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} required />
-                </div>
-              </div>
-
-            </s.justify_block>
-
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="username">별명</s.label>
-              </div>
-              <div class="mt-2">
-                <w.InputText type="text" name="userNameState" placeholder="별명" onChange={inputHandle} value={userNameState} required />
-              </div>
+          <div>
+            <div class="mt-2 flex items-center justify-between">
+              <s.label for="phone">전화번호</s.label>
             </div>
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="password">생년월일</s.label>
-              </div>
-              <div class="mt-2">
-                <LocalizationProvider dateAdapter={AdapterDayjs} required>
-                  <DatePicker name="birthState" onChange={(newDate) => setBirthState(newDate)} value={dayjs(birthState)} />
-                </LocalizationProvider>
-              </div>
-            </div>
-
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="phone">전화번호</s.label>
-              </div>
-              <div class="mt-2">
-                <w.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
-                  onChange={inputHandle}
-                  value={phoneState
-                    .replace(/[^0-9]/g, '')
-                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
-                    .replace(/(\-{1,2})$/g, "")}
-                  required />
-              </div>
-            </div>
-
-            <w.Horizon className="mt-2" />
-
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                defaultValue="학생"
-                name="jobState"
-                value={jobState}
+            <div class="mt-2">
+              <w.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
                 onChange={inputHandle}
-                required>
-                <FormControlLabel value="학생" control={<Radio />} label="학생" />
-                <FormControlLabel value="사업자" control={<Radio />} label="사업자" />
-              </RadioGroup>
-            </FormControl>
-            {jobState === "학생" ? (
-              <>
+                value={phoneState
+                  .replace(/[^0-9]/g, '')
+                  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+                  .replace(/(\-{1,2})$/g, "")}
+                required />
+            </div>
+          </div>
 
+          <w.Horizon className="mt-2" />
+
+          <FormControl>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              defaultValue="학생"
+              name="jobState"
+              value={jobState}
+              onChange={inputHandle}
+              required>
+              <FormControlLabel value="학생" control={<Radio />} label="학생" />
+              <FormControlLabel value="사업자" control={<Radio />} label="사업자" />
+            </RadioGroup>
+          </FormControl>
+          {jobState === "학생" ? (
+            <>
+
+              <div>
+                <div class="mt-2 flex items-center justify-between">
+                  <s.label for="university">대학교</s.label>
+                </div>
+                <div class="mt-2">
+                  {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                  <Select
+                    labelId="demo-simple-select-required-label"
+                    id="demo-simple-select-required"
+                    value={schoolState}
+                    label="대학교 *"
+                    onChange={inputHandle}
+                  >
+                    <MenuItem value="고려대학교">고려대학교</MenuItem>
+                  </Select>
+                </div>
+              </div>
+              <div>
+                <div class="mt-2 flex items-center justify-between">
+                  <s.label for="studentId">학번</s.label>
+                </div>
+                <div class="mt-2">
+                  <w.InputText type="tel" maxlength="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
+                </div>
+              </div>
+              <div>
+                <div class="mt-2 flex items-center justify-between">
+                  <s.label for="email">대학교 이메일</s.label>
+                </div>
+                <div class="mt-2">
+                  {emailFormatState ?
+                    <>
+                      <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+
+                    </>
+                    :
+                    <>
+                      <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+                      <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                        대학교 이메일 양식이 안맞습니다.
+                      </span>
+                    </>
+
+                  }
+                </div>
+              </div>
+            </>) :
+            (
+              <>
                 <div>
                   <div class="mt-2 flex items-center justify-between">
-                    <s.label for="university">대학교</s.label>
+                    <s.label for="university">업체명</s.label>
                   </div>
                   <div class="mt-2">
                     {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                    <Select
-                      labelId="demo-simple-select-required-label"
-                      id="demo-simple-select-required"
-                      value={schoolState}
-                      label="대학교 *"
-                      onChange={inputHandle}
-                    >
-                      <MenuItem value="고려대학교">고려대학교</MenuItem>
-                    </Select>
+                    <w.InputText type="text" name="schoolState" placeholder="업체명" required />
                   </div>
                 </div>
                 <div>
                   <div class="mt-2 flex items-center justify-between">
-                    <s.label for="studentId">학번</s.label>
-                  </div>
-                  <div class="mt-2">
-                    <w.InputText type="tel" maxlength="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
-                  </div>
-                </div>
-                <div>
-                  <div class="mt-2 flex items-center justify-between">
-                    <s.label for="email">대학교 이메일</s.label>
+                    <s.label for="email">이메일</s.label>
                   </div>
                   <div class="mt-2">
                     {emailFormatState ?
-                      <>
-                        <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
-
-                      </>
+                      <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
                       :
-                      <>
-                        <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
-                        <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                          대학교 이메일 양식이 안맞습니다.
-                        </span>
-                      </>
+                      <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />}
 
-                    }
                   </div>
                 </div>
-              </>) :
-              (
-                <>
-                  <div>
-                    <div class="mt-2 flex items-center justify-between">
-                      <s.label for="university">업체명</s.label>
-                    </div>
-                    <div class="mt-2">
-                      {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                      <w.InputText type="text" name="schoolState" placeholder="업체명" required />
-                    </div>
-                  </div>
-                  <div>
-                    <div class="mt-2 flex items-center justify-between">
-                      <s.label for="email">이메일</s.label>
-                    </div>
-                    <div class="mt-2">
-                      {emailFormatState ?
-                        <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
-                        :
-                        <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />}
-
-                    </div>
-                  </div>
-                </>
-              )}
+              </>
+            )}
 
 
-            <div>
-              <div class="mt-2 flex items-center justify-between">
-                <s.label for="gender">성별</s.label>
-              </div>
-              <div class="mt-2">
-
-                <FormControl>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    defaultValue="여"
-                    name="genderState"
-                    value={genderState}
-                    onChange={inputHandle}
-                    required>
-                    <FormControlLabel value="여" control={<Radio />} label="여" />
-                    <FormControlLabel value="남" control={<Radio />} label="남" />
-                  </RadioGroup>
-                </FormControl>
-
-              </div>
+          <div>
+            <div class="mt-2 flex items-center justify-between">
+              <s.label for="gender">성별</s.label>
             </div>
+            <div class="mt-2">
 
+              <FormControl>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  defaultValue="여"
+                  name="genderState"
+                  value={genderState}
+                  onChange={inputHandle}
+                  required>
+                  <FormControlLabel value="여" control={<Radio />} label="여" />
+                  <FormControlLabel value="남" control={<Radio />} label="남" />
+                </RadioGroup>
+              </FormControl>
+
+            </div>
           </div>
-        </DialogContent>
-        <DialogActions>
-          <s.black_upload_button type="submit" onClick={signUpHandled} className="flex w-full justify-center my-2">
-            회원가입
-          </s.black_upload_button>
 
-        </DialogActions>
-      </Dialog>
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <s.black_upload_button type="submit" onClick={signUpHandled} className="flex w-full justify-center my-2">
+          회원가입
+        </s.black_upload_button>
+
+      </DialogActions>
+    </Dialog>
   );
 }
 
@@ -819,94 +820,113 @@ export const PostUploadDialog = (props) => {
       postPopUpState: state.postPopUpState,
     })
   );
-  const [accomodationType, setAccomodationType] = useState("");
+  const [accomodationType, setAccomodationType] = useState("test");
   const [limitPeople, setLimitPeople] = useState(1);
-  const [buildingType, setBuildingType] = useState("");
+  const [buildingType, setBuildingType] = useState("test");
   const [numberBathroom, setNumberBathroom] = useState(1);
   const [numberRoom, setNumberRoom] = useState(1);
   const [numberBedroom, setNumberBedroom] = useState(1);
-  const [title, setTitle] = useState("");
-  const [basicInfo, setBasicInfo] = useState("");
+  const [title, setTitle] = useState("test"); // 테스트 데이터
+  const [basicInfo, setBasicInfo] = useState("test"); // 테스트 데이터
   const [pos, setPos] = useState([37.574583, 126.994143]); // xCoordinate, yCoordinate // 추후 위치 기반으로 초기화.
-  const [fullAddress, setFullAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [gu, setGu] = useState("");
-  const [dong, setDong] = useState("");
-  const [street, setStreet] = useState("");
-  const [streetNumber, setStreetNumber] = useState("");
-  const [postCode, setPostCode] = useState("");
-  const [postDate, setPostDate] = useState([1, 1]); // startDay, endDay
-  const [duration, setDuration] = useState([
-    new Date(),
-    new Date(new Date().setMonth(new Date().getMonth() + 1)),
-  ]); // minDuration, maxDuration
+  const [fullAddress, setFullAddress] = useState("테스트"); // 테스트 데이터
+  const [city, setCity] = useState("서울"); // 테스트 데이터
+  const [gu, setGu] = useState("은평구"); // 테스트 데이터
+  const [dong, setDong] = useState("갈현동"); // 테스트 데이터
+  const [street, setStreet] = useState("갈현로"); // 테스트 데이터
+  const [streetNumber, setStreetNumber] = useState("39가길"); // 테스트 데이터
+  const [postCode, setPostCode] = useState("123123"); // 테스트 데이터
+  const [startEndDay, setStartEndDay] = useState([new Date(), new Date().setFullYear(new Date().getFullYear() + 1)]); // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요. 
+  const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
+  const [tempDuration, setTempDuration] = useState([duration[0] + "일", duration[1] + "일"])
   const [price, setPrice] = useState(10000);
   const [imageFiles, setImageFiles] = useState([]);
-  const [school, setSchool] = useState("");
-  const [rule, setRule] = useState("");
-  const [benefit, setBenefit] = useState("");
-  const [refundPolicy, setRefundPolicy] = useState("");
-  const [contract, setContract] = useState(""); // ?
+  const [rule, setRule] = useState("규칙");
+  const [benefit, setBenefit] = useState("혜택");
+  const [refundPolicy, setRefundPolicy] = useState("환불정책");
+  const [contract, setContract] = useState("계약"); // ?
+
 
   const handleClose = () => confirmAction();
 
-  const confirmAction = () => {
+  const confirmAction = async () => {
     if (window.confirm("임시저장 하시겠습니까?")) {
-      
+      const formData = makeFormData();
+      formData.append("local_save", true); // 임시저장 유무
+      const requestOptions = {
+        credentials: "include",
+        method: "POST",
+        body: formData,
+      };
+
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
+        .then((res) => {
+          console.log(res)
+        });
       alert("임시 저장 되었습니다."); // if 문 비워두지 않기 위한 임시 alert
     }
     setPostPopUpState(false);
   };
-  // const [, ] = useState() // 방 현황 새로고침 할 때 활용?
+
+  const makeFormData = () => {
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("price", price);
+    formData.append("basic_info", basicInfo);
+    formData.append("benefit", benefit);
+    formData.append("description", "description"); // basic_info와 중복?
+    formData.append("end_day", (new Date()).toISOString());
+    formData.append("extra_info", "extra_info"); // basic_info와 중복?
+    formData.append("min_duration", duration[0]);
+    formData.append("max_duration", duration[1]);
+    formData.append("position", fullAddress);
+    formData.append("refund_policy", refundPolicy);
+    formData.append("rule", rule);
+    formData.append("start_day", (new Date()).toISOString());
+    formData.append("limit_people", limitPeople);
+    formData.append("number_room", numberRoom);
+    formData.append("number_bathroom", numberBathroom);
+    formData.append("number_bedroom", numberBedroom);
+    formData.append("accomodation_type", accomodationType);
+    formData.append("building_type", buildingType);
+    formData.append("x_coordinate", pos[0]);
+    formData.append("y_coordinate", pos[1]);
+    formData.append("city", city);
+    formData.append("gu", gu);
+    formData.append("dong", dong);
+    formData.append("street", street);
+    formData.append("street_number", streetNumber);
+    formData.append("post_code", postCode);
+    formData.append("school", "고려대학교"); // 사용자 정보에 따라서 해야함.
+    formData.append("contract", true); // 계약 관련
+    // formData.append("content", "content"); // ?
+    // formData.append("category", "category"); // ?
+    // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
+    // formData.append("post_date", (new Date()).toISOString());
+    // formData.append("images", imageFiles[0]);
+    imageFiles.forEach((file, index) => {
+      formData.append("images", file);
+    });
+
+    return (formData);
+  }
 
   const uploadPost = async () => {
+    const formData = makeFormData();
+    formData.append("local_save", false); // 임시저장 유무
+
     const requestOptions = {
       credentials: "include",
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: {title},
-        content: "content", // ?
-        price: 1000,
-        category: "category", // ?
-        basic_info: {basicInfo},
-        benefit: {benefit},
-        description: "description", // ?
-        end_day: (new Date()).toISOString(),
-        extra_info: "extra_info", // ?
-        max_duration: 2, // 추가 필요
-        min_duration: 1, // 추가 필요
-        position: {fullAddress}, // ?
-        refund_policy: {refundPolicy},
-        rule: {rule},
-        start_day: (new Date()).toISOString(),
-        limit_people: {limitPeople},
-        number_room: {numberRoom},
-        number_bathroom: {numberBathroom},
-        number_bedroom: {numberBedroom},
-        accomodation_type: {accomodationType},
-        building_type: {buildingType},
-        x_coordinate: pos[0],
-        y_coordinate: pos[1],
-        city: {city},
-        gu: {gu},
-        dong: {dong},
-        street: {street},
-        street_number: {streetNumber},
-        post_code: {postCode},
-        contract: "true", // ?
-        local_save: "false"
-      }),
+      body: formData,
     };
 
-    await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/post`,
-        requestOptions
-      )
-    ).json();
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
+      .then((res) => {
+        console.log(res)
+      });
+
   };
 
   const handleLimitPeople = (event, newValue) => {
@@ -933,32 +953,47 @@ export const PostUploadDialog = (props) => {
     setBasicInfo(event.target.value);
   };
 
-  const handleCity = (event) => {
-    setCity(event.target.value);
+  // const handleCity = (event) => {
+  //   setCity(event.target.value);
+  // }
+
+  // const handleGu = (event) => {
+  //   setGu(event.target.value);
+  // }
+
+  // const handleDong = (event) => {
+  //   setDong(event.target.value);
+  // }
+
+  // const handleStreet = (event) => {
+  //   setStreet(event.target.value);
+  // }
+
+  // const handleStreetNumber = (event) => {
+  //   setStreetNumber(event.target.value);
+  // }
+
+  // const handlePostCode = (event) => {
+  //   setPostCode(event.target.value);
+  // }
+
+  const handleSetImages = (newImage, index) => {
+    const newImages = [...imageFiles];
+    if (index >= imageFiles.length) {
+      newImages.push(newImage);
+    } else {
+      newImages[index] = newImage;
+    }
+    setImageFiles(newImages);
   }
 
-  const handleGu = (event) => {
-    setGu(event.target.value);
+  const hadnleStartEndDay = (date1, date2) => {
+    setStartEndDay([date1, date2]);
   }
 
-  const handleDong = (event) => {
-    setDong(event.target.value);
-  }
-
-  const handleStreet = (event) => {
-    setStreet(event.target.value);
-  }
-
-  const handleStreetNumber = (event) => {
-    setStreetNumber(event.target.value);
-  }
-
-  const handlePostCode = (event) => {
-    setPostCode(event.target.value);
-  }
-
-  const handleSetImages = (newImage) => {
-    setImageFiles((prevImages) => [...prevImages, newImage]);
+  const handleDuration = (event, newValue) => {
+    setDuration(newValue);
+    setTempDuration([duration[0] + "일", duration[1] + "일"])
   };
 
   return (
@@ -967,8 +1002,8 @@ export const PostUploadDialog = (props) => {
         open={postPopUpState}
         className="border border-gray-300 shadow-xl rounded-lg"
       >
-        <DialogContent className="text-center">
-        <s.change_button type="button" onClick={handleClose}>
+        <DialogContent sx={{ width: "500px" }} className="text-center">
+          <s.change_button type="button" className="float-right" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
@@ -976,97 +1011,96 @@ export const PostUploadDialog = (props) => {
           {/* <p>
             --------------추후 슬라이더로 변경 (현재는 스크롤)---------------
           </p> */}
-          <form>
-            <div style={psd.gridStyle.mainContainer}>
-              <p style={psd.gridStyle.inputContainer}>
-                <h3 style={psd.gridStyle.infoType}>
-                  숙소 기본정보를 작성하세요
-                </h3>
-                <DropBoxSelect
-                  state={accomodationType}
-                  setState={setAccomodationType}
-                  labelName="계약 형태"
-                  labelId="accomodation_type"
-                  id="accomodation_type"
-                  menuItems={[
-                    "전대(sublet)",
-                    "전대(sublease)",
-                    "임대(lease)",
-                    "룸메이트",
-                  ]}
-                />
+          <div style={psd.gridStyle.mainContainer}>
+            <p style={psd.gridStyle.inputContainer}>
+              <h3 style={psd.gridStyle.infoType}>
+                숙소 기본정보를 작성하세요
+              </h3>
+              <DropBoxSelect
+                state={accomodationType}
+                setState={setAccomodationType}
+                labelName="계약 형태"
+                labelId="accomodation_type"
+                id="accomodation_type"
+                menuItems={[
+                  "전대(sublet)",
+                  "전대(sublease)",
+                  "임대(lease)",
+                  "룸메이트",
+                ]}
+              />
 
+              <div>
                 <div>
-                  <div>
-                    <ValueViewer.SingleValueViewer
-                      value={"최대인원: " + limitPeople + "명"}
-                    />
-                    <SingleSlideInput
-                      value={limitPeople}
-                      onChange={handleLimitPeople}
-                      minMax={[1, 10]}
-                    />
-                  </div>
-                  <DropBoxSelect
-                    state={buildingType}
-                    setState={setBuildingType}
-                    labelName="건물 유형"
-                    labelId="building_type"
-                    id="building_type"
-                    menuItems={["오피스텔", "원룸", "아파트", "빌라", "기타"]}
+                  <ValueViewer.SingleValueViewer
+                    value={"최대인원: " + limitPeople + "명"}
+                  />
+                  <SingleSlideInput
+                    value={limitPeople}
+                    onChange={handleLimitPeople}
+                    minMax={[1, 10]}
+                  />
+                </div>
+                <DropBoxSelect
+                  state={buildingType}
+                  setState={setBuildingType}
+                  labelName="건물 유형"
+                  labelId="building_type"
+                  id="building_type"
+                  menuItems={["오피스텔", "원룸", "아파트", "빌라", "기타"]}
+                />
+              </div>
+              <div>
+                <div>
+                  <ValueViewer.SingleValueViewer
+                    value={"욕실 갯수: " + numberBathroom}
+                  />
+                  <SingleSlideInput
+                    value={numberBathroom}
+                    onChange={handleNumberBathroom}
+                    minMax={[1, 10]}
                   />
                 </div>
                 <div>
-                  <div>
-                    <ValueViewer.SingleValueViewer
-                      value={"욕실 갯수: " + numberBathroom}
-                    />
-                    <SingleSlideInput
-                      value={numberBathroom}
-                      onChange={handleNumberBathroom}
-                      minMax={[1, 10]}
-                    />
-                  </div>
-                  <div>
-                    <ValueViewer.SingleValueViewer
-                      value={"침실 갯수: " + numberBedroom}
-                    />
-                    <SingleSlideInput
-                      value={numberBedroom}
-                      onChange={handleNumberBedroom}
-                      minMax={[1, 10]}
-                    />
-                  </div>
+                  <ValueViewer.SingleValueViewer
+                    value={"침실 갯수: " + numberBedroom}
+                  />
+                  <SingleSlideInput
+                    value={numberBedroom}
+                    onChange={handleNumberBedroom}
+                    minMax={[1, 10]}
+                  />
                 </div>
-              </p>
-              <p style={psd.gridStyle.inputContainer}>
-                <h3 style={psd.gridStyle.infoType}>숙소의 매력을 작성하세요</h3>
-                <TextInputTag
-                  id="title"
-                  label="제목"
-                  placeholder="제목을 입력해주세요."
-                  handleState={handleTitle}
-                  required={true}
-                />
-                <TextAreaTag
-                  id="basic_info"
-                  label="기본정보"
-                  placeholder="기본정보을 입력해주세요."
-                  handleState={handleBasicInfo}
-                  required={true}
-                />
-              </p>
+              </div>
+            </p>
+            <p style={psd.gridStyle.inputContainer}>
+              <h3 style={psd.gridStyle.infoType}>숙소의 매력을 작성하세요</h3>
+              <TextInputTag
+                id="title"
+                label="제목"
+                placeholder="제목을 입력해주세요."
+                handleState={handleTitle}
+                required={true}
+              />
+              <TextAreaTag
+                id="basic_info"
+                label="기본정보"
+                placeholder="기본정보을 입력해주세요."
+                handleState={handleBasicInfo}
+                required={true}
+              />
+            </p>
 
-              <p style={psd.gridStyle.inputContainer}>
-                <h3 style={psd.gridStyle.infoType}>숙소 위치 입력하기</h3>
-                {/* <TextInputTag
+            <p style={psd.gridStyle.inputContainer}>
+              <h3 style={psd.gridStyle.infoType}>숙소 위치 입력하기</h3>
+              {/* <TextInputTag
                   id="full_address"
                   label="주소"
                   placeholder="주소를 입력해주세요."
                   handleState={handleFullAddress}
                   required={true}
                 /> */}
-                {/* <TextInputTag
+              {/* <TextInputTag
                   id="city"
                   label="시"
                   placeholder="시를 입력해주세요."
@@ -1113,40 +1147,52 @@ export const PostUploadDialog = (props) => {
                   currentPos={pos}
                   setPos={setPos}
                 />   */}
-                <LocationInput pos={pos} currentPos={pos} setPos={setPos} /> {/* 이렇게만 하면 안되고, 직접 친 후에 맵을 띄울 수도 있어야함. 위 주석 참고. */}
+              <LocationInput pos={pos} currentPos={pos} setPos={setPos} /> {/* 이렇게만 하면 안되고, 직접 친 후에 맵을 띄울 수도 있어야함. 위 주석 참고. */}
+            </p>
+
+            <p style={psd.gridStyle.inputContainer}>
+              <h3 style={psd.gridStyle.infoType}>기간 및 금액</h3>
+              <p>
+                게시 날짜
               </p>
+              <DoubleDatePicker
+                dateData={startEndDay}
+                setDateData={hadnleStartEndDay}
+              />
 
-              <p style={psd.gridStyle.inputContainer}>
-                <h3 style={psd.gridStyle.infoType}>기간 및 금액</h3>
-                <DoubleDatePicker
-                  searchDate={duration}
-                  setSearchDate={setDuration}
-                />
-
-                <ValueViewer.SingleValueViewer
-                  value={"금액: ₩" + priceToString(price) + "원"}
-                />
-                <NumberInputTag
-                  id="price"
-                  label="가격"
-                  placeholder="가격을 입력해주세요."
-                  handleState={handlePrice}
-                  required={true}
-                />
-                {/*<SingleSlideInput value={price} onChange={handlePrice} minMax={[0, 1000000]}/>*/
+              <ValueViewer.SingleValueViewer
+                value={"금액: ₩" + priceToString(price) + "원"}
+              /> {/* 금액 보이는 것 하고, 입력하는 것을 합쳐야 할 듯. */}
+              <NumberInputTag
+                id="price"
+                label="가격"
+                placeholder="가격을 입력해주세요."
+                handleState={handlePrice}
+                required={true}
+              />
+              {/*<SingleSlideInput value={price} onChange={handlePrice} minMax={[0, 1000000]}/>*/
                 /* 슬라이더 방식 */}
+              <p>
+                최소-최대 기간 : <ValueRangeViewer arr={tempDuration} />
               </p>
+              <DoubleSlideInput
+                value={duration}
+                onChange={handleDuration}
+                minMax={[1, 730]}
+              />
+            </p>
 
-              <p style={psd.gridStyle.inputContainer}>
-                <h3 style={psd.gridStyle.infoType}>숙소 사진을 올려주세요.</h3>
-                {imageFiles.length > 0 && (
-                  <>이미지를 변경하려면 이미지를 클릭해주세요.</>
-                )}
+            <p style={psd.gridStyle.inputContainer}>
+              <h3 style={psd.gridStyle.infoType}>숙소 사진을 올려주세요.</h3>
+              {imageFiles.length > 0 && (
+                <>이미지를 변경하려면 이미지를 클릭해주세요.</>
+              )}
+              {Array.from({ length: imageFiles.length + 1 }).map((_, index) => (
+                <ImageUploadComponent imgIndex={index} setImage={handleSetImages} />
+              ))}
+            </p>
 
-                <ImageUploadComponent setImage={handleSetImages} />
-              </p>
-            </div>
-          </form>
+          </div>
         </DialogContent>
 
         <s.black_upload_button className="ml-2" onClick={uploadPost}>

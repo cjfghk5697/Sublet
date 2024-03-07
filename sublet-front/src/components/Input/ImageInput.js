@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import { colors } from "@mui/material";
 
-export const ImageUploadComponent = ({setImage}) => {
+export const ImageUploadComponent = ({ imgIndex, setImage }) => {
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef(null); // 파일 입력에 대한 참조 생성
 
@@ -8,7 +10,7 @@ export const ImageUploadComponent = ({setImage}) => {
     const file = e.target.files[0];
     if (file) {
       setPreview(URL.createObjectURL(file));
-      setImage(file);
+      setImage(file, imgIndex);
     }
   };
 
@@ -27,7 +29,7 @@ export const ImageUploadComponent = ({setImage}) => {
         />
       ) : (
         <button onClick={() => fileInputRef.current.click()}>
-          Choose an image
+          <AddBoxIcon style={{ color: colors.blue[500], fontSize: 100 }} />
         </button>
       )}
       <input
