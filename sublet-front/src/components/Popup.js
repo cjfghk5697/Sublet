@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as s from './styles/SummaryBlock.styles.js'
 import * as w from './styles/Wrapper.style.js'
 import * as psd from "./styles/PostUploadDialog.styles.js";
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
-import { FetchImage, FetchLogin, SignUp } from "./FetchList";
+import { FetchImage, FetchLogin, SignUp, GetMyUser } from "./FetchList";
 
 import { guestInfoPopUpStore } from "./store/guestInfoStore.js";
 import { Alert, Information, StyleComponent, FailAlert, checkEmailFormat } from "./StaticComponents.js";
@@ -33,6 +33,7 @@ import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
 import { priceToString } from "../components/StaticComponents.js";
 import { ImageUploadComponent } from "./Input/ImageInput.js";
 import { ValueRangeViewer } from "./Input/ValueViewer.js"
+
 
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore(
@@ -928,6 +929,12 @@ export const PostUploadDialog = (props) => {
   const [refundPolicy, setRefundPolicy] = useState("환불정책");
   const [contract, setContract] = useState("계약"); // ?
 
+  async function fetchUser() {
+    const user = await GetMyUser();
+    return user;
+  }
+  const user = fetchUser();
+
   const handleClose = () => confirmAction();
 
   const confirmAction = async () => {
@@ -980,8 +987,9 @@ export const PostUploadDialog = (props) => {
     formData.append("street", street);
     formData.append("street_number", streetNumber);
     formData.append("post_code", postCode);
-    formData.append("school", "고려대학교"); // 사용자 정보에 따라서 해야함.
+    formData.append("school", user.school); // 사용자 정보에 따라서 해야함.
     formData.append("contract", true); // 계약 관련
+
     // formData.append("content", "content"); // ?
     // formData.append("category", "category"); // ?
     // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
@@ -1018,6 +1026,13 @@ export const PostUploadDialog = (props) => {
     await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
       .then((res) => {
         console.log(res)
+        if (res.status === 201) {
+          alert("게시되었습니다.");
+          setPostPopUpState(false);
+        }
+        else {
+          alert("게시에 실패했습니다.");
+        }
       });
 
   };
