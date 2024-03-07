@@ -225,15 +225,13 @@ async function FetchImage(formData) {
     body: formData
   };
 
-  await (
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/image`
-      , requestOptions)
-  ).json();
+  return await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/user/image`
+    , requestOptions)
+
 }
 
 async function GetOneUser(user_id) {
-  console.log('123', user_id)
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${user_id}`
@@ -377,6 +375,7 @@ function VerifyEmail({ email }) {
     })
     .catch((e) => {
       console.log('[error] verify', e)
+      return null
     })
   return true
 }
@@ -400,14 +399,7 @@ function VerifyUser({ method, tokenKey, verifyToken }) {
     )
   };
 
-  fetch(link, requestOptions).then(res => res.json())
-    .then(response => {
-      console.log('result verify', response)
-    })
-    .catch((e) => {
-      console.log('[error] verify', e)
-    })
-  return true
+  return fetch(link, requestOptions).then(res => res.json())
 }
 
 async function DeleteRequest(key_num) {
