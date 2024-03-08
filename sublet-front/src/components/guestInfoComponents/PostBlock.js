@@ -30,7 +30,7 @@ function PostInfo(user_id) {
             contract={res.contract}
             address={address}
             room_image={res.image_id[0]}
-            guest_mode={false}
+            guest_mode={true}
           />)
       }) : <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
       }

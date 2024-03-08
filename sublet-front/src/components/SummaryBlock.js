@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DateFormat, StyleComponent, priceToString } from "./StaticComponents.js";
+import { DateFormat, MoveToRoomInfo, StyleComponent, moveToRoomInfo, priceToString } from "./StaticComponents.js";
 import * as s from './styles/SummaryBlock.styles.js'
 import * as w from './styles/Wrapper.style.js'
 
@@ -146,7 +146,7 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
   );
 }
 
-function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
+function ReservationSummaryBlock({ room, title, start_day, end_day, pay, host, room_image, key_num }) {
   const [popupState, setpopupState] = useState(false)
   const startStr = DateFormat(start_day)
   const endStr = DateFormat(end_day)
@@ -169,6 +169,7 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
   pay = priceToString(pay)
 
   return (
+
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
         <img
@@ -176,7 +177,7 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
           src={image_link}></img>
       </div>
       <div className="mb-2 ml-3 col-span-4">
-        <w.SecondHead>{title}</w.SecondHead>
+        <w.SecondHead onClick={() => { MoveToRoomInfo(room) }}>{title}</w.SecondHead>
         <w.DetailParagraph>호스트: {host}</w.DetailParagraph>
         <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
         <w.DetailParagraph>비용: {pay}</w.DetailParagraph>

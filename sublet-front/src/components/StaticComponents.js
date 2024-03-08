@@ -1,5 +1,6 @@
 import 'animate.css';
 import * as s from "./styles/SummaryBlock.styles"
+import { useNavigate } from 'react-router-dom';
 
 export function checkEmailFormat(target, school) {
   if (school === "고려대학교") {
@@ -60,6 +61,13 @@ export function FailAlert() {
   )
 }
 
+export function MoveToRoomInfo({ room }) { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
+  const navigate = useNavigate();
+
+  navigate(`/roominfo/${room.key}`, {
+    room: room,
+  });
+};
 export function StyleComponent({ content }) {
   if (typeof content !== "string") {
     console.log('undefined type')
