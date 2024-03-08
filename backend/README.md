@@ -8,12 +8,16 @@
 
 ```
 DATABASE_URL="mongodb://ID:PASSWD@localhost:27017/Sublet?retryWrites=true&w=majority&authSource=admin&directConnection=true"
+
+BACKEND_PORT="4000"
 ```
 
 `docker compose up -d`를 이용해 백엔드를 도커로 킨다면, 다음 값을 입력합니다. (`localhost`가 아닌 `mongo`를 적습니다.)
 
 ```
-DATABASE_URL="mongodb://test:testpwd@mongo:27017/Sublet?retryWrites=true&w=majority&authSource=admin&directConnection=true"
+DATABASE_URL="mongodb://ID:PASSWD@mongo:27017/Sublet?retryWrites=true&w=majority&authSource=admin&directConnection=true"
+
+BACKEND_PORT="4000"
 ```
 
 ```bash
