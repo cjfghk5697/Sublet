@@ -3,10 +3,15 @@ import { DateFormat, priceToString } from "../StaticComponents.js";
 import * as s from '../styles/SummaryBlock.styles.js'
 import { FetchPost } from "../FetchList";
 import * as w from "../styles/Wrapper.style.js";
+import { guestInfoPopUpStore } from "../store/guestInfoStore.js";
 
 
 function PostInfo(user_id) {
   const post = FetchPost(user_id.user_id)
+
+  const { setPostPopUpState } = guestInfoPopUpStore((state) => ({
+    setPostPopUpState: state.setPostPopUpState,
+  }))
 
   return (
     <div className="mb-4 mt-8">
@@ -34,6 +39,7 @@ function PostInfo(user_id) {
           />)
       }) : <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
       }
+      <s.black_upload_button onClick={setPostPopUpState}>방 올리기</s.black_upload_button>
     </div>
   )
 };

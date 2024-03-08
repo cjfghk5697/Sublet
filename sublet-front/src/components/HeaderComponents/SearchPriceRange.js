@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import { BarChart } from "@mui/x-charts";
-import { Slider } from "@mui/material";
-import { priceToString } from "../StaticComponents.js";
+// import { BarChart } from "@mui/x-charts";
 import { useSearchPriceStore } from "../../store/HeaderStore/searchPriceStore.js";
-import * as s from "../styles/Header.styles.js";
+import * as headerStyle from "../styles/Header.styles.js";
+import { DoubleSlideInput } from "../Input/DoubleSlideInput.js";
+import { MoneyRangeViewer } from "../Input/ValueViewer.js";
+
 
 const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData
@@ -54,11 +55,6 @@ const SearchPriceRange = () => {
     setIsListVisible(!isListVisible);
   };
 
-  const valuetext = (value) => {
-    return priceToString(value) >= 10000
-      ? `${priceToString(value / 10000)}만`
-      : `${value}`;
-  };
 
   const handlePriceChange = (event, newValue) => {
     setTempPriceRange(newValue);
@@ -93,32 +89,24 @@ const SearchPriceRange = () => {
   return (
     <div>
       <button ref={buttonRef} onClick={togglePriceFilter}>
-        <s.blackBoldFont>
+        <headerStyle.blackBoldFont>
           가격 범위
           <BarChartIcon />
-        </s.blackBoldFont>
+        </headerStyle.blackBoldFont>
       </button>
       {isListVisible && (
         <div style={styles.priceRangeStyle}>
           <div style={styles.priceRangeGraphStyle}>
-            <displayFilteringValueWhenModifyingFilter>
-              <span>₩{priceToString(tempPriceRange[0])}</span>
-              <span>~</span>
-              <span>₩{priceToString(tempPriceRange[1])}</span>
-            </displayFilteringValueWhenModifyingFilter>
-            <Slider
-              getAriaLabel={() => "price range"}
+            <MoneyRangeViewer arr={tempPriceRange} />
+            <DoubleSlideInput
               value={tempPriceRange}
               onChange={handlePriceChange}
-              valueLabelDisplay="auto"
-              getAriaValueText={valuetext}
-              min={priceRangeMinMax[0]} // 검색 가능 최소 가격
-              max={priceRangeMinMax[1]} // 검색 가능 최대 가격
+              minMax={priceRangeMinMax}
             />
-            <s.acceptOrCancleButton>
+            <headerStyle.acceptOrCancleButton>
               <button onClick={handleSubmit}>적용</button>
               <button onClick={handleCancel}>취소</button>
-            </s.acceptOrCancleButton>
+            </headerStyle.acceptOrCancleButton>
           </div>
         </div>
       )}

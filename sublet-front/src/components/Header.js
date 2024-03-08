@@ -133,7 +133,12 @@ const Header = () => {
             className="-m-1.5 p-1.5"
           >
             <span className="sr-only">Sublet</span>
-            <img src={`${process.env.REACT_APP_FRONTEND_URL}/logo.png`} style={styles.logoIcon} className="h-8" alt="logo" />
+            <img
+              src={`${process.env.PUBLIC_URL}/logo.png`}
+              style={styles.logoIcon}
+              className="h-8"
+              alt="logo"
+            />
           </IconButton>
         </div>
         <Popover.Group
@@ -171,7 +176,7 @@ const Header = () => {
                 </IconButton>
               </span>
               <IconButton>
-                <Link to={"/GuestInfo"} style={styles.profile}>
+                <Link to={"/profile"} style={styles.profile}>
                   <PersonIcon />
                 </Link>
               </IconButton>

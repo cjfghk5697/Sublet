@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog } from "../components/Popup.js";
+import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog, PostUploadDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
@@ -161,6 +161,7 @@ function User({ user }) {
           <PostInfo
             user_id={user.user_id}
           />
+          <PostUploadDialog />
           <w.Horizon className="my-2" />
 
           <RequestListComponent />
