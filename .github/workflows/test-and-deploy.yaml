@@ -6,6 +6,7 @@ on:
       - main
       - "backend/**"
       - "docker"
+  push:
     paths:
       - "backend/**"
   pull_request:
