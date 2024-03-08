@@ -6,12 +6,15 @@ on:
       - main
       - "backend/**"
       - "docker"
-  push:
     paths:
       - "backend/**"
+      - "docker-compose.yaml"
+      - ".github/**"
   pull_request:
     paths:
       - "backend/**"
+      - "docker-compose.yaml"
+      - ".github/**"
 
 jobs:
   run-test:
