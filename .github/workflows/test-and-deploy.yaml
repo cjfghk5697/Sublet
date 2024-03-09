@@ -45,8 +45,8 @@ jobs:
           MONGO_REPLICA_TEST_HOST=testmongo
           MONGO_PORT=\"27017\"
           TESTDB_PORT=\"7777\"
-          FRONTEND_PORT="22345"
-          BACKEND_PORT="12345"
+          FRONTEND_PORT=\"22345\"
+          BACKEND_PORT=\"12345\"
           MONGO_PASSWORD=passwd
           MONGO_REPLICA_HOST=mongo_replica_host
           MONGO_USERNAME=username
