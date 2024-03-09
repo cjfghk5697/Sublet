@@ -42,7 +42,8 @@ jobs:
         run: |
           echo "MONGO_TEST_USERNAME=test
           MONGO_TEST_PASSWORD=testpwd
-          MONGO_REPLICA_TEST_HOST=testmongo
+          MONGO_INITDB_DATABASE=Sublet
+          MONGO_REPLICA_TEST_HOST=test-db
           MONGO_PORT=\"27017\"
           TESTDB_PORT=\"7777\"
           FRONTEND_PORT=\"22345\"
