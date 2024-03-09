@@ -113,6 +113,10 @@ export class UserTokenVerifyUpdateDto extends UserVerifyUpdateDto {
   @IsNumber()
   verifyToken: number;
 }
+export class UserResetPassword extends UserTokenVerifyUpdateDto {
+  @IsString()
+  user_id: string;
+}
 
 export class UserFilterDto {
   @IsOptional()
