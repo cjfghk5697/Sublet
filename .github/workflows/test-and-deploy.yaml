@@ -73,7 +73,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          SCRIPT_AFTER: *run_compose_env |
+          SCRIPT_AFTER: |
             cd ${{ secrets.REMOTE_TARGET }}
             echo "BACKEND_PORT=\"${{ secrets.BACKEND_PORT }}\"
             MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}
