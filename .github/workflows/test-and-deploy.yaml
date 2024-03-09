@@ -40,17 +40,16 @@ jobs:
         run: npm run test
       - name: Set env file
         run: |
-          echo "BACKEND_PORT=\"${{ secrets.BACKEND_PORT }}\"
-          MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}
-          MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
-          MONGO_TEST_USERNAME=${{ secrets.MONGO_TEST_USERNAME }}
-          MONGO_TEST_PASSWORD=${{ secrets.MONGO_TEST_PASSWORD }}
-          MONGO_INITDB_DATABASE=${{ secrets.MONGO_INITDB_DATABASE }}
-          MONGO_REPLICA_HOST=${{ secrets.MONGO_REPLICA_HOST }}
-          MONGO_REPLICA_TEST_HOST=${{ secrets.MONGO_REPLICA_TEST_HOST }}
-          MONGO_PORT=\"${{ secrets.MONGO_PORT }}\"
-          TESTDB_PORT=\"${{ secrets.TESTDB_PORT }}\"
-          FRONTEND_PORT=\"${{ secrets.FRONTEND_PORT }}\"
+          echo "MONGO_TEST_USERNAME=test
+          MONGO_TEST_PASSWORD=testpwd
+          MONGO_REPLICA_TEST_HOST=testmongo
+          MONGO_PORT=\"27017\"
+          TESTDB_PORT=\"7777\"
+          FRONTEND_PORT="22345"
+          BACKEND_PORT="12345"
+          MONGO_PASSWORD=passwd
+          MONGO_REPLICA_HOST=mongo_replica_host
+          MONGO_USERNAME=username
           " > ../.env
       - name: Run e2e test
         run: npm run test:e2e
@@ -74,8 +73,20 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          SCRIPT_AFTER: |
+          SCRIPT_AFTER: *run_compose_env |
             cd ${{ secrets.REMOTE_TARGET }}
+            echo "BACKEND_PORT=\"${{ secrets.BACKEND_PORT }}\"
+            MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}
+            MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
+            MONGO_TEST_USERNAME=${{ secrets.MONGO_TEST_USERNAME }}
+            MONGO_TEST_PASSWORD=${{ secrets.MONGO_TEST_PASSWORD }}
+            MONGO_INITDB_DATABASE=${{ secrets.MONGO_INITDB_DATABASE }}
+            MONGO_REPLICA_HOST=${{ secrets.MONGO_REPLICA_HOST }}
+            MONGO_REPLICA_TEST_HOST=${{ secrets.MONGO_REPLICA_TEST_HOST }}
+            MONGO_PORT=\"${{ secrets.MONGO_PORT }}\"
+            TESTDB_PORT=\"${{ secrets.TESTDB_PORT }}\"
+            FRONTEND_PORT=\"${{ secrets.FRONTEND_PORT }}\"
+            " > .env
             echo "DATABASE_URL=\"${{ secrets.ENV_DATABASE_URL }}\"
             NODE_ENV=\"${{ secrets.NODE_ENV }}\"
             SESSION_SECRET=\"${{ secrets.SESSION_SECRET }}\"
