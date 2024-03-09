@@ -906,6 +906,8 @@ export const PostUploadDialog = (props) => {
       postPopUpState: state.postPopUpState,
     })
   );
+
+  const { userInfo } = useUserInfoStore();
   const [accomodationType, setAccomodationType] = useState("");
   const [limitPeople, setLimitPeople] = useState(1);
   const [buildingType, setBuildingType] = useState("");
@@ -967,9 +969,7 @@ export const PostUploadDialog = (props) => {
     formData.append("price", price.replace(/,/gi, ""));
     formData.append("basic_info", basicInfo);
     formData.append("benefit", benefit);
-    formData.append("description", "description"); // basic_info와 중복?
     formData.append("end_day", (new Date()).toISOString());
-    formData.append("extra_info", "extra_info"); // basic_info와 중복?
     formData.append("min_duration", duration[0]);
     formData.append("max_duration", duration[1]);
     formData.append("position", fullAddress);
@@ -990,9 +990,11 @@ export const PostUploadDialog = (props) => {
     formData.append("street", street);
     formData.append("street_number", streetNumber);
     formData.append("post_code", postCode);
-    formData.append("school", user.school); // 사용자 정보에 따라서 해야함.
+    formData.append("school", userInfo.school); // 사용자 정보에 따라서 해야함.
     formData.append("contract", true); // 계약 관련
 
+    formData.append("description", "description"); // basic_info와 중복?
+    formData.append("extra_info", "extra_info"); // basic_info와 중복?
     // formData.append("content", "content"); // ?
     // formData.append("category", "category"); // ?
     // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
