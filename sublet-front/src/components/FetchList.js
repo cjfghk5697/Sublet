@@ -168,7 +168,7 @@ function DeletePost(key) {
   DeletePost()
 }
 
-function FetchLogin({ id, password }) {
+function FetchLogin({ id, password, setUserInfo }) {
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -179,21 +179,31 @@ function FetchLogin({ id, password }) {
       body: JSON.stringify({
         id: id,
         password: password
-      }),
-      path: '/'
+      })
     };
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
-      .then(res => res.json())
-      .then(response => {
-        console.log('result login', response)
-      })
-      .catch((e) => {
-        console.log('[error] login', e)
-      })
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
+      .then(res => res.json());
+
+    if (response.ok) {
+      console.log(response.ok);
+      const userInfoResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json());
+
+      setUserInfo(userInfoResponse); // 이 부분에서 로그인한 사용자의 정보를 설정합니다.
+      console.log(userInfoResponse);
+    }
+    else {
+      console.log('[error] login', response)
+    }
   };
-  login()
+  login();
 }
+
 
 function Logout() {
   const logout = async () => {

@@ -33,6 +33,7 @@ import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
 import { priceToString } from "../components/StaticComponents.js";
 import { ImageUploadComponent } from "./Input/ImageInput.js";
 import { ValueRangeViewer } from "./Input/ValueViewer.js"
+import { useUserInfoStore } from "../store/UserInfoStore.js";
 
 
 export function ImageDialog() {
@@ -804,6 +805,8 @@ export function LoginDialog() {
 
   const { idState, passwordState } = inputs;
 
+  const { setUserInfo } = useUserInfoStore();
+
   const inputHandle = (e) => {
     setInputs({
       ...inputs,
@@ -816,7 +819,7 @@ export function LoginDialog() {
   const loginHandled = () => {
     const id = idState
     const password = passwordState
-    FetchLogin({ id, password })
+    FetchLogin({ id, password, setUserInfo })
     setPopUpState(false)
   };
 
@@ -922,7 +925,7 @@ export const PostUploadDialog = (props) => {
   const [startEndDay, setStartEndDay] = useState([new Date(), new Date().setFullYear(new Date().getFullYear() + 1)]); // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요. 
   const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
   const [tempDuration, setTempDuration] = useState([duration[0] + "일", duration[1] + "일"])
-  const [price, setPrice] = useState(10000);
+  const [price, setPrice] = useState("10,000");
   const [imageFiles, setImageFiles] = useState([]);
   const [rule, setRule] = useState("규칙");
   const [benefit, setBenefit] = useState("혜택");
@@ -961,7 +964,7 @@ export const PostUploadDialog = (props) => {
 
     // 모든 데이터가 적절히 입력되었는지 확인하고 아니라면 alert 띄워주기.
     formData.append("title", title);
-    formData.append("price", price);
+    formData.append("price", price.replace(/,/gi, ""));
     formData.append("basic_info", basicInfo);
     formData.append("benefit", benefit);
     formData.append("description", "description"); // basic_info와 중복?
@@ -1025,7 +1028,6 @@ export const PostUploadDialog = (props) => {
 
     await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
       .then((res) => {
-        console.log(res)
         if (res.status === 201) {
           alert("게시되었습니다.");
           setPostPopUpState(false);
@@ -1050,7 +1052,7 @@ export const PostUploadDialog = (props) => {
   };
 
   const handlePrice = (event) => {
-    setPrice(event.target.value);
+    setPrice(priceToString(event.target.value.replace(/,/gi, "")));
   };
 
   const handleTitle = (event) => {
@@ -1161,7 +1163,7 @@ export const PostUploadDialog = (props) => {
               <div>
                 <div>
                   <ValueViewer.SingleValueViewer
-                    value={"욕실 갯수: " + numberBathroom}
+                    value={"욕실 개수: " + numberBathroom}
                   />
                   <SingleSlideInput
                     value={numberBathroom}
@@ -1171,7 +1173,7 @@ export const PostUploadDialog = (props) => {
                 </div>
                 <div>
                   <ValueViewer.SingleValueViewer
-                    value={"침실 갯수: " + numberBedroom}
+                    value={"침실 개수: " + numberBedroom}
                   />
                   <SingleSlideInput
                     value={numberBedroom}
@@ -1267,21 +1269,16 @@ export const PostUploadDialog = (props) => {
                 dateData={startEndDay}
                 setDateData={hadnleStartEndDay}
               />
-
-              <ValueViewer.SingleValueViewer
-                value={"금액: ₩" + priceToString(price) + "원"}
-              /> {/* 금액 보이는 것 하고, 입력하는 것을 합쳐야 할 듯. */}
               <NumberInputTag
                 id="price"
                 label="가격"
                 placeholder="가격을 입력해주세요."
+                value={priceToString(price.replace(/,/gi, ""))} // 숫자에 ,를 넣어주는 함수 필요
                 handleState={handlePrice}
                 required={true}
               />
-              {/*<SingleSlideInput value={price} onChange={handlePrice} minMax={[0, 1000000]}/>*/
-                /* 슬라이더 방식 */}
               <p>
-                최소-최대 기간 : <ValueRangeViewer arr={tempDuration} />
+                최소-최대 계약 가능 기간 : <ValueRangeViewer arr={tempDuration} />
               </p>
               <DoubleSlideInput
                 value={duration}
