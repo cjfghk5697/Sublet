@@ -123,7 +123,7 @@ export function ImageDialog() {
                   content="ImageDrop"
                 />
 
-                <input id="dropzone-file" type="file" className="hidden"
+                <input accept='image/jpg, image/jpeg, image/png' id="dropzone-file" type="file" className="hidden"
                   onChange={saveImgFile}
                   ref={imgRef}
                 />
@@ -410,31 +410,55 @@ export function PhoneDialog({ originalPhone }) {
   );
 }
 
-export function ShareDialog({ content }) {
-  /*          
-  <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
-            <DialogContent sx={{ height: 224 }} className='text-left'>
-              <form className="flot-right">
-                <s.change_button type="button" name="sharePopUpState" onClick={onChange}>
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </s.change_button>
-              </form>
- 
-              <ShareDialog content="localhost" className="clear-both" />
-            </DialogContent >
-          </Dialog> 
-          */
+export function ShareDialog({ description, title, image_id }) {
+
   const copyLinkRef = useRef();
-  const pageLink = window.location.href;
-  const [backUp, setBackUp] = useState(false);
+  const [successState, setSuccessState] = useState(false)
+
+  // 로컬 주소 (localhost 3000 같은거)
+  const resultUrl = window.location.href;
+  const { Kakao } = window;
+  const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/public/${image_id[0]}.jpg`
+  // 재랜더링시에 실행되게 해준다.
+  useEffect(() => {
+    // init 해주기 전에 clean up 을 해준다.
+    Kakao.cleanup();
+    // 자신의 js 키를 넣어준다.
+    Kakao.init(process.env.REACT_APP_KAKAO_JS);
+  }, []);
+
+  const shareKakao = () => {
+
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: title,
+        description: description,
+        imageUrl: imageUrl,
+        link: {
+          mobileWebUrl: resultUrl,
+        },
+      },
+      buttons: [
+        {
+          title: title,
+          link: {
+            mobileWebUrl: resultUrl,
+          },
+        },
+      ],
+    });
+
+  }
+
+
   const copyTextUrl = () => {
     copyLinkRef.current.focus();
-    setBackUp(true);
-    navigator.clipboard.writeText(copyLinkRef.current.value);
+    setSuccessState(true)
+    navigator.clipboard.writeText(copyLinkRef.current.value)
     setTimeout(() => {
-      setBackUp(false);
+      setSuccessState(false)
+
     }, 5000);
   };
   return (
@@ -444,19 +468,21 @@ export function ShareDialog({ content }) {
         <p className="text-base text-gray"> 복사하여 편하게 보내세요</p>
       </div>
       <div className="mt-2">
-        <s.input_text_without_block
-          type="text"
-          className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
-          ref={copyLinkRef}
-          value={content}
-        />
-        <s.black_upload_button className="ml-2" onClick={copyTextUrl}>
-          복사하기
-        </s.black_upload_button>
+        <s.input_text_without_block type="text" className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500" ref={copyLinkRef} value={resultUrl} />
+        <s.black_upload_button className="ml-2" onClick={copyTextUrl}>복사하기</s.black_upload_button>
       </div>
-      <div className="mt-4 center">{backUp && <Alert />}</div>
-    </div>
-  );
+      <div className="mt-2">
+        <s.black_upload_button className="ml-2" onClick={() => { shareKakao() }}>카카오 공유하기</s.black_upload_button>
+      </div>
+      <div className="mt-4 center">
+        {successState && (
+          <Alert />
+        )}
+
+      </div>
+    </div >
+  )
+
   // 선택 후 복사
 }
 

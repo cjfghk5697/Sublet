@@ -39,6 +39,7 @@ function ReservationInfo() {
       <w.SecondHead>예약 현황</w.SecondHead>
       {reservation.length > 0 ? reservation.map((res) => (
         <ReservationSummaryBlock
+          room={res}
           title={res.Post.title}
           host={res.Post.postuser.user_id}
           start_day={res.r_start_day}
