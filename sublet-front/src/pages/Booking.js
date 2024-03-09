@@ -139,9 +139,9 @@ export default function Booking(user_id) {
         </div>
         <div className="mt-4" fullWidth>
           {
-            checkState ? (<s.black_upload_button onClick={handlePostReservation}>예약하기</s.black_upload_button>
+            checkState ? (<s.black_upload_button onClick={handlePostReservation}>결제하기</s.black_upload_button>
             ) :
-              (<s.black_upload_button_disabled disabled>예약하기</s.black_upload_button_disabled>
+              (<s.black_upload_button_disabled disabled>결제하기</s.black_upload_button_disabled>
               )
           }
         </div>

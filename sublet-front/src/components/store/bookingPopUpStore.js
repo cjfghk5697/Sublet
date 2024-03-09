@@ -3,9 +3,9 @@ import { DateFormat } from "../StaticComponents";
 
 export const bookingPopUpStore = create((set) => ({
   temp_start_day: DateFormat(Date.now()),
-  temp_end_day: '2024.02.11',
+  temp_end_day: '2000.01.01',
   day_pay: 1,
-  total_pay: 2913136,
+  total_pay: 0,
   post_key: "0",
   setTempStartDayState: (day) => set(() => ({
     temp_start_day: day

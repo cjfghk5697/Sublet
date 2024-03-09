@@ -11,6 +11,9 @@ import { Carousel } from "@material-tailwind/react";
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
 import { useNavigate } from 'react-router-dom';
+import { bookingPopUpStore } from "../components/store/bookingPopUpStore.js";
+import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
+import { getDateDiff } from '../components/StaticComponents.js';
 
 export default function RoomInfo() {
   const styles = {
@@ -68,8 +71,20 @@ export default function RoomInfo() {
 
   //페이지 이동 부분
   const navigate = useNavigate();
+  const { setStartDay, setEndDay, setDayPay, setTotalPay, setPostKey } = bookingPopUpStore((state) => ({
+    setStartDay: state.setTempStartDayState,
+    setEndDay: state.setTempEndDayState,
+    setDayPay: state.setDayPayState,
+    setTotalPay: state.setTotalPayState,
+    setPostKey: state.setPostKey
+  }))
+  const { searchDate } = useSearchDateStore();
   const moveToBooking = () => {
-
+    setStartDay(searchDate[0]);
+    setEndDay(searchDate[1]);
+    setDayPay(nowRoomPost.price);
+    setTotalPay(nowRoomPost.price * getDateDiff(searchDate[0], searchDate[1]));
+    setPostKey(nowRoomNum);
     navigate(`/booking`);
   }
 
@@ -101,7 +116,7 @@ export default function RoomInfo() {
       </div>
       {postExist && nowRoomPost &&
         <>
-          {console.log(nowRoomPost)}
+          {/* {console.log(nowRoomPost)} */}
 
           <section className="text-3xl font-bold mx-3 mt-1 mb-6">{nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}</section>
 
@@ -154,8 +169,8 @@ export default function RoomInfo() {
             <div className="text-xl font-bold">예약하기</div>
             <SearchDate />
             <div className="mt-4 mb-2 text-2xl font-bold">
-              {`받아온 날짜 수 * 일간 가격`/* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/} 원
-              <span className="text-sm font-normal">/{`SearchDate에서 선택된 날짜 받아오기..`} 일</span>
+              {`${(getDateDiff(searchDate[0], searchDate[1]) * nowRoomPost.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`} 원
+              <span className="text-sm font-normal"> / {getDateDiff(searchDate[0], searchDate[1])} 일</span>
             </div>
             <button className="w-full rounded-lg bg-gray-300 text-black p-1" onClick={moveToBooking}>예약하기</button>
             <div className="mt-2 mb-2 text-sm text-gray-600">예약 확정 전에 환불 규정을 확인 하셨나요?</div>
