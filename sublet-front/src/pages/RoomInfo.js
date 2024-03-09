@@ -10,7 +10,7 @@ import { SubletPostStore } from "../store/SubletPostStore";
 import { Carousel } from "@material-tailwind/react";
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function RoomInfo() {
   const styles = {
@@ -65,6 +65,13 @@ export default function RoomInfo() {
     }
     setNowRoomPost({ ...postAll.find((post) => post.key == nowRoomNum) });
   }, [postExist]);
+
+  //페이지 이동 부분
+  const navigate = useNavigate();
+  const moveToBooking = () => {
+
+    navigate(`/booking`);
+  }
 
   return (
     <div>
@@ -138,7 +145,7 @@ export default function RoomInfo() {
 
           <section className='mx-3 mb-6'>
             <div className="text-xl font-bold">지도</div>
-            <div className='h-1/6 overflow-hidden'>
+            <div className='h-1/6 overflow-hidden px-10'>
               {postExist && <Map />}
             </div>
           </section>
@@ -150,7 +157,7 @@ export default function RoomInfo() {
               {`받아온 날짜 수 * 일간 가격`/* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/} 원
               <span className="text-sm font-normal">/{`SearchDate에서 선택된 날짜 받아오기..`} 일</span>
             </div>
-            <button className="w-full rounded-lg bg-gray-300 text-black p-1">예약하기</button>
+            <button className="w-full rounded-lg bg-gray-300 text-black p-1" onClick={moveToBooking}>예약하기</button>
             <div className="mt-2 mb-2 text-sm text-gray-600">예약 확정 전에 환불 규정을 확인 하셨나요?</div>
           </section>
 
@@ -188,7 +195,6 @@ export default function RoomInfo() {
 
             <button className="w-full rounded-lg bg-gray-300 text-black p-1">메세지 보내기</button>
           </section>
-
 
         </>
       }

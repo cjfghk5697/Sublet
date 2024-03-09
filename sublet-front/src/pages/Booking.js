@@ -1,5 +1,5 @@
 import { CalulateDate, getDateDiff, priceToString } from "../components/StaticComponents";
-import { bookingPopUpStore } from "../components/store/booking";
+import { bookingPopUpStore } from "../components/store/bookingPopUpStore.js";
 import * as w from "../components/styles/Wrapper.style";
 import * as s from "../components/styles/SummaryBlock.styles";
 import { FetchReservationPost } from "../components/FetchList";
