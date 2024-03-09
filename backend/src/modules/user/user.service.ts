@@ -96,7 +96,7 @@ export class UserService {
       number = number - 100000;
     }
 
-    await this.cacheManager.set(user_email, number); //cache 생성
+    await this.cacheManager.set(user_email, number, 0); //cache 생성, 자동 삭제 안됨
 
     const transporter = nodemailer.createTransport({
       service: 'gmail', //사용하고자 하는 서비스
@@ -116,6 +116,13 @@ export class UserService {
 
   async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
     const cache_verifyToken = await this.cacheManager.get(putUserBody.tokenKey); // cache-manager를 통해 확인
+    console.log(
+      cache_verifyToken,
+      user_id,
+      putUserBody.tokenKey,
+      typeof putUserBody.tokenKey,
+    );
+
     if (cache_verifyToken !== putUserBody.verifyToken) {
       throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
     } else {

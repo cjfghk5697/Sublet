@@ -8,6 +8,7 @@ import { DeletePost, DeleteRequest, FetchDeleteReservation, FetchGetRequestByReq
 import { ReservationByPostKeyInfo } from "./guestInfoComponents/Reservation.js";
 import { PostRequest, RequestByPostKeyInfo } from "./guestInfoComponents/Request.js";
 import { PostSummaryDetailDialog, RequestSummaryDetailDialog } from "./Popup.js";
+import { useNavigate } from "react-router-dom";
 
 function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, accomodation_type, start_date, end_date, pay, complete, contract }) {
   const address = city + ' ' + gu + ' ' + dong;
@@ -146,10 +147,11 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
   );
 }
 
-function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_image, key_num }) {
+function ReservationSummaryBlock({ room, start_day, end_day }) {
   const [popupState, setpopupState] = useState(false)
   const startStr = DateFormat(start_day)
   const endStr = DateFormat(end_day)
+  const navigate = useNavigate();
 
   const clickHandler = () => {
     setpopupState(!popupState)
@@ -162,13 +164,21 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
     setCheckState(!checkState)
   }
   const deleteReservationHandle = () => {
-    FetchDeleteReservation(key_num)
+    FetchDeleteReservation(room.key)
   }
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`
 
-  pay = priceToString(pay)
+  const pay = priceToString(room.pay)
+
+  const MoveToRoomInfo = ({ room }) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
+    console.log(room.Post)
+    navigate(`/roominfo/${room.Post.key}`, {
+      room: room.Post,
+    });
+  };
 
   return (
+
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
         <img
@@ -176,8 +186,12 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
           src={image_link}></img>
       </div>
       <div className="mb-2 ml-3 col-span-4">
-        <w.SecondHead>{title}</w.SecondHead>
-        <w.DetailParagraph>호스트: {host}</w.DetailParagraph>
+        <w.SecondHead >
+          <a href="" onClick={() => { MoveToRoomInfo({ room }) }}>
+            {room.Post.title}
+          </a>
+        </w.SecondHead>
+        <w.DetailParagraph>호스트: {room.Post.postuser.user_id}</w.DetailParagraph>
         <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
         <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
         <div>
@@ -234,9 +248,9 @@ function ReservationSummaryBlock({ title, start_day, end_day, pay, host, room_im
 }
 
 
-function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomodation_type, post_date, pay, contract, private_post, address, room_image }) {
+function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) {
 
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room_image}.jpg`
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`
   const [inputs, setInputs] = useState({
     detailDialogShow: false,
     reservationDialogShow: false,
@@ -259,11 +273,16 @@ function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomod
   };
 
   const deleteHandle = () => {
-    DeletePost(post_key)
+    DeletePost(room.key)
 
   }
-
-  const request_list = FetchGetRequestByRequestId(id_list)
+  const navigate = useNavigate();
+  const MoveToRoomInfo = ({ room }) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
+    navigate(`/roominfo/${room.key}`, {
+      room: room,
+    });
+  };
+  const request_list = FetchGetRequestByRequestId(room.requestIDs)
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
@@ -273,8 +292,13 @@ function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomod
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <div className="inline-block">
-          <w.SecondHead className="float-start mr-4">{title} </w.SecondHead>
-          {contract ?
+          <w.SecondHead className="float-start mr-4">
+
+            <a href="" onClick={() => { MoveToRoomInfo({ room }) }}>
+              {room.title}
+            </a>
+          </w.SecondHead>
+          {room.contract ?
             (
               <StyleComponent
                 content="VerifyRoom" />) :
@@ -321,10 +345,10 @@ function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomod
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
               <PostSummaryDetailDialog
-                title={title}
-                contract={contract}
-                private_post={private_post}
-                accomodation_type={accomodation_type}
+                title={room.title}
+                contract={room.contract}
+                private_post={room.private}
+                accomodation_type={room.accomodation_type}
                 post_date={post_date}
                 pay={pay}
                 address={address}
@@ -347,7 +371,7 @@ function PostSummaryBlock({ guest_mode = true, title, post_key, id_list, accomod
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
               <ReservationByPostKeyInfo
-                post_key={post_key} />
+                post_key={room.key} />
             </DialogContent>
 
           </Dialog>

@@ -43,7 +43,6 @@ export class MongodbRequestService {
   }
 
   async getRequestByRequestId(id: RequestId) {
-    console.log(id);
     const result: RequestInterface[] | null =
       await this.prisma.requestForm.findMany({
         where: {

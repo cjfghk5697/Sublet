@@ -22,6 +22,7 @@ import {
   UserCreateDto,
   UserEmailVerifyDto,
   UserFilterDto,
+  UserResetPassword,
   UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
@@ -142,6 +143,7 @@ export class UserController {
 
   @Post('email')
   async verifyEmail(@Body() data: UserEmailVerifyDto) {
+    console.log(data.email);
     await this.userService.verifyTokenEmail(data.email);
   }
 
@@ -151,8 +153,13 @@ export class UserController {
     @Req() req: customRequest,
     @Body() data: UserTokenVerifyUpdateDto,
   ) {
-    console.log(data, req);
     const res = await this.userService.verifyUser(req.user.user_id, data);
+    return res;
+  }
+
+  @Post('resetpassword')
+  async resetpassword(@Body() data: UserResetPassword) {
+    const res = await this.userService.verifyUser(data.user_id, data);
     return res;
   }
 

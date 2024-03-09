@@ -23,19 +23,11 @@ function PostInfo(user_id) {
 
         return (
           <PostSummaryBlock
-            requestForm={res.RequestForm}
-            id_list={res.requestIDs}
-            title={res.title}
-            post_key={res.key}
-            accomodation_type={res.accomodation_type}
+            room={res}
             post_date={post_date}
             pay={price}
-            request={res.request}
-            private_post={res.private}
-            contract={res.contract}
             address={address}
-            room_image={res.image_id[0]}
-            guest_mode={false}
+            guest_mode={true}
           />)
       }) : <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
       }
