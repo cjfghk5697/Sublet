@@ -13,6 +13,7 @@ import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 import GuestRequest from './pages/GuestRequest.js';
 import HostInfo from './pages/HostInfo.js';
+import ResetPassword from './pages/ResetPassword.js';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Booking" element={<Booking />} />
         <Route path='/Profile/me' element={<GuestInfo />} />
         <Route path="/profile/:userId" element={<HostInfo />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/test/chat" element={<TestChat />} />
         <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
         <Route path="/test/db/" element={<TestDB />} />
