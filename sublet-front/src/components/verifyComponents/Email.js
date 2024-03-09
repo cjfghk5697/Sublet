@@ -9,7 +9,8 @@ import { verifyStore } from "../store/resetPassword.js"
 
 export function VerifyEmailComponents({ email,
   user_id,
-  purpose = "verifyemail" }) {
+  purpose = "verifyemail"
+}) {
   const { setVerifyPasswordEmail, verifyPasswordEmail } = verifyStore((state) => ({
     setVerifyPasswordEmail: state.setVerifyPasswordEmail,
     verifyPasswordEmail: state.verifyPasswordEmail
@@ -48,11 +49,12 @@ export function VerifyEmailComponents({ email,
               setFailState(false)
             }, 5000);
           } else {
+
             setSuccessState(true)
             setTimeout(() => {
               setSuccessState(false)
             }, 5000);
-            setVerifyPasswordEmail()
+
           }
         })
         .catch((err) => {
@@ -79,7 +81,8 @@ export function VerifyEmailComponents({ email,
             setTimeout(() => {
               setSuccessState(false)
             }, 5000);
-
+            setVerifyPasswordEmail()
+            console.log(verifyPasswordEmail)
           }
         })
         .catch((err) => {
@@ -90,7 +93,7 @@ export function VerifyEmailComponents({ email,
         })
     }
   };
-
+  console.log()
   return (
     <>
 
