@@ -14,7 +14,9 @@ import { RequestCreateDto, requestKey } from '@/dto/request.dto';
 export class MongodbRequestService {
   REQUEST_VERSION = 1;
   REQUEST_INCREMENTKEY_VERSION = 1;
+
   constructor(private prisma: PrismaService) {}
+
   async getRequestByUserKey(user_id: string) {
     const result: RequestInterface[] | null =
       await this.prisma.requestForm.findMany({
@@ -27,7 +29,11 @@ export class MongodbRequestService {
         },
         include: {
           User: true,
-          Post: true,
+          Post: {
+            include: {
+              postuser: true,
+            },
+          },
         },
       });
     if (!result) {
@@ -37,6 +43,7 @@ export class MongodbRequestService {
   }
 
   async getRequestByRequestId(id: RequestId) {
+    console.log(id);
     const result: RequestInterface[] | null =
       await this.prisma.requestForm.findMany({
         where: {
@@ -48,7 +55,11 @@ export class MongodbRequestService {
         },
         include: {
           User: true,
-          Post: true,
+          Post: {
+            include: {
+              postuser: true,
+            },
+          },
         },
       });
     if (!result) {
@@ -87,7 +98,11 @@ export class MongodbRequestService {
       },
       include: {
         User: true,
-        Post: true,
+        Post: {
+          include: {
+            postuser: true,
+          },
+        },
       },
     });
     if (!res) {
@@ -108,7 +123,11 @@ export class MongodbRequestService {
       },
       include: {
         User: true,
-        Post: true,
+        Post: {
+          include: {
+            postuser: true,
+          },
+        },
       },
     });
     if (!res) {
