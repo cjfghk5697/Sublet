@@ -13,6 +13,7 @@ import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 import GuestRequest from './pages/GuestRequest.js';
 import HostInfo from './pages/HostInfo.js';
+import SaveSublet from './pages/SaveSublet.js';
 import ResetPassword from './pages/ResetPassword.js';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
         <Route path="/test/db/" element={<TestDB />} />
         <Route path="/test/db/:name" element={<TestDBDetail />} />
+        <Route path="/SaveSublet" element={<SaveSublet />} />
 
         {/* <Route path='/Oauth/kakao' element={<KakaoConfirm />} /> */}
 
