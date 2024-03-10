@@ -409,7 +409,6 @@ async function VerifyEmail({ email }) {
 
 async function VerifyUser({ method, tokenKey, verifyToken }) {
   //학교 인증은 우리가 확인(김과외처럼)
-  console.log(method, tokenKey, verifyToken)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/verifyUser`
   const json = {
     "verify_email": method === 'email' ? 'true' : 'false',
@@ -430,7 +429,6 @@ async function VerifyUser({ method, tokenKey, verifyToken }) {
 }
 async function ResetPassword({ user_id, tokenKey, verifyToken }) {
   //학교 인증은 우리가 확인(김과외처럼)
-  console.log(user_id, tokenKey, verifyToken)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`
 
   const requestOptions = {      //sendEmail 라우터로 보내버리기
@@ -438,9 +436,26 @@ async function ResetPassword({ user_id, tokenKey, verifyToken }) {
     credentials: 'include',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      user_id, user_id,
+      user_id: user_id,
       tokenKey: tokenKey,
       verifyToken: verifyToken
+    }
+    )
+  };
+
+  return await fetch(link, requestOptions)
+}
+async function ChangePassword({ user_id, new_password }) {
+  //학교 인증은 우리가 확인(김과외처럼)
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/changepassword`
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    method: "PUT",
+    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: user_id,
+      password: new_password,
     }
     )
   };
@@ -494,4 +509,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { VerifyUser, ResetPassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

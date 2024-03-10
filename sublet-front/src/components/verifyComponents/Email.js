@@ -62,6 +62,7 @@ export function VerifyEmailComponents({ email,
           setTimeout(() => {
             setFailState(false)
           }, 5000);
+          console.log('Err', err)
         })
     } else if (purpose === "resetpassword") {
       ResetPassword({ user_id: user_id, tokenKey: email, verifyToken: numberState })
@@ -90,10 +91,11 @@ export function VerifyEmailComponents({ email,
           setTimeout(() => {
             setFailState(false)
           }, 5000);
+
+          console.log('Err', err)
         })
     }
   };
-  console.log()
   return (
     <>
 
