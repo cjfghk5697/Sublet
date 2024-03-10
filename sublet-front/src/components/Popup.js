@@ -882,7 +882,7 @@ export function LoginDialog() {
               <div class="mt-2 flex items-center justify-between">
                 <s.label for="password">Password</s.label>
                 <div class="text-sm">
-                  <s.forget_password href="#">Forgot password?</s.forget_password>
+                  <s.forget_password href="/resetpassword">Forgot password?</s.forget_password>
                 </div>
               </div>
               <div class="mt-2">

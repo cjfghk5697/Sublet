@@ -4,6 +4,7 @@ import { UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserLoginDto,
   UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
@@ -125,6 +126,22 @@ export class MongodbUserService {
     }
     return res;
   }
+
+  async putChangePassword(putUserBody: UserLoginDto) {
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id: putUserBody.id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: { password: putUserBody.password },
+    });
+    if (!res) {
+      throw Error('[mongodb.service:putChangePassword] user doesnt exist');
+    }
+    return res;
+  }
+
   async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
     const res: UserInterface = await this.prisma.user.update({
       where: {

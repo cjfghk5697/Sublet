@@ -2,6 +2,7 @@ import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
+  UserLoginDto,
   UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
@@ -63,6 +64,11 @@ export class UserService {
     const exportUser = UserService.transformExport(user);
     return exportUser;
   }
+  async putChangePassword(putUserBody: UserLoginDto) {
+    const user = await this.userdb.putChangePassword(putUserBody);
+    const exportUser = UserService.transformExport(user);
+    return exportUser;
+  }
   async putVerifyUser(user_id: string, putUserBody: UserVerifyUpdateDto) {
     const user = await this.userdb.putOneUser(user_id, putUserBody);
     const exportUser = UserService.transformExport(user);
@@ -116,12 +122,6 @@ export class UserService {
 
   async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
     const cache_verifyToken = await this.cacheManager.get(putUserBody.tokenKey); // cache-manager를 통해 확인
-    console.log(
-      cache_verifyToken,
-      user_id,
-      putUserBody.tokenKey,
-      typeof putUserBody.tokenKey,
-    );
 
     if (cache_verifyToken !== putUserBody.verifyToken) {
       throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
