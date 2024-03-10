@@ -79,13 +79,42 @@ export default function RoomInfo() {
     setPostKey: state.setPostKey
   }))
   const { searchDate } = useSearchDateStore();
+
+  const IsLogin = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    const json = await (
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/profile`, requestOptions
+      )
+    ).json();
+
+    if (json.statusCode === 403) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   const moveToBooking = () => {
-    setStartDay(searchDate[0]);
-    setEndDay(searchDate[1]);
-    setDayPay(nowRoomPost.price);
-    setTotalPay(nowRoomPost.price * getDateDiff(searchDate[0], searchDate[1]));
-    setPostKey(nowRoomNum);
-    navigate(`/booking`);
+    //로그인 되어 있으면 booking.js로 넘기고, 로그인이 안 되어 있으면 로그인 모달 창 띄우기
+    //console.log(IsLogin()); //몰루겟다
+    console.log(IsLogin().then((result) => { return result; }));
+    if (IsLogin().then((result) => { return result; })) {
+      setStartDay(searchDate[0]);
+      setEndDay(searchDate[1]);
+      setDayPay(nowRoomPost.price);
+      setTotalPay(nowRoomPost.price * getDateDiff(searchDate[0], searchDate[1]));
+      setPostKey(nowRoomNum);
+      navigate(`/booking`);
+    } else {
+      alert('로그인이 필요합니다.');
+    }
   }
 
   return (
