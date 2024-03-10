@@ -11,13 +11,15 @@ import { LoginDialog } from "./Popup.js";
 
 import Button from "@mui/material/Button";
 import SearchLocation from "./HeaderComponents/SearchLocation.js";
+import { useUserInfoStore } from "../store/UserInfoStore.js";
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
   const [searchBoxContainerSize, setSearchBoxContainer] = useState(2);
-  const [loginedTest, setLoginedTest] = useState(false); // 로그인 테스트 (true: 로그인, false: 로그아웃)
+  const { userInfo } = useUserInfoStore(); // 로그인 테스트 (true: 로그인, false: 로그아웃)
   const inputRef = useRef(null);
   const location = useLocation();
+
   const styles = {
     container: {
       borderBottom: "1px solid gray",
@@ -133,7 +135,12 @@ const Header = () => {
             className="-m-1.5 p-1.5"
           >
             <span className="sr-only">Sublet</span>
-            <img src={`${process.env.REACT_APP_FRONTEND_URL}/logo.png`} style={styles.logoIcon} className="h-8" alt="logo" />
+            <img
+              src={`${process.env.PUBLIC_URL}/logo.png`}
+              style={styles.logoIcon}
+              className="h-8"
+              alt="logo"
+            />
           </IconButton>
         </div>
         <Popover.Group
@@ -160,18 +167,18 @@ const Header = () => {
           </Button>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {loginedTest ? (
+          {userInfo.id ? (
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
-                  <Link to={"/SaveSubletInfo"}>
+                  <Link to={"/SaveSublet"}>
                     <Favorite />
-                    <div style={styles.favoriteCount}>{33 + 1}</div>
+                    {/* <div style={styles.favoriteCount}>{33 + 1}</div> */}
                   </Link>
                 </IconButton>
               </span>
               <IconButton>
-                <Link to={"/GuestInfo"} style={styles.profile}>
+                <Link to={"/Profile/me"} style={styles.profile}>
                   <PersonIcon />
                 </Link>
               </IconButton>

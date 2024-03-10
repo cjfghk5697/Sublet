@@ -4,6 +4,9 @@ import tw from "twin.macro";
 export const SecondHead = styled.h2`
 ${tw`text-xl font-extrabold`}
 `
+export const LinkHead = styled.a`
+${tw`text-xl font-extrabold`}
+`
 export const Horizon = styled.hr`
 ${tw`h-px bg-gray-200 border-0 clear-both`}
 `

@@ -23,13 +23,6 @@ export default function Home() {
   }
   useTitle("ItHome | 딱 맞는 숙소를 찾아봐요.")
 
-  const fetchRoomsFilters = (filters) => {
-    fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요
-      .then(response => response.json())
-      .then(data => setRoomsData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }
-
   useEffect(() => {
     async function fetchData() {
       let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
@@ -52,23 +45,31 @@ export default function Home() {
         }
       })
       setLikes(newLikes)
-      /*
-      fetch(`http://REACT_APP_BACKEND_URL:8098/likes/${item.key}`, {
+      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
         method: 'DELETE',
-      })
-      */
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "post_key": item.key,
+        }),
+      }) // .then(response => response.json()).then(data => console.log(data));
     }
-    else
-      setLikes({ ...likes, [item.key]: item })
-    /*
-    let result = fetch(`http://localhost:8098/likes`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    })
-    */
+    else {
+      setLikes({ ...likes, [item.key]: item });
+      console.log(item.key, typeof item.key);
+      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "post_key": item.key,
+        }),
+      }) // .then(response => response.json()).then(data => console.log(data));
+    }
   }
 
   const styles = {
@@ -112,7 +113,7 @@ export default function Home() {
   const RequirementSubmitAndCommunityFind = () => {
     return (
       <div style={styles.topButtonsContainer}>
-        <Button component={Link} to="/" style={styles.topButtons}>
+        <Button component={Link} to="/Request" style={styles.topButtons}>
           요청서 제출하기
         </Button>
         <Button component={Link} to="/" style={styles.topButtons}>

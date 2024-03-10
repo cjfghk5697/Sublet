@@ -3,10 +3,15 @@ import { DateFormat, priceToString } from "../StaticComponents.js";
 import * as s from '../styles/SummaryBlock.styles.js'
 import { FetchPost } from "../FetchList";
 import * as w from "../styles/Wrapper.style.js";
+import { guestInfoPopUpStore } from "../store/guestInfoStore.js";
 
 
 function PostInfo(user_id) {
   const post = FetchPost(user_id.user_id)
+
+  const { setPostPopUpState } = guestInfoPopUpStore((state) => ({
+    setPostPopUpState: state.setPostPopUpState,
+  }))
 
   return (
     <div className="mb-4 mt-8">
@@ -18,22 +23,15 @@ function PostInfo(user_id) {
 
         return (
           <PostSummaryBlock
-            requestForm={res.RequestForm}
-            id_list={res.requestIDs}
-            title={res.title}
-            post_key={res.key}
-            accomodation_type={res.accomodation_type}
+            room={res}
             post_date={post_date}
             pay={price}
-            request={res.request}
-            private_post={res.private}
-            contract={res.contract}
             address={address}
-            room_image={res.image_id[0]}
-            guest_mode={false}
+            guest_mode={true}
           />)
       }) : <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
       }
+      <s.black_upload_button onClick={setPostPopUpState}>방 올리기</s.black_upload_button>
     </div>
   )
 };

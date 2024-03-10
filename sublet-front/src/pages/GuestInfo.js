@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog } from "../components/Popup.js";
+import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog, PostUploadDialog } from "../components/Popup.js";
 import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
 import { useTitle } from "../components/hook/HookCollect.js"
 import * as w from "../components/styles/Wrapper.style"
 import * as s from "../components/styles/SummaryBlock.styles.js"
 import { PostInfo } from "../components/guestInfoComponents/PostBlock.js";
 import { FetchGetRequest } from "../components/FetchList.js";
-import { DateFormat, StyleComponent, priceToString } from "../components/StaticComponents.js";
+import { Alert, DateFormat, StyleComponent, FailAlert, priceToString } from "../components/StaticComponents.js";
 import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
 import Header from "../components/Header.js";
 
@@ -79,15 +79,10 @@ function User({ user }) {
                 content="FixInfo"
               />
             </s.change_button>
-            {user.verify_email ?
+            {!user.verify_email &&
               (
                 <div>
-                  <p>인증 완료✅</p>
-                </div>
-              ) :
-              (
-                <div>
-                  <s.black_upload_button onClick={onVerifyEmailHandle}>
+                  <s.black_upload_button className="float-left" onClick={onVerifyEmailHandle}>
                     인증하기
                   </s.black_upload_button>
                 </div>
@@ -143,6 +138,7 @@ function User({ user }) {
       <s.info_text >전화번호 {user.verify_phone ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
 
       <s.info_text >재학증 {user.verify_school ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
+
     </div>
   )
 
@@ -165,6 +161,7 @@ function User({ user }) {
           <PostInfo
             user_id={user.user_id}
           />
+          <PostUploadDialog />
           <w.Horizon className="my-2" />
 
           <RequestListComponent />

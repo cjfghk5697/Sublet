@@ -22,6 +22,8 @@ import {
   UserCreateDto,
   UserEmailVerifyDto,
   UserFilterDto,
+  UserLoginDto,
+  UserResetPassword,
   UserTokenVerifyUpdateDto,
   UserUpdateDto,
   UserVerifyUpdateDto,
@@ -111,6 +113,7 @@ export class UserController {
       throw new NotFoundException();
     }
   }
+
   @Put('verifyupdate')
   @UseGuards(LoggedInGuard)
   async putVerifyUser(
@@ -129,6 +132,16 @@ export class UserController {
     }
   }
 
+  @Put('changepassword')
+  async putChangePassword(@Body() putUserBody: UserLoginDto) {
+    try {
+      const res = await this.userService.putChangePassword(putUserBody);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:putChangePassword] error: ', e);
+      throw new NotFoundException();
+    }
+  }
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     try {
@@ -151,8 +164,13 @@ export class UserController {
     @Req() req: customRequest,
     @Body() data: UserTokenVerifyUpdateDto,
   ) {
-    console.log(data, req);
     const res = await this.userService.verifyUser(req.user.user_id, data);
+    return res;
+  }
+
+  @Post('resetpassword')
+  async resetPassword(@Body() data: UserResetPassword) {
+    const res = await this.userService.verifyUser(data.user_id, data);
     return res;
   }
 

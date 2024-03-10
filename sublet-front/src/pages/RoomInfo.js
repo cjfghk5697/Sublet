@@ -10,6 +10,10 @@ import { SubletPostStore } from "../store/SubletPostStore";
 import { Carousel } from "@material-tailwind/react";
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
+import * as s from '../components/styles/SummaryBlock.styles.js'
+import { Dialog, DialogContent } from '@mui/material';
+import { ShareDialog } from '../components/Popup.js';
+import { StyleComponent } from '../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 import { bookingPopUpStore } from "../components/store/bookingPopUpStore.js";
 import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
@@ -58,7 +62,7 @@ export default function RoomInfo() {
   const nowRoomNum = params.roomKey;
 
   const [nowRoomPost, setNowRoomPost] = useState({});
-
+  const [sharePopUpState, setSharePopUpState] = useState(false)
   const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
   const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
 
@@ -145,6 +149,21 @@ export default function RoomInfo() {
       </div>
       {postExist && nowRoomPost &&
         <>
+          <div>
+            <s.black_upload_button onClick={() => { setSharePopUpState(true) }}>공유하기</s.black_upload_button>
+            <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
+              <DialogContent sx={{ height: 224 }} className='text-left'>
+                <form className="flot-right">
+                  <s.change_button type="button" name="sharePopUpState" onClick={() => { setSharePopUpState(false) }}>
+                    <StyleComponent
+                      content="CloseButton" />
+                  </s.change_button>
+                </form>
+
+                <ShareDialog description={nowRoomPost.description} title={nowRoomPost.title} image_id={nowRoomPost.image_id} className="clear-both" />
+              </DialogContent >
+            </Dialog>
+          </div>
           {/* {console.log(nowRoomPost)} */}
 
           <section className="text-3xl font-bold mx-3 mt-1 mb-6">{nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}</section>
