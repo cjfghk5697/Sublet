@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useTitle } from '../components/hook/HookCollect';
+import { toggleLikes } from '../components/FetchList.js';
 
 export default function Home() {
 
   const [roomsData, setRoomsData] = useState([]);
   const [preRoomsData, setPreRoomsData] = useState([]);
-  const [likes, setLikes] = useState({}); // 백엔드 연결 필요.
+  const [likes, setLikes] = useState({});
   const [listRoomAmount, setListRoomAmount] = useState(6);
   const [listPageAmount, setListPageAmount] = useState(1);
 
@@ -36,41 +37,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const toggleLikes = (item) => () => {
-    if (item.key in likes) {
-      let newLikes = {}
-      Object.keys(likes).map(newItem => {
-        if (likes[newItem].key !== item.key) {
-          newLikes = { ...newLikes, [newItem]: likes[newItem] }
-        }
-      })
-      setLikes(newLikes)
-      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
-        method: 'DELETE',
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "post_key": item.key,
-        }),
-      }) // .then(response => response.json()).then(data => console.log(data));
-    }
-    else {
-      setLikes({ ...likes, [item.key]: item });
-      console.log(item.key, typeof item.key);
-      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
-        method: 'POST',
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "post_key": item.key,
-        }),
-      }) // .then(response => response.json()).then(data => console.log(data));
-    }
-  }
+
 
   const styles = {
     container: {
@@ -107,7 +74,7 @@ export default function Home() {
   };
 
   let rooms = roomsData?.map((room) => (
-    <RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} />
+    <RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} setLikes={setLikes} />
   ));
 
   const RequirementSubmitAndCommunityFind = () => {
@@ -138,7 +105,7 @@ export default function Home() {
               방 더보기
             </Button>
             :
-            <div style={styles.moreRoomDescription}>더 불러올 방이 없습니다..</div>
+            <div style={styles.moreRoomDescription}>더 불러올 방이 없습니다.</div>
         }
       </div>
     </div>
