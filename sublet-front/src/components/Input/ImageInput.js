@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef} from 'react';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { colors } from "@mui/material";
+import {colors} from '@mui/material';
 
-export const ImageUploadComponent = ({ imgIndex, setImage }) => {
-  const [preview, setPreview] = useState("");
+export const ImageUploadComponent = ({imgIndex, setImage}) => {
+  const [preview, setPreview] = useState('');
   const fileInputRef = useRef(null); // 파일 입력에 대한 참조 생성
 
   const handleImageChange = (e) => {
@@ -25,18 +25,18 @@ export const ImageUploadComponent = ({ imgIndex, setImage }) => {
           src={preview}
           alt="Image preview"
           onClick={handleClickImage}
-          style={{ cursor: "pointer" }}
+          style={{cursor: 'pointer'}}
         />
       ) : (
         <button onClick={() => fileInputRef.current.click()}>
-          <AddBoxIcon style={{ color: colors.blue[500], fontSize: 100 }} />
+          <AddBoxIcon style={{color: colors.blue[500], fontSize: 100}} />
         </button>
       )}
       <input
         type="file"
         onChange={handleImageChange}
         accept="image/*"
-        style={{ display: "none" }} // 입력 필드를 숨김
+        style={{display: 'none'}} // 입력 필드를 숨김
         ref={fileInputRef} // 참조 연결
       />
     </div>

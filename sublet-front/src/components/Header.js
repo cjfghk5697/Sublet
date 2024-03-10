@@ -1,16 +1,16 @@
-import { useState, useRef, useEffect } from "react";
-import { Dialog, Popover } from "@headlessui/react";
-import { IconButton } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import SearchDate from "./HeaderComponents/SearchDate.js";
-import SearchPriceRange from "./HeaderComponents/SearchPriceRange.js";
-import { Favorite } from "@mui/icons-material";
-import PersonIcon from "@mui/icons-material/Person";
-import { Link, useLocation } from "react-router-dom";
-import { LoginDialog } from "./Popup.js";
+import {useState, useRef, useEffect} from 'react';
+import {Dialog, Popover} from '@headlessui/react';
+import {IconButton} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import SearchDate from './HeaderComponents/SearchDate.js';
+import SearchPriceRange from './HeaderComponents/SearchPriceRange.js';
+import {Favorite} from '@mui/icons-material';
+import PersonIcon from '@mui/icons-material/Person';
+import {Link, useLocation} from 'react-router-dom';
+import {LoginDialog} from './Popup.js';
 
-import Button from "@mui/material/Button";
-import SearchLocation from "./HeaderComponents/SearchLocation.js";
+import Button from '@mui/material/Button';
+import SearchLocation from './HeaderComponents/SearchLocation.js';
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
@@ -20,80 +20,80 @@ const Header = () => {
   const location = useLocation();
   const styles = {
     container: {
-      borderBottom: "1px solid gray",
-      marginBottom: "0.5em",
+      borderBottom: '1px solid gray',
+      marginBottom: '0.5em',
     },
     headerContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
     logoContainer: {
-      display: "flex",
+      display: 'flex',
       flex: 1,
     },
     logoIcon: {
-      width: "4em",
-      height: "100%",
-      color: "rgba(0, 0, 0, 1)",
-      justifyContent: "left",
+      width: '4em',
+      height: '100%',
+      color: 'rgba(0, 0, 0, 1)',
+      justifyContent: 'left',
     },
     searchBoxContainer: {
-      display: "flex",
-      flexDirection: "row",
-      margin: "0 0 0.5em 0",
-      justifyContent: "space-between",
-      alignItems: "center",
-      border: "1px solid #000000",
-      borderRadius: "5px",
-      padding: "1em",
-      fontSize: "1.3em",
-      flex: { searchBoxContainerSize },
+      display: 'flex',
+      flexDirection: 'row',
+      margin: '0 0 0.5em 0',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      border: '1px solid #000000',
+      borderRadius: '5px',
+      padding: '1em',
+      fontSize: '1.3em',
+      flex: {searchBoxContainerSize},
     },
     searchByKeywordContainer: {
-      display: "flex",
+      display: 'flex',
       flex: 1,
     },
     serachByKeyword: {
-      marginRight: "0.5em",
+      marginRight: '0.5em',
     },
     searchKeywordBig: {
-      border: "0px",
-      fontWeight: "bold",
+      border: '0px',
+      fontWeight: 'bold',
     },
     serachByKeywordInput: {
-      display: "flex",
+      display: 'flex',
       flex: 1,
-      border: "1px",
+      border: '1px',
     },
     searchKeyworddescription: {
-      fontSize: "0.6em",
-      textAlign: "left",
+      fontSize: '0.6em',
+      textAlign: 'left',
     },
     searchIcon: {
-      fontWeight: "bold",
-      backgroundColor: "rgba(0, 0, 0, 0.9)",
-      color: "white",
-      fontSize: "1em",
+      fontWeight: 'bold',
+      backgroundColor: 'rgba(0, 0, 0, 0.9)',
+      color: 'white',
+      fontSize: '1em',
     },
     rightNavigation: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "right",
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'right',
       flex: 1,
     },
     favorite: {
-      display: "flex",
-      flexDirection: "column",
-      marginRight: "1em",
-      color: "rgba(0, 0, 0, 1)",
+      display: 'flex',
+      flexDirection: 'column',
+      marginRight: '1em',
+      color: 'rgba(0, 0, 0, 1)',
     },
     favoriteCount: {
-      fontSize: "0.8em",
+      fontSize: '0.8em',
     },
     profile: {
-      color: "rgba(0, 0, 0, 1)",
+      color: 'rgba(0, 0, 0, 1)',
     },
   };
 
@@ -104,18 +104,18 @@ const Header = () => {
   }, [searchButtonClicked]);
 
   const handleReload = () => {
-    if (location.pathname === "/") {
+    if (location.pathname === '/') {
       window.location.reload();
     } else {
-      window.location.href = "/";
+      window.location.href = '/';
     }
   };
 
   const doSearch = () => {
-    if (location.pathname === "/SearchSubletInfo") {
+    if (location.pathname === '/SearchSubletInfo') {
       window.location.reload();
     } else {
-      window.location.href = "/SearchSubletInfo";
+      window.location.href = '/SearchSubletInfo';
     }
   };
 
@@ -169,14 +169,14 @@ const Header = () => {
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
-                  <Link to={"/SaveSubletInfo"}>
+                  <Link to={'/SaveSubletInfo'}>
                     <Favorite />
                     <div style={styles.favoriteCount}>{33 + 1}</div>
                   </Link>
                 </IconButton>
               </span>
               <IconButton>
-                <Link to={"/profile"} style={styles.profile}>
+                <Link to={'/profile'} style={styles.profile}>
                   <PersonIcon />
                 </Link>
               </IconButton>

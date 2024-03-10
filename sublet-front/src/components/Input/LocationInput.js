@@ -1,23 +1,23 @@
-import React from "react";
+import React from 'react';
 import Map from '../Map.js';
-import * as inputStyle from "../styles/Input.styles.js";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import * as inputStyle from '../styles/Input.styles.js';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export const LocationInput = ({ pos, currentPos, setPos }) => {
+export const LocationInput = ({pos, currentPos, setPos}) => {
   const styles = {
     searchByMap: {
-      display: "relative",
+      display: 'relative',
       // width: "200px", // 예시 너비
       // height: "100px", // 예시 높이
     },
     mapMarker: {
-      position: "absolute",
+      position: 'absolute',
       // zIndex: 100,
-      top: "50%",
-      left: "50%",
-      color: "red",
+      top: '50%',
+      left: '50%',
+      color: 'red',
       // fontSize: "2em",
-      transform: "translate(-50%, -50%)", 
+      transform: 'translate(-50%, -50%)',
     },
   };
 

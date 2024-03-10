@@ -4,9 +4,9 @@ import RoomInfo from './pages/RoomInfo';
 import SearchSubletInfo from './pages/SearchSubletInfo';
 import ReHome from './pages/ReHome';
 import Booking from './pages/Booking';
-import GuestInfo from './pages/GuestInfo.js'
-import TestChat from './pages/test_chat/TestChat.js'
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import GuestInfo from './pages/GuestInfo.js';
+import TestChat from './pages/test_chat/TestChat.js';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 import TestDB from './pages/test_chat/TestDB.js';
@@ -16,7 +16,6 @@ import HostInfo from './pages/HostInfo.js';
 import ResetPassword from './pages/ResetPassword.js';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>

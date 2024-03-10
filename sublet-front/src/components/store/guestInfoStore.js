@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import {create} from 'zustand';
 
 export const guestInfoPopUpStore = create((set) => ({
   imagePopUpState: false,
@@ -8,29 +8,29 @@ export const guestInfoPopUpStore = create((set) => ({
   postPopUpState: false,
   signUpPopUpState: false,
   setVerifyEmailPopUpState: () => set((state) => ({
-    verifyEmailPopUpState: !state.verifyEmailPopUpState
+    verifyEmailPopUpState: !state.verifyEmailPopUpState,
   })),
   setImagePopUpState: () => set((state) => ({
-    imagePopUpState: !state.imagePopUpState
+    imagePopUpState: !state.imagePopUpState,
   })),
   setEmailPopUpState: () => set((state) => ({
-    emailPopUpState: !state.emailPopUpState
+    emailPopUpState: !state.emailPopUpState,
   })),
   setPhonePopUpState: () => set((state) => ({
-    phonePopUpState: !state.phonePopUpState
+    phonePopUpState: !state.phonePopUpState,
   })),
   setPostPopUpState: () => set((state) => ({
-    postPopUpState: !state.postPopUpState
+    postPopUpState: !state.postPopUpState,
   })),
   setSignUpPopUpState: () => set((state) => ({
-    signUpPopUpState: !state.signUpPopUpState
-  }))
+    signUpPopUpState: !state.signUpPopUpState,
+  })),
 
-}))
+}));
 
 export const verifyEmailStore = create((set) => ({
   verifyNumberState: '',
   setVerifyNumberState: () => set((state) => ({
-    verifyNumberState: state.number
-  }))
-}))
+    verifyNumberState: state.number,
+  })),
+}));

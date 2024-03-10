@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import { ReservationInfo } from "../components/guestInfoComponents/Reservation";
-import { ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog, PostUploadDialog } from "../components/Popup.js";
-import { guestInfoPopUpStore } from "../components/store/guestInfoStore.js";
-import { useTitle } from "../components/hook/HookCollect.js"
-import * as w from "../components/styles/Wrapper.style"
-import * as s from "../components/styles/SummaryBlock.styles.js"
-import { PostInfo } from "../components/guestInfoComponents/PostBlock.js";
-import { FetchGetRequest } from "../components/FetchList.js";
-import { Alert, DateFormat, StyleComponent, FailAlert, priceToString } from "../components/StaticComponents.js";
-import { RequsetSummaryBlock } from "../components/SummaryBlock.js";
-import Header from "../components/Header.js";
+import {useEffect, useState} from 'react';
+import {ReservationInfo} from '../components/guestInfoComponents/Reservation';
+import {ImageDialog, EmailDialog, PhoneDialog, VerifyEmailDialog, PostUploadDialog} from '../components/Popup.js';
+import {guestInfoPopUpStore} from '../components/store/guestInfoStore.js';
+import {useTitle} from '../components/hook/HookCollect.js';
+import * as w from '../components/styles/Wrapper.style';
+import * as s from '../components/styles/SummaryBlock.styles.js';
+import {PostInfo} from '../components/guestInfoComponents/PostBlock.js';
+import {FetchGetRequest} from '../components/FetchList.js';
+import {Alert, DateFormat, StyleComponent, FailAlert, priceToString} from '../components/StaticComponents.js';
+import {RequsetSummaryBlock} from '../components/SummaryBlock.js';
+import Header from '../components/Header.js';
 
 
 function RequestListComponent() {
-  const request = FetchGetRequest()
+  const request = FetchGetRequest();
 
 
   return (
@@ -40,28 +40,28 @@ function RequestListComponent() {
               complete={res.complete}
               Post={res.Post}
               request_text={res.request_text}
-            />)
+            />);
         })) : (<s.p_normal>올린 요청서가 아직 없습니다.</s.p_normal>)
       }
     </div>
-  )
+  );
 }
 
-function User({ user }) {
-  useTitle("프로필 | ItHome")
+function User({user}) {
+  useTitle('프로필 | ItHome');
 
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`;
 
-  const { setImagePopUpState, setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
+  const {setImagePopUpState, setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState} = guestInfoPopUpStore((state) => ({
     setImagePopUpState: state.setImagePopUpState,
     setEmailPopUpState: state.setEmailPopUpState,
     setPhonePopUpState: state.setPhonePopUpState,
-    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState
-  }))
+    setVerifyEmailPopUpState: state.setVerifyEmailPopUpState,
+  }));
 
   const onVerifyEmailHandle = () => {
-    setVerifyEmailPopUpState(true)
-  }
+    setVerifyEmailPopUpState(true);
+  };
 
   const userPrivateComponent = (
     <div>
@@ -118,7 +118,7 @@ function User({ user }) {
         </div>
       </div>
     </div>
-  )
+  );
 
   const userBaseComponent = (
     <div>
@@ -140,13 +140,13 @@ function User({ user }) {
       <s.info_text >재학증 {user.verify_school ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
 
     </div>
-  )
+  );
 
   return (
     <div>
       <Header />
 
-      <div style={{ fontFamily: "Pretendard" }} className="flex grid grid-cols-7">
+      <div style={{fontFamily: 'Pretendard'}} className="flex grid grid-cols-7">
         <div className="ml-3 mt-5">
           {userBaseComponent}
         </div>
@@ -180,17 +180,17 @@ function GuestInfo() {
       credentials: 'include',
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     };
 
     const json = await (
       await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/profile`, requestOptions
+          `${process.env.REACT_APP_BACKEND_URL}/user/profile`, requestOptions,
       )
     ).json();
-    setLoading(true)
-    setUserInfo(json)
+    setLoading(true);
+    setUserInfo(json);
   };
 
   useEffect(() => {

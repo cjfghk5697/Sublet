@@ -1,7 +1,7 @@
-export const TextInputTag = ({ id, label, placeholder, required, handleState }) => (
+export const TextInputTag = ({id, label, placeholder, required, handleState}) => (
   <div>
     <label
-      for={id}
+      htmlFor={id}
       className="block mb-2 text-sm font-medium text-gray-900 float-left"
     >
       {label}
@@ -27,10 +27,10 @@ export const TextInputTag = ({ id, label, placeholder, required, handleState }) 
   </div>
 );
 
-export const TextAreaTag = ({ id, label, placeholder, required, handleState }) => (
+export const TextAreaTag = ({id, label, placeholder, required, handleState}) => (
   <div>
     <label
-      for={id}
+      htmlFor={id}
       className="block mb-2 text-sm font-medium text-gray-900 float-left"
     >
       {label}
@@ -56,10 +56,10 @@ export const TextAreaTag = ({ id, label, placeholder, required, handleState }) =
   </div>
 );
 
-export const NumberInputTag = ({ id, label, placeholder, required, handleState}) => (
+export const NumberInputTag = ({id, label, placeholder, required, handleState}) => (
   <div>
     <label
-      for={id}
+      htmlFor={id}
       className="block mb-2 text-sm font-medium text-gray-900 float-left"
     >
       {label}
@@ -91,4 +91,4 @@ export const NumberInputTag = ({ id, label, placeholder, required, handleState})
   </div>
 );
 
-<input type="number" />
+<input type="number" />;

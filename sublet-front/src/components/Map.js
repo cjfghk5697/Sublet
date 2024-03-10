@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { SubletPostStore } from "../store/SubletPostStore";
-import styled from "styled-components";
+import React, {useEffect, useRef, useState} from 'react';
+import {SubletPostStore} from '../store/SubletPostStore';
+import styled from 'styled-components';
 
 
 function markerHTML(price) {
@@ -29,35 +29,35 @@ function markerHTML(price) {
       font-size: 1rem;
       font-weight: 700;
       pointer-events: none;
-    ">&#8361;${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span></div>`;
+    ">&#8361;${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></div>`;
 }
 
 function searchAddressToCoordinate(address, map) {
-  let infoWindow = new window.naver.maps.InfoWindow({
-    anchorSkew: true
+  const infoWindow = new window.naver.maps.InfoWindow({
+    anchorSkew: true,
   });
 
   let coordinate_item = undefined;
 
   window.naver.maps.Service.geocode({
-    query: address
-  }, function (status, response) {
+    query: address,
+  }, function(status, response) {
     if (status === window.naver.maps.Service.Status.ERROR) {
       console.log('status ERROR');
       return undefined;
     }
-    //console.log(response.v2);
+    // console.log(response.v2);
     if (response.v2.meta.totalCount === 0) {
       console.log('검색정보 없음');
       return undefined;
     }
 
-    let htmlAddresses = [],
-      item = response.v2.addresses[0],
-      point = new window.naver.maps.Point(item.x, item.y);
+    const htmlAddresses = [];
+    const item = response.v2.addresses[0];
+    const point = new window.naver.maps.Point(item.x, item.y);
 
     coordinate_item = item;
-    //console.log(coordinate_item);
+    // console.log(coordinate_item);
 
     // if (item.roadAddress) {
     //   htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
@@ -79,7 +79,7 @@ function searchAddressToCoordinate(address, map) {
     // ].join('\n'));
 
     // map.setCenter(point);
-    //infoWindow.open(map, point);
+    // infoWindow.open(map, point);
   });
 
   // 검색정보 있으면 좌표 반환
@@ -88,7 +88,7 @@ function searchAddressToCoordinate(address, map) {
 
 
 export default function Map(props) {
-  const { posts, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+  const {posts, postExist, postAll} = SubletPostStore((state) => ({post: state.post, postExist: state.postExist, postAll: state.postAll}));
   const setPostMarker = SubletPostStore((state) => state.setPostMarker);
 
   const mapRef = useRef(null);
@@ -97,24 +97,24 @@ export default function Map(props) {
 
   useEffect(() => {
     createMap();
-    props.type == "searchByMarker" && searchingByDragAdd();
+    props.type == 'searchByMarker' && searchingByDragAdd();
     createMarker();
   }, [markerAll]);
 
   function createMap() {
-    mapRef.current = new window.naver.maps.Map(document.getElementById("map"), {
+    mapRef.current = new window.naver.maps.Map(document.getElementById('map'), {
       zoom: 13,
     });
-    mapRef.current.setCursor("pointer");
+    mapRef.current.setCursor('pointer');
   }
 
   function createMarker() {
     postAll?.map((post) => {
       let coordinate = searchAddressToCoordinate(post.position, mapRef.current);
       if (coordinate === undefined) {
-        coordinate = searchAddressToCoordinate(props.city + " " + props.gu + " " + props.dong + " " + props.street + " " + props.street_number, mapRef.current);
+        coordinate = searchAddressToCoordinate(props.city + ' ' + props.gu + ' ' + props.dong + ' ' + props.street + ' ' + props.street_number, mapRef.current);
         if (coordinate === undefined) {
-          coordinate = { x: post.x_coordinate, y: post.y_coordinate };
+          coordinate = {x: post.x_coordinate, y: post.y_coordinate};
         }
       }
 
@@ -123,46 +123,44 @@ export default function Map(props) {
         map: mapRef.current,
         icon: {
           content: markerHTML(post.price),
-          //size: new window.naver.maps.Size(22, 35),
+          // size: new window.naver.maps.Size(22, 35),
           anchor: new window.naver.maps.Point(10, 15),
         },
-      })
+      });
 
       markerClickEvent(markerRef.current, post);
       post.marker = markerRef.current;
-
     });
-    setPostMarker(true)
+    setPostMarker(true);
     setMarkerAll(true);
   }
 
   function markerClickEvent(marker, post) {
-    window.naver.maps.Event.addListener(marker, "click", (e) => {
+    window.naver.maps.Event.addListener(marker, 'click', (e) => {
       const mapLatLng = new window.naver.maps.LatLng(Number(post?.y_coordinate), Number(post?.x_coordinate));
-      //부드럽게 이동하기
+      // 부드럽게 이동하기
       mapRef.current.panTo(mapLatLng, e?.coord);
     });
   }
 
   const searchingByDragAdd = () => {
     window.naver.maps.Event.addListener(
-      mapRef.current,
-      "dragend",
-      dragendEvent
+        mapRef.current,
+        'dragend',
+        dragendEvent,
     );
     const mapLatLng = new window.naver.maps.LatLng(Number(props?.currentPos[0]), Number(props?.currentPos[1]));
-    mapRef.current.panTo(mapLatLng, { x: props.currentPos[0], y: props.currentPos[1] });
-  }
+    mapRef.current.panTo(mapLatLng, {x: props.currentPos[0], y: props.currentPos[1]});
+  };
 
   const dragendEvent = () => {
-    let center = mapRef.current.getCenter();
+    const center = mapRef.current.getCenter();
     props.setPos([center.y, center.x]);
-  }
+  };
 
   return (
-    props.type == "searchByMarker" ?
-      <div id="map" className="h-screen w-full rounded-lg" style={{ display: 'flex', height: 'calc(50vh)' }} />
-      :
-      <div id="map" className="h-screen w-full rounded-lg" style={{ height: 'calc(100vh - 250px)' }} />
-  )
+    props.type == 'searchByMarker' ?
+      <div id="map" className="h-screen w-full rounded-lg" style={{display: 'flex', height: 'calc(50vh)'}} /> :
+      <div id="map" className="h-screen w-full rounded-lg" style={{height: 'calc(100vh - 250px)'}} />
+  );
 }

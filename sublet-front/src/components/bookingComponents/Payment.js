@@ -1,69 +1,69 @@
-import React from "react";
-import Card from "react-credit-cards-2";
-import * as s from "../styles/SummaryBlock.styles";
+import React from 'react';
+import Card from 'react-credit-cards-2';
+import * as s from '../styles/SummaryBlock.styles';
 import {
   formatCreditCardNumber,
   formatCVC,
   formatExpirationDate,
   formatFormData,
-  formatPassword
-} from "./utils";
+  formatPassword,
+} from './utils';
 
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
-import { TextField } from "@mui/material";
+import {TextField} from '@mui/material';
 
 export default class PaymentForm extends React.Component {
   state = {
-    number: "",
-    name: "",
-    expiry: "",
-    cvc: "",
-    issuer: "",
-    focused: "",
+    number: '',
+    name: '',
+    expiry: '',
+    cvc: '',
+    issuer: '',
+    focused: '',
     formData: null,
-    password: ""
+    password: '',
   };
 
-  handleCallback = ({ issuer }, isValid) => {
+  handleCallback = ({issuer}, isValid) => {
     if (isValid) {
-      this.setState({ issuer });
+      this.setState({issuer});
     }
   };
 
-  handleInputFocus = ({ target }) => {
+  handleInputFocus = ({target}) => {
     this.setState({
-      focused: target.name
+      focused: target.name,
     });
   };
 
-  handleInputChange = ({ target }) => {
-    if (target.name === "number") {
+  handleInputChange = ({target}) => {
+    if (target.name === 'number') {
       target.value = formatCreditCardNumber(target.value);
-    } else if (target.name === "expiry") {
+    } else if (target.name === 'expiry') {
       target.value = formatExpirationDate(target.value);
-    } else if (target.name === "cvc") {
+    } else if (target.name === 'cvc') {
       target.value = formatCVC(target.value);
-    } else if (target.name === "cardpassword") {
+    } else if (target.name === 'cardpassword') {
       target.value = formatPassword(target.value);
     }
 
-    this.setState({ [target.name]: target.value });
+    this.setState({[target.name]: target.value});
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const formData = [...e.target.elements]
-      .filter(d => d.name)
-      .reduce((acc, d) => {
-        acc[d.name] = d.value;
-        return acc;
-      }, {});
+        .filter((d) => d.name)
+        .reduce((acc, d) => {
+          acc[d.name] = d.value;
+          return acc;
+        }, {});
 
-    this.setState({ formData });
+    this.setState({formData});
     this.form.reset();
   };
   render() {
-    const { name, number, expiry, cvc, focused, issuer, formData } = this.state;
+    const {name, number, expiry, cvc, focused, issuer, formData} = this.state;
 
     return (
       <div key="Payment" className="mt-4">
@@ -77,7 +77,7 @@ export default class PaymentForm extends React.Component {
             focused={focused}
             callback={this.handleCallback}
           />
-          <form ref={c => (this.form = c)} onSubmit={this.handleSubmit}>
+          <form ref={(c) => (this.form = c)} onSubmit={this.handleSubmit}>
             <div className="form-group">
               <TextField
                 id="standard-size-small"
@@ -174,6 +174,6 @@ export default class PaymentForm extends React.Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }

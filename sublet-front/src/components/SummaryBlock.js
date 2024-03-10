@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { DateFormat, StyleComponent, priceToString } from "./StaticComponents.js";
-import * as s from './styles/SummaryBlock.styles.js'
-import * as w from './styles/Wrapper.style.js'
+import {useState} from 'react';
+import {DateFormat, StyleComponent, priceToString} from './StaticComponents.js';
+import * as s from './styles/SummaryBlock.styles.js';
+import * as w from './styles/Wrapper.style.js';
 
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { DeletePost, DeleteRequest, FetchDeleteReservation, FetchGetRequestByRequestId } from "./FetchList.js";
-import { ReservationByPostKeyInfo } from "./guestInfoComponents/Reservation.js";
-import { PostRequest, RequestByPostKeyInfo } from "./guestInfoComponents/Request.js";
-import { PostSummaryDetailDialog, RequestSummaryDetailDialog } from "./Popup.js";
-import { useNavigate } from "react-router-dom";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
+import {DeletePost, DeleteRequest, FetchDeleteReservation, FetchGetRequestByRequestId} from './FetchList.js';
+import {ReservationByPostKeyInfo} from './guestInfoComponents/Reservation.js';
+import {PostRequest, RequestByPostKeyInfo} from './guestInfoComponents/Request.js';
+import {PostSummaryDetailDialog, RequestSummaryDetailDialog} from './Popup.js';
+import {useNavigate} from 'react-router-dom';
 
-function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, accomodation_type, start_date, end_date, pay, complete, contract }) {
+function RequsetSummaryBlock({request_text, city, Post, request_key, gu, dong, accomodation_type, start_date, end_date, pay, complete, contract}) {
   const address = city + ' ' + gu + ' ' + dong;
 
 
@@ -19,7 +19,7 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
     respondPopUpState: false,
     deletePopUpState: false,
 
-  })
+  });
 
   const {
     detailPopUpState,
@@ -27,16 +27,16 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
     deletePopUpState,
   } = inputs;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setInputs({
       ...inputs,
-      [e.currentTarget.name]: !inputs[e.currentTarget.name]
+      [e.currentTarget.name]: !inputs[e.currentTarget.name],
     });
   };
 
   const deleteHandle = () => {
-    DeleteRequest(request_key)
-  }
+    DeleteRequest(request_key);
+  };
 
   return (
     <div className="ml-4">
@@ -77,7 +77,7 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
               </s.change_button>
             </form>
           </DialogTitle>
-          <DialogContent sx={{ width: 512 }} className='text-left'>
+          <DialogContent sx={{width: 512}} className='text-left'>
             <RequestSummaryDetailDialog
               address={address}
               contract={contract}
@@ -147,31 +147,31 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
   );
 }
 
-function ReservationSummaryBlock({ room, start_day, end_day }) {
-  const [popupState, setpopupState] = useState(false)
-  const startStr = DateFormat(start_day)
-  const endStr = DateFormat(end_day)
+function ReservationSummaryBlock({room, start_day, end_day}) {
+  const [popupState, setpopupState] = useState(false);
+  const startStr = DateFormat(start_day);
+  const endStr = DateFormat(end_day);
   const navigate = useNavigate();
 
   const clickHandler = () => {
-    setpopupState(!popupState)
-    setCheckState(false)
-  }
+    setpopupState(!popupState);
+    setCheckState(false);
+  };
 
-  const [checkState, setCheckState] = useState(false)
+  const [checkState, setCheckState] = useState(false);
 
   const checkHandled = () => {
-    setCheckState(!checkState)
-  }
+    setCheckState(!checkState);
+  };
   const deleteReservationHandle = () => {
-    FetchDeleteReservation(room.key)
-  }
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`
+    FetchDeleteReservation(room.key);
+  };
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`;
 
-  const pay = priceToString(room.pay)
+  const pay = priceToString(room.pay);
 
-  const MoveToRoomInfo = ({ room }) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
-    console.log(room.Post)
+  const MoveToRoomInfo = ({room}) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
+    console.log(room.Post);
     navigate(`/roominfo/${room.Post.key}`, {
       room: room.Post,
     });
@@ -187,7 +187,9 @@ function ReservationSummaryBlock({ room, start_day, end_day }) {
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <w.SecondHead >
-          <a href="" onClick={() => { MoveToRoomInfo({ room }) }}>
+          <a href="" onClick={() => {
+            MoveToRoomInfo({room});
+          }}>
             {room.Post.title}
           </a>
         </w.SecondHead>
@@ -248,15 +250,14 @@ function ReservationSummaryBlock({ room, start_day, end_day }) {
 }
 
 
-function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) {
-
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`
+function PostSummaryBlock({room, guest_mode = true, post_date, pay, address}) {
+  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`;
   const [inputs, setInputs] = useState({
     detailDialogShow: false,
     reservationDialogShow: false,
     deletelDialogShow: false,
     requestDialogShow: false,
-  })
+  });
 
   const {
     detailDialogShow,
@@ -265,24 +266,23 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
     requestDialogShow,
   } = inputs;
 
-  const onChange = e => {
+  const onChange = (e) => {
     setInputs({
       ...inputs,
-      [e.currentTarget.name]: !inputs[e.currentTarget.name]
+      [e.currentTarget.name]: !inputs[e.currentTarget.name],
     });
   };
 
   const deleteHandle = () => {
-    DeletePost(room.key)
-
-  }
+    DeletePost(room.key);
+  };
   const navigate = useNavigate();
-  const MoveToRoomInfo = ({ room }) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
+  const MoveToRoomInfo = ({room}) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
     navigate(`/roominfo/${room.key}`, {
       room: room,
     });
   };
-  const request_list = FetchGetRequestByRequestId(room.requestIDs)
+  const request_list = FetchGetRequestByRequestId(room.requestIDs);
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
@@ -294,7 +294,9 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
         <div className="inline-block">
           <w.SecondHead className="float-start mr-4">
 
-            <a href="" onClick={() => { MoveToRoomInfo({ room }) }}>
+            <a href="" onClick={() => {
+              MoveToRoomInfo({room});
+            }}>
               {room.title}
             </a>
           </w.SecondHead>
@@ -343,7 +345,7 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
                 </s.change_button>
               </form>
             </DialogTitle>
-            <DialogContent sx={{ width: 512 }} className='text-left'>
+            <DialogContent sx={{width: 512}} className='text-left'>
               <PostSummaryDetailDialog
                 title={room.title}
                 contract={room.contract}
@@ -369,7 +371,7 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
                 </s.change_button>
               </form>
             </DialogTitle>
-            <DialogContent sx={{ width: 512 }} className='text-left'>
+            <DialogContent sx={{width: 512}} className='text-left'>
               <ReservationByPostKeyInfo
                 post_key={room.key} />
             </DialogContent>
@@ -418,7 +420,7 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
                 </s.change_button>
               </form>
             </DialogTitle>
-            <DialogContent sx={{ width: 512 }} className='text-left'>
+            <DialogContent sx={{width: 512}} className='text-left'>
               {request_list !== false &&
                 <PostRequest
                   request_list={request_list} />}
@@ -429,8 +431,8 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 
-export { ReservationSummaryBlock, PostSummaryBlock, RequsetSummaryBlock }
+export {ReservationSummaryBlock, PostSummaryBlock, RequsetSummaryBlock};
