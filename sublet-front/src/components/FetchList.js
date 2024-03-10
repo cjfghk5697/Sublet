@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 function FetchPost(user_id) {
   const [postInfo, setPostInfo] = useState([]);
@@ -15,8 +15,8 @@ function FetchPost(user_id) {
 
     const json = await (
       await fetch(
-          URL
-          , requestOptions)
+        URL
+        , requestOptions)
     ).json();
 
     setPostInfo(json);
@@ -45,8 +45,8 @@ function FetchReservation() {
 
     const json = await (
       await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/reservation`
-          , requestOptions)
+        `${process.env.REACT_APP_BACKEND_URL}/reservation`
+        , requestOptions)
     ).json();
 
     setReservationInfo(json);
@@ -76,7 +76,7 @@ function FetchReservationByPostKey(post_key) {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
 
     setReservationInfo(json);
@@ -106,8 +106,8 @@ async function FetchDeleteReservation(key_num) {
 
   await (
     await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/reservation`
-        , requestOptions)
+      `${process.env.REACT_APP_BACKEND_URL}/reservation`
+      , requestOptions)
   ).json();
 };
 
@@ -128,15 +128,15 @@ function FetchReservationPost(user_id, post_key, start_day, end_day, pay) {
       }),
     };
     fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/reservation`
-        , requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result reservation', response);
-        })
-        .catch((e) => {
-          console.log('[error] reservation', e);
-        });
+      `${process.env.REACT_APP_BACKEND_URL}/reservation`
+      , requestOptions)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('result reservation', response);
+      })
+      .catch((e) => {
+        console.log('[error] reservation', e);
+      });
   };
 
   getReservationInfo();
@@ -155,18 +155,19 @@ function DeletePost(key) {
     };
 
     fetch(link, requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result DeletePost', response);
-        })
-        .catch((e) => {
-          console.log('[error] DeletePost', e);
-        });
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('result DeletePost', response);
+      })
+      .catch((e) => {
+        console.log('[error] DeletePost', e);
+      });
   };
   DeletePost();
 }
 
-function FetchLogin({id, password}) {
+
+function FetchLogin({ id, password, setUserInfo }) {
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -176,22 +177,33 @@ function FetchLogin({id, password}) {
       },
       body: JSON.stringify({
         id: id,
-        password: password,
-      }),
-      path: '/',
+
+        password: password
+      })
     };
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result login', response);
-        })
-        .catch((e) => {
-          console.log('[error] login', e);
-        });
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
+      .then(res => res.json());
+
+    if (response.ok) {
+      console.log(response.ok);
+      const userInfoResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json());
+
+      setUserInfo(userInfoResponse); // 이 부분에서 로그인한 사용자의 정보를 설정합니다.
+      console.log(userInfoResponse);
+    }
+    else {
+      console.log('[error] login', response)
+    }
   };
   login();
 }
+
 
 function Logout() {
   const logout = async () => {
@@ -205,13 +217,13 @@ function Logout() {
     };
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/logout`, requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result logout', response);
-        })
-        .catch((e) => {
-          console.log('[error] logout', e);
-        });
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('result logout', response);
+      })
+      .catch((e) => {
+        console.log('[error] logout', e);
+      });
   };
   logout();
 }
@@ -224,8 +236,8 @@ async function FetchImage(formData) {
   };
 
   return await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/image`
-      , requestOptions);
+    `${process.env.REACT_APP_BACKEND_URL}/user/image`
+    , requestOptions);
 }
 
 async function GetMyUser() {
@@ -242,7 +254,7 @@ async function GetMyUser() {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
     setUserInfo(json);
   };
@@ -269,7 +281,7 @@ async function GetOneUser(user_id) {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
     setLoading(true);
     setUserInfo(json);
@@ -278,7 +290,7 @@ async function GetOneUser(user_id) {
     getUserInfo();
   }, []);
 
-  return {userInfo, loading};
+  return { userInfo, loading };
 }
 
 function FetchGetRequest() {
@@ -295,7 +307,7 @@ function FetchGetRequest() {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
 
     setRequestInfo(json);
@@ -310,7 +322,7 @@ function FetchGetRequest() {
   return request;
 }
 
-function SignUp({user_id, password, username, email, phone, school, gender, birth, student_id}) {
+function SignUp({ user_id, password, username, email, phone, school, gender, birth, student_id }) {
   const SignUp = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -333,13 +345,13 @@ function SignUp({user_id, password, username, email, phone, school, gender, birt
     };
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/user/`, requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result signup', response);
-        })
-        .catch((e) => {
-          console.log('[error] signup', e);
-        });
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('result signup', response);
+      })
+      .catch((e) => {
+        console.log('[error] signup', e);
+      });
   };
   SignUp();
 }
@@ -361,7 +373,7 @@ function FetchGetRequestByRequestId(id_list) {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
 
     setRequestInfo(json);
@@ -375,33 +387,33 @@ function FetchGetRequestByRequestId(id_list) {
 
   return request;
 }
-async function VerifyEmail({email}) {
+async function VerifyEmail({ email }) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`;
 
   const requestOptions = { // sendEmail 라우터로 보내버리기
     credentials: 'include',
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(
-        {email: email},
+      { email: email },
     ),
   };
 
   return await fetch(link, requestOptions)
-      .then((res) => {
-        const json = res;
-        if (json.ok) {
-          console.log('전송 완료');
-        } else {
-          throw new Error(`${res.status} 에러가 발생했습니다.`);
-        }
-      })
-      .catch((e) => {
-        throw new Error('[error] verify', e);
-      });
+    .then((res) => {
+      const json = res;
+      if (json.ok) {
+        console.log('전송 완료');
+      } else {
+        throw new Error(`${res.status} 에러가 발생했습니다.`);
+      }
+    })
+    .catch((e) => {
+      throw new Error('[error] verify', e);
+    });
 }
 
-async function VerifyUser({method, tokenKey, verifyToken}) {
+async function VerifyUser({ method, tokenKey, verifyToken }) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/verifyUser`;
   const json = {
@@ -413,22 +425,22 @@ async function VerifyUser({method, tokenKey, verifyToken}) {
   const requestOptions = { // sendEmail 라우터로 보내버리기
     method: 'POST',
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(
-        json,
+      json,
     ),
   };
 
   return await fetch(link, requestOptions);
 }
-async function ResetPassword({user_id, tokenKey, verifyToken}) {
+async function ResetPassword({ user_id, tokenKey, verifyToken }) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`;
 
   const requestOptions = { // sendEmail 라우터로 보내버리기
     method: 'POST',
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       user_id: user_id,
       tokenKey: tokenKey,
@@ -439,14 +451,14 @@ async function ResetPassword({user_id, tokenKey, verifyToken}) {
 
   return await fetch(link, requestOptions);
 }
-async function ChangePassword({user_id, new_password}) {
+async function ChangePassword({ user_id, new_password }) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/changepassword`;
 
   const requestOptions = { // sendEmail 라우터로 보내버리기
     method: 'PUT',
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id: user_id,
       password: new_password,
@@ -471,8 +483,8 @@ async function DeleteRequest(key_num) {
 
   await (
     await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/request`
-        , requestOptions)
+      `${process.env.REACT_APP_BACKEND_URL}/request`
+      , requestOptions)
   ).json();
 };
 
@@ -490,16 +502,16 @@ function ConnectRequestPost(resquset_key, post_key) {
       }),
     };
     fetch(
-        link,
-        requestOptions)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log('result reservation', response);
-        })
-        .catch((e) => {
-          console.log('[error] reservation', e);
-        });
+      link,
+      requestOptions)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log('result reservation', response);
+      })
+      .catch((e) => {
+        console.log('[error] reservation', e);
+      });
   };
 }
 
-export {VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost};
+export { VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost };

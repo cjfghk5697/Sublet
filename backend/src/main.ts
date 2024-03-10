@@ -40,6 +40,6 @@ async function bootstrap() {
 
   const mongoIoAdapter = new MongoIoAdapter(app);
   await mongoIoAdapter.connectToMongo();
-  await app.listen(4000);
+  await app.listen(Number(env.BACKEND_PORT as string));
 }
 bootstrap();

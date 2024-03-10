@@ -1,21 +1,24 @@
+
 import './App.css';
 import Home from './pages/Home';
 import RoomInfo from './pages/RoomInfo';
 import SearchSubletInfo from './pages/SearchSubletInfo';
 import ReHome from './pages/ReHome';
 import Booking from './pages/Booking';
-import GuestInfo from './pages/GuestInfo.js';
-import TestChat from './pages/test_chat/TestChat.js';
-import {Routes, Route, BrowserRouter} from 'react-router-dom';
+import GuestInfo from './pages/GuestInfo.js'
+import TestChat from './pages/test_chat/TestChat.js'
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 import GuestRequest from './pages/GuestRequest.js';
 import HostInfo from './pages/HostInfo.js';
+import SaveSublet from './pages/SaveSublet.js';
 import ResetPassword from './pages/ResetPassword.js';
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -32,6 +35,7 @@ function App() {
         <Route path="/test/chat/:chatId" element={<TestChatRoom />} />
         <Route path="/test/db/" element={<TestDB />} />
         <Route path="/test/db/:name" element={<TestDBDetail />} />
+        <Route path="/SaveSublet" element={<SaveSublet />} />
 
         {/* <Route path='/Oauth/kakao' element={<KakaoConfirm />} /> */}
 

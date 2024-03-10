@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 import {useEffect, useState} from 'react';
 import {FetchLogin} from '../FetchList';
+=======
+import { useEffect, useState } from 'react'
+import { FetchLogin } from '../FetchList';
+import { useUserInfoStore } from "../../store/UserInfoStore.js";
+>>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
 // https://2mojurmoyang.tistory.com/193
 
 export default function NaverLogin() {
   const {naver} = window;
   const [user, setUser] = useState(null);
+  const { setUserInfo } = useUserInfoStore();
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
@@ -19,9 +26,15 @@ export default function NaverLogin() {
   const getUser = async () => {
     await naverLogin.getLoginStatus((status) => {
       if (status) {
+<<<<<<< HEAD
         console.log('user', {...naverLogin.user}, naverLogin.user.email);
         setUser({...naverLogin.user});
         FetchLogin({id: naverLogin.user.email, password: 'naverLogin!2#1'});
+=======
+        console.log('user', { ...naverLogin.user }, naverLogin.user.email)
+        setUser({ ...naverLogin.user });
+        FetchLogin({ id: naverLogin.user.email, password: 'naverLogin!2#1', setUserInfo })
+>>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
         // if (GetOneUser(naverLogin.user.email)) {
         //   FetchLogin(naverLogin.user.email, 'naverLogin!2#1')
         // } else {

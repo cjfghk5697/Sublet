@@ -1,21 +1,21 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as s from './styles/SummaryBlock.styles.js';
 import * as w from './styles/Wrapper.style.js';
 import * as psd from './styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
-import {FetchImage, FetchLogin, SignUp, GetMyUser} from './FetchList';
+import { FetchImage, FetchLogin, SignUp, GetMyUser } from './FetchList';
 
-import {guestInfoPopUpStore} from './store/guestInfoStore.js';
-import {Alert, Information, StyleComponent, FailAlert, checkEmailFormat} from './StaticComponents.js';
-import {DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup, Checkbox, FormGroup, FormControl, Select, MenuItem} from '@mui/material';
-import {GoogleOAuthProvider} from '@react-oauth/google';
-import {GoogleButton} from './loginComponents/Google.js';
+import { guestInfoPopUpStore } from './store/guestInfoStore.js';
+import { Alert, Information, StyleComponent, FailAlert, checkEmailFormat } from './StaticComponents.js';
+import { DialogTitle, DialogActions, FormControlLabel, Radio, RadioGroup, Checkbox, FormGroup, FormControl, Select, MenuItem } from '@mui/material';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleButton } from './loginComponents/Google.js';
 import NaverLogin from './loginComponents/Naver.js';
-import {VerifyEmailComponents} from './verifyComponents/Email.js';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import {LocalizationProvider} from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { VerifyEmailComponents } from './verifyComponents/Email.js';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 import {
@@ -24,23 +24,25 @@ import {
   NumberInputTag,
 } from './Input/TextInputTag.js';
 import DropBoxSelect from './Input/DropBoxSelect.js';
-import {DoubleSlideInput} from './Input/DoubleSlideInput.js';
-import {SingleSlideInput} from '../components/Input/SingleSlideInput.js';
+import { DoubleSlideInput } from './Input/DoubleSlideInput.js';
+import { SingleSlideInput } from '../components/Input/SingleSlideInput.js';
 import * as ValueViewer from '../components/Input/ValueViewer.js';
 import Map from '../components/Map.js';
-import {LocationInput} from '../components/Input/LocationInput.js';
-import {DoubleDatePicker} from './Input/DoubleDatePicker.js';
-import {priceToString} from '../components/StaticComponents.js';
-import {ImageUploadComponent} from './Input/ImageInput.js';
-import {ValueRangeViewer} from './Input/ValueViewer.js';
+
+import { LocationInput } from "../components/Input/LocationInput.js";
+import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
+import { priceToString } from "../components/StaticComponents.js";
+import { ImageUploadComponent } from "./Input/ImageInput.js";
+import { ValueRangeViewer } from "./Input/ValueViewer.js"
+import { useUserInfoStore } from "../store/UserInfoStore.js";
 
 
 export function ImageDialog() {
-  const {setImagePopUpState, imagePopUpState} = guestInfoPopUpStore(
-      (state) => ({
-        setImagePopUpState: state.setImagePopUpState,
-        imagePopUpState: state.imagePopUpState,
-      }),
+  const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore(
+    (state) => ({
+      setImagePopUpState: state.setImagePopUpState,
+      imagePopUpState: state.imagePopUpState,
+    }),
   );
   const [imgFile, setImgFile] = useState('');
   const [imageUpload, setImageUpload] = useState('');
@@ -85,12 +87,12 @@ export function ImageDialog() {
         }, 5000);
       }
     })
-        .catch((err) => {
-          setFailState(true);
-          setTimeout(() => {
-            setFailState(false);
-          }, 5000);
-        });
+      .catch((err) => {
+        setFailState(true);
+        setTimeout(() => {
+          setFailState(false);
+        }, 5000);
+      });
   };
   return (
     <>
@@ -107,7 +109,7 @@ export function ImageDialog() {
         </DialogTitle>
 
         <DialogContent
-          sx={{height: 324, width: 400}}
+          sx={{ height: 324, width: 400 }}
           className="font-black text-center"
         >
           <div className="clear-both h-56 w-75 flex items-center justify-center">
@@ -153,8 +155,8 @@ export function ImageDialog() {
   );
 }
 
-export function VerifyEmailDialog({email}) {
-  const {setVerifyEmailPopUpState, verifyEmailPopUpState} = guestInfoPopUpStore((state) => ({
+export function VerifyEmailDialog({ email }) {
+  const { setVerifyEmailPopUpState, verifyEmailPopUpState } = guestInfoPopUpStore((state) => ({
     setVerifyEmailPopUpState: state.setVerifyEmailPopUpState,
     verifyEmailPopUpState: state.verifyEmailPopUpState,
   }));
@@ -173,7 +175,7 @@ export function VerifyEmailDialog({email}) {
             />
           </s.change_button>
         </DialogTitle>
-        <DialogContent sx={{height: 300, width: 300}} className='text-center' >
+        <DialogContent sx={{ height: 300, width: 300 }} className='text-center' >
 
           <VerifyEmailComponents
             email={email}
@@ -184,8 +186,8 @@ export function VerifyEmailDialog({email}) {
   );
 }
 
-export function EmailDialog({originalEmail}) {
-  const {setEmailPopUpState, emailPopUpState} = guestInfoPopUpStore((state) => ({
+export function EmailDialog({ originalEmail }) {
+  const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore((state) => ({
     setEmailPopUpState: state.setEmailPopUpState,
     emailPopUpState: state.emailPopUpState,
   }));
@@ -213,44 +215,44 @@ export function EmailDialog({originalEmail}) {
 
 
     await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/update`
-        , requestOptions)
-        .then(
-            await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`
-                , {
-                  credentials: 'include',
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    verify_email: 'false',
-                  }),
-                }),
-        ).then((response) => {
-          if (!response.ok) {
+      `${process.env.REACT_APP_BACKEND_URL}/user/update`
+      , requestOptions)
+      .then(
+        await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`
+          , {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              verify_email: 'false',
+            }),
+          }),
+      ).then((response) => {
+        if (!response.ok) {
           // create error object and reject if not a 2xx response code
-            const err = new Error('HTTP status code: ' + response.status);
-            err.response = response;
-            err.status = response.status;
-            setFailState(true);
-            setTimeout(() => {
-              setFailState(false);
-            }, 5000);
-          } else {
-            setSuccessState(true);
-            setTimeout(() => {
-              setSuccessState(false);
-            }, 5000);
-          }
-        })
-        .catch((err) => {
+          const err = new Error('HTTP status code: ' + response.status);
+          err.response = response;
+          err.status = response.status;
           setFailState(true);
           setTimeout(() => {
             setFailState(false);
           }, 5000);
-        });
+        } else {
+          setSuccessState(true);
+          setTimeout(() => {
+            setSuccessState(false);
+          }, 5000);
+        }
+      })
+      .catch((err) => {
+        setFailState(true);
+        setTimeout(() => {
+          setFailState(false);
+        }, 5000);
+      });
   };
   const clickHandle = () => {
     emailHandled();
@@ -275,7 +277,7 @@ export function EmailDialog({originalEmail}) {
             />
           </s.change_button>
         </DialogTitle>
-        <DialogContent className="text-center" sx={{height: 120, width: 312}}>
+        <DialogContent className="text-center" sx={{ height: 120, width: 312 }}>
           <form>
             <w.InputText type="email" id="email" onChange={emailChange} value={emailState} placeholder="john.doe@company.com" required />
           </form>
@@ -299,8 +301,8 @@ export function EmailDialog({originalEmail}) {
   );
 }
 
-export function PhoneDialog({originalPhone}) {
-  const {setPhonePopUpState, phonePopUpState} = guestInfoPopUpStore((state) => ({
+export function PhoneDialog({ originalPhone }) {
+  const { setPhonePopUpState, phonePopUpState } = guestInfoPopUpStore((state) => ({
     setPhonePopUpState: state.setPhonePopUpState,
     phonePopUpState: state.phonePopUpState,
   }));
@@ -328,31 +330,31 @@ export function PhoneDialog({originalPhone}) {
 
 
     await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/update`
-        , requestOptions)
-        .then((response) => {
-          if (!response.ok) {
+      `${process.env.REACT_APP_BACKEND_URL}/user/update`
+      , requestOptions)
+      .then((response) => {
+        if (!response.ok) {
           // create error object and reject if not a 2xx response code
-            const err = new Error('HTTP status code: ' + response.status);
-            err.response = response;
-            err.status = response.status;
-            setFailState(true);
-            setTimeout(() => {
-              setFailState(false);
-            }, 5000);
-          } else {
-            setSuccessState(true);
-            setTimeout(() => {
-              setSuccessState(false);
-            }, 5000);
-          }
-        })
-        .catch((err) => {
+          const err = new Error('HTTP status code: ' + response.status);
+          err.response = response;
+          err.status = response.status;
           setFailState(true);
           setTimeout(() => {
             setFailState(false);
           }, 5000);
-        });
+        } else {
+          setSuccessState(true);
+          setTimeout(() => {
+            setSuccessState(false);
+          }, 5000);
+        }
+      })
+      .catch((err) => {
+        setFailState(true);
+        setTimeout(() => {
+          setFailState(false);
+        }, 5000);
+      });
   };
   const clickHandle = () => {
     phoneHandled();
@@ -377,7 +379,7 @@ export function PhoneDialog({originalPhone}) {
             />
           </s.change_button>
         </DialogTitle>
-        <DialogContent sx={{height: 120, width: 312}} className="text-center">
+        <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
             <w.InputText type="tel" id="tel" onChange={phoneChange} value={phoneState} placeholder="john.doe@company.com" required />
           </form>
@@ -400,13 +402,13 @@ export function PhoneDialog({originalPhone}) {
   );
 }
 
-export function ShareDialog({description, title, image_id}) {
+export function ShareDialog({ description, title, image_id }) {
   const copyLinkRef = useRef();
   const [successState, setSuccessState] = useState(false);
 
   // 로컬 주소 (localhost 3000 같은거)
   const resultUrl = window.location.href;
-  const {Kakao} = window;
+  const { Kakao } = window;
   const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/public/${image_id[0]}.jpg`;
   // 재랜더링시에 실행되게 해준다.
   useEffect(() => {
@@ -474,7 +476,7 @@ export function ShareDialog({description, title, image_id}) {
   // 선택 후 복사
 }
 
-export function RequestSummaryDetailDialog({request_text, address, contract, accomodation_type, pay, start_date, end_date}) {
+export function RequestSummaryDetailDialog({ request_text, address, contract, accomodation_type, pay, start_date, end_date }) {
   const info_list = {
     '숙소 유형': accomodation_type,
     '요금': pay,
@@ -502,7 +504,7 @@ export function RequestSummaryDetailDialog({request_text, address, contract, acc
   );
 }
 
-export function PostSummaryDetailDialog({title, contract, private_post, accomodation_type, post_date, pay, address}) {
+export function PostSummaryDetailDialog({ title, contract, private_post, accomodation_type, post_date, pay, address }) {
   const info_list = {
     '숙소 유형': accomodation_type,
     '게시일': post_date,
@@ -536,7 +538,7 @@ export function PostSummaryDetailDialog({title, contract, private_post, accomoda
 }
 
 export function SignUpDialog() {
-  const {signUpPopUpState, setSignUpPopUpState} = guestInfoPopUpStore((state) => ({
+  const { signUpPopUpState, setSignUpPopUpState } = guestInfoPopUpStore((state) => ({
     setSignUpPopUpState: state.setSignUpPopUpState,
     signUpPopUpState: state.signUpPopUpState,
   }));
@@ -671,9 +673,9 @@ export function SignUpDialog() {
               <w.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
                 onChange={inputHandle}
                 value={phoneState
-                    .replace(/[^0-9]/g, '')
-                    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
-                    .replace(/(\-{1,2})$/g, '')}
+                  .replace(/[^0-9]/g, '')
+                  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
+                  .replace(/(\-{1,2})$/g, '')}
                 required />
             </div>
           </div>
@@ -804,7 +806,7 @@ export function SignUpDialog() {
 }
 
 export function LoginDialog() {
-  const {setSignUpPopUpState} = guestInfoPopUpStore((state) => ({
+  const { setSignUpPopUpState } = guestInfoPopUpStore((state) => ({
     setSignUpPopUpState: state.setSignUpPopUpState,
   }));
 
@@ -813,7 +815,9 @@ export function LoginDialog() {
     passwordState: '',
   });
 
-  const {idState, passwordState} = inputs;
+  const { idState, passwordState } = inputs;
+
+  const { setUserInfo } = useUserInfoStore();
 
   const inputHandle = (e) => {
     setInputs({
@@ -825,10 +829,11 @@ export function LoginDialog() {
   const [popUpState, setPopUpState] = useState(false);
 
   const loginHandled = () => {
-    const id = idState;
-    const password = passwordState;
-    FetchLogin({id, password});
-    setPopUpState(false);
+
+    const id = idState
+    const password = passwordState
+    FetchLogin({ id, password, setUserInfo })
+    setPopUpState(false)
   };
 
   const signUpHandled = () => {
@@ -912,13 +917,14 @@ export function LoginDialog() {
 }
 
 export const PostUploadDialog = (props) => {
-  const {setPostPopUpState, postPopUpState} = guestInfoPopUpStore(
-      (state) => ({
-        setPostPopUpState: state.setPostPopUpState,
-        postPopUpState: state.postPopUpState,
-      }),
+  const { setPostPopUpState, postPopUpState } = guestInfoPopUpStore(
+    (state) => ({
+      setPostPopUpState: state.setPostPopUpState,
+      postPopUpState: state.postPopUpState,
+    }),
   );
-  const [accomodationType, setAccomodationType] = useState('');
+  const { userInfo } = useUserInfoStore();
+  const [accomodationType, setAccomodationType] = useState("");
   const [limitPeople, setLimitPeople] = useState(1);
   const [buildingType, setBuildingType] = useState('');
   const [numberBathroom, setNumberBathroom] = useState(1);
@@ -936,8 +942,8 @@ export const PostUploadDialog = (props) => {
   const [postCode, setPostCode] = useState('123123'); // 테스트 데이터
   const [startEndDay, setStartEndDay] = useState([new Date(), new Date().setFullYear(new Date().getFullYear() + 1)]); // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
   const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
-  const [tempDuration, setTempDuration] = useState([duration[0] + '일', duration[1] + '일']);
-  const [price, setPrice] = useState(10000);
+  const [tempDuration, setTempDuration] = useState([duration[0] + "일", duration[1] + "일"])
+  const [price, setPrice] = useState("10,000");
   const [imageFiles, setImageFiles] = useState([]);
   const [rule, setRule] = useState('규칙');
   const [benefit, setBenefit] = useState('혜택');
@@ -963,9 +969,9 @@ export const PostUploadDialog = (props) => {
       };
 
       await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
-          .then((res) => {
-            console.log(res);
-          });
+        .then((res) => {
+          console.log(res);
+        });
       alert('임시 저장 되었습니다.'); // if 문 비워두지 않기 위한 임시 alert
     }
     setPostPopUpState(false);
@@ -975,36 +981,37 @@ export const PostUploadDialog = (props) => {
     const formData = new FormData();
 
     // 모든 데이터가 적절히 입력되었는지 확인하고 아니라면 alert 띄워주기.
-    formData.append('title', title);
-    formData.append('price', price);
-    formData.append('basic_info', basicInfo);
-    formData.append('benefit', benefit);
-    formData.append('description', 'description'); // basic_info와 중복?
-    formData.append('end_day', (new Date()).toISOString());
-    formData.append('extra_info', 'extra_info'); // basic_info와 중복?
-    formData.append('min_duration', duration[0]);
-    formData.append('max_duration', duration[1]);
-    formData.append('position', fullAddress);
-    formData.append('refund_policy', refundPolicy);
-    formData.append('rule', rule);
-    formData.append('start_day', (new Date()).toISOString());
-    formData.append('limit_people', limitPeople);
-    formData.append('number_room', numberRoom);
-    formData.append('number_bathroom', numberBathroom);
-    formData.append('number_bedroom', numberBedroom);
-    formData.append('accomodation_type', accomodationType);
-    formData.append('building_type', buildingType);
-    formData.append('x_coordinate', pos[0]);
-    formData.append('y_coordinate', pos[1]);
-    formData.append('city', city);
-    formData.append('gu', gu);
-    formData.append('dong', dong);
-    formData.append('street', street);
-    formData.append('street_number', streetNumber);
-    formData.append('post_code', postCode);
-    formData.append('school', user.school); // 사용자 정보에 따라서 해야함.
-    formData.append('contract', true); // 계약 관련
 
+    formData.append("title", title);
+    formData.append("price", price.replace(/,/gi, ""));
+    formData.append("basic_info", basicInfo);
+    formData.append("benefit", benefit);
+    formData.append("end_day", (new Date()).toISOString());
+    formData.append("min_duration", duration[0]);
+    formData.append("max_duration", duration[1]);
+    formData.append("position", fullAddress);
+    formData.append("refund_policy", refundPolicy);
+    formData.append("rule", rule);
+    formData.append("start_day", (new Date()).toISOString());
+    formData.append("limit_people", limitPeople);
+    formData.append("number_room", numberRoom);
+    formData.append("number_bathroom", numberBathroom);
+    formData.append("number_bedroom", numberBedroom);
+    formData.append("accomodation_type", accomodationType);
+    formData.append("building_type", buildingType);
+    formData.append("x_coordinate", pos[0]);
+    formData.append("y_coordinate", pos[1]);
+    formData.append("city", city);
+    formData.append("gu", gu);
+    formData.append("dong", dong);
+    formData.append("street", street);
+    formData.append("street_number", streetNumber);
+    formData.append("post_code", postCode);
+    formData.append("school", userInfo.school); // 사용자 정보에 따라서 해야함.
+    formData.append("contract", true); // 계약 관련
+
+    formData.append("description", "description"); // basic_info와 중복?
+    formData.append("extra_info", "extra_info"); // basic_info와 중복?
     // formData.append("content", "content"); // ?
     // formData.append("category", "category"); // ?
     // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
@@ -1039,15 +1046,17 @@ export const PostUploadDialog = (props) => {
     };
 
     await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, requestOptions)
-        .then((res) => {
-          console.log(res);
-          if (res.status === 201) {
-            alert('게시되었습니다.');
-            setPostPopUpState(false);
-          } else {
-            alert('게시에 실패했습니다.');
-          }
-        });
+
+      .then((res) => {
+        if (res.status === 201) {
+          alert("게시되었습니다.");
+          setPostPopUpState(false);
+        }
+        else {
+          alert("게시에 실패했습니다.");
+        }
+      });
+
   };
 
   const handleLimitPeople = (event, newValue) => {
@@ -1063,7 +1072,7 @@ export const PostUploadDialog = (props) => {
   };
 
   const handlePrice = (event) => {
-    setPrice(event.target.value);
+    setPrice(priceToString(event.target.value.replace(/,/gi, "")));
   };
 
   const handleTitle = (event) => {
@@ -1123,7 +1132,7 @@ export const PostUploadDialog = (props) => {
         open={postPopUpState}
         className="border border-gray-300 shadow-xl rounded-lg"
       >
-        <DialogContent sx={{width: '500px'}} className="text-center">
+        <DialogContent sx={{ width: '500px' }} className="text-center">
           <s.change_button type="button" className="float-right" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
@@ -1174,7 +1183,8 @@ export const PostUploadDialog = (props) => {
               <div>
                 <div>
                   <ValueViewer.SingleValueViewer
-                    value={'욕실 갯수: ' + numberBathroom}
+
+                    value={"욕실 개수: " + numberBathroom}
                   />
                   <SingleSlideInput
                     value={numberBathroom}
@@ -1184,7 +1194,7 @@ export const PostUploadDialog = (props) => {
                 </div>
                 <div>
                   <ValueViewer.SingleValueViewer
-                    value={'침실 갯수: ' + numberBedroom}
+                    value={"침실 개수: " + numberBedroom}
                   />
                   <SingleSlideInput
                     value={numberBedroom}
@@ -1281,20 +1291,17 @@ export const PostUploadDialog = (props) => {
                 setDateData={hadnleStartEndDay}
               />
 
-              <ValueViewer.SingleValueViewer
-                value={'금액: ₩' + priceToString(price) + '원'}
-              /> {/* 금액 보이는 것 하고, 입력하는 것을 합쳐야 할 듯. */}
               <NumberInputTag
                 id="price"
                 label="가격"
                 placeholder="가격을 입력해주세요."
+                value={priceToString(price.replace(/,/gi, ""))} // 숫자에 ,를 넣어주는 함수 필요
                 handleState={handlePrice}
                 required={true}
               />
-              {/* <SingleSlideInput value={price} onChange={handlePrice} minMax={[0, 1000000]}/>*/
-                /* 슬라이더 방식 */}
+
               <p>
-                최소-최대 기간 : <ValueRangeViewer arr={tempDuration} />
+                최소-최대 계약 가능 기간 : <ValueRangeViewer arr={tempDuration} />
               </p>
               <DoubleSlideInput
                 value={duration}
@@ -1308,7 +1315,7 @@ export const PostUploadDialog = (props) => {
               {imageFiles.length > 0 && (
                 <>이미지를 변경하려면 이미지를 클릭해주세요.</>
               )}
-              {Array.from({length: imageFiles.length + 1}).map((_, index) => (
+              {Array.from({ length: imageFiles.length + 1 }).map((_, index) => (
                 <ImageUploadComponent imgIndex={index} setImage={handleSetImages} />
               ))}
             </p>
