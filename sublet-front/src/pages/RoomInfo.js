@@ -1,16 +1,16 @@
 import Header from '../components/Header';
-import * as makeTest from '../testdata/testdata.js'
+import * as makeTest from '../testdata/testdata.js';
 import PersonIcon from '@mui/icons-material/Person';
 import SingleBedIcon from '@mui/icons-material/SingleBed';
 import HomeIcon from '@mui/icons-material/Home';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
-import { SubletPostStore } from "../store/SubletPostStore";
-import { Carousel } from "@material-tailwind/react";
+import { useParams } from 'react-router-dom';
+import { SubletPostStore } from '../store/SubletPostStore';
+import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
-import * as s from '../components/styles/SummaryBlock.styles.js'
+import * as s from '../components/styles/SummaryBlock.styles.js';
 import { Dialog, DialogContent } from '@mui/material';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
@@ -53,7 +53,7 @@ export default function RoomInfo() {
       flexWrap: 'wrap',
       alignContent: 'center',
       flexDirection: 'row',
-      justifyContent: 'space-around'
+      justifyContent: 'space-around',
     },
   };
 
@@ -62,7 +62,7 @@ export default function RoomInfo() {
   const nowRoomNum = params.roomKey;
 
   const [nowRoomPost, setNowRoomPost] = useState({});
-  const [sharePopUpState, setSharePopUpState] = useState(false)
+  const [sharePopUpState, setSharePopUpState] = useState(false);
   const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
   const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
 
@@ -128,10 +128,10 @@ export default function RoomInfo() {
         <Carousel className="rounded-xl text-center"
           navigation={({ setActiveIndex, activeIndex, length }) => (
             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-              {new Array(length).fill("").map((_, i) => (
+              {new Array(length).fill('').map((_, i) => (
                 <span
                   key={i}
-                  className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+                  className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
                     }`}
                   onClick={() => setActiveIndex(i)}
                 />
@@ -150,11 +150,15 @@ export default function RoomInfo() {
       {postExist && nowRoomPost &&
         <>
           <div>
-            <s.black_upload_button onClick={() => { setSharePopUpState(true) }}>공유하기</s.black_upload_button>
+            <s.black_upload_button onClick={() => {
+              setSharePopUpState(true);
+            }}>공유하기</s.black_upload_button>
             <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
               <DialogContent sx={{ height: 224 }} className='text-left'>
                 <form className="flot-right">
-                  <s.change_button type="button" name="sharePopUpState" onClick={() => { setSharePopUpState(false) }}>
+                  <s.change_button type="button" name="sharePopUpState" onClick={() => {
+                    setSharePopUpState(false);
+                  }}>
                     <StyleComponent
                       content="CloseButton" />
                   </s.change_button>
@@ -172,8 +176,8 @@ export default function RoomInfo() {
             <div className="flex justify-between items-start">
               <div>
                 <div className="text-lg font-bold">30박</div>
-                <div className="text-3xl font-bold mt-1">{(nowRoomPost.price * 30).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원~</div>
-                <div className="text-sm font-bold mt-2">1박 당 {(nowRoomPost.price * 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
+                <div className="text-3xl font-bold mt-1">{(nowRoomPost.price * 30).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원~</div>
+                <div className="text-sm font-bold mt-2">1박 당 {(nowRoomPost.price * 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
                 <div className="flex flex-col text-sm text-gray-500 mt-3">{new Date(nowRoomPost.start_day).getMonth() + 1}월 {new Date(nowRoomPost.start_day).getDate()}일 부터, 최소 {nowRoomPost.min_duration}개월</div>
               </div>
             </div>
@@ -233,8 +237,8 @@ export default function RoomInfo() {
                   height="64"
                   src="/logo.png"
                   style={{
-                    aspectRatio: "64/64",
-                    objectFit: "cover",
+                    aspectRatio: '64/64',
+                    objectFit: 'cover',
                   }}
                   width="64"
                 />

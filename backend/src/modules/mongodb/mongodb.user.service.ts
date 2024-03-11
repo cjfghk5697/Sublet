@@ -128,13 +128,15 @@ export class MongodbUserService {
   }
 
   async putChangePassword(putUserBody: UserLoginDto) {
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(putUserBody.password, salt);
     const res: UserInterface = await this.prisma.user.update({
       where: {
         user_id: putUserBody.id,
         version: { gte: this.USER_VERSION },
         delete: false,
       },
-      data: { password: putUserBody.password },
+      data: { password: hashPassword },
     });
     if (!res) {
       throw Error('[mongodb.service:putChangePassword] user doesnt exist');

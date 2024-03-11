@@ -1,10 +1,10 @@
 import Header from '../components/Header';
-import * as makeTest from '../testdata/testdata.js'
+import * as makeTest from '../testdata/testdata.js';
 
 const roomTempData = makeTest.makeTestData(); // This is a temporary data for testing
 
 export default function RoomInfo() {
-  const nowRomeNum = 0; //추후 prop으로 받아오면 될듯
+  const nowRomeNum = 0; // 추후 prop으로 받아오면 될듯
 
   const styles = {
     RomeInfo_ImgContainer: {
@@ -80,12 +80,12 @@ export default function RoomInfo() {
         </div>
         <div id="detail refund">
           <h3>환불 정책</h3>
-          <p>{roomTempData[nowRomeNum].refund_policy.split("\n").map((line) => {
+          <p>{roomTempData[nowRomeNum].refund_policy.split('\n').map((line) => {
             return (
               <p>
                 {line}
               </p>
-            )
+            );
           })
           }</p>
         </div>

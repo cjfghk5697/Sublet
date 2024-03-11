@@ -1,48 +1,48 @@
-import { CalulateDate, getDateDiff, priceToString } from "../components/StaticComponents";
-import { bookingPopUpStore } from "../components/store/bookingPopUpStore.js";
-import * as w from "../components/styles/Wrapper.style";
-import * as s from "../components/styles/SummaryBlock.styles";
-import { FetchReservationPost } from "../components/FetchList";
-import PaymentForm from "../components/bookingComponents/Payment.js"
-import { useState } from "react";
+import { CalulateDate, getDateDiff, priceToString } from '../components/StaticComponents';
+import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
+import * as w from '../components/styles/Wrapper.style';
+import * as s from '../components/styles/SummaryBlock.styles';
+import { FetchReservationPost } from '../components/FetchList';
+import PaymentForm from '../components/bookingComponents/Payment.js';
+import { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Box, TextField } from "@mui/material";
-import { useTitle } from "../components/hook/HookCollect"
+import { Box, TextField } from '@mui/material';
+import { useTitle } from '../components/hook/HookCollect';
 
 export default function Booking(user_id) {
-  useTitle("예약하기 | ItHome")
+  useTitle('예약하기 | ItHome');
   const { temp_start_day, temp_end_day, day_pay, total_pay, post_key } = bookingPopUpStore((state) => ({
     temp_start_day: state.temp_start_day,
     temp_end_day: state.temp_end_day,
     day_pay: state.day_pay,
     total_pay: state.total_pay,
     post_key: state.post_key,
-  }))
+  }));
 
   const handlePostReservation = () => {
-    const start_day = new Date(temp_start_day).toISOString()
-    const end_day = new Date(temp_end_day).toISOString()
-    FetchReservationPost(user_id, post_key, start_day, end_day, day_pay)
-  }
+    const start_day = new Date(temp_start_day).toISOString();
+    const end_day = new Date(temp_end_day).toISOString();
+    FetchReservationPost(user_id, post_key, start_day, end_day, day_pay);
+  };
 
-  const total_refund_date = CalulateDate(temp_start_day, -7)
-  const part_refund_date = CalulateDate(temp_start_day, -3)
+  const total_refund_date = CalulateDate(temp_start_day, -7);
+  const part_refund_date = CalulateDate(temp_start_day, -3);
 
-  const [paySelect, setPaySelect] = useState('account')
+  const [paySelect, setPaySelect] = useState('account');
   const onPaySelectHandle = (e) => {
-    setPaySelect(e.target.value)
-  }
-  const [checkState, setCheckState] = useState(false)
+    setPaySelect(e.target.value);
+  };
+  const [checkState, setCheckState] = useState(false);
 
   const checkHandled = () => {
-    setCheckState(!checkState)
-  }
+    setCheckState(!checkState);
+  };
 
-  const total_day = getDateDiff(temp_start_day, temp_end_day)
-  const month_pay = day_pay * 28
+  const total_day = getDateDiff(temp_start_day, temp_end_day);
+  const month_pay = day_pay * 28;
   return (
     <div className="ml-4 w-4/5 items-center">
       <div>
@@ -90,12 +90,12 @@ export default function Booking(user_id) {
                 label="Payment Method"
                 onChange={onPaySelectHandle}
               >
-                <MenuItem value={"account"}>계좌</MenuItem>
-                <MenuItem value={"card"}>카드</MenuItem>
+                <MenuItem value={'account'}>계좌</MenuItem>
+                <MenuItem value={'card'}>카드</MenuItem>
               </Select>
             </FormControl>
             {
-              paySelect === "account" ?
+              paySelect === 'account' ?
                 (
                   <div className="mt-2">
                     <form className="bg-white border-solid border-2 border-gray-200 rounded px-8 pt-1 pb-8 mb-4">
@@ -106,8 +106,7 @@ export default function Booking(user_id) {
 
                     </form>
                   </div>
-                )
-                :
+                ) :
                 (
                   <div>
                     <PaymentForm />
@@ -147,5 +146,5 @@ export default function Booking(user_id) {
         </div>
       </div >
     </div>
-  )
+  );
 }

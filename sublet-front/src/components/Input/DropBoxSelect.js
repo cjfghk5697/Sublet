@@ -11,7 +11,7 @@ const DropBoxSelect = ({state, setState, labelName, labelId, id, menuItems}) => 
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{minWidth: 120}}>
       <FormControl fullWidth>
         <InputLabel id={labelId}>{labelName}</InputLabel>
         <Select
@@ -21,13 +21,13 @@ const DropBoxSelect = ({state, setState, labelName, labelId, id, menuItems}) => 
           label={labelName}
           onChange={handleChange}
         >
-            {menuItems.map((item) => (
-                <MenuItem value={item}>{item}</MenuItem>
-            ))}
+          {menuItems.map((item) => (
+            <MenuItem value={item}>{item}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
   );
-}
+};
 
 export default DropBoxSelect;

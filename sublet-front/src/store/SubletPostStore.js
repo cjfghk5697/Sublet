@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import {create} from 'zustand';
 
 export const SubletPostStore = create((set) => ({
   post: [],
@@ -6,17 +6,17 @@ export const SubletPostStore = create((set) => ({
   page: 1,
   postAll: [],
   postMarker: false,
-  setPostMarker: (flag) => set(() => ({ postMarker: flag })),
-  //setPost: (post) => set(() => ({ post: [...post], postExist: true })),
-  clearPost: () => set(() => ({ post: [], postExist: false })),
-  clearPostAll: () => set(() => ({ postAll: [], postExist: false })),
+  setPostMarker: (flag) => set(() => ({postMarker: flag})),
+  // setPost: (post) => set(() => ({ post: [...post], postExist: true })),
+  clearPost: () => set(() => ({post: [], postExist: false})),
+  clearPostAll: () => set(() => ({postAll: [], postExist: false})),
   asyncGetPost: async (page) => {
     const json = await (
       await fetch(
-        process.env.REACT_APP_BACKEND_URL + `/post?maxPost=6&page=${page}`,
+          process.env.REACT_APP_BACKEND_URL + `/post?maxPost=6&page=${page}`,
       )
     ).json();
-    set(() => ({ post: [...json], postExist: true }))
+    set(() => ({post: [...json], postExist: true}));
   },
   asyncGetPostAll: async () => {
     let nowPage = 1;
@@ -24,12 +24,12 @@ export const SubletPostStore = create((set) => ({
     while (true) {
       const json = await (
         await fetch(
-          process.env.REACT_APP_BACKEND_URL + `/post?maxPost=6&page=${nowPage}`,
+            process.env.REACT_APP_BACKEND_URL + `/post?maxPost=6&page=${nowPage}`,
         )
       ).json();
 
       if (json.length === 0) {
-        set((state) => ({ postAll: [...tempPostAll], postExist: true }))
+        set((state) => ({postAll: [...tempPostAll], postExist: true}));
         break;
       }
       tempPostAll = [...tempPostAll, ...json];
