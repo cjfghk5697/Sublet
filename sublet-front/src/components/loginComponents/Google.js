@@ -1,11 +1,7 @@
-<<<<<<< HEAD
+
 import {GoogleLogin} from '@react-oauth/google';
 import {FetchLogin} from '../FetchList';
-=======
-import { GoogleLogin } from '@react-oauth/google';
-import { FetchLogin } from '../FetchList';
-import { useUserInfoStore } from "../../store/UserInfoStore.js";
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
+import {useUserInfoStore} from '../../store/UserInfoStore.js';
 
 function decodeJwtResponse(token) {
   const base64Url = token.split('.')[1];
@@ -17,24 +13,16 @@ function decodeJwtResponse(token) {
   return JSON.parse(jsonPayload);
 }
 export function GoogleButton() {
-<<<<<<< HEAD
-=======
-  const { setUserInfo } = useUserInfoStore();
+  const {setUserInfo} = useUserInfoStore();
 
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
   return (
     <>
       <GoogleLogin
         onSuccess={(credentialResponse) => {
           console.log(credentialResponse.credential);
           const decodeding = decodeJwtResponse(credentialResponse.credential);
-<<<<<<< HEAD
           const email = decodeding.email;
-          FetchLogin({id: email, password: 'googleLogin!2#1'});
-=======
-          const email = decodeding.email
-          FetchLogin({ id: email, password: 'googleLogin!2#1', setUserInfo })
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
+          FetchLogin({id: email, password: 'googleLogin!2#1', setUserInfo});
           // if (GetOneUser(email)) {
           //   FetchLogin({ id: email, password: 'googleLogin!2#1' })
           // } else {

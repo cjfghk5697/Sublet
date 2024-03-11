@@ -1,22 +1,18 @@
-import {useState, useRef, useEffect} from 'react';
-import {Dialog, Popover} from '@headlessui/react';
-import {IconButton} from '@mui/material';
+import { useState, useRef, useEffect } from 'react';
+import { Dialog, Popover } from '@headlessui/react';
+import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDate from './HeaderComponents/SearchDate.js';
 import SearchPriceRange from './HeaderComponents/SearchPriceRange.js';
-import {Favorite} from '@mui/icons-material';
+import { Favorite } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
-import {Link, useLocation} from 'react-router-dom';
-import {LoginDialog} from './Popup.js';
+import { Link, useLocation } from 'react-router-dom';
+import { LoginDialog } from './Popup.js';
 
-<<<<<<< HEAD
+
 import Button from '@mui/material/Button';
 import SearchLocation from './HeaderComponents/SearchLocation.js';
-=======
-import Button from "@mui/material/Button";
-import SearchLocation from "./HeaderComponents/SearchLocation.js";
-import { useUserInfoStore } from "../store/UserInfoStore.js";
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
+import { useUserInfoStore } from '../store/UserInfoStore.js';
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
@@ -56,7 +52,7 @@ const Header = () => {
       borderRadius: '5px',
       padding: '1em',
       fontSize: '1.3em',
-      flex: {searchBoxContainerSize},
+      flex: { searchBoxContainerSize },
     },
     searchByKeywordContainer: {
       display: 'flex',
@@ -176,22 +172,16 @@ const Header = () => {
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
-<<<<<<< HEAD
-                  <Link to={'/SaveSubletInfo'}>
-=======
-                  <Link to={"/SaveSublet"}>
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
+
+                  <Link to={'/SaveSublet'}>
                     <Favorite />
                     {/* <div style={styles.favoriteCount}>{33 + 1}</div> */}
                   </Link>
                 </IconButton>
               </span>
               <IconButton>
-<<<<<<< HEAD
-                <Link to={'/profile'} style={styles.profile}>
-=======
-                <Link to={"/Profile/me"} style={styles.profile}>
->>>>>>> 85a8b5b0b66c08bd667200124e1ff887cf1efb94
+
+                <Link to={'/Profile/me'} style={styles.profile}>
                   <PersonIcon />
                 </Link>
               </IconButton>

@@ -29,12 +29,12 @@ import { SingleSlideInput } from '../components/Input/SingleSlideInput.js';
 import * as ValueViewer from '../components/Input/ValueViewer.js';
 import Map from '../components/Map.js';
 
-import { LocationInput } from "../components/Input/LocationInput.js";
-import { DoubleDatePicker } from "./Input/DoubleDatePicker.js";
-import { priceToString } from "../components/StaticComponents.js";
-import { ImageUploadComponent } from "./Input/ImageInput.js";
-import { ValueRangeViewer } from "./Input/ValueViewer.js"
-import { useUserInfoStore } from "../store/UserInfoStore.js";
+import { LocationInput } from '../components/Input/LocationInput.js';
+import { DoubleDatePicker } from './Input/DoubleDatePicker.js';
+import { priceToString } from '../components/StaticComponents.js';
+import { ImageUploadComponent } from './Input/ImageInput.js';
+import { ValueRangeViewer } from './Input/ValueViewer.js';
+import { useUserInfoStore } from '../store/UserInfoStore.js';
 
 
 export function ImageDialog() {
@@ -829,11 +829,10 @@ export function LoginDialog() {
   const [popUpState, setPopUpState] = useState(false);
 
   const loginHandled = () => {
-
-    const id = idState
-    const password = passwordState
-    FetchLogin({ id, password, setUserInfo })
-    setPopUpState(false)
+    const id = idState;
+    const password = passwordState;
+    FetchLogin({ id, password, setUserInfo });
+    setPopUpState(false);
   };
 
   const signUpHandled = () => {
@@ -924,7 +923,7 @@ export const PostUploadDialog = (props) => {
     }),
   );
   const { userInfo } = useUserInfoStore();
-  const [accomodationType, setAccomodationType] = useState("");
+  const [accomodationType, setAccomodationType] = useState('');
   const [limitPeople, setLimitPeople] = useState(1);
   const [buildingType, setBuildingType] = useState('');
   const [numberBathroom, setNumberBathroom] = useState(1);
@@ -942,8 +941,8 @@ export const PostUploadDialog = (props) => {
   const [postCode, setPostCode] = useState('123123'); // 테스트 데이터
   const [startEndDay, setStartEndDay] = useState([new Date(), new Date().setFullYear(new Date().getFullYear() + 1)]); // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
   const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
-  const [tempDuration, setTempDuration] = useState([duration[0] + "일", duration[1] + "일"])
-  const [price, setPrice] = useState("10,000");
+  const [tempDuration, setTempDuration] = useState([duration[0] + '일', duration[1] + '일']);
+  const [price, setPrice] = useState('10,000');
   const [imageFiles, setImageFiles] = useState([]);
   const [rule, setRule] = useState('규칙');
   const [benefit, setBenefit] = useState('혜택');
@@ -982,36 +981,36 @@ export const PostUploadDialog = (props) => {
 
     // 모든 데이터가 적절히 입력되었는지 확인하고 아니라면 alert 띄워주기.
 
-    formData.append("title", title);
-    formData.append("price", price.replace(/,/gi, ""));
-    formData.append("basic_info", basicInfo);
-    formData.append("benefit", benefit);
-    formData.append("end_day", (new Date()).toISOString());
-    formData.append("min_duration", duration[0]);
-    formData.append("max_duration", duration[1]);
-    formData.append("position", fullAddress);
-    formData.append("refund_policy", refundPolicy);
-    formData.append("rule", rule);
-    formData.append("start_day", (new Date()).toISOString());
-    formData.append("limit_people", limitPeople);
-    formData.append("number_room", numberRoom);
-    formData.append("number_bathroom", numberBathroom);
-    formData.append("number_bedroom", numberBedroom);
-    formData.append("accomodation_type", accomodationType);
-    formData.append("building_type", buildingType);
-    formData.append("x_coordinate", pos[0]);
-    formData.append("y_coordinate", pos[1]);
-    formData.append("city", city);
-    formData.append("gu", gu);
-    formData.append("dong", dong);
-    formData.append("street", street);
-    formData.append("street_number", streetNumber);
-    formData.append("post_code", postCode);
-    formData.append("school", userInfo.school); // 사용자 정보에 따라서 해야함.
-    formData.append("contract", true); // 계약 관련
+    formData.append('title', title);
+    formData.append('price', price.replace(/,/gi, ''));
+    formData.append('basic_info', basicInfo);
+    formData.append('benefit', benefit);
+    formData.append('end_day', (new Date()).toISOString());
+    formData.append('min_duration', duration[0]);
+    formData.append('max_duration', duration[1]);
+    formData.append('position', fullAddress);
+    formData.append('refund_policy', refundPolicy);
+    formData.append('rule', rule);
+    formData.append('start_day', (new Date()).toISOString());
+    formData.append('limit_people', limitPeople);
+    formData.append('number_room', numberRoom);
+    formData.append('number_bathroom', numberBathroom);
+    formData.append('number_bedroom', numberBedroom);
+    formData.append('accomodation_type', accomodationType);
+    formData.append('building_type', buildingType);
+    formData.append('x_coordinate', pos[0]);
+    formData.append('y_coordinate', pos[1]);
+    formData.append('city', city);
+    formData.append('gu', gu);
+    formData.append('dong', dong);
+    formData.append('street', street);
+    formData.append('street_number', streetNumber);
+    formData.append('post_code', postCode);
+    formData.append('school', userInfo.school); // 사용자 정보에 따라서 해야함.
+    formData.append('contract', true); // 계약 관련
 
-    formData.append("description", "description"); // basic_info와 중복?
-    formData.append("extra_info", "extra_info"); // basic_info와 중복?
+    formData.append('description', 'description'); // basic_info와 중복?
+    formData.append('extra_info', 'extra_info'); // basic_info와 중복?
     // formData.append("content", "content"); // ?
     // formData.append("category", "category"); // ?
     // formData.append("postuser_id", "test"); // 사용자 정보에 따라서 해야함.
@@ -1049,14 +1048,12 @@ export const PostUploadDialog = (props) => {
 
       .then((res) => {
         if (res.status === 201) {
-          alert("게시되었습니다.");
+          alert('게시되었습니다.');
           setPostPopUpState(false);
-        }
-        else {
-          alert("게시에 실패했습니다.");
+        } else {
+          alert('게시에 실패했습니다.');
         }
       });
-
   };
 
   const handleLimitPeople = (event, newValue) => {
@@ -1072,7 +1069,7 @@ export const PostUploadDialog = (props) => {
   };
 
   const handlePrice = (event) => {
-    setPrice(priceToString(event.target.value.replace(/,/gi, "")));
+    setPrice(priceToString(event.target.value.replace(/,/gi, '')));
   };
 
   const handleTitle = (event) => {
@@ -1184,7 +1181,7 @@ export const PostUploadDialog = (props) => {
                 <div>
                   <ValueViewer.SingleValueViewer
 
-                    value={"욕실 개수: " + numberBathroom}
+                    value={'욕실 개수: ' + numberBathroom}
                   />
                   <SingleSlideInput
                     value={numberBathroom}
@@ -1194,7 +1191,7 @@ export const PostUploadDialog = (props) => {
                 </div>
                 <div>
                   <ValueViewer.SingleValueViewer
-                    value={"침실 개수: " + numberBedroom}
+                    value={'침실 개수: ' + numberBedroom}
                   />
                   <SingleSlideInput
                     value={numberBedroom}
@@ -1295,7 +1292,7 @@ export const PostUploadDialog = (props) => {
                 id="price"
                 label="가격"
                 placeholder="가격을 입력해주세요."
-                value={priceToString(price.replace(/,/gi, ""))} // 숫자에 ,를 넣어주는 함수 필요
+                value={priceToString(price.replace(/,/gi, ''))} // 숫자에 ,를 넣어주는 함수 필요
                 handleState={handlePrice}
                 required={true}
               />
@@ -1331,3 +1328,260 @@ export const PostUploadDialog = (props) => {
   );
 };
 
+
+export const convertURLtoFile = async (url, id) => {
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'image/jpeg'
+    }
+  }
+  )
+  const data = await response.blob();
+  const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+  const metadata = { type: `image/${ext}` };
+  return new File([data], id, metadata);
+};
+
+
+export const PostEditDialog = (post) => {
+  const image = []
+
+  post.post.image_id.map((id) => {
+    const i = convertURLtoFile(process.env.REACT_APP_BACKEND_URL + '/public/' + id + '.jpg', id + '.jpg')
+    image.push(i.results);
+  })
+
+  const [imageFiles, setImageFiles] = useState(
+    image
+  );
+  //image객체가 생성되어 속성들을 추가할수 있음    })]
+  const { setPostPopUpState, postPopUpState } = guestInfoPopUpStore(
+    (state) => ({
+      setPostPopUpState: state.setPostPopUpState,
+      postPopUpState: state.postPopUpState,
+    }),
+  );
+
+  const [inputs, setInputs] = useState({
+    limitPeople: post.post.limit_people,
+    buildingType: post.post.building_type,
+    numberBathroom: post.post.number_bathroom,
+    numberRoom: post.post.number_room,
+    numberBedroom: post.post.number_bedroom,
+    title: post.post.title,
+    basicInfo: post.post.basic_info,
+    startEndDay: [post.post.start_day, post.post.end_day],
+    // duration: [post.post.du]
+    // tempDuration:
+    price: String(post.post.price),
+    rule: post.post.rule,
+    benefit: post.post.benefit,
+    refundPolicy: post.post.refund_policy,
+    contract: post.post.contract
+  });
+  const {
+    limitPeople,
+    numberBathroom,
+    numberRoom,
+    numberBedroom,
+    title,
+    basicInfo,
+    startEndDay,
+    price,
+    benefit,
+  } = inputs;
+
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const makeFormData = () => {
+    const formData = new FormData();
+
+    // 모든 데이터가 적절히 입력되었는지 확인하고 아니라면 alert 띄워주기.
+
+    formData.append('title', title);
+    formData.append('price', price.replace(/,/gi, ''));
+    formData.append('basic_info', basicInfo);
+    formData.append('benefit', benefit);
+    formData.append('end_day', (new Date()).toISOString());
+    // formData.append('min_duration', duration[0]);
+    // formData.append('max_duration', duration[1]);
+    // formData.append('position', fullAddress);
+    // formData.append('refund_policy', refundPolicy);
+    // formData.append('rule', rule);
+    // formData.append('start_day', (new Date()).toISOString());
+    formData.append('limit_people', limitPeople);
+    formData.append('number_room', numberRoom);
+    formData.append('number_bathroom', numberBathroom);
+    formData.append('number_bedroom', numberBedroom);
+
+
+
+    imageFiles.forEach((file, index) => {
+      formData.append('images', file);
+    });
+
+
+    return (formData);
+  };
+
+  const uploadPost = async () => {
+    const formData = makeFormData();
+
+
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/post/${post.post.key}`, requestOptions)
+
+      .then((res) => {
+        if (res.ok) {
+          alert('수정되었습니다.');
+          setPostPopUpState(false);
+        } else {
+          alert('수정 실패했습니다.');
+        }
+      });
+  };
+
+  const handleSetImages = (newImage, index) => {
+    const newImages = [...imageFiles];
+    if (index >= imageFiles.length) {
+      newImages.push(newImage);
+    } else {
+      newImages[index] = newImage;
+    }
+    setImageFiles(newImages);
+  };
+
+  console.log(imageFiles)
+  return (
+    <>
+      <DialogTitle>
+
+      </DialogTitle>
+      <DialogContent sx={{ width: '500px' }} className="text-center">
+
+        {/* <p>
+            --------------추후 슬라이더로 변경 (현재는 스크롤)---------------
+          </p> */}
+        <div style={psd.gridStyle.mainContainer}>
+          <p style={psd.gridStyle.inputContainer}>
+            <h3 style={psd.gridStyle.infoType}>
+              숙소 기본정보를 작성하세요
+            </h3>
+
+
+            <div>
+              <div>
+                <ValueViewer.SingleValueViewer
+                  value={'최대인원: ' + limitPeople + '명'}
+                />
+                <SingleSlideInput
+                  name="limitPeople"
+                  value={limitPeople}
+                  onChange={onChange}
+                  minMax={[1, 10]}
+                />
+              </div>
+
+            </div>
+            <div>
+              <div>
+                <ValueViewer.SingleValueViewer
+
+                  value={'욕실 개수: ' + numberBathroom}
+                />
+                <SingleSlideInput
+                  name="numberBathroom"
+                  value={numberBathroom}
+                  onChange={onChange}
+                  minMax={[1, 10]}
+                />
+              </div>
+              <div>
+                <ValueViewer.SingleValueViewer
+                  value={'침실 개수: ' + numberBedroom}
+                />
+                <SingleSlideInput
+                  name="numberBedroom"
+                  value={numberBedroom}
+                  onChange={onChange}
+                  minMax={[1, 10]}
+                />
+              </div>
+            </div>
+          </p>
+          <p style={psd.gridStyle.inputContainer}>
+            <h3 style={psd.gridStyle.infoType}>숙소의 매력을 작성하세요</h3>
+            <TextInputTag
+              id="title"
+              label="제목"
+              placeholder="제목을 입력해주세요."
+              name="title"
+              handleState={onChange}
+              required={true}
+              value={title}
+            />
+            <TextAreaTag
+              id="basic_info"
+              label="기본정보"
+              placeholder="기본정보을 입력해주세요."
+              name="basicInfo"
+              handleState={onChange}
+              required={true}
+              value={basicInfo}
+            />
+          </p>
+
+
+
+          <p style={psd.gridStyle.inputContainer}>
+            <h3 style={psd.gridStyle.infoType}>기간 및 금액</h3>
+            <p>
+              게시 날짜
+            </p>
+            <DoubleDatePicker
+              name="startEndDay"
+              dateData={startEndDay}
+              setDateData={onChange}
+            />
+
+            <NumberInputTag
+              id="price"
+              label="가격"
+              placeholder="가격을 입력해주세요."
+              name="price"
+              value={priceToString(price.replace(/,/gi, ''))} // 숫자에 ,를 넣어주는 함수 필요
+              handleState={onChange}
+              required={true}
+            />
+            {/*             
+            <p>
+              최소-최대 계약 가능 기간 : <ValueRangeViewer arr={tempDuration} />
+            </p> */}
+            {/* <DoubleSlideInput
+              value={duration}
+              onChange={handleDuration}
+              minMax={[1, 730]}
+            /> */}
+          </p>
+
+          <p style={psd.gridStyle.inputContainer}>
+            <h3 style={psd.gridStyle.infoType}>숙소 사진을 올려주세요.</h3>
+            {imageFiles.length > 0 && (
+              <>이미지를 변경하려면 이미지를 클릭해주세요.</>
+            )}
+            {Array.from({ length: imageFiles.length + 1 }).map((_, index) => (
+              <ImageUploadComponent imgIndex={index} setImage={handleSetImages} />
+            ))}
+          </p>
+
+        </div>
+      </DialogContent>
+
+      <s.black_upload_button className="ml-2" onClick={uploadPost}>
+        방 올리기
+      </s.black_upload_button>
+    </>
+  );
+};
