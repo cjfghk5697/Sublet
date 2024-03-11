@@ -1,53 +1,53 @@
-import React, { useState, useRef } from "react";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import React, {useState, useRef} from 'react';
+import BarChartIcon from '@mui/icons-material/BarChart';
 // import { BarChart } from "@mui/x-charts";
-import { useSearchPriceStore } from "../../store/HeaderStore/searchPriceStore.js";
-import * as headerStyle from "../styles/Header.styles.js";
-import { DoubleSlideInput } from "../Input/DoubleSlideInput.js";
-import { MoneyRangeViewer } from "../Input/ValueViewer.js";
+import {useSearchPriceStore} from '../../store/HeaderStore/searchPriceStore.js';
+import * as headerStyle from '../styles/Header.styles.js';
+import {DoubleSlideInput} from '../Input/DoubleSlideInput.js';
+import {MoneyRangeViewer} from '../Input/ValueViewer.js';
 
 
 const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData
-  const { priceRange, setPriceRange } = useSearchPriceStore();
+  const {priceRange, setPriceRange} = useSearchPriceStore();
   const [tempPriceRange, setTempPriceRange] = useState(priceRange); // 그래프 표현을 위한 이중화. 실제 값은 priceRange에 저장
   const [isListVisible, setIsListVisible] = useState(false);
   const buttonRef = useRef(null);
 
   const styles = {
     priceRangeStyle: {
-      backgroundColor: "white",
-      border: "1px solid black",
-      position: "absolute",
-      width: "20em",
+      backgroundColor: 'white',
+      border: '1px solid black',
+      position: 'absolute',
+      width: '20em',
       top: `${
-        buttonRef.current
-          ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
-          : 0
+        buttonRef.current ?
+          buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
+          0
       }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
-      padding: "0 1em 0 1em",
+      padding: '0 1em 0 1em',
       zIndex: 101,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     priceRangeGraphStyle: {
-      position: "relative",
-      width: "100%",
+      position: 'relative',
+      width: '100%',
     },
     minPriceLineStyle: {
-      position: "absolute",
-      top: "20px",
+      position: 'absolute',
+      top: '20px',
       width: `${tempPriceRange[0]}%`,
-      height: "9.75em",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
+      height: '9.75em',
+      backgroundColor: 'rgba(255, 255, 255, 0.75)',
     },
     maxPriceLineStyle: {
-      position: "absolute",
+      position: 'absolute',
       left: `${tempPriceRange[1]}%`,
       width: `${100 - tempPriceRange[1]}%`,
-      top: "20px",
-      height: "9.75em",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
+      top: '20px',
+      height: '9.75em',
+      backgroundColor: 'rgba(255, 255, 255, 0.75)',
     },
   };
 
@@ -78,12 +78,12 @@ const SearchPriceRange = () => {
 
   // 선분의 위치를 계산하기 위한 스타일
   const lineStyle = {
-    position: "absolute",
+    position: 'absolute',
     left: `${sliderValue}%`,
-    top: "20px",
-    width: "2px",
-    height: "50px",
-    backgroundColor: "black",
+    top: '20px',
+    width: '2px',
+    height: '50px',
+    backgroundColor: 'black',
   };
 
   return (

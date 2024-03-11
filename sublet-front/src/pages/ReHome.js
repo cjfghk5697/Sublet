@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 
 export default function ReHome(props) {
-  const typing_element = document.querySelector(".somthingAwesome");
-  const intro_content = "뭔가 멋있는 텍스트나 애니메이션";
+  const typing_element = document.querySelector('.somthingAwesome');
+  const intro_content = '뭔가 멋있는 텍스트나 애니메이션';
 
   let idx = 0;
   function typing() {
@@ -10,14 +10,14 @@ export default function ReHome(props) {
       typing_element.innerHTML += intro_content[idx];
       idx += 1;
       if (idx >= intro_content.length) {
-        typing_element.innerHTML = "";
+        typing_element.innerHTML = '';
         idx = 0;
         clearInterval(interval);
       }
     }
   }
 
-  let interval = setInterval(typing, 100);
+  const interval = setInterval(typing, 100);
 
   return (
     <>

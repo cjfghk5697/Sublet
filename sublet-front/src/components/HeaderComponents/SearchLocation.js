@@ -1,30 +1,30 @@
-import React, { useState, useRef } from "react";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useSearchLocationStore } from "../../store/HeaderStore/searchLocationStore.js";
-import * as headerStyle from "../styles/Header.styles.js";
-import { LocationInput } from "../Input/LocationInput.js";
+import React, {useState, useRef} from 'react';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {useSearchLocationStore} from '../../store/HeaderStore/searchLocationStore.js';
+import * as headerStyle from '../styles/Header.styles.js';
+import {LocationInput} from '../Input/LocationInput.js';
 
 const SearchLocation = (props) => {
-  const { searchLocation, setSearchLocation } = useSearchLocationStore();
+  const {searchLocation, setSearchLocation} = useSearchLocationStore();
   const [tempPos, setTempPos] = useState(searchLocation); // 실제 값은 priceRange에 저장 // 추후 위치 기반으로 초기화.
   const [isListVisible, setIsListVisible] = useState(false);
   const buttonRef = useRef(null);
 
   const styles = {
     locationStyle: {
-      backgroundColor: "white",
-      border: "1px solid black",
-      position: "absolute",
-      width: "20em",
+      backgroundColor: 'white',
+      border: '1px solid black',
+      position: 'absolute',
+      width: '20em',
       top: `${
-        buttonRef.current
-          ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
-          : 0
+        buttonRef.current ?
+          buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
+          0
       }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
-      padding: "0 1em 0 1em",
+      padding: '0 1em 0 1em',
       zIndex: 101,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
   };
 

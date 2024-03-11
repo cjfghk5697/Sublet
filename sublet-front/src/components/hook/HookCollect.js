@@ -1,18 +1,18 @@
-import { useEffect, useState, useRef } from "react";
+import {useEffect, useState, useRef} from 'react';
 
 export const useTitle = (initialTitle) => {
-  /*사용법
+  /* 사용법
   탭 이름 변경하는 거임. loading 전까지는 loading 탭으로 주고
   만약 loading이 끝나면 타이틀로 바꾸는 거임
   */
-  const [title, setTitle] = useState(initialTitle)
+  const [title, setTitle] = useState(initialTitle);
   const updateTitle = () => {
-    const htmlTitle = document.querySelector('title')
-    htmlTitle.innerText = title
-  }
+    const htmlTitle = document.querySelector('title');
+    htmlTitle.innerText = title;
+  };
   useEffect(updateTitle, [title]);
-  return setTitle
-}
+  return setTitle;
+};
 
 // export const useClick = (onClick) => {
 //   /* 사용법
@@ -21,7 +21,7 @@ export const useTitle = (initialTitle) => {
 //   <h1 ref={x}> </h1>
 //   위와 같이 설정하면 h1에 있는걸 클릭하면 자동으로 listener를 추가해줌.
 
-//   이 함수는 useEffect로 component가 Mount일때 실행하고, 
+//   이 함수는 useEffect로 component가 Mount일때 실행하고,
 //   unmount일때 이 리스너를 삭제할거임.
 //   */
 //   if (typeof onClick !== "function") {
@@ -40,8 +40,8 @@ export const useTitle = (initialTitle) => {
 //   }, [])
 //   return element;
 // }
-export const useConfirm = (message = "", onConfirm, onRejection) => {
-  /*사용법
+export const useConfirm = (message = '', onConfirm, onRejection) => {
+  /* 사용법
   사용자가 뭔가를 삭제, 취소할때 "삭제하시겠습니까?" 물어보는 용도임.
   */
   if (!onConfirm || typeof onConfirm !== 'function') {
@@ -56,23 +56,23 @@ export const useConfirm = (message = "", onConfirm, onRejection) => {
     } else {
       onRejection();
     }
-  }
+  };
   return confirmAction;
 };
 
 export const usePreventLeave = () => {
-  /* 
+  /*
   API에 뭔갈 보냈고 사람들이 닫지 않게하기위한거임. 만약 닫으려한다면 진행중인데 닫을거냐고 물어볼거임.
   beforeunload가 막아주는 거임.
    */
   const listener = (event) => {
     event.preventDefault();
-    event.returnValue = "";
-  }
-  const enablePrevent = () => window.addEventListener("beforeunload", listener)
-  const disablePrevent = () => window.addEventListener("beforeunload", listener)
-  return { enablePrevent, disablePrevent };
-}
+    event.returnValue = '';
+  };
+  const enablePrevent = () => window.addEventListener('beforeunload', listener);
+  const disablePrevent = () => window.addEventListener('beforeunload', listener);
+  return {enablePrevent, disablePrevent};
+};
 
 // export const useBeforeLeave = (onBefore) => {
 //   /*
@@ -152,20 +152,20 @@ export const useScroll = () => {
   */
   const [state, setState] = useState({
     x: 0,
-    y: 0
+    y: 0,
   });
 
   const onScroll = () => {
-    setState({ y: window.scrollY, x: window.scrollX })
-  }
+    setState({y: window.scrollY, x: window.scrollX});
+  };
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
     return () => {
-      window.removeEventListener("scroll", onScroll)
-    }
-  }, [])
-  return state
-}
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+  return state;
+};
 
 export const useFullscreen = (callback) => {
   /*
@@ -177,61 +177,61 @@ export const useFullscreen = (callback) => {
   </div?
   */
 
-  const runCb = isFull => {
-    if (callback && typeof callback === "function") {
-      callback(isFull)
+  const runCb = (isFull) => {
+    if (callback && typeof callback === 'function') {
+      callback(isFull);
     }
-  }
-  const element = useRef()
+  };
+  const element = useRef();
   const triggerFull = () => {
     if (element.current) {
       if (element.current.requestFullscreen) {
-        element.current.requestFullScreent()
+        element.current.requestFullScreent();
       } else if (element.current.mozRequestFullScreen) {
-        element.current.mozRequestFullScreen()
+        element.current.mozRequestFullScreen();
       } else if (element.current.webkitRequestFullScreent) {
-        element.current.webkitRequestFullScreent()
+        element.current.webkitRequestFullScreent();
       } else if (element.current.msRequestFullScreen) {
-        element.current.msRequestFullScreen()
+        element.current.msRequestFullScreen();
       }
 
-      runCb(true)
+      runCb(true);
     }
-  }
+  };
   const exitFull = () => {
-    document.exitFullscreen()
+    document.exitFullscreen();
 
     if (document.exitFullscreen) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else if (document.mozCancelFullScreent) {
-      document.mozCancelFullScreent()
+      document.mozCancelFullScreent();
     } else if (document.webkitExitFullScreent) {
-      document.webkitExitFullScreent()
+      document.webkitExitFullScreent();
     } else if (document.msExitFullScreen) {
-      document.msExitFullScreen()
+      document.msExitFullScreen();
     }
-    runCb(false)
-  }
-  return { element, triggerFull, exitFull }
-}
+    runCb(false);
+  };
+  return {element, triggerFull, exitFull};
+};
 
 export const useInput = (intialValue, validator) => {
-  /*사용법
+  /* 사용법
   1. 초기값, input value 검증할 함수 넣기. 예시로 글자수 10자 제한
   2. return value는 x=useInput('x', valid)하고  <input {...name} /> 넣으면 onChange event와 value 두마리 토끼 잡을수 있음.
    */
-  const [value, setValue] = useState(intialValue)
-  const onChange = event => {
+  const [value, setValue] = useState(intialValue);
+  const onChange = (event) => {
     const {
-      target: { value }
+      target: {value},
     } = event;
     let willUpdate = true;
-    if (typeof validator === "function") {
-      willUpdate = validator(value)
+    if (typeof validator === 'function') {
+      willUpdate = validator(value);
     }
     if (willUpdate) {
-      setValue(value)
+      setValue(value);
     }
-  }
-  return { value, onChange }
-}
+  };
+  return {value, onChange};
+};
