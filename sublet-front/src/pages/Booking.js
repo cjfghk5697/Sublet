@@ -1,20 +1,20 @@
-import {CalulateDate, getDateDiff, priceToString} from '../components/StaticComponents';
-import {bookingPopUpStore} from '../components/store/booking';
+import { CalulateDate, getDateDiff, priceToString } from '../components/StaticComponents';
+import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
 import * as w from '../components/styles/Wrapper.style';
 import * as s from '../components/styles/SummaryBlock.styles';
-import {FetchReservationPost} from '../components/FetchList';
+import { FetchReservationPost } from '../components/FetchList';
 import PaymentForm from '../components/bookingComponents/Payment.js';
-import {useState} from 'react';
+import { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {Box, TextField} from '@mui/material';
-import {useTitle} from '../components/hook/HookCollect';
+import { Box, TextField } from '@mui/material';
+import { useTitle } from '../components/hook/HookCollect';
 
 export default function Booking(user_id) {
   useTitle('예약하기 | ItHome');
-  const {temp_start_day, temp_end_day, day_pay, total_pay, post_key} = bookingPopUpStore((state) => ({
+  const { temp_start_day, temp_end_day, day_pay, total_pay, post_key } = bookingPopUpStore((state) => ({
     temp_start_day: state.temp_start_day,
     temp_end_day: state.temp_end_day,
     day_pay: state.day_pay,
@@ -138,9 +138,9 @@ export default function Booking(user_id) {
         </div>
         <div className="mt-4" fullWidth>
           {
-            checkState ? (<s.black_upload_button onClick={handlePostReservation}>예약하기</s.black_upload_button>
+            checkState ? (<s.black_upload_button onClick={handlePostReservation}>결제하기</s.black_upload_button>
             ) :
-              (<s.black_upload_button_disabled disabled>예약하기</s.black_upload_button_disabled>
+              (<s.black_upload_button_disabled disabled>결제하기</s.black_upload_button_disabled>
               )
           }
         </div>
