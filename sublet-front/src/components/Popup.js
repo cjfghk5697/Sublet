@@ -949,12 +949,6 @@ export const PostUploadDialog = (props) => {
   const [refundPolicy, setRefundPolicy] = useState('환불정책');
   const [contract, setContract] = useState('계약'); // ?
 
-  async function fetchUser() {
-    const user = await GetMyUser();
-    return user;
-  }
-  const user = fetchUser();
-
   const handleClose = () => confirmAction();
 
   const confirmAction = async () => {

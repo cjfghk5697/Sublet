@@ -513,4 +513,39 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export {VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost};
+const toggleLikes = (item, likes, setLikes) => () => {
+  if (!(item.key in likes)) {
+    setLikes({ ...likes, [item.key]: item });
+    fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
+      method: 'POST',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "post_key": item.key,
+      }),
+    }) // .then(response => response.json()).then(data => console.log(data));
+  }
+  else {
+    let newLikes = {}
+    Object.keys(likes).map(newItem => {
+      if (likes[newItem].key !== item.key) {
+        newLikes = { ...newLikes, [newItem]: likes[newItem] }
+      }
+    })
+    setLikes(newLikes)
+    fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
+      method: 'DELETE',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "post_key": item.key,
+      }),
+    }) // .then(response => response.json()).then(data => console.log(data));
+  }
+}
+
+export { VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost, toggleLikes }
