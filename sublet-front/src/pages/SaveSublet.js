@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from "react";
 import Header from '../components/Header';
 import Map from '../components/Map';
-import {SubletPostStore} from '../store/SubletPostStore';
 import PinDropIcon from '@mui/icons-material/PinDrop';
-import styled from 'styled-components';
+import styled from "styled-components";
+import { useUserInfoStore } from "../store/UserInfoStore.js";
+import { toggleLikes } from '../components/FetchList.js';
 
 const HoverBtnDiv = styled.div`
   margin: 0 0 0 0;
@@ -72,15 +73,33 @@ function SubletInfo(props) {
 }
 
 export default function SaveSublet(props) {
-  const {page, asyncGetPost, asyncGetPostAll} = SubletPostStore((state) => ({page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll}));
-  const {post, postExist, postAll} = SubletPostStore((state) => ({post: state.post, postExist: state.postExist, postAll: state.postAll}));
+
+  const { userInfo } = useUserInfoStore();
+  const [likes, setLikes] = useState({});
+  const [roomInfo, setRoomInfo] = useState([]);
 
   useEffect(() => {
-    // asyncGetPost(page);
-    if (!postExist) {
-      asyncGetPostAll();
+    function fetchData() {
+      userInfo.likes.map((itemKey) => {
+        setLikes({ ...likes, [itemKey]: itemKey });
+      }
+      )
     }
+    fetchData();
+
+    const fetchRoomsDefault = async () => {
+      let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${6}&page=${1}`);
+      let data = await res.json();
+      setRoomInfo(data);
+    }
+    fetchRoomsDefault();
+
+    // let res = await fetch(process.env.REACT_APP_BACKEND_URL + `/post/${2}`);
+    // let data = await res.json();
+    // setRoomsData([...roomsData, ...data]);
+    // setListPageAmount(listPageAmount + 1);
   }, []);
+
 
   useEffect(() => {
   }, [postAll[0]?.marker]);
@@ -101,7 +120,7 @@ export default function SaveSublet(props) {
             },
           }}>
             <div className="flex flex-col space-y-4">
-              {postExist && postAll?.map((ele) => <SubletInfo
+              {roomInfo?.map((ele) => <SubletInfo
                 key={ele.key}
                 id={ele.key}
                 title={ele.title}
@@ -120,7 +139,7 @@ export default function SaveSublet(props) {
             </div>
           </div>
           <div className="col-span-1">
-            {postExist && <Map />}
+            {roomInfo && <Map />}
           </div>
         </div>
       </div>
