@@ -15,22 +15,15 @@ export default function Home() {
 	const [listRoomAmount, setListRoomAmount] = useState(6);
 	const [listPageAmount, setListPageAmount] = useState(1);
 
-	const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
-		fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
-			.then((ele) => ele.json())
-			.then((ele) => setPreRoomsData(ele));
-		if (preRoomsData.length !== 0)
-			setRoomsData([...roomsData, ...preRoomsData]);
-		setListPageAmount(listPageAmount + 1);
-	}
-	useTitle("Sublet| 딱 맞는 숙소를 찾아봐요.")
-
-	const fetchRoomsFilters = (filters) => {
-		fetch('http://localhost:3000/post/filter?queryParam=value') // 적절한 쿼리 파라미터를 사용하세요
-			.then(response => response.json())
-			.then(data => setRoomsData(data))
-			.catch(error => console.error('Error fetching data:', error));
-	}
+  const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
+    fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
+      .then((ele) => ele.json())
+      .then((ele) => setPreRoomsData(ele));
+    if (preRoomsData.length !== 0)
+      setRoomsData([...roomsData, ...preRoomsData]);
+    setListPageAmount(listPageAmount + 1);
+  }
+  useTitle("ItHome | 딱 맞는 숙소를 찾아봐요.")
 
 	useEffect(() => {
 		async function fetchData() {
@@ -45,33 +38,41 @@ export default function Home() {
 		fetchData();
 	}, []);
 
-	const toggleLikes = (item) => () => {
-		if (item.key in likes) {
-			let newLikes = {}
-			Object.keys(likes).map(newItem => {
-				if (likes[newItem].key !== item.key) {
-					newLikes = { ...newLikes, [newItem]: likes[newItem] }
-				}
-			})
-			setLikes(newLikes)
-			/*
-			fetch(`http://REACT_APP_BACKEND_URL:8098/likes/${item.key}`, {
-				method: 'DELETE',
-			})
-			*/
-		}
-		else
-			setLikes({ ...likes, [item.key]: item })
-		/*
-		let result = fetch(`http://localhost:8098/likes`, {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(item),
-		})
-		*/
-	}
+  const toggleLikes = (item) => () => {
+    if (item.key in likes) {
+      let newLikes = {}
+      Object.keys(likes).map(newItem => {
+        if (likes[newItem].key !== item.key) {
+          newLikes = { ...newLikes, [newItem]: likes[newItem] }
+        }
+      })
+      setLikes(newLikes)
+      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
+        method: 'DELETE',
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "post_key": item.key,
+        }),
+      }) // .then(response => response.json()).then(data => console.log(data));
+    }
+    else {
+      setLikes({ ...likes, [item.key]: item });
+      console.log(item.key, typeof item.key);
+      fetch(process.env.REACT_APP_BACKEND_URL + "/post/like", {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "post_key": item.key,
+        }),
+      }) // .then(response => response.json()).then(data => console.log(data));
+    }
+  }
 
 	const styles = {
 		container: {
@@ -111,18 +112,18 @@ export default function Home() {
 		<RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} />
 	));
 
-	const RequirementSubmitAndCommunityFind = () => {
-		return (
-			<div style={styles.topButtonsContainer}>
-				<Button component={Link} to="/" style={styles.topButtons}>
-					요청서 제출하기
-				</Button>
-				<Button component={Link} to="/" style={styles.topButtons}>
-					같은 커뮤니티 확인하기
-				</Button>
-			</div>
-		)
-	}
+  const RequirementSubmitAndCommunityFind = () => {
+    return (
+      <div style={styles.topButtonsContainer}>
+        <Button component={Link} to="/Request" style={styles.topButtons}>
+          요청서 제출하기
+        </Button>
+        <Button component={Link} to="/" style={styles.topButtons}>
+          같은 커뮤니티 확인하기
+        </Button>
+      </div>
+    )
+  }
 
 	return (
 		<>
@@ -145,9 +146,6 @@ export default function Home() {
 					}
 				</div>
 			</div>
-
-
 		</>
-
 	);
 }

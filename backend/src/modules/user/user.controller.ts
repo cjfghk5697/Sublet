@@ -18,7 +18,16 @@ import {
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserEmailVerifyDto,
+  UserFilterDto,
+  UserLoginDto,
+  UserResetPassword,
+  UserTokenVerifyUpdateDto,
+  UserUpdateDto,
+  UserVerifyUpdateDto,
+} from '@/dto/user.dto';
 import { customRequest } from '@/interface/user.interface';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -26,7 +35,27 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  @Put('image')
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadProfile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: customRequest,
+  ) {
+    if (!file) {
+      console.log(
+        "[user.controller:uploadProfile] file is empty, we're assuming bad request",
+      );
+      throw new BadRequestException();
+    }
+    try {
+      const res = await this.userService.uploadProfile(req.user.user_id, file);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:uploadProfile] error: ', e);
+      throw new NotFoundException();
+    }
+  }
   @UseGuards(LoggedInGuard)
   @Get()
   async getAllUser(@Req() req: customRequest) {
@@ -55,31 +84,11 @@ export class UserController {
       throw new NotFoundException();
     }
   }
-  @Put('image')
-  @UseGuards(LoggedInGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadProfile(
-    @UploadedFile() file: Express.Multer.File,
-    @Req() req: customRequest,
-  ) {
-    if (!file) {
-      console.log(
-        "[user.controller:uploadProfile] file is empty, we're assuming bad request",
-      );
-      throw new BadRequestException();
-    }
+
+  @Get('post/:user_id')
+  async getUserPost(@Param('user_id') user_id: string) {
     try {
-      const res = await this.userService.uploadProfile(req.user.user_id, file);
-      return res;
-    } catch (e) {
-      console.log('[user.controller:uploadProfile] error: ', e);
-      throw new NotFoundException();
-    }
-  }
-  @Get('post')
-  async getUserPost(@Req() req: customRequest) {
-    try {
-      const res = await this.userService.getUserPostByKey(req.user.user_id);
+      const res = await this.userService.getUserPostByKey(user_id);
       return res;
     } catch (e) {
       console.log('[user.controller:getUserPost] error: ', e);
@@ -105,6 +114,34 @@ export class UserController {
     }
   }
 
+  @Put('verifyupdate')
+  @UseGuards(LoggedInGuard)
+  async putVerifyUser(
+    @Body() putUserBody: UserVerifyUpdateDto,
+    @Req() req: customRequest,
+  ) {
+    try {
+      const res = await this.userService.putVerifyUser(
+        req.user.user_id,
+        putUserBody,
+      );
+      return res;
+    } catch (e) {
+      console.log('[user.controller:putVerifyUser] error: ', e);
+      throw new NotFoundException();
+    }
+  }
+
+  @Put('changepassword')
+  async putChangePassword(@Body() putUserBody: UserLoginDto) {
+    try {
+      const res = await this.userService.putChangePassword(putUserBody);
+      return res;
+    } catch (e) {
+      console.log('[user.controller:putChangePassword] error: ', e);
+      throw new NotFoundException();
+    }
+  }
   @Get(':user_id')
   async getOneUser(@Param('user_id') user_id: string) {
     try {
@@ -114,6 +151,27 @@ export class UserController {
       console.log('[user.controller:getOneUser] error: ', e);
       throw new NotFoundException();
     }
+  }
+
+  @Post('email')
+  async verifyEmail(@Body() data: UserEmailVerifyDto) {
+    await this.userService.verifyTokenEmail(data.email);
+  }
+
+  @Post('verifyUser')
+  @UseGuards(LoggedInGuard)
+  async verifyUser(
+    @Req() req: customRequest,
+    @Body() data: UserTokenVerifyUpdateDto,
+  ) {
+    const res = await this.userService.verifyUser(req.user.user_id, data);
+    return res;
+  }
+
+  @Post('resetpassword')
+  async resetPassword(@Body() data: UserResetPassword) {
+    const res = await this.userService.verifyUser(data.user_id, data);
+    return res;
   }
 
   @Post()

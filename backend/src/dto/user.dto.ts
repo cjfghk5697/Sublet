@@ -1,10 +1,19 @@
-import { UserBase, UserPartialBase } from '@/interface/user.interface';
+import {
+  UserBase,
+  UserPartialBase,
+  VerifyInterface,
+} from '@/interface/user.interface';
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsPhoneNumber,
   IsStrongPassword,
   IsOptional,
   IsString,
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsInt,
 } from 'class-validator';
 
 export class UserCreateDto extends UserBase {
@@ -19,6 +28,16 @@ export class UserCreateDto extends UserBase {
 
   @IsString()
   school: string; //어디 학교인지
+
+  @IsString()
+  gender: string;
+
+  @IsDateString()
+  birth: string | Date;
+
+  @IsNumber()
+  @IsInt()
+  student_id: number;
 }
 
 export class UserUpdateDto extends UserPartialBase {
@@ -40,13 +59,78 @@ export class UserUpdateDto extends UserPartialBase {
 
   @IsOptional()
   @IsString()
-  image_id: string;
+  image_id?: string;
+
+  @IsOptional()
+  @IsString()
+  gender?: string;
+
+  @IsOptional()
+  @IsDateString()
+  birth?: string | Date;
+
+  @IsOptional()
+  @IsNumber()
+  @IsInt()
+  student_id?: number;
+}
+
+export class UserVerifyUpdateDto extends UserPartialBase {
+  @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  verify_school?: boolean;
+
+  @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  verify_email?: boolean;
+
+  @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  verify_phone?: boolean;
+}
+export class UserTokenVerifyUpdateDto extends UserVerifyUpdateDto {
+  @IsString()
+  tokenKey: string;
+
+  @IsNumber()
+  verifyToken: number;
+}
+export class UserResetPassword extends UserTokenVerifyUpdateDto {
+  @IsString()
+  user_id: string;
 }
 
 export class UserFilterDto {
   @IsOptional()
   @IsString()
   school?: string;
+
+  @IsOptional()
+  @IsString()
+  gender?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsInt()
+  student_id?: number;
 }
 
 export class UserLoginDto {
@@ -56,3 +140,5 @@ export class UserLoginDto {
   @IsStrongPassword()
   password: string;
 }
+
+export class UserEmailVerifyDto extends VerifyInterface {}

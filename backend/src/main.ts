@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { env } from 'process';
 import * as bodyParser from 'body-parser';
+import { MongoIoAdapter } from './modules/events/mongo.adapter';
 
 async function bootstrap() {
   // const fs = require('fs');
@@ -10,14 +11,13 @@ async function bootstrap() {
   //   key: fs.readFileSync('./key.pem'),
   //   cert: fs.readFileSync('./cert.pem'),
   // };
-
   // const app = await NestFactory.create(AppModule, {
   //   cors: true,
   //   httpsOptions,
   // });
   const app = await NestFactory.create(AppModule);
-  app.use(bodyParser.json({ limit: '8mb' }));
-  app.use(bodyParser.urlencoded({ limit: '8mb', extended: true }));
+  app.use(bodyParser.json({ limit: '100mb' }));
+  app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -36,6 +36,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
-  await app.listen(4000);
+
+  const mongoIoAdapter = new MongoIoAdapter(app);
+  await mongoIoAdapter.connectToMongo();
+  await app.listen(Number(env.BACKEND_PORT as string));
 }
 bootstrap();

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
-function FetchPost() {
+function FetchPost(user_id) {
   const [postInfo, setPostInfo] = useState([]);
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/post/${user_id}`
+
   const getPostInfo = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -13,7 +15,7 @@ function FetchPost() {
 
     const json = await (
       await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/post`
+        URL
         , requestOptions)
     ).json();
 
@@ -166,7 +168,7 @@ function DeletePost(key) {
   DeletePost()
 }
 
-function Login({ id, password }) {
+function FetchLogin({ id, password, setUserInfo }) {
   const login = async () => {
     const requestOptions = {
       credentials: 'include',
@@ -177,21 +179,31 @@ function Login({ id, password }) {
       body: JSON.stringify({
         id: id,
         password: password
-      }),
-      path: '/'
+      })
     };
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
-      .then(res => res.json())
-      .then(response => {
-        console.log('result login', response)
-      })
-      .catch((e) => {
-        console.log('[error] login', e)
-      })
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, requestOptions)
+      .then(res => res.json());
+
+    if (response.ok) {
+      console.log(response.ok);
+      const userInfoResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/profile`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json());
+
+      setUserInfo(userInfoResponse); // 이 부분에서 로그인한 사용자의 정보를 설정합니다.
+      console.log(userInfoResponse);
+    }
+    else {
+      console.log('[error] login', response)
+    }
   };
-  login()
+  login();
 }
+
 
 function Logout() {
   const logout = async () => {
@@ -223,11 +235,63 @@ async function FetchImage(formData) {
     body: formData
   };
 
-  await (
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/image`
-      , requestOptions)
-  ).json();
+  return await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/user/image`
+    , requestOptions)
+
+}
+
+async function GetMyUser() {
+  const [userInfo, setUserInfo] = useState();
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`
+
+  const getUserInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    const json = await (
+      await fetch(
+        URL, requestOptions)
+    ).json();
+    setUserInfo(json)
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  return (userInfo);
+}
+
+
+async function GetOneUser(user_id) {
+  const [loading, setLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState();
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${user_id}`
+
+  const getUserInfo = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    const json = await (
+      await fetch(
+        URL, requestOptions)
+    ).json();
+    setLoading(true)
+    setUserInfo(json)
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  return { userInfo, loading }
 }
 
 function FetchGetRequest() {
@@ -257,6 +321,40 @@ function FetchGetRequest() {
   const request = Array.from(requestInfo)
 
   return request
+}
+
+function SignUp({ user_id, password, username, email, phone, school, gender, birth, student_id }) {
+  const SignUp = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        password: password,
+        username: username,
+        email: email,
+        phone: phone,
+        school: school,
+        gender: gender,
+        birth: birth,
+        student_id: student_id
+      }),
+      path: '/'
+    };
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/`, requestOptions)
+      .then(res => res.json())
+      .then(response => {
+        console.log('result signup', response)
+      })
+      .catch((e) => {
+        console.log('[error] signup', e)
+      })
+  };
+  SignUp()
 }
 
 function FetchGetRequestByRequestId(id_list) {
@@ -290,6 +388,89 @@ function FetchGetRequestByRequestId(id_list) {
 
   return request
 
+}
+async function VerifyEmail({ email }) {
+
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    credentials: 'include',
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+      { email: email },
+    ),
+  }
+
+  return await fetch(link, requestOptions)
+    .then(res => {
+      const json = res
+      if (json.ok) {
+        console.log('전송 완료')
+      } else {
+        throw new Error(`${res.status} 에러가 발생했습니다.`)
+      }
+    })
+    .catch((e) => {
+      throw new Error('[error] verify', e)
+    })
+
+}
+
+async function VerifyUser({ method, tokenKey, verifyToken }) {
+  //학교 인증은 우리가 확인(김과외처럼)
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/verifyUser`
+  const json = {
+    "verify_email": method === 'email' ? 'true' : 'false',
+    "verify_phone": method === 'phone' ? 'true' : 'false',
+    "tokenKey": tokenKey,
+    "verifyToken": verifyToken,
+  }
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    method: "POST",
+    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+      json
+    )
+  };
+
+  return await fetch(link, requestOptions)
+}
+async function ResetPassword({ user_id, tokenKey, verifyToken }) {
+  //학교 인증은 우리가 확인(김과외처럼)
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    method: "POST",
+    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: user_id,
+      tokenKey: tokenKey,
+      verifyToken: verifyToken
+    }
+    )
+  };
+
+  return await fetch(link, requestOptions)
+}
+async function ChangePassword({ user_id, new_password }) {
+  //학교 인증은 우리가 확인(김과외처럼)
+  const link = `${process.env.REACT_APP_BACKEND_URL}/user/changepassword`
+
+  const requestOptions = {      //sendEmail 라우터로 보내버리기
+    method: "PUT",
+    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: user_id,
+      password: new_password,
+    }
+    )
+  };
+
+  return await fetch(link, requestOptions)
 }
 
 async function DeleteRequest(key_num) {
@@ -338,4 +519,4 @@ function ConnectRequestPost(resquset_key, post_key) {
   };
 }
 
-export { Login, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }
+export { VerifyUser, ResetPassword, ChangePassword, SignUp, VerifyEmail, GetMyUser, GetOneUser, FetchLogin, DeleteRequest, FetchGetRequest, Logout, FetchDeleteReservation, FetchGetRequestByRequestId, FetchReservation, FetchPost, FetchReservationByPostKey, DeletePost, FetchImage, FetchReservationPost, ConnectRequestPost }

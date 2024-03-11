@@ -68,7 +68,7 @@ describe('AppController (e2e)', () => {
       .expect(201)
       .expect(({ body }) => {
         post = {
-          ...postExportStub(),
+          ...postExportStub(body.postuser.id),
           image_id: body.image_id,
           key: body.key,
           post_date: body.post_date,
@@ -149,10 +149,10 @@ describe('AppController (e2e)', () => {
     it('cannot login to non-existing user', async () => {
       await request(app.getHttpServer())
         .get(`/user/${userCreateStub().user_id}`)
+        .expect(404)
         .expect(({ body }) => {
-          console.log(body);
-        })
-        .expect(404);
+          expect(body).toStrictEqual({ message: 'Not Found', statusCode: 404 });
+        });
 
       return request(app.getHttpServer())
         .post('/auth/login')
@@ -486,7 +486,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toStrictEqual({
-            ...postExportStub(),
+            ...postExportStub(body.postuser.id),
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,
@@ -513,7 +513,7 @@ describe('AppController (e2e)', () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toStrictEqual({
-            ...postExportStub(),
+            ...postExportStub(body.postuser.id),
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,

@@ -27,7 +27,7 @@ const RoomProfile = ({ room, toggleLikes, likes }) => {
   };
 
   const moveToRoomInfo = ({ room }) => { // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
-    navigate('/roominfo', {
+    navigate(`/roominfo/${room.key}`, {
       room: room,
     });
   };

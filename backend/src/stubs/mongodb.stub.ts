@@ -1,7 +1,12 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
 import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
-import { UserCreateDto, UserFilterDto, UserUpdateDto } from '@/dto/user.dto';
+import {
+  UserCreateDto,
+  UserFilterDto,
+  UserTokenVerifyUpdateDto,
+  UserUpdateDto,
+} from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { RequestBase, RequestInterface } from '@/interface/request.interface';
@@ -22,12 +27,20 @@ export const userStub = (): UserInterface => {
     school: 'ABC Univ',
     id_card: false,
     image_id: 'default',
+    like_post_id: [],
+    gender: '남',
+    birth: '2024-01-10T00:00:00.000Z',
+    student_id: 21,
+    verify_school: false,
+    verify_email: false,
+    verify_phone: false,
+    chat_id: [],
   };
 };
 
-export const userExportStub = (): UserExportInterface => {
+export const userExportStub = (user_id?: string): UserExportInterface => {
   return {
-    id: userStub().id,
+    id: user_id ? user_id : userStub().id,
     phone: userStub().phone,
     school: userStub().school,
     username: userStub().username,
@@ -35,6 +48,14 @@ export const userExportStub = (): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
+    like_post_id: [],
+    gender: userStub().gender,
+    birth: userStub().birth,
+    student_id: userStub().student_id,
+    verify_school: userStub().verify_school,
+    verify_email: userStub().verify_email,
+    verify_phone: userStub().verify_phone,
+    chat_id: userStub().chat_id,
   };
 };
 
@@ -72,7 +93,7 @@ export const postCreateStub = (): PostCreateDto => {
   };
 };
 
-export const postExportStub = (): PostExportInterface => {
+export const postExportStub = (user_id?: string): PostExportInterface => {
   const createStub = postCreateStub();
 
   return {
@@ -86,6 +107,9 @@ export const postExportStub = (): PostExportInterface => {
     private: false,
     request: false,
     requestIDs: [],
+    like_count: 0,
+    like_user_id: [],
+    postuser: userExportStub(user_id),
   };
 };
 
@@ -95,6 +119,7 @@ export const postStub = (): PostInterface => {
     id: 'mocked-id',
     deleted: false,
     version: 1,
+    postuser: userStub(),
   };
 };
 
@@ -139,8 +164,12 @@ export const userCreateStub = (): UserCreateDto => {
     password: 'Mocked-password1)',
     school: userStub().school,
     user_id: 'mocked-user_id',
+    gender: '남',
+    birth: userStub().birth,
+    student_id: 21,
   };
 };
+
 export const userUpdateStub = (): UserUpdateDto => {
   return {
     username: 'mocked-username',
@@ -150,6 +179,15 @@ export const userUpdateStub = (): UserUpdateDto => {
     school: 'ABC univ',
     user_id: 'mocked-user_id',
     image_id: 'second image',
+  };
+};
+export const userVerifyUpdateStub = (): UserTokenVerifyUpdateDto => {
+  return {
+    tokenKey: 'mocked@mocked.com',
+    verifyToken: 123456,
+    verify_school: true,
+    verify_email: false,
+    verify_phone: false,
   };
 };
 
@@ -206,6 +244,7 @@ export const requestCreateStub = (): RequestBase => {
     alarm: true,
     school: '아주대',
     complete: false,
+    request_text: 'mock-post-text',
   };
 };
 
@@ -228,6 +267,7 @@ export const requestStub = (): RequestDto => {
     alarm: true,
     school: '아주대',
     complete: false,
+    request_text: 'mock-post-text',
   };
 };
 export const requestInterfaceStub = (): RequestInterface => {
@@ -251,12 +291,13 @@ export const requestInterfaceStub = (): RequestInterface => {
     alarm: true,
     school: '아주대',
     complete: true,
+    request_text: 'mock-post-text',
     User: {
-      ...userExportStub(),
+      ...userStub(),
     },
     Post: [
       {
-        ...postExportStub(),
+        ...postStub(),
       },
     ],
   };

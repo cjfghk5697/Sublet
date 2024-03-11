@@ -18,11 +18,22 @@ model User {
   email            String        @unique
   phone            String        @unique
   reservation_post Reservation[]
-  Post             Post[]
+  post             Post[]
   delete           Boolean       @default(false)
   Request          RequestForm[]
   school           String        @default("무소속")
   id_card          Boolean       @default(false)
+  chat_id          String[]      @db.ObjectId
+  chat_room        ChatRoom[]    @relation(fields: [chat_id], references: [id])
+  Chat             Chat[]
+  like_post_id     String[]      @db.ObjectId
+  like_post        Post[]        @relation("like", fields: [like_post_id], references: [id])
+  verify_school    Boolean       @default(false)
+  verify_email     Boolean       @default(false)
+  verify_phone     Boolean       @default(false)
+  birth            DateTime      @db.Date
+  student_id       Int
+  gender           String
 }
 
 model Post {
@@ -66,8 +77,12 @@ model Post {
   street_number     String
   post_code         String
   local_save        Boolean       @default(false)
+  ChatRoom          ChatRoom[]
   RequestForm       RequestForm[] @relation(fields: [requestIDs], references: [id])
   requestIDs        String[]      @db.ObjectId
+  like_count        Int           @default(0)
+  like_user_id      String[]      @db.ObjectId
+  like_user         User[]        @relation("like", fields: [like_user_id], references: [id])
 }
 
 model IncrementKey {
@@ -109,6 +124,7 @@ model RequestForm {
   Post              Post[]   @relation(fields: [postId], references: [id])
   postId            String[] @db.ObjectId
   complete          Boolean  @default(false)
+  request_text      String
 }
 
 model Reservation {
@@ -143,4 +159,25 @@ model ProfileImage {
   filename   String
   filetype   String
   image_hash String
+}
+
+model ChatRoom {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  version  Int      @default(1)
+  user_id  String[] @db.ObjectId
+  user     User[]   @relation(fields: [user_id], references: [id])
+  post_key Int
+  post     Post     @relation(fields: [post_key], references: [key])
+  Chat     Chat[]
+}
+
+model Chat {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  version     Int      @default(1)
+  user_id     String   @db.ObjectId
+  user        User     @relation(fields: [user_id], references: [id])
+  chatroom_id String   @db.ObjectId
+  chatroom    ChatRoom @relation(fields: [chatroom_id], references: [id])
+  message     String
+  send_time   DateTime @db.Date @default(now())
 }
