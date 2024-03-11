@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { priceToString } from './StaticComponents.js';
 
-const RoomProfile = ({ room, toggleLikes, likes }) => {
+const RoomProfile = ({ room, toggleLikes, likes, setLikes }) => {
   const navigate = useNavigate();
 
   const styles = {
@@ -55,7 +55,7 @@ const RoomProfile = ({ room, toggleLikes, likes }) => {
             ₩{priceToString(room.price * 30)}/1개월
           </div>
         </span>
-        <IconButton onClick={toggleLikes(room)}>
+        <IconButton onClick={toggleLikes(room, likes, setLikes)}>
           {(likes[room.key] !== undefined) ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
       </div>
