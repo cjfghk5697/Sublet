@@ -4,14 +4,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useTitle } from '../components/hook/HookCollect';
+import { Desktop, Mobile } from '../components/Responsive';
+import { MobileHeader } from '../components/MobileHeader';
 
 export default function Home() {
 
-  const [roomsData, setRoomsData] = useState([]);
-  const [preRoomsData, setPreRoomsData] = useState([]);
-  const [likes, setLikes] = useState({}); // 백엔드 연결 필요.
-  const [listRoomAmount, setListRoomAmount] = useState(6);
-  const [listPageAmount, setListPageAmount] = useState(1);
+	const [roomsData, setRoomsData] = useState([]);
+	const [preRoomsData, setPreRoomsData] = useState([]);
+	const [likes, setLikes] = useState({}); // 백엔드 연결 필요.
+	const [listRoomAmount, setListRoomAmount] = useState(6);
+	const [listPageAmount, setListPageAmount] = useState(1);
 
   const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
     fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
@@ -23,18 +25,18 @@ export default function Home() {
   }
   useTitle("ItHome | 딱 맞는 숙소를 찾아봐요.")
 
-  useEffect(() => {
-    async function fetchData() {
-      let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
-      let data = await res.json();
-      setRoomsData([...roomsData, ...data]);
-      res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount + 1}`);
-      data = await res.json();
-      setPreRoomsData(data);
-      setListPageAmount(listPageAmount + 2);
-    }
-    fetchData();
-  }, []);
+	useEffect(() => {
+		async function fetchData() {
+			let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
+			let data = await res.json();
+			setRoomsData([...roomsData, ...data]);
+			res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount + 1}`);
+			data = await res.json();
+			setPreRoomsData(data);
+			setListPageAmount(listPageAmount + 2);
+		}
+		fetchData();
+	}, []);
 
   const toggleLikes = (item) => () => {
     if (item.key in likes) {
@@ -72,43 +74,43 @@ export default function Home() {
     }
   }
 
-  const styles = {
-    container: {
-      marginBottom: "10rem",
-    },
-    mainContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      width: "auto",
-    },
-    roomContainer: {
-      display: "grid",
-      gridTemplateRows: "1fr ",
-      gridTemplateColumns: "1fr 1fr 1fr",
-      fontSize: '1em',
-    },
-    topButtonsContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      margin: '1rem 0 1rem 0rem',
-      gap: '0.5rem',
-    },
-    topButtons: {
-      backgroundColor: 'black',
-      color: 'white',
-    },
-    requirementSubmitButton: {
-      marginRight: '0.7em',
-    },
-    moreRoomDescription: {
-      marginTop: '3rem',
-    },
-  };
+	const styles = {
+		container: {
+			marginBottom: "10rem",
+		},
+		mainContainer: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			width: "auto",
+		},
+		roomContainer: {
+			display: "grid",
+			gridTemplateRows: "1fr ",
+			gridTemplateColumns: "1fr 1fr 1fr",
+			fontSize: '1em',
+		},
+		topButtonsContainer: {
+			display: 'flex',
+			flexDirection: 'row',
+			margin: '1rem 0 1rem 0rem',
+			gap: '0.5rem',
+		},
+		topButtons: {
+			backgroundColor: 'black',
+			color: 'white',
+		},
+		requirementSubmitButton: {
+			marginRight: '0.7em',
+		},
+		moreRoomDescription: {
+			marginTop: '3rem',
+		},
+	};
 
-  let rooms = roomsData?.map((room) => (
-    <RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} />
-  ));
+	let rooms = roomsData?.map((room) => (
+		<RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} />
+	));
 
   const RequirementSubmitAndCommunityFind = () => {
     return (
@@ -123,24 +125,27 @@ export default function Home() {
     )
   }
 
-  return (
-    <div style={styles.container}>
-      <Header />
-      <div style={styles.mainContainer}>
-        <RequirementSubmitAndCommunityFind />
-        <div style={styles.roomContainer}>
-          {rooms}
-        </div>
-        {
-          preRoomsData.length !== 0
-            ?
-            <Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRoomsDefault}>
-              방 더보기
-            </Button>
-            :
-            <div style={styles.moreRoomDescription}>더 불러올 방이 없습니다..</div>
-        }
-      </div>
-    </div>
-  );
+	return (
+		<>
+			<div style={styles.container}>
+				<Desktop children={<Header />} />
+				<Mobile children={<MobileHeader />} />
+				<div style={styles.mainContainer}>
+					<RequirementSubmitAndCommunityFind />
+					<div style={styles.roomContainer}>
+						{rooms}
+					</div>
+					{
+						preRoomsData.length !== 0
+							?
+							<Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRoomsDefault}>
+								방 더보기
+							</Button>
+							:
+							<div style={styles.moreRoomDescription}>더 불러올 방이 없습니다..</div>
+					}
+				</div>
+			</div>
+		</>
+	);
 }
