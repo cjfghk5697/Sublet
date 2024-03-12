@@ -1,6 +1,7 @@
 import { CalulateDate, getDateDiff, priceToString } from '../components/StaticComponents';
-import { bookingPopUpStore } from '../components/store/booking';
 import * as s from '../components/styles/Public.styles';
+import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
+
 import { FetchReservationPost } from '../components/FetchList';
 import PaymentForm from '../components/bookingComponents/Payment.js';
 import { useState } from 'react';
@@ -137,9 +138,9 @@ export default function Booking(user_id) {
         </div>
         <div className="mt-4" fullWidth>
           {
-            checkState ? (<s.NormalButton onClick={handlePostReservation}>예약하기</s.NormalButton>
+            checkState ? (<s.black_upload_button onClick={handlePostReservation}>결제하기</s.black_upload_button>
             ) :
-              (<s.DisableButton disabled>예약하기</s.DisableButton>
+              (<s.DisableButton disabled>결제하기</s.DisableButton>
               )
           }
         </div>

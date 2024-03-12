@@ -1,3 +1,4 @@
+
 import Header from '../components/Header';
 import * as makeTest from '../testdata/testdata.js';
 import PersonIcon from '@mui/icons-material/Person';
@@ -14,7 +15,10 @@ import * as s from '../components/styles/Public.styles.js';
 import { Dialog, DialogContent } from '@mui/material';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
-
+import { useNavigate } from 'react-router-dom';
+import { bookingPopUpStore } from "../components/store/bookingPopUpStore.js";
+import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
+import { getDateDiff } from '../components/StaticComponents.js';
 
 export default function RoomInfo() {
   const styles = {
@@ -70,6 +74,54 @@ export default function RoomInfo() {
     setNowRoomPost({ ...postAll.find((post) => post.key == nowRoomNum) });
   }, [postExist]);
 
+  //페이지 이동 부분
+  const navigate = useNavigate();
+  const { setStartDay, setEndDay, setDayPay, setTotalPay, setPostKey } = bookingPopUpStore((state) => ({
+    setStartDay: state.setTempStartDayState,
+    setEndDay: state.setTempEndDayState,
+    setDayPay: state.setDayPayState,
+    setTotalPay: state.setTotalPayState,
+    setPostKey: state.setPostKey
+  }))
+  const { searchDate } = useSearchDateStore();
+
+  const IsLogin = async () => {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+
+    const json = await (
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/profile`, requestOptions
+      )
+    ).json();
+
+    if (json.statusCode === 403) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  const moveToBooking = () => {
+    //로그인 되어 있으면 booking.js로 넘기고, 로그인이 안 되어 있으면 로그인 모달 창 띄우기
+    //console.log(IsLogin()); //몰루겟다
+    console.log(IsLogin().then((result) => { return result; }));
+    // if (IsLogin().then((result) => { return result; })) {
+    //   setStartDay(searchDate[0]);
+    //   setEndDay(searchDate[1]);
+    //   setDayPay(nowRoomPost.price);
+    //   setTotalPay(nowRoomPost.price * getDateDiff(searchDate[0], searchDate[1]));
+    //   setPostKey(nowRoomNum);
+    //   navigate(`/booking`);
+    // } else {
+    //   alert('로그인이 필요합니다.');
+    // }
+  }
+
   return (
     <div>
       <Header />
@@ -99,25 +151,25 @@ export default function RoomInfo() {
       {postExist && nowRoomPost &&
         <>
           <div>
-            <s.NormalButton onClick={() => {
+            <s.black_upload_button onClick={() => {
               setSharePopUpState(true);
-            }}>공유하기</s.NormalButton>
+            }}>공유하기</s.black_upload_button>
             <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
               <DialogContent sx={{ height: 224 }} className='text-left'>
                 <form className="flot-right">
-                  <s.SvgHoverButton type="button" name="sharePopUpState" onClick={() => {
+                  <s.change_button type="button" name="sharePopUpState" onClick={() => {
                     setSharePopUpState(false);
                   }}>
                     <StyleComponent
                       content="CloseButton" />
-                  </s.SvgHoverButton>
+                  </s.change_button>
                 </form>
 
                 <ShareDialog description={nowRoomPost.description} title={nowRoomPost.title} image_id={nowRoomPost.image_id} className="clear-both" />
               </DialogContent >
             </Dialog>
           </div>
-          {console.log(nowRoomPost)}
+          {/* {console.log(nowRoomPost)} */}
 
           <section className="text-3xl font-bold mx-3 mt-1 mb-6">{nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}</section>
 
@@ -161,7 +213,7 @@ export default function RoomInfo() {
 
           <section className='mx-3 mb-6'>
             <div className="text-xl font-bold">지도</div>
-            <div className='h-1/6 overflow-hidden'>
+            <div className='h-1/6 overflow-hidden px-10'>
               {postExist && <Map />}
             </div>
           </section>
@@ -170,10 +222,10 @@ export default function RoomInfo() {
             <div className="text-xl font-bold">예약하기</div>
             <SearchDate />
             <div className="mt-4 mb-2 text-2xl font-bold">
-              {`받아온 날짜 수 * 일간 가격`/* .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/} 원
-              <span className="text-sm font-normal">/{`SearchDate에서 선택된 날짜 받아오기..`} 일</span>
+              {`${(getDateDiff(searchDate[0], searchDate[1]) * nowRoomPost.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`} 원
+              <span className="text-sm font-normal"> / {getDateDiff(searchDate[0], searchDate[1])} 일</span>
             </div>
-            <button className="w-full rounded-lg bg-gray-300 text-black p-1">예약하기</button>
+            <button className="w-full rounded-lg bg-gray-300 text-black p-1" onClick={moveToBooking}>예약하기</button>
             <div className="mt-2 mb-2 text-sm text-gray-600">예약 확정 전에 환불 규정을 확인 하셨나요?</div>
           </section>
 
@@ -212,10 +264,8 @@ export default function RoomInfo() {
             <button className="w-full rounded-lg bg-gray-300 text-black p-1">메세지 보내기</button>
           </section>
 
-
         </>
       }
     </div >
   );
 }
-
