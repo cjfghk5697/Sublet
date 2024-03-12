@@ -1,12 +1,9 @@
-
 import RoomProfile from '../components/RoomProfile';
-import Header from '../components/Header';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useTitle } from '../components/hook/HookCollect';
-import { Desktop, Mobile } from '../components/Responsive';
-import { MobileHeader } from '../components/MobileHeader';
+
 import { toggleLikes } from '../components/FetchList.js';
 
 export default function Home() {
@@ -16,45 +13,54 @@ export default function Home() {
 	const [listRoomAmount, setListRoomAmount] = useState(6);
 	const [listPageAmount, setListPageAmount] = useState(1);
 
-	const fetchRoomsDefault = () => { // 6개 저 보여주기 필요할 수도..?
-		fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`)
-			.then((ele) => ele.json())
-			.then((ele) => setPreRoomsData(ele));
+	const fetchRoomsDefault = () => {
+		// 6개 저 보여주기 필요할 수도..?
+		fetch(
+			process.env.REACT_APP_BACKEND_URL +
+				'/post' +
+				`?maxPost=${listRoomAmount}&page=${listPageAmount}`,
+		)
+			.then(ele => ele.json())
+			.then(ele => setPreRoomsData(ele));
 		if (preRoomsData.length !== 0)
 			setRoomsData([...roomsData, ...preRoomsData]);
 		setListPageAmount(listPageAmount + 1);
-	}
-	useTitle("ItHome | 딱 맞는 숙소를 찾아봐요.")
+	};
+	useTitle('ItHome | 딱 맞는 숙소를 찾아봐요.');
 
 	useEffect(() => {
 		async function fetchData() {
-			let res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount}`);
-			let data = await res.json();
+			let data = await fetch(
+				process.env.REACT_APP_BACKEND_URL +
+					'/post' +
+					`?maxPost=${listRoomAmount}&page=${listPageAmount}`,
+			).then(response => response.json());
 			setRoomsData([...roomsData, ...data]);
-			res = await fetch(process.env.REACT_APP_BACKEND_URL + "/post" + `?maxPost=${listRoomAmount}&page=${listPageAmount + 1}`);
-			data = await res.json();
-			setPreRoomsData(data);
+			let res = await fetch(
+				process.env.REACT_APP_BACKEND_URL +
+					'/post' +
+					`?maxPost=${listRoomAmount}&page=${listPageAmount + 1}`,
+			).then(response => response.json());
+			setPreRoomsData(res);
 			setListPageAmount(listPageAmount + 2);
 		}
 		fetchData();
 	}, []);
 
-
-
 	const styles = {
 		container: {
-			marginBottom: "10rem",
+			marginBottom: '10rem',
 		},
 		mainContainer: {
-			display: "flex",
-			flexDirection: "column",
-			alignItems: "center",
-			width: "auto",
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			width: 'auto',
 		},
 		roomContainer: {
-			display: "grid",
-			gridTemplateRows: "1fr ",
-			gridTemplateColumns: "1fr 1fr 1fr",
+			display: 'grid',
+			gridTemplateRows: '1fr ',
+			gridTemplateColumns: '1fr 1fr 1fr',
 			fontSize: '1em',
 		},
 		topButtonsContainer: {
@@ -75,8 +81,14 @@ export default function Home() {
 		},
 	};
 
-	let rooms = roomsData?.map((room) => (
-		<RoomProfile room={room} toggleLikes={toggleLikes} likes={likes} setLikes={setLikes} />
+	const rooms = roomsData?.map((room, index) => (
+		<RoomProfile
+			key={index}
+			room={room}
+			toggleLikes={toggleLikes}
+			likes={likes}
+			setLikes={setLikes}
+		/>
 	));
 
 	const RequirementSubmitAndCommunityFind = () => {
@@ -89,28 +101,27 @@ export default function Home() {
 					같은 커뮤니티 확인하기
 				</Button>
 			</div>
-		)
-	}
+		);
+	};
 
 	return (
 		<>
 			<div style={styles.container}>
-				<Desktop children={<Header />} />
-				<Mobile children={<MobileHeader />} />
 				<div style={styles.mainContainer}>
 					<RequirementSubmitAndCommunityFind />
-					<div style={styles.roomContainer}>
-						{rooms}
-					</div>
-					{
-						preRoomsData.length !== 0
-							?
-							<Button variant="contained" style={styles.requirementSubmitButton} onClick={fetchRoomsDefault}>
-								방 더보기
-							</Button>
-							:
-							<div style={styles.moreRoomDescription}>더 불러올 방이 없습니다..</div>
-					}
+					<div style={styles.roomContainer}>{rooms}</div>
+					{preRoomsData.length !== 0 ? (
+						<Button
+							variant="contained"
+							style={styles.requirementSubmitButton}
+							onClick={fetchRoomsDefault}>
+							방 더보기
+						</Button>
+					) : (
+						<div style={styles.moreRoomDescription}>
+							더 불러올 방이 없습니다..
+						</div>
+					)}
 				</div>
 			</div>
 		</>
