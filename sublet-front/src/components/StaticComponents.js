@@ -1,6 +1,6 @@
 import 'animate.css';
-import * as s from './styles/SummaryBlock.styles';
-import {useNavigate} from 'react-router-dom';
+import * as s from './styles/Public.styles';
+import { useNavigate } from 'react-router-dom';
 
 export function checkEmailFormat(target, school) {
   if (school === '고려대학교') {
@@ -61,7 +61,7 @@ export function FailAlert() {
   );
 }
 
-export function StyleComponent({content}) {
+export function StyleComponent({ content }) {
   if (typeof content !== 'string') {
     console.log('undefined type');
     return;
@@ -106,11 +106,11 @@ export function StyleComponent({content}) {
   }
 }
 
-export function Information({title, info}) {
+export function Information({ title, info }) {
   return (
     <div>
       <p className="ml-1 text-m font-bold">• {title}</p>
-      <s.info_text className="ml-4 text-sm font-medium">{info}</s.info_text>
+      <s.NormalText className="ml-4 text-sm font-medium">{info}</s.NormalText>
     </div>
   );
 }

@@ -1,16 +1,15 @@
-import {DateFormat, priceToString} from '../StaticComponents';
-import {ReservationSummaryBlock} from '../SummaryBlock';
-import {FetchReservation, FetchReservationByPostKey} from '../FetchList';
-import * as w from '../styles/Wrapper.style';
-import * as s from '../styles/SummaryBlock.styles';
+import { DateFormat, priceToString } from '../StaticComponents';
+import { ReservationSummaryBlock } from '../SummaryBlock';
+import { FetchReservation, FetchReservationByPostKey } from '../FetchList';
+import * as s from '../styles/Public.styles';
 
-function ReservationByPostKeyInfo({post_key}) {
+function ReservationByPostKeyInfo({ post_key }) {
   const reservation = FetchReservationByPostKey(post_key);
 
   return (
     <div className="mb-4">
-      <w.SecondHead>예약 현황</w.SecondHead>
-      <w.Horizon />
+      <s.SecondHead>예약 현황</s.SecondHead>
+      <s.Horizon />
       {reservation.length > 0 ? (reservation.map((res) => {
         const startStr = DateFormat(res.r_start_day);
         const endStr = DateFormat(res.r_end_day);
@@ -18,14 +17,14 @@ function ReservationByPostKeyInfo({post_key}) {
 
         return (
           <>
-            <w.DetailParagraph>게스트: {res.User.username}</w.DetailParagraph>
-            <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
-            <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
-            <w.Horizon />
+            <s.DetailParagraph>게스트: {res.User.username}</s.DetailParagraph>
+            <s.DetailParagraph>기간: {startStr} ~ {endStr}</s.DetailParagraph>
+            <s.DetailParagraph>비용: {pay}</s.DetailParagraph>
+            <s.Horizon />
           </>
         );
       },
-      )) : (<s.p_normal>예약이 아직 없습니다.</s.p_normal>)
+      )) : (<s.NormalText>예약이 아직 없습니다.</s.NormalText>)
       }
     </div>
   );
@@ -35,7 +34,7 @@ function ReservationInfo() {
   const reservation = FetchReservation();
   return (
     <div className="mb-4">
-      <w.SecondHead>예약 현황</w.SecondHead>
+      <s.SecondHead>예약 현황</s.SecondHead>
       {reservation.length > 0 ? reservation.map((res) => (
 
         <ReservationSummaryBlock
@@ -48,10 +47,10 @@ function ReservationInfo() {
           key_num={res.key}
         />
       ),
-      ) : <s.p_normal>예약이 아직 없습니다.</s.p_normal>
+      ) : <s.NormalText>예약이 아직 없습니다.</s.NormalText>
       }
     </div>
   );
 };
 
-export {ReservationInfo, ReservationByPostKeyInfo};
+export { ReservationInfo, ReservationByPostKeyInfo };

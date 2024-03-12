@@ -1,14 +1,13 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
-import {useTitle} from '../components/hook/HookCollect.js';
-import * as w from '../components/styles/Wrapper.style';
-import {PostInfo} from '../components/guestInfoComponents/PostBlock.js';
-import * as s from '../components/styles/SummaryBlock.styles.js';
+import { useTitle } from '../components/hook/HookCollect.js';
+import { PostInfo } from '../components/guestInfoComponents/PostBlock.js';
+import * as s from '../components/styles/Public.styles.js';
 
 import Header from '../components/Header.js';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-function User({user}) {
+function User({ user }) {
   const title = user.username + '님의 프로필 | ItHome';
   useTitle(title);
 
@@ -18,23 +17,23 @@ function User({user}) {
     <div>
       <img src={image_link} className="hover:opacity-60 object-scale-down rounded-lg rounded-lg" alt="my profile" />
 
-      <w.SecondHead className="mt-3">{user.username}</w.SecondHead>
-      <s.info_text className="underline" >{user.school}</s.info_text>
+      <s.SecondHead className="mt-3">{user.username}</s.SecondHead>
+      <s.NormalText className="underline" >{user.school}</s.NormalText>
 
-      <s.info_text >신분증 {user.id_card ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
+      <s.NormalText >신분증 {user.id_card ? '인증 완료✅' : '인증 안됨❌'}</s.NormalText>
 
-      <s.info_text >학교 이메일 {user.verify_email ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
+      <s.NormalText >학교 이메일 {user.verify_email ? '인증 완료✅' : '인증 안됨❌'}</s.NormalText>
 
-      <s.info_text >전화번호 {user.verify_phone ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>
+      <s.NormalText >전화번호 {user.verify_phone ? '인증 완료✅' : '인증 안됨❌'}</s.NormalText>
 
-      <s.info_text >재학증 {user.verify_school ? '인증 완료✅' : '인증 안됨❌'}</s.info_text>    </div>
+      <s.NormalText >재학증 {user.verify_school ? '인증 완료✅' : '인증 안됨❌'}</s.NormalText>    </div>
   );
 
   return (
     <div>
       <Header />
 
-      <div style={{fontFamily: 'Pretendard'}} className="flex grid grid-cols-7">
+      <div style={{ fontFamily: 'Pretendard' }} className="flex grid grid-cols-7">
         <div className="ml-3 mt-5">
           {userBaseComponent}
         </div>
@@ -50,7 +49,7 @@ function User({user}) {
 }
 
 function HostInfo() {
-  const {userId} = useParams();
+  const { userId } = useParams();
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${userId}`;
@@ -65,7 +64,7 @@ function HostInfo() {
     };
     const json = await (
       await fetch(
-          URL, requestOptions)
+        URL, requestOptions)
     ).json();
     setLoading(true);
     setUserInfo(json);
@@ -76,11 +75,11 @@ function HostInfo() {
 
 
   return (
-    <w.Wrapper>
+    <s.Wrapper>
       {loading &&
         <User user={userInfo} />
       };
-    </w.Wrapper>
+    </s.Wrapper>
   );
 }
 

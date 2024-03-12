@@ -1,11 +1,10 @@
-import {DateFormat, Information, priceToString} from '../StaticComponents';
-import * as w from '../styles/Wrapper.style';
-import * as s from '../styles/SummaryBlock.styles.js';
-export function RequestByPostKeyInfo({Post}) {
+import { DateFormat, Information, priceToString } from '../StaticComponents';
+import * as s from '../styles/Public.styles.js';
+export function RequestByPostKeyInfo({ Post }) {
   return (
     <div className="mb-4">
-      <w.SecondHead>응답 현황</w.SecondHead>
-      <w.Horizon />
+      <s.SecondHead>응답 현황</s.SecondHead>
+      <s.Horizon />
       {Post.map((res) => {
         const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${res.image_id[0]}.jpg`;
         const price = priceToString(res.price);
@@ -14,19 +13,19 @@ export function RequestByPostKeyInfo({Post}) {
           <>
             <div className="mt-2 grid grid-cols-4">
               <div>
-                <img src={image_link} className="object-cover w-23 h-13 rounded-lg rounded-lg" alt="request post image" />
+                <img src={image_link} className="object-cover s-23 h-13 rounded-lg rounded-lg" alt="request post image" />
               </div>
               <div className="ml-2 col-span-3">
-                <w.SecondHead>{res.title}</w.SecondHead>
+                <s.SecondHead>{res.title}</s.SecondHead>
 
-                <w.DetailParagraph>호스트:</w.DetailParagraph>
-                <w.DetailParagraph>비용: {price}</w.DetailParagraph>
-                <w.DetailParagraph>위치: {address}</w.DetailParagraph>
-                <s.black_upload_button>메세지 보내기</s.black_upload_button>
+                <s.DetailParagraph>호스트:</s.DetailParagraph>
+                <s.DetailParagraph>비용: {price}</s.DetailParagraph>
+                <s.DetailParagraph>위치: {address}</s.DetailParagraph>
+                <s.NormalButton>메세지 보내기</s.NormalButton>
               </div>
 
             </div>
-            <w.Horizon className="mt-2" />
+            <s.Horizon className="mt-2" />
           </>
         );
       })
@@ -36,11 +35,11 @@ export function RequestByPostKeyInfo({Post}) {
   );
 };
 
-export function PostRequest({request_list}) {
+export function PostRequest({ request_list }) {
   return (
     <div className="mb-4">
-      <w.SecondHead>요청서 현황</w.SecondHead>
-      <w.Horizon />
+      <s.SecondHead>요청서 현황</s.SecondHead>
+      <s.Horizon />
       {request_list.map((res) => {
         const price = priceToString(res.price);
         const address = res.city + ' ' + res.gu + ' ' + res.dong;
@@ -61,17 +60,17 @@ export function PostRequest({request_list}) {
         return (
           <>
             <div className="mt-2">
-              <w.SecondHead>{address}</w.SecondHead>
-              <w.DetailParagraph>요청 날짜: {start} ~ {end}</w.DetailParagraph>
+              <s.SecondHead>{address}</s.SecondHead>
+              <s.DetailParagraph>요청 날짜: {start} ~ {end}</s.DetailParagraph>
               {Object.keys(info_list).map(((k) => (
                 <Information title={k}
                   info={info_list[k]} />
               )))}
 
-              <s.black_upload_button>메세지 보내기</s.black_upload_button>
+              <s.NormalButton>메세지 보내기</s.NormalButton>
             </div>
             <div>
-              <w.Horizon className="mt-2" />
+              <s.Horizon className="mt-2" />
             </div>
           </>
         );

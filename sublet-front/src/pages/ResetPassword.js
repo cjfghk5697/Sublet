@@ -1,11 +1,10 @@
-import * as s from '../components/styles/SummaryBlock.styles.js';
-import * as w from '../components/styles/Wrapper.style.js';
-import {useState} from 'react';
-import {VerifyEmailComponents} from '../components/verifyComponents/Email.js';
-import {verifyStore} from '../components/store/resetPassword.js';
-import {ChangePassword} from '../components/FetchList.js';
-import {Alert, FailAlert} from '../components/StaticComponents.js';
-import {useNavigate} from 'react-router-dom';
+import * as s from '../components/styles/Public.styles.js';
+import { useState } from 'react';
+import { VerifyEmailComponents } from '../components/verifyComponents/Email.js';
+import { verifyStore } from '../components/store/resetPassword.js';
+import { ChangePassword } from '../components/FetchList.js';
+import { Alert, FailAlert } from '../components/StaticComponents.js';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ResetPassword() {
@@ -17,9 +16,9 @@ export default function ResetPassword() {
   const [failState, setFailState] = useState(false);
   const [idVeriftyState, setIdVerifyState] = useState(true);
   const [checkingEmail, setCheckingEmail] = useState(false);
-  const {idState, passwordState} = inputs;
+  const { idState, passwordState } = inputs;
   const [userState, setUserState] = useState();
-  const {verifyPasswordEmail, setVerifyPasswordEmail} = verifyStore((state) => ({
+  const { verifyPasswordEmail, setVerifyPasswordEmail } = verifyStore((state) => ({
     verifyPasswordEmail: state.verifyPasswordEmail,
     setVerifyPasswordEmail: state.setVerifyPasswordEmail,
   }));
@@ -36,23 +35,23 @@ export default function ResetPassword() {
       },
     };
     await fetch(
-        URL, requestOptions)
-        .then((res) => {
-          const json = res;
-          if (json.ok) {
-            return json.json();
-          } else {
-            throw new Error(`${res.status} 에러가 발생했습니다.`);
-          }
-        })
-        .then((r) => {
-          console.log('r', r);
-          setUserState(r);
-          return true;
-        })
-        .catch((e) => {
-          throw new Error(e);
-        });
+      URL, requestOptions)
+      .then((res) => {
+        const json = res;
+        if (json.ok) {
+          return json.json();
+        } else {
+          throw new Error(`${res.status} 에러가 발생했습니다.`);
+        }
+      })
+      .then((r) => {
+        console.log('r', r);
+        setUserState(r);
+        return true;
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
     return true;
   };
 
@@ -78,44 +77,44 @@ export default function ResetPassword() {
     navigate(`/`);
   };
   const onChangePassword = async () => {
-    await ChangePassword({user_id: userState.user_id, new_password: passwordState})
-        .then((response) => {
-          if (!response.ok) {
+    await ChangePassword({ user_id: userState.user_id, new_password: passwordState })
+      .then((response) => {
+        if (!response.ok) {
           // create error object and reject if not a 2xx response code
-            const err = new Error('HTTP status code: ' + response.status);
-            err.response = response;
-            err.status = response.status;
-            setFailState(true);
-            setTimeout(() => {
-              setFailState(false);
-            }, 5000);
-          } else {
-            setSuccessState(true);
-            setTimeout(() => {
-              setSuccessState(false);
-            }, 5000);
-            setVerifyPasswordEmail();
-            moveHome();
-          }
-        });
+          const err = new Error('HTTP status code: ' + response.status);
+          err.response = response;
+          err.status = response.status;
+          setFailState(true);
+          setTimeout(() => {
+            setFailState(false);
+          }, 5000);
+        } else {
+          setSuccessState(true);
+          setTimeout(() => {
+            setSuccessState(false);
+          }, 5000);
+          setVerifyPasswordEmail();
+          moveHome();
+        }
+      });
   };
   return (
     <>
-      <w.SecondHead>비밀번호 초기화</w.SecondHead>
+      <s.SecondHead>비밀번호 초기화</s.SecondHead>
 
       {checkingEmail ?
         <>
           {verifyPasswordEmail ?
             <div className="animate__animated animate__backInRight">
-              <s.p_normal>초기화할 비밀번호를 입력하세요.</s.p_normal>
+              <s.NormalText>초기화할 비밀번호를 입력하세요.</s.NormalText>
               <div className="mt-2">
-                <w.InputText required="" name="passwordState" type="password" placeholder="비밀번호" onChange={inputHandle} value={passwordState} />
+                <s.InputText required="" name="passwordState" type="password" placeholder="비밀번호" onChange={inputHandle} value={passwordState} />
               </div>
-              <s.black_upload_button onClick={onChangePassword}>다음</s.black_upload_button>
+              <s.NormalButton onClick={onChangePassword}>다음</s.NormalButton>
             </div> :
 
             <div className="animate__animated animate__backInRight">
-              <s.p_normal>인증번호 6자리를 입력하세요</s.p_normal>
+              <s.NormalText>인증번호 6자리를 입력하세요</s.NormalText>
               <VerifyEmailComponents
                 email={userState.email}
                 user_id={idState}
@@ -126,15 +125,15 @@ export default function ResetPassword() {
           }
         </> :
         <div>
-          <s.p_normal>아이디를 입력하세요</s.p_normal>
-          <s.label for="id">Id </s.label>
+          <s.NormalText>아이디를 입력하세요</s.NormalText>
+          <s.Label for="id">Id </s.Label>
           {idVeriftyState ?
             <div className="mt-2">
-              <w.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
+              <s.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
             </div> :
             <>
               <div className="mt-2">
-                <w.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
+                <s.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
               </div>
               <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                 아이디가 틀렸습니다.
@@ -142,9 +141,9 @@ export default function ResetPassword() {
             </>
           }
 
-          <s.black_upload_button onClick={() => {
+          <s.NormalButton onClick={() => {
             onVerifyEmailHandle(idState);
-          }}>다음</s.black_upload_button>
+          }}>다음</s.NormalButton>
         </div>
 
       }

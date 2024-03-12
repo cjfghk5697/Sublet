@@ -4,16 +4,16 @@ import PersonIcon from '@mui/icons-material/Person';
 import SingleBedIcon from '@mui/icons-material/SingleBed';
 import HomeIcon from '@mui/icons-material/Home';
 import BathtubIcon from '@mui/icons-material/Bathtub';
-import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
-import {SubletPostStore} from '../store/SubletPostStore';
-import {Carousel} from '@material-tailwind/react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { SubletPostStore } from '../store/SubletPostStore';
+import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
-import * as s from '../components/styles/SummaryBlock.styles.js';
-import {Dialog, DialogContent} from '@mui/material';
-import {ShareDialog} from '../components/Popup.js';
-import {StyleComponent} from '../components/StaticComponents.js';
+import * as s from '../components/styles/Public.styles.js';
+import { Dialog, DialogContent } from '@mui/material';
+import { ShareDialog } from '../components/Popup.js';
+import { StyleComponent } from '../components/StaticComponents.js';
 
 
 export default function RoomInfo() {
@@ -60,14 +60,14 @@ export default function RoomInfo() {
 
   const [nowRoomPost, setNowRoomPost] = useState({});
   const [sharePopUpState, setSharePopUpState] = useState(false);
-  const {post, postExist, postAll} = SubletPostStore((state) => ({post: state.post, postExist: state.postExist, postAll: state.postAll}));
-  const {page, asyncGetPost, asyncGetPostAll} = SubletPostStore((state) => ({page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll}));
+  const { post, postExist, postAll } = SubletPostStore((state) => ({ post: state.post, postExist: state.postExist, postAll: state.postAll }));
+  const { page, asyncGetPost, asyncGetPostAll } = SubletPostStore((state) => ({ page: state.page, asyncGetPost: state.asyncGetPost, asyncGetPostAll: state.asyncGetPostAll }));
 
   useEffect(() => {
     if (!postExist) {
       asyncGetPostAll();
     }
-    setNowRoomPost({...postAll.find((post) => post.key == nowRoomNum)});
+    setNowRoomPost({ ...postAll.find((post) => post.key == nowRoomNum) });
   }, [postExist]);
 
   return (
@@ -75,13 +75,13 @@ export default function RoomInfo() {
       <Header />
       <div id="RomeInfo-ImgContainer" style={styles.RomeInfo_ImgContainer}>
         <Carousel className="rounded-xl text-center"
-          navigation={({setActiveIndex, activeIndex, length}) => (
+          navigation={({ setActiveIndex, activeIndex, length }) => (
             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
               {new Array(length).fill('').map((_, i) => (
                 <span
                   key={i}
                   className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
-                  }`}
+                    }`}
                   onClick={() => setActiveIndex(i)}
                 />
               ))}
@@ -99,18 +99,18 @@ export default function RoomInfo() {
       {postExist && nowRoomPost &&
         <>
           <div>
-            <s.black_upload_button onClick={() => {
+            <s.NormalButton onClick={() => {
               setSharePopUpState(true);
-            }}>공유하기</s.black_upload_button>
+            }}>공유하기</s.NormalButton>
             <Dialog open={sharePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
-              <DialogContent sx={{height: 224}} className='text-left'>
+              <DialogContent sx={{ height: 224 }} className='text-left'>
                 <form className="flot-right">
-                  <s.change_button type="button" name="sharePopUpState" onClick={() => {
+                  <s.SvgHoverButton type="button" name="sharePopUpState" onClick={() => {
                     setSharePopUpState(false);
                   }}>
                     <StyleComponent
                       content="CloseButton" />
-                  </s.change_button>
+                  </s.SvgHoverButton>
                 </form>
 
                 <ShareDialog description={nowRoomPost.description} title={nowRoomPost.title} image_id={nowRoomPost.image_id} className="clear-both" />
