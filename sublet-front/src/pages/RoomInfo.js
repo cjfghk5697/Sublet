@@ -1,3 +1,4 @@
+
 import Header from '../components/Header';
 import * as makeTest from '../testdata/testdata.js';
 import PersonIcon from '@mui/icons-material/Person';
@@ -10,7 +11,7 @@ import { SubletPostStore } from '../store/SubletPostStore';
 import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
 import SearchDate from '../components/HeaderComponents/SearchDate.js';
-import * as s from '../components/styles/SummaryBlock.styles.js';
+import * as s from '../components/styles/Public.styles.js';
 import { Dialog, DialogContent } from '@mui/material';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
@@ -268,4 +269,3 @@ export default function RoomInfo() {
     </div >
   );
 }
-

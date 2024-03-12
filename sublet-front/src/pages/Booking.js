@@ -1,7 +1,7 @@
 import { CalulateDate, getDateDiff, priceToString } from '../components/StaticComponents';
+import * as s from '../components/styles/Public.styles';
 import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
-import * as w from '../components/styles/Wrapper.style';
-import * as s from '../components/styles/SummaryBlock.styles';
+
 import { FetchReservationPost } from '../components/FetchList';
 import PaymentForm from '../components/bookingComponents/Payment.js';
 import { useState } from 'react';
@@ -46,36 +46,36 @@ export default function Booking(user_id) {
   return (
     <div className="ml-4 w-4/5 items-center">
       <div>
-        <w.SecondHead>기간 / 금액</w.SecondHead>
-        <w.Horizon />
+        <s.SecondHead>기간 / 금액</s.SecondHead>
+        <s.Horizon />
         <p className="text-xl font-semibold ml-2">{temp_start_day} ~ {temp_end_day} ({total_day}일)</p>
         <div>
           {total_day >= 28 && (
             <div className="ml-2 mt-4">
-              <s.justify_block>
+              <s.JustifyBlock>
                 <p className="text-l">매월 결제 금액</p>
                 <p className="text-l mr-4">{priceToString(month_pay)} 원</p>
-              </s.justify_block>
+              </s.JustifyBlock>
 
               <p className="ml-2 text-sm">* 28일이 넘는 경우에는 월마다 결제합니다.</p>
-              <w.Horizon />
+              <s.Horizon />
             </div>
           )}
 
-          <s.justify_block className="ml-2 font-bold flex justify-between">
+          <s.JustifyBlock className="ml-2 font-bold flex justify-between">
             <p className="text-l mt-1">총 결제 금액 </p>
             <p className="text-l text-[#2478F6]">{priceToString(total_pay)} 원</p>
-          </s.justify_block>
+          </s.JustifyBlock>
         </div>
       </div>
       <div>
-        <w.SecondHead className="mt-4">결제 수단</w.SecondHead>
+        <s.SecondHead className="mt-4">결제 수단</s.SecondHead>
         {/* 카드 번호, 유효기간, vs */}
-        <w.Horizon />
+        <s.Horizon />
         <div className="mt-2 ml-4">
-          <s.info_text>
+          <s.NormalText>
             예약 확정 전에는 요금이 청구되지 않습니다.
-          </s.info_text>
+          </s.NormalText>
           <Box
             className="mt-4 mx-9"
             justifyContent="center"
@@ -113,19 +113,19 @@ export default function Booking(user_id) {
                   </div>
                 )
             }
-            <s.info_text className="mt-2">
-              <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+            <s.NormalText className="mt-2">
+              <s.Checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
               체크박스를 클릭하시면 이체를 완료하셨음을 동의하는 것입니다.
-            </s.info_text>
+            </s.NormalText>
           </Box>
         </div>
       </div >
       <div>
 
-        <w.SecondHead className="mt-4">규칙 / 정책</w.SecondHead>
-        <w.Horizon />
+        <s.SecondHead className="mt-4">규칙 / 정책</s.SecondHead>
+        <s.Horizon />
         <div className="mt-2 ml-4">
-          <s.info_text className="mt-2">
+          <s.NormalText className="mt-2">
             • {total_refund_date} 전까지 무료로 취소하실 수 있습니다. <br />
             • {part_refund_date} 전에 취소하면 부분 환불을 받으실 수 있습니다.<br />
             <br />
@@ -134,13 +134,13 @@ export default function Booking(user_id) {
             2. 호스트의 집도 자신의 집처럼 아껴주세요.<br />
             3. 아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다.
 
-          </s.info_text>
+          </s.NormalText>
         </div>
         <div className="mt-4" fullWidth>
           {
             checkState ? (<s.black_upload_button onClick={handlePostReservation}>결제하기</s.black_upload_button>
             ) :
-              (<s.black_upload_button_disabled disabled>결제하기</s.black_upload_button_disabled>
+              (<s.DisableButton disabled>결제하기</s.DisableButton>
               )
           }
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from 'react-credit-cards-2';
-import * as s from '../styles/SummaryBlock.styles';
+import * as s from '../styles/Public.styles';
 import {
   formatCreditCardNumber,
   formatCVC,
@@ -10,7 +10,7 @@ import {
 } from './utils';
 
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
-import {TextField} from '@mui/material';
+import { TextField } from '@mui/material';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -24,19 +24,19 @@ export default class PaymentForm extends React.Component {
     password: '',
   };
 
-  handleCallback = ({issuer}, isValid) => {
+  handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
-      this.setState({issuer});
+      this.setState({ issuer });
     }
   };
 
-  handleInputFocus = ({target}) => {
+  handleInputFocus = ({ target }) => {
     this.setState({
       focused: target.name,
     });
   };
 
-  handleInputChange = ({target}) => {
+  handleInputChange = ({ target }) => {
     if (target.name === 'number') {
       target.value = formatCreditCardNumber(target.value);
     } else if (target.name === 'expiry') {
@@ -47,23 +47,23 @@ export default class PaymentForm extends React.Component {
       target.value = formatPassword(target.value);
     }
 
-    this.setState({[target.name]: target.value});
+    this.setState({ [target.name]: target.value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     const formData = [...e.target.elements]
-        .filter((d) => d.name)
-        .reduce((acc, d) => {
-          acc[d.name] = d.value;
-          return acc;
-        }, {});
+      .filter((d) => d.name)
+      .reduce((acc, d) => {
+        acc[d.name] = d.value;
+        return acc;
+      }, {});
 
-    this.setState({formData});
+    this.setState({ formData });
     this.form.reset();
   };
   render() {
-    const {name, number, expiry, cvc, focused, issuer, formData} = this.state;
+    const { name, number, expiry, cvc, focused, issuer, formData } = this.state;
 
     return (
       <div key="Payment" className="mt-4">
@@ -162,7 +162,7 @@ export default class PaymentForm extends React.Component {
             <TextField id="standard-size-small" size="small" label="성함" variant="standard" type="hidden" name="issuer" value={issuer} />
 
             <div className="form-actions flex justify-end">
-              <s.black_upload_button >PAY</s.black_upload_button>
+              <s.NormalButton >PAY</s.NormalButton>
             </div>
           </form>
           {formData && (

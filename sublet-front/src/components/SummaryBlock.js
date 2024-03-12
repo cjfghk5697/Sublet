@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { DateFormat, StyleComponent, priceToString } from './StaticComponents.js';
-import * as s from './styles/SummaryBlock.styles.js';
-import * as w from './styles/Wrapper.style.js';
+import * as s from './styles/Public.styles.js';
 
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { DeletePost, DeleteRequest, FetchDeleteReservation, FetchGetRequestByRequestId } from './FetchList.js';
@@ -40,7 +39,7 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
 
   return (
     <div className="ml-4">
-      <w.SecondHead>• {address}</w.SecondHead>
+      <s.SecondHead>• {address}</s.SecondHead>
       {/*  */}
       <div className="ml-2">
         {complete ?
@@ -56,25 +55,25 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
       </div>
       {/* 공개 변경 버튼 추가 */}
       <div className="block">
-        <s.post_detail_button className="ml-4" name="detailPopUpState" onClick={onChange}>
+        <s.InfoButton className="ml-4" name="detailPopUpState" onClick={onChange}>
           상세 정보
-        </s.post_detail_button>
-        <s.post_detail_button className="ml-4" name="respondPopUpState" onClick={onChange}>
+        </s.InfoButton>
+        <s.InfoButton className="ml-4" name="respondPopUpState" onClick={onChange}>
           응답 리스트
-        </s.post_detail_button>
-        <s.delete_button_able name="deletePopUpState" onClick={onChange}>
+        </s.InfoButton>
+        <s.DeleteButton name="deletePopUpState" onClick={onChange}>
           삭제하기
-        </s.delete_button_able>
+        </s.DeleteButton>
       </div>
 
       <div name="requestDetailDialog">
         <Dialog open={detailPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.change_button type="button" name="detailPopUpState" onClick={onChange} >
+              <s.SvgHoverButton type="button" name="detailPopUpState" onClick={onChange} >
                 <StyleComponent
                   content="CloseButton" />
-              </s.change_button>
+              </s.SvgHoverButton>
             </form>
           </DialogTitle>
           <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -96,10 +95,10 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
         <Dialog open={respondPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.change_button type="button" name="respondPopUpState" onClick={onChange}>
+              <s.SvgHoverButton type="button" name="respondPopUpState" onClick={onChange}>
                 <StyleComponent
                   content="CloseButton" />
-              </s.change_button>
+              </s.SvgHoverButton>
             </form>
           </DialogTitle>
           <DialogContent className='text-left'>
@@ -118,10 +117,10 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
         <Dialog open={deletePopUpState} className="border border-gray-300 shadow-xl rounded-lg">
           <DialogTitle>
             <form>
-              <s.change_button type="button" onClick={onChange} name="deletePopUpState">
+              <s.SvgHoverButton type="button" onClick={onChange} name="deletePopUpState">
                 <StyleComponent
                   content="CloseButton" />
-              </s.change_button>
+              </s.SvgHoverButton>
             </form>
           </DialogTitle>
           <DialogContent className='font-black text-center'>
@@ -134,9 +133,9 @@ function RequsetSummaryBlock({ request_text, city, Post, request_key, gu, dong, 
 
             <div>
               <form>
-                <s.delete_button_able onClick={deleteHandle} >
+                <s.DeleteButton onClick={deleteHandle} >
                   삭제하기
-                </s.delete_button_able>
+                </s.DeleteButton>
               </form>
             </div>
           </DialogActions>
@@ -186,57 +185,57 @@ function ReservationSummaryBlock({ room, start_day, end_day }) {
           src={image_link}></img>
       </div>
       <div className="mb-2 ml-3 col-span-4">
-        <w.SecondHead >
+        <s.SecondHead >
           <a href="" onClick={() => {
             MoveToRoomInfo({ room });
           }}>
             {room.Post.title}
           </a>
-        </w.SecondHead>
-        <w.DetailParagraph>호스트: {room.Post.postuser.user_id}</w.DetailParagraph>
-        <w.DetailParagraph>기간: {startStr} ~ {endStr}</w.DetailParagraph>
-        <w.DetailParagraph>비용: {pay}</w.DetailParagraph>
+        </s.SecondHead>
+        <s.DetailParagraph>호스트: {room.Post.postuser.user_id}</s.DetailParagraph>
+        <s.DetailParagraph>기간: {startStr} ~ {endStr}</s.DetailParagraph>
+        <s.DetailParagraph>비용: {pay}</s.DetailParagraph>
         <div>
           <div>
-            <s.delete_button_able
+            <s.DeleteButton
               onClick={clickHandler}>
               취소하기
-            </s.delete_button_able>
+            </s.DeleteButton>
 
-            <s.post_detail_button className="ml-4">
+            <s.InfoButton className="ml-4">
               상세 정보
-            </s.post_detail_button>
+            </s.InfoButton>
           </div>
           <>
             <Dialog open={popupState} className="border border-gray-300 shadow-xl rounded-lg">
               <DialogTitle>
                 <form>
-                  <s.change_button type="button" onClick={clickHandler}>
+                  <s.SvgHoverButton type="button" onClick={clickHandler}>
                     <StyleComponent
                       content="CloseButton" />
-                  </s.change_button>
+                  </s.SvgHoverButton>
                 </form>
               </DialogTitle>
               <DialogContent className='font-black text-center'>
                 <p className="text-lg font-extrabold mt-3">예약중인 숙소를 취소하시겠습니까?</p>
                 <div>
-                  <s.info_text className="mt-3 ">
-                    <s.input_checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
+                  <s.NormalText className="mt-3 ">
+                    <s.Checkbox type="checkbox" checked={checkState} onChange={checkHandled} />
                     환불규정을 확인하였습니다.
-                  </s.info_text>
+                  </s.NormalText>
                 </div>
               </DialogContent>
               <DialogActions>
                 <div>
                   {checkState ? (
                     <form>
-                      <s.delete_button_able onClick={deleteReservationHandle} >
+                      <s.DeleteButton onClick={deleteReservationHandle} >
                         취소하기
-                      </s.delete_button_able>
+                      </s.DeleteButton>
                     </form>
-                  ) : (<s.delete_button_disabled disabled>
+                  ) : (<s.DisableButton disabled>
                     취소하기
-                  </s.delete_button_disabled>)}
+                  </s.DisableButton>)}
                 </div>
               </DialogActions>
 
@@ -294,14 +293,14 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <div className="inline-block">
-          <w.SecondHead className="float-start mr-4">
+          <s.SecondHead className="float-start mr-4">
 
             <a href="" onClick={() => {
               MoveToRoomInfo({ room });
             }}>
               {room.title}
             </a>
-          </w.SecondHead>
+          </s.SecondHead>
           {room.contract ?
             (
               <StyleComponent
@@ -312,29 +311,29 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
             )}
         </div>
 
-        <w.DetailParagraph>주소: {address}</w.DetailParagraph>
-        <w.DetailParagraph>숙박료: {pay}</w.DetailParagraph>
+        <s.DetailParagraph>주소: {address}</s.DetailParagraph>
+        <s.DetailParagraph>숙박료: {pay}</s.DetailParagraph>
         <div className="block">
           {guest_mode &&
             <>
-              <s.post_detail_button name="detailDialogShow" onClick={onChange}>
+              <s.InfoButton name="detailDialogShow" onClick={onChange}>
                 상세 정보
-              </s.post_detail_button>
+              </s.InfoButton>
 
-              <s.post_detail_button className="ml-4" name="requestDialogShow" onClick={onChange}>
+              <s.InfoButton className="ml-4" name="requestDialogShow" onClick={onChange}>
                 받은 요청서
-              </s.post_detail_button>
+              </s.InfoButton>
 
-              <s.post_detail_button className="ml-4" name="reservationDialogShow" onClick={onChange}>
+              <s.InfoButton className="ml-4" name="reservationDialogShow" onClick={onChange}>
                 예약현황
-              </s.post_detail_button>
-              <s.post_detail_button className="ml-4" name="editRoomDialogShow" onClick={onChange}>
+              </s.InfoButton>
+              <s.InfoButton className="ml-4" name="editRoomDialogShow" onClick={onChange}>
                 방 수정하기
-              </s.post_detail_button>
+              </s.InfoButton>
 
-              <s.delete_button_able className="ml-4" name="deletelDialogShow" onClick={onChange}>
+              <s.DeleteButton className="ml-4" name="deletelDialogShow" onClick={onChange}>
                 삭제하기
-              </s.delete_button_able>
+              </s.DeleteButton>
             </>
           }
 
@@ -344,10 +343,10 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
           <Dialog open={detailDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.change_button type="button" name="detailDialogShow" onClick={onChange}>
+                <s.SvgHoverButton type="button" name="detailDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.change_button>
+                </s.SvgHoverButton>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -370,10 +369,10 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
           <Dialog open={reservationDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.change_button type="button" name="reservationDialogShow" onClick={onChange}>
+                <s.SvgHoverButton type="button" name="reservationDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.change_button>
+                </s.SvgHoverButton>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -390,10 +389,10 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
             <DialogTitle>
 
               <form>
-                <s.change_button type="button" onClick={onChange} name="deletelDialogShow">
+                <s.SvgHoverButton type="button" onClick={onChange} name="deletelDialogShow">
                   <StyleComponent
                     content="CloseButton" />
-                </s.change_button>
+                </s.SvgHoverButton>
               </form>
             </DialogTitle>
             <DialogContent className='font-black text-center'>
@@ -405,9 +404,9 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
 
               <div >
                 <form>
-                  <s.delete_button_able onClick={deleteHandle} >
+                  <s.DeleteButton onClick={deleteHandle} >
                     삭제하기
-                  </s.delete_button_able>
+                  </s.DeleteButton>
                 </form>
               </div>
             </DialogActions>
@@ -419,10 +418,10 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
           <Dialog open={requestDialogShow} className="border border-gray-300 shadow-xl rounded-lg">
             <DialogTitle>
               <form>
-                <s.change_button type="button" name="requestDialogShow" onClick={onChange}>
+                <s.SvgHoverButton type="button" name="requestDialogShow" onClick={onChange}>
                   <StyleComponent
                     content="CloseButton" />
-                </s.change_button>
+                </s.SvgHoverButton>
               </form>
             </DialogTitle>
             <DialogContent sx={{ width: 512 }} className='text-left'>
@@ -441,11 +440,11 @@ function PostSummaryBlock({ room, guest_mode = true, post_date, pay, address }) 
             className="border border-gray-300 shadow-xl rounded-lg"
           >
             <DialogTitle>
-              <s.change_button type="button" className="float-right" name="editRoomDialogShow" onClick={onChange}>
+              <s.SvgHoverButton type="button" className="float-right" name="editRoomDialogShow" onClick={onChange}>
                 <StyleComponent
                   content="CloseButton"
                 />
-              </s.change_button>
+              </s.SvgHoverButton>
             </DialogTitle>
             <PostEditDialog
               post={room}

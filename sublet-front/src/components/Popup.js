@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import * as s from './styles/SummaryBlock.styles.js';
-import * as w from './styles/Wrapper.style.js';
+import * as s from './styles/Public.styles.js';
 import * as psd from './styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -101,11 +100,11 @@ export function ImageDialog() {
         className="border border-gray-300 shadow-xl rounded-lg"
       >
         <DialogTitle>
-          <s.change_button type="button" onClick={handleClose}>
+          <s.SvgHoverButton type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.change_button>
+          </s.SvgHoverButton>
         </DialogTitle>
 
         <DialogContent
@@ -130,13 +129,13 @@ export function ImageDialog() {
           </div>
           <div className="mt-8">
             {imgFile !== '' ? (
-              <s.black_upload_button onClick={putHandled}>
+              <s.NormalButton onClick={putHandled}>
                 업로드하기
-              </s.black_upload_button>
+              </s.NormalButton>
             ) : (
-              <s.black_upload_button_disabled disabled>
+              <s.DisableButton disabled>
                 업로드하기
-              </s.black_upload_button_disabled>
+              </s.DisableButton>
             )}
 
             <div>
@@ -169,11 +168,11 @@ export function VerifyEmailDialog({ email }) {
         <DialogTitle>
           <label htmlFor="VerifyEmail" className="block mb-2 text-sm font-medium text-gray-900 float-left">이메일 인증</label>
 
-          <s.change_button type="button" onClick={handleClose}>
+          <s.SvgHoverButton type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.change_button>
+          </s.SvgHoverButton>
         </DialogTitle>
         <DialogContent sx={{ height: 300, width: 300 }} className='text-center' >
 
@@ -271,21 +270,21 @@ export function EmailDialog({ originalEmail }) {
             Email address
           </label>
 
-          <s.change_button type="button" onClick={handleClose}>
+          <s.SvgHoverButton type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.change_button>
+          </s.SvgHoverButton>
         </DialogTitle>
         <DialogContent className="text-center" sx={{ height: 120, width: 312 }}>
           <form>
-            <w.InputText type="email" id="email" onChange={emailChange} value={emailState} placeholder="john.doe@company.com" required />
+            <s.InputText type="email" id="email" onChange={emailChange} value={emailState} placeholder="john.doe@company.com" required />
           </form>
 
           <div className="mt-4">
-            <s.black_upload_button onClick={clickHandle}>
+            <s.NormalButton onClick={clickHandle}>
               수정하기
-            </s.black_upload_button>
+            </s.NormalButton>
             <div>
               {successState && (
                 <Alert />
@@ -373,20 +372,20 @@ export function PhoneDialog({ originalPhone }) {
             Phone number
           </label>
 
-          <s.change_button type="button" onClick={handleClose}>
+          <s.SvgHoverButton type="button" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.change_button>
+          </s.SvgHoverButton>
         </DialogTitle>
         <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
-            <w.InputText type="tel" id="tel" onChange={phoneChange} value={phoneState} placeholder="john.doe@company.com" required />
+            <s.InputText type="tel" id="tel" onChange={phoneChange} value={phoneState} placeholder="john.doe@company.com" required />
           </form>
           <div className="mt-4">
-            <s.black_upload_button onClick={clickHandle}>
+            <s.NormalButton onClick={clickHandle}>
               수정하기
-            </s.black_upload_button>
+            </s.NormalButton>
             <div>
               {successState && (
                 <Alert />
@@ -407,7 +406,7 @@ export function ShareDialog({ description, title, image_id }) {
   const [successState, setSuccessState] = useState(false);
 
   // 로컬 주소 (localhost 3000 같은거)
-  const resultUrl = window.location.href;
+  const resultUrl = windos.location.href;
   const { Kakao } = window;
   const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/public/${image_id[0]}.jpg`;
   // 재랜더링시에 실행되게 해준다.
@@ -452,17 +451,17 @@ export function ShareDialog({ description, title, image_id }) {
   return (
     <div className="z-10 inline-block mr-6">
       <div clssName="">
-        <w.SecondHead>숙소를 공유하세요!</w.SecondHead>
+        <s.SecondHead>숙소를 공유하세요!</s.SecondHead>
         <p className="text-base text-gray"> 복사하여 편하게 보내세요</p>
       </div>
       <div className="mt-2">
-        <s.input_text_without_block type="text" className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500" ref={copyLinkRef} value={resultUrl} />
-        <s.black_upload_button className="ml-2" onClick={copyTextUrl}>복사하기</s.black_upload_button>
+        <s.InputText type="text" className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500" ref={copyLinkRef} value={resultUrl} />
+        <s.NormalButton className="ml-2" onClick={copyTextUrl}>복사하기</s.NormalButton>
       </div>
       <div className="mt-2">
-        <s.black_upload_button className="ml-2" onClick={() => {
+        <s.NormalButton className="ml-2" onClick={() => {
           shareKakao();
-        }}>카카오 공유하기</s.black_upload_button>
+        }}>카카오 공유하기</s.NormalButton>
       </div>
       <div className="mt-4 center">
         {successState && (
@@ -486,9 +485,9 @@ export function RequestSummaryDetailDialog({ request_text, address, contract, ac
   };
   return (
     <>
-      <w.SecondHead>{address} </w.SecondHead>
+      <s.SecondHead>{address} </s.SecondHead>
 
-      <w.Horizon />
+      <s.Horizon />
       {
         contract ?
           (<p>계약된 매물만 확인</p>) :
@@ -514,7 +513,7 @@ export function PostSummaryDetailDialog({ title, contract, private_post, accomod
   return (
     <>
       <div className="inline-block">
-        <w.SecondHead className="float-start mr-4">{title} </w.SecondHead>
+        <s.SecondHead className="float-start mr-4">{title} </s.SecondHead>
         {contract ?
           (
             <StyleComponent
@@ -618,45 +617,45 @@ export function SignUpDialog() {
   return (
     <Dialog open={signUpPopUpState} className="border border-gray-300 shadow-xl rounded-lg">
       <DialogTitle>
-        <s.change_button type="button" onClick={setSignUpPopUpState}>
+        <s.SvgHoverButton type="button" onClick={setSignUpPopUpState}>
           <StyleComponent
             content='CloseButton' />
-        </s.change_button>
+        </s.SvgHoverButton>
         <div className="float-left">
-          <w.SecondHead>회원가입</w.SecondHead>
+          <s.SecondHead>회원가입</s.SecondHead>
         </div>
 
       </DialogTitle>
       <DialogContent>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <s.justify_block>
+          <s.JustifyBlock>
             <div>
-              <s.label for="id">아이디</s.label>
+              <s.Label for="id">아이디</s.Label>
               <div className="mt-2">
-                <w.InputText name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} required />
+                <s.InputText name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} required />
               </div>
             </div>
 
             <div className="ml-2">
-              <s.label for="password">패스워드</s.label>
+              <s.Label for="password">패스워드</s.Label>
               <div className="mt-2">
-                <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} required />
+                <s.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} required />
               </div>
             </div>
 
-          </s.justify_block>
+          </s.JustifyBlock>
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.label for="username">별명</s.label>
+              <s.Label for="username">별명</s.Label>
             </div>
             <div className="mt-2">
-              <w.InputText type="text" name="userNameState" placeholder="별명" onChange={inputHandle} value={userNameState} required />
+              <s.InputText type="text" name="userNameState" placeholder="별명" onChange={inputHandle} value={userNameState} required />
             </div>
           </div>
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.label for="password">생년월일</s.label>
+              <s.Label for="password">생년월일</s.Label>
             </div>
             <div className="mt-2">
               <LocalizationProvider dateAdapter={AdapterDayjs} required>
@@ -667,10 +666,10 @@ export function SignUpDialog() {
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.label for="phone">전화번호</s.label>
+              <s.Label for="phone">전화번호</s.Label>
             </div>
             <div className="mt-2">
-              <w.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
+              <s.InputText maxlength="13" type="tel" name="phoneState" placeholder="전화번호"
                 onChange={inputHandle}
                 value={phoneState
                   .replace(/[^0-9]/g, '')
@@ -680,7 +679,7 @@ export function SignUpDialog() {
             </div>
           </div>
 
-          <w.Horizon className="mt-2" />
+          <s.Horizon className="mt-2" />
 
           <FormControl>
             <RadioGroup
@@ -700,10 +699,10 @@ export function SignUpDialog() {
 
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.label for="university">대학교</s.label>
+                  <s.Label for="university">대학교</s.Label>
                 </div>
                 <div className="mt-2">
-                  {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                  {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
                   <Select
                     labelId="demo-simple-select-required-label"
                     id="demo-simple-select-required"
@@ -717,24 +716,24 @@ export function SignUpDialog() {
               </div>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.label for="studentId">학번</s.label>
+                  <s.Label for="studentId">학번</s.Label>
                 </div>
                 <div className="mt-2">
-                  <w.InputText type="tel" maxlength="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
+                  <s.InputText type="tel" maxlength="2" name="studentIdState" placeholder="학번" onChange={inputHandle} value={studentIdState} required />
                 </div>
               </div>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.label for="email">대학교 이메일</s.label>
+                  <s.Label for="email">대학교 이메일</s.Label>
                 </div>
                 <div className="mt-2">
                   {emailFormatState ?
                     <>
-                      <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+                      <s.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
 
                     </> :
                     <>
-                      <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
+                      <s.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />
                       <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
                         대학교 이메일 양식이 안맞습니다.
                       </span>
@@ -748,21 +747,21 @@ export function SignUpDialog() {
               <>
                 <div>
                   <div className="mt-2 flex items-center justify-between">
-                    <s.label for="university">업체명</s.label>
+                    <s.Label for="university">업체명</s.Label>
                   </div>
                   <div className="mt-2">
-                    {/* <w.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                    <w.InputText type="text" name="schoolState" placeholder="업체명" required />
+                    {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                    <s.InputText type="text" name="schoolState" placeholder="업체명" required />
                   </div>
                 </div>
                 <div>
                   <div className="mt-2 flex items-center justify-between">
-                    <s.label for="email">이메일</s.label>
+                    <s.Label for="email">이메일</s.Label>
                   </div>
                   <div className="mt-2">
                     {emailFormatState ?
-                      <w.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required /> :
-                      <w.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />}
+                      <s.InputText type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required /> :
+                      <s.InputTextError type="email" name="emailState" placeholder="이메일" onChange={inputHandle} value={emailState} required />}
 
                   </div>
                 </div>
@@ -772,7 +771,7 @@ export function SignUpDialog() {
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.label for="gender">성별</s.label>
+              <s.Label for="gender">성별</s.Label>
             </div>
             <div className="mt-2">
 
@@ -796,9 +795,9 @@ export function SignUpDialog() {
         </div>
       </DialogContent>
       <DialogActions>
-        <s.black_upload_button type="submit" onClick={signUpHandled} className="flex w-full justify-center my-2">
+        <s.NormalButton type="submit" onClick={signUpHandled} className="flex w-full justify-center my-2">
           회원가입
-        </s.black_upload_button>
+        </s.NormalButton>
 
       </DialogActions>
     </Dialog>
@@ -851,49 +850,49 @@ export function LoginDialog() {
       }}>Login</button>
       <Dialog open={popUpState} className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.change_button type="button" onClick={() => {
+          <s.SvgHoverButton type="button" onClick={() => {
             setPopUpState(!popUpState);
           }}>
             <StyleComponent
               content='CloseButton' />
-          </s.change_button>
+          </s.SvgHoverButton>
         </DialogTitle>
         <DialogContent>
           <div className="float-left">
-            <w.SecondHead>로그인</w.SecondHead>
+            <s.SecondHead>로그인</s.SecondHead>
             <p className="text-base text-gray"> 합리적인 가격의 다양한 집을 확인하세요.</p>
           </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div>
-              <s.label for="id">Id</s.label>
+              <s.Label for="id">Id</s.Label>
               <div className="mt-2">
-                <w.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
+                <s.InputText required="" name="idState" type="text" placeholder="아이디" onChange={inputHandle} value={idState} />
               </div>
             </div>
 
             <div>
               <div className="mt-2 flex items-center justify-between">
-                <s.label for="password">Password</s.label>
+                <s.Label for="password">Password</s.Label>
                 <div className="text-sm">
-                  <s.forget_password href="/resetpassword">Forgot password?</s.forget_password>
+                  <s.PolicyText href="/resetpassword">Forgot password?</s.PolicyText>
                 </div>
               </div>
               <div className="mt-2">
-                <w.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} />
+                <s.InputText type="password" name="passwordState" placeholder="비밀번호" onChange={inputHandle} value={passwordState} />
               </div>
             </div>
           </div>
 
           <div>
-            <s.black_upload_button type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
+            <s.NormalButton type="submit" onClick={loginHandled} className="flex w-full justify-center mt-5">
               로그인 하기
-            </s.black_upload_button>
+            </s.NormalButton>
           </div>
           <div className="text-sm">
-            <s.forget_password className="mt-2 ml-1 text-m font-bold" href="#" onClick={signUpHandled}>회원가입</s.forget_password>
+            <s.PolicyText className="mt-2 ml-1 text-m font-bold" href="#" onClick={signUpHandled}>회원가입</s.PolicyText>
           </div>
         </DialogContent>
-        <w.Horizon />
+        <s.Horizon />
         <DialogActions>
           <div className="w-4/5 h-4/5">
             <div>
@@ -952,7 +951,7 @@ export const PostUploadDialog = (props) => {
   const handleClose = () => confirmAction();
 
   const confirmAction = async () => {
-    if (window.confirm('임시저장 하시겠습니까?')) {
+    if (windos.confirm('임시저장 하시겠습니까?')) {
       const formData = makeFormData();
       formData.append('local_save', true); // 임시저장 유무
       const requestOptions = {
@@ -1124,11 +1123,11 @@ export const PostUploadDialog = (props) => {
         className="border border-gray-300 shadow-xl rounded-lg"
       >
         <DialogContent sx={{ width: '500px' }} className="text-center">
-          <s.change_button type="button" className="float-right" onClick={handleClose}>
+          <s.SvgHoverButton type="button" className="float-right" onClick={handleClose}>
             <StyleComponent
               content="CloseButton"
             />
-          </s.change_button>
+          </s.SvgHoverButton>
           {/* <p>
             --------------추후 슬라이더로 변경 (현재는 스크롤)---------------
           </p> */}
@@ -1314,9 +1313,9 @@ export const PostUploadDialog = (props) => {
           </div>
         </DialogContent>
 
-        <s.black_upload_button className="ml-2" onClick={uploadPost}>
+        <s.NormalButton className="ml-2" onClick={uploadPost}>
           방 올리기
-        </s.black_upload_button>
+        </s.NormalButton>
       </Dialog>
     </>
   );
@@ -1573,9 +1572,9 @@ export const PostEditDialog = (post) => {
         </div>
       </DialogContent>
 
-      <s.black_upload_button className="ml-2" onClick={uploadPost}>
+      <s.NormalButton className="ml-2" onClick={uploadPost}>
         방 올리기
-      </s.black_upload_button>
+      </s.NormalButton>
     </>
   );
 };

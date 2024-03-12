@@ -1,16 +1,15 @@
-import {useState} from 'react';
-import * as w from '../styles/Wrapper.style';
-import * as s from '../styles/SummaryBlock.styles.js';
-import {Alert, FailAlert} from '../StaticComponents';
-import {ResetPassword, VerifyEmail, VerifyUser} from '../FetchList.js';
-import {verifyStore} from '../store/resetPassword.js';
+import { useState } from 'react';
+import * as s from '../styles/Public.styles.js';
+import { Alert, FailAlert } from '../StaticComponents';
+import { ResetPassword, VerifyEmail, VerifyUser } from '../FetchList.js';
+import { verifyStore } from '../store/resetPassword.js';
 
 
-export function VerifyEmailComponents({email,
+export function VerifyEmailComponents({ email,
   user_id,
   purpose = 'verifyemail',
 }) {
-  const {setVerifyPasswordEmail, verifyPasswordEmail} = verifyStore((state) => ({
+  const { setVerifyPasswordEmail, verifyPasswordEmail } = verifyStore((state) => ({
     setVerifyPasswordEmail: state.setVerifyPasswordEmail,
     verifyPasswordEmail: state.verifyPasswordEmail,
   }));
@@ -26,70 +25,70 @@ export function VerifyEmailComponents({email,
     setNumberState(e.target.value);
   };
   const verifyEmailHandle = () => {
-    console.log(VerifyEmail({email: email}));
+    console.log(VerifyEmail({ email: email }));
     setActiveVerify(true);
   };
   const verifyEmailHandleAgain = () => {
-    VerifyEmail({email: email});
+    VerifyEmail({ email: email });
   };
 
   const numberHandled = () => {
     if (purpose === 'verifyemail') {
-      VerifyUser({method: 'email', tokenKey: email, verifyToken: numberState})
-          .then((response) => {
-            if (!response.ok) {
+      VerifyUser({ method: 'email', tokenKey: email, verifyToken: numberState })
+        .then((response) => {
+          if (!response.ok) {
             // create error object and reject if not a 2xx response code
-              const err = new Error('HTTP status code: ' + response.status);
-              err.response = response;
-              err.status = response.status;
-              setFailState(true);
-              setTimeout(() => {
-                setFailState(false);
-              }, 5000);
-            } else {
-              setSuccessState(true);
-              setTimeout(() => {
-                setSuccessState(false);
-              }, 5000);
-            }
-          })
-          .catch((err) => {
+            const err = new Error('HTTP status code: ' + response.status);
+            err.response = response;
+            err.status = response.status;
             setFailState(true);
             setTimeout(() => {
               setFailState(false);
             }, 5000);
-            console.log('Err', err);
-          });
+          } else {
+            setSuccessState(true);
+            setTimeout(() => {
+              setSuccessState(false);
+            }, 5000);
+          }
+        })
+        .catch((err) => {
+          setFailState(true);
+          setTimeout(() => {
+            setFailState(false);
+          }, 5000);
+          console.log('Err', err);
+        });
     } else if (purpose === 'resetpassword') {
-      ResetPassword({user_id: user_id, tokenKey: email, verifyToken: numberState})
-          .then((response) => {
-            console.log(response);
-            if (!response.ok) {
+      ResetPassword({ user_id: user_id, tokenKey: email, verifyToken: numberState })
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
             // create error object and reject if not a 2xx response code
-              const err = new Error('HTTP status code: ' + response.status);
-              err.response = response;
-              err.status = response.status;
-              setFailState(true);
-              setTimeout(() => {
-                setFailState(false);
-              }, 5000);
-            } else {
-              setSuccessState(true);
-              setTimeout(() => {
-                setSuccessState(false);
-              }, 5000);
-              setVerifyPasswordEmail();
-              console.log(verifyPasswordEmail);
-            }
-          })
-          .catch((err) => {
+            const err = new Error('HTTP status code: ' + response.status);
+            err.response = response;
+            err.status = response.status;
             setFailState(true);
             setTimeout(() => {
               setFailState(false);
             }, 5000);
+          } else {
+            setSuccessState(true);
+            setTimeout(() => {
+              setSuccessState(false);
+            }, 5000);
+            setVerifyPasswordEmail();
+            console.log(verifyPasswordEmail);
+          }
+        })
+        .catch((err) => {
+          setFailState(true);
+          setTimeout(() => {
+            setFailState(false);
+          }, 5000);
 
-            console.log('Err', err);
-          });
+          console.log('Err', err);
+        });
     }
   };
   return (
@@ -99,35 +98,35 @@ export function VerifyEmailComponents({email,
         (
           <div>
             <form>
-              <w.InputText maxLength='6' type="tel" onChange={numberChange} value={numberState} placeholder="인증번호 6자리를 입력하세요" required />
+              <s.InputText maxLength='6' type="tel" onChange={numberChange} value={numberState} placeholder="인증번호 6자리를 입력하세요" required />
             </form>
 
             <div className='mt-4'>
               {numberState.toString().length < 6 ?
                 (
-                  <s.black_upload_button_disabled disabled>
+                  <s.DisableButton disabled>
                     인증하기
-                  </s.black_upload_button_disabled>
+                  </s.DisableButton>
                 ) :
                 (
-                  <s.black_upload_button onClick={numberHandled}>
+                  <s.NormalButton onClick={numberHandled}>
                     인증하기
-                  </s.black_upload_button>)
+                  </s.NormalButton>)
               }
 
 
-              <s.black_upload_button onClick={verifyEmailHandleAgain} >
+              <s.NormalButton onClick={verifyEmailHandleAgain} >
                 다시 발송하기
-              </s.black_upload_button>
+              </s.NormalButton>
 
             </div>
 
           </div>
         ) :
         (
-          <s.black_upload_button onClick={verifyEmailHandle}>
+          <s.NormalButton onClick={verifyEmailHandle}>
             인증번호 발송하기
-          </s.black_upload_button>
+          </s.NormalButton>
         )
 
       }
