@@ -3,7 +3,7 @@ import Map from '../Map.js';
 import * as inputStyle from '../styles/Input.styles.js';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export const LocationInput = ({pos, currentPos, setPos}) => {
+export const LocationInput = ({ pos, name = '', currentPos, onChange }) => {
   const styles = {
     searchByMap: {
       display: 'relative',
@@ -31,11 +31,12 @@ export const LocationInput = ({pos, currentPos, setPos}) => {
       <div style={styles.searchByMap}>
         <Map
           type="searchByMarker"
+          name={name}
           currentPos={currentPos}
-          setPos={setPos}
+          setPos={onChange}
         />
         <div style={styles.mapMarker}>
-          <LocationOnIcon/>
+          <LocationOnIcon />
         </div>
       </div>
     </div>

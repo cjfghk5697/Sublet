@@ -1,12 +1,12 @@
 import { PostSummaryBlock } from '../SummaryBlock';
 import { DateFormat, priceToString } from '../StaticComponents.js';
 import * as s from '../styles/Public.styles.js';
-import { FetchPost } from '../FetchList';
+import { FetchGetPost } from '../FetchList';
 import { guestInfoPopUpStore } from '../store/guestInfoStore.js';
 
 
 function PostInfo(user_id) {
-  const post = FetchPost(user_id.user_id);
+  const post = FetchGetPost(user_id.user_id);
 
   const { setPostPopUpState } = guestInfoPopUpStore((state) => ({
     setPostPopUpState: state.setPostPopUpState,

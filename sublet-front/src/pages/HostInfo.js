@@ -38,15 +38,11 @@ function User({ user }) {
 	);
 
 	return (
-		<div>
-			<div
-				style={{ fontFamily: 'Pretendard' }}
-				className="flex grid grid-cols-7">
-				<div className="ml-3 mt-5">{userBaseComponent}</div>
+		<div style={{ fontFamily: 'Pretendard' }} className="flex grid grid-cols-7">
+			<div className="ml-3 mt-5">{userBaseComponent}</div>
 
-				<div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
-					<PostInfo user_id={user.user_id} />
-				</div>
+			<div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
+				<PostInfo user_id={user.user_id} />
 			</div>
 		</div>
 	);
