@@ -60,6 +60,7 @@ async function FetchGetPost(userId) {
   const post = Array.from(postInfo);
   return post;
 }
+
 async function FetchUploadPost(formData) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/post`;
   await fetch(URL, {
@@ -69,6 +70,7 @@ async function FetchUploadPost(formData) {
     .then(notFoundError)
     .catch(raiseError('FetchUploadPost'));
 }
+
 async function FetchEditPost(postKey, formData) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/post/${postKey}`;
   await fetch(URL, {
@@ -323,6 +325,7 @@ async function FetchVerifyUser({ method, tokenKey, verifyToken }) {
 
   return await fetch(URL, requestOptions);
 }
+
 async function FetchResetPassword(userId, tokenKey, verifyToken) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`;
@@ -339,6 +342,7 @@ async function FetchResetPassword(userId, tokenKey, verifyToken) {
 
   return await fetch(link, requestOptions);
 }
+
 async function FetchChangePassword(userId, newPassword) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/changepassword`;
