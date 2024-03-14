@@ -17,10 +17,13 @@ import {
   ChatLoginDto,
   ChatSendMessageDto,
 } from '@/dto/chat.dto';
+import { UseGuards } from '@nestjs/common';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
 
 @WebSocketGateway({
   cors: {
-    origin: '*',
+    origin: process.env.FRONTEND_URL as string,
+    credentials: true,
   },
 })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -37,6 +40,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log('disconnect, ', client.id);
   }
 
+  @UseGuards(LoggedInGuard)
   @SubscribeMessage('testing')
   handleTesting(@MessageBody() data: string): string {
     console.log('Testing message: data', data);
