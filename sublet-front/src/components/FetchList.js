@@ -19,11 +19,15 @@ async function FetchChangeEmail(emailState) {
   const ChangeVerifyURL = `${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`;
   return await fetch(UpdateURL, {
     ...headerOptions('PUT'),
-    ...bodyData({ email: emailState }),
+    body: JSON.stringify({
+      email: emailState,
+    }),
   }).then(
     await fetch(ChangeVerifyURL, {
       ...headerOptions('PUT'),
-      ...bodyData({ verify_email: 'false' }),
+      body: JSON.stringify({
+        verify_email: 'false',
+      }),
     }),
   );
 }
@@ -33,11 +37,15 @@ async function FetchChangePhone(phoneState) {
   const ChangeVerifyURL = `${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`;
   return await fetch(UpdateURL, {
     ...headerOptions('PUT'),
-    ...bodyData({ phone: phoneState }),
+    body: JSON.stringify({
+      phone: phoneState,
+    }),
   }).then(
     await fetch(ChangeVerifyURL, {
       ...headerOptions('PUT'),
-      ...bodyData({ verify_phone: 'false' }),
+      body: JSON.stringify({
+        verify_phone: 'false',
+      }),
     }),
   );
 }
@@ -125,7 +133,9 @@ async function FetchReservationByPostKey(post_key) {
 async function FetchDeleteReservation(keyNum) {
   fetch(`${process.env.REACT_APP_BACKEND_URL}/reservation`, {
     ...headerOptions('DELETE'),
-    ...bodyData({ key: keyNum }),
+    body: JSON.stringify({
+      key: keyNum,
+    }),
   })
     .then(notFoundError)
     .catch(raiseError('FetchDeleteReservation'));
@@ -134,7 +144,7 @@ async function FetchDeleteReservation(keyNum) {
 async function FetchReservationPost(userID, postKey, startDay, endDay, pay) {
   fetch(`${process.env.REACT_APP_BACKEND_URL}/reservation`, {
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       user_id: userID,
       post_key: postKey,
       r_start_day: startDay,
@@ -154,15 +164,9 @@ async function FetchDeletePost(key) {
 }
 
 async function FetchLogin({ id, password, setUserInfo }) {
-  console.log(
-    bodyData({
-      id: id,
-      password: password,
-    }),
-  );
   fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       id: id,
       password: password,
     }),
@@ -183,7 +187,7 @@ async function FetchLogout() {
 async function FetchImage(formData) {
   return await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/image`, {
     ...headerOptions('PUT'),
-    ...body(formData),
+    formData,
   });
 }
 
@@ -254,7 +258,7 @@ function FetchSignUp({
 }) {
   const requestOptions = {
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       user_id: userId,
       password: password,
       username: username,
@@ -265,6 +269,7 @@ function FetchSignUp({
       birth: birth,
       student_id: studentId,
     }),
+
     path: '/',
   };
 
@@ -280,8 +285,9 @@ async function FetchGetRequestByRequestId(idList) {
   const getRequestInfo = async () => {
     const requestOptions = {
       ...headerOptions('POST'),
-      ...bodyData({
+      body: JSON.stringify({
         id: idList,
+        password: password,
       }),
     };
     const json = await fetch(URL, requestOptions)
@@ -302,7 +308,7 @@ async function FetchVerifyEmail(email) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`;
   return await fetch(link, {
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       email: email,
     }),
   })
@@ -313,27 +319,28 @@ async function FetchVerifyEmail(email) {
 async function FetchVerifyUser({ method, tokenKey, verifyToken }) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/verifyUser`;
-  const requestOptions = {
-    ...headerOptions('POST'),
-    ...bodyData({
-      verify_email: method === 'email' ? 'true' : 'false',
-      verify_phone: method === 'phone' ? 'true' : 'false',
-      tokenKey: tokenKey,
-      verifyToken: verifyToken,
-    }),
+  const json = {
+    verify_email: method === 'email' ? 'true' : 'false',
+    verify_phone: method === 'phone' ? 'true' : 'false',
+    tokenKey: tokenKey,
+    verifyToken: Number(verifyToken),
   };
-
-  return await fetch(URL, requestOptions);
+  console.log(tokenKey, verifyToken);
+  return await fetch(URL, {
+    ...headerOptions('POST'),
+    body: JSON.stringify(json),
+  });
 }
 
 async function FetchResetPassword(userId, tokenKey, verifyToken) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`;
+  console.log(tokenKey, verifyToken);
 
   const requestOptions = {
     // sendEmail 라우터로 보내버리기
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       user_id: userId,
       tokenKey: tokenKey,
       verifyToken: verifyToken,
@@ -346,23 +353,21 @@ async function FetchResetPassword(userId, tokenKey, verifyToken) {
 async function FetchChangePassword(userId, newPassword) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/changepassword`;
+  console;
 
-  const requestOptions = {
-    // sendEmail 라우터로 보내버리기
+  return await fetch(link, {
     ...headerOptions('PUT'),
-    ...bodyData({
+    body: JSON.stringify({
       id: userId,
       password: newPassword,
     }),
-  };
-
-  return await fetch(link, requestOptions);
+  });
 }
 
 async function FetchDeleteRequest(keyNum) {
   fetch(`${process.env.REACT_APP_BACKEND_URL}/request`, {
     ...headerOptions('DELETE'),
-    ...bodyData({
+    body: JSON.stringify({
       key: keyNum,
     }),
   });
@@ -373,7 +378,7 @@ function FetchConnectRequestPost(requestKey, postKey) {
 
   fetch(URL, {
     ...headerOptions('POST'),
-    ...bodyData({
+    body: JSON.stringify({
       key: requestKey,
     }),
   })
@@ -395,7 +400,9 @@ const toggleLikes = (item, likes, setLikes) => () => {
     setLikes({ ...likes, [item.key]: item });
     fetch(process.env.REACT_APP_BACKEND_URL + '/post/like', {
       ...headerOptions('POST'),
-      ...bodyData({ post_key: item.key }),
+      body: JSON.stringify({
+        post_key: item.key,
+      }),
     }); // .then(response => response.json()).then(data => console.log(data));
   } else {
     let newLikes = {};
@@ -407,7 +414,9 @@ const toggleLikes = (item, likes, setLikes) => () => {
     setLikes(newLikes);
     fetch(process.env.REACT_APP_BACKEND_URL + '/post/like', {
       ...headerOptions('DELETE'),
-      ...bodyData({ post_key: item.key }),
+      body: JSON.stringify({
+        post_key: item.key,
+      }),
     }); // .then(response => response.json()).then(data => console.log(data));
   }
 };

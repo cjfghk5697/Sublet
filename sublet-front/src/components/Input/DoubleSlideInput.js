@@ -1,7 +1,7 @@
 import React from 'react';
-import {   Slider   } from '@mui/material';
+import { Slider } from '@mui/material';
 
-export const DoubleSlideInput = ({   value,name="", onChange, minMax   }) => {
+export const DoubleSlideInput = ({ value, name = '', onChange, minMax }) => {
   return (
     <Slider
       value={value}

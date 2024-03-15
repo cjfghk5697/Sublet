@@ -67,18 +67,18 @@ import { ImageUploadComponent } from './Input/ImageInput.js';
 import { ValueRangeViewer } from './Input/ValueViewer.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
-function DialogForm(openState, handleClose) {
+function DialogForm({ openState, handleClose, children, render }) {
   return (
     <Dialog
       open={openState}
       className="border border-gray-300 shadow-xl rounded-lg">
       <DialogTitle>
-        {props.render()}
+        {render()}
         <s.SvgHoverButton type="button" onClick={handleClose}>
           <StyleComponent content="CloseButton" />
         </s.SvgHoverButton>
       </DialogTitle>
-      {this.props.children}
+      {children}
     </Dialog>
   );
 }
@@ -121,7 +121,16 @@ export function ImageDialog() {
       .catch(raiseError('ImageDialog', true, setFailState));
   };
   return (
-    <DialogForm openState={imagePopUpState}>
+    <DialogForm
+      openState={imagePopUpState}
+      handleClose={handleClose}
+      render={() => (
+        <label
+          htmlFor="test"
+          className="block mb-2 text-sm font-medium text-gray-900 float-left">
+          test
+        </label>
+      )}>
       <DialogContent
         sx={{ height: 512, width: 512 }}
         className="font-black text-center">
@@ -174,6 +183,7 @@ export function VerifyEmailDialog({ email }) {
   return (
     <DialogForm
       openState={verifyEmailPopUpState}
+      handleClose={handleClose}
       render={() => (
         <label
           htmlFor="VerifyEmail"
@@ -227,6 +237,7 @@ export function EmailDialog({ originalEmail }) {
     <>
       <DialogForm
         openState={emailPopUpState}
+        handleClose={handleClose}
         render={() => (
           <label
             htmlFor="email"
@@ -279,13 +290,22 @@ export function PhoneDialog({ originalPhone }) {
     <>
       <DialogForm
         openState={phonePopUpState}
+        handleClose={handleClose}
         render={() => (
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 float-left">
+            Email address
+          </label>
+        )}>
+        render=
+        {() => (
           <label
             htmlFor="tel"
             className="block mb-2 text-sm font-medium text-gray-900 float-left">
             Phone number
           </label>
-        )}>
+        )}
         <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
             <InputTelePhone onChange={onChange} phoneState={phoneState} />
@@ -548,13 +568,11 @@ export function SignUpDialog() {
             <div>
               <s.Label for="id">아이디</s.Label>
               <div className="mt-2">
-                <s.InputText
+                <InputText
                   name="idState"
-                  type="text"
                   placeholder="아이디"
                   onChange={inputHandle}
                   value={idState}
-                  required
                 />
               </div>
             </div>
@@ -885,6 +903,7 @@ export const PostUploadDialog = props => {
     postPopUpState: state.postPopUpState,
   }));
   const { userInfo } = useUserInfoStore();
+  const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
 
   const [postState, setPostState] = useState({
     accomodationType: '',
@@ -909,7 +928,6 @@ export const PostUploadDialog = props => {
       new Date().setFullYear(new Date().getFullYear() + 1),
       ,
     ], // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
-    duration: [1, 730], // minDuration, maxDuration,
     tempDuration: [duration[0] + '일', duration[1] + '일'],
     price: '10,000',
     imageFiles: [],
@@ -929,7 +947,6 @@ export const PostUploadDialog = props => {
     title,
     pos,
     startEndDay,
-    duration,
     tempDuration,
     basicInfo,
     fullAddress,
@@ -1265,14 +1282,19 @@ export const PostUploadDialog = props => {
 
               <p>
                 최소-최대 계약 가능 기간 :{' '}
-                <ValueRangeViewer arr={tempDuration} />
+                <ValueRangeViewer arr={postState['tempDuration']} />
               </p>
               <DoubleSlideInput
                 value={duration}
-                name="duration"
-                onChange={onChange}
+                onChange={handleDuration}
                 minMax={[1, 730]}
               />
+              {/* <DoubleSlideInput
+                value={postState['duration']}
+                name="duration"
+                onChange={handleDuration}
+                minMax={[1, 730]}
+              /> */}
             </p>
 
             <p style={psd.gridStyle.inputContainer}>
