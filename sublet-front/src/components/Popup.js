@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import * as s from './styles/Public.styles.js';
+import {
+  InputEmail,
+  InputTelePhone,
+  InputText,
+  InputPassword,
+} from './InputComponents.js';
 import * as psd from './styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import {
+  FetchChangeEmail,
+  FetchEmail,
   FetchImage,
   FetchLogin,
   FetchSignUp,
+  FetchUploadPost,
 } from './FetchList';
 
 import { guestInfoPopUpStore } from './store/guestInfoStore.js';
@@ -16,6 +25,8 @@ import {
   StyleComponent,
   FailAlert,
   checkEmailFormat,
+  notFoundError,
+  raiseError,
 } from './StaticComponents.js';
 import {
   DialogTitle,
@@ -56,6 +67,22 @@ import { ImageUploadComponent } from './Input/ImageInput.js';
 import { ValueRangeViewer } from './Input/ValueViewer.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
+function DialogForm({ openState, handleClose, children, render }) {
+  return (
+    <Dialog
+      open={openState}
+      className="border border-gray-300 shadow-xl rounded-lg">
+      <DialogTitle>
+        {render()}
+        <s.SvgHoverButton type="button" onClick={handleClose}>
+          <StyleComponent content="CloseButton" />
+        </s.SvgHoverButton>
+      </DialogTitle>
+      {children}
+    </Dialog>
+  );
+}
+
 export function ImageDialog() {
   const { setImagePopUpState, imagePopUpState } = guestInfoPopUpStore(
     state => ({
@@ -90,79 +117,57 @@ export function ImageDialog() {
 
   const putHandled = async () => {
     FetchImage(formData)
-      .then(response => {
-        if (!response.ok) {
-          // create error object and reject if not a 2xx response code
-          const err = new Error('HTTP status code: ' + response.status);
-          err.response = response;
-          err.status = response.status;
-          setFailState(true);
-          setTimeout(() => {
-            setFailState(false);
-          }, 5000);
-        } else {
-          setSuccessState(true);
-          setTimeout(() => {
-            setSuccessState(false);
-          }, 5000);
-        }
-      })
-      .catch(err => {
-        setFailState(true);
-        setTimeout(() => {
-          setFailState(false);
-        }, 5000);
-      });
+      .then(res => notFoundError(res, true, setSuccessState))
+      .catch(raiseError('ImageDialog', true, setFailState));
   };
   return (
-    <>
-      <Dialog
-        open={imagePopUpState}
-        className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
-          <s.SvgHoverButton type="button" onClick={handleClose}>
-            <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
-        </DialogTitle>
+    <DialogForm
+      openState={imagePopUpState}
+      handleClose={handleClose}
+      render={() => (
+        <label
+          htmlFor="test"
+          className="block mb-2 text-sm font-medium text-gray-900 float-left">
+          test
+        </label>
+      )}>
+      <DialogContent
+        sx={{ height: 512, width: 512 }}
+        className="font-black text-center">
+        <div className="clear-both h-56 w-75 flex items-center justify-center">
+          {imgFile ? (
+            <img src={imgFile} alt="프로필 이미지" />
+          ) : (
+            <label
+              htmlFor="dropzone-file"
+              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100">
+              <StyleComponent content="ImageDrop" />
 
-        <DialogContent
-          sx={{ height: 324, width: 400 }}
-          className="font-black text-center">
-          <div className="clear-both h-56 w-75 flex items-center justify-center">
-            {imgFile ? (
-              <img src={imgFile} alt="프로필 이미지" />
-            ) : (
-              <label
-                htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100">
-                <StyleComponent content="ImageDrop" />
+              <input
+                accept="image/jpg, image/jpeg, image/png"
+                id="dropzone-file"
+                type="file"
+                className="hidden"
+                onChange={saveImgFile}
+                ref={imgRef}
+              />
+            </label>
+          )}
+        </div>
+        <div className="mt-8">
+          {imgFile !== '' ? (
+            <s.NormalButton onClick={putHandled}>업로드하기</s.NormalButton>
+          ) : (
+            <s.DisableButton disabled>업로드하기</s.DisableButton>
+          )}
 
-                <input
-                  accept="image/jpg, image/jpeg, image/png"
-                  id="dropzone-file"
-                  type="file"
-                  className="hidden"
-                  onChange={saveImgFile}
-                  ref={imgRef}
-                />
-              </label>
-            )}
+          <div>
+            {successState && <Alert />}
+            {failState && <FailAlert />}
           </div>
-          <div className="mt-8">
-            {imgFile !== '' ? (
-              <s.NormalButton onClick={putHandled}>업로드하기</s.NormalButton>
-            ) : (
-              <s.DisableButton disabled>업로드하기</s.DisableButton>
-            )}
-
-            <div>
-              {successState && <Alert />}
-              {failState && <FailAlert />}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+        </div>
+      </DialogContent>
+    </DialogForm>
   );
 }
 
@@ -176,29 +181,25 @@ export function VerifyEmailDialog({ email }) {
   const handleClose = () => setVerifyEmailPopUpState(false);
 
   return (
-    <>
-      <Dialog
-        open={verifyEmailPopUpState}
-        className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
-          <label
-            htmlFor="VerifyEmail"
-            className="block mb-2 text-sm font-medium text-gray-900 float-left">
-            이메일 인증
-          </label>
-
-          <s.SvgHoverButton type="button" onClick={handleClose}>
-            <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
-        </DialogTitle>
-        <DialogContent sx={{ height: 300, width: 300 }} className="text-center">
-          <VerifyEmailComponents email={email} />
-        </DialogContent>
-      </Dialog>
-    </>
+    <DialogForm
+      openState={verifyEmailPopUpState}
+      handleClose={handleClose}
+      render={() => (
+        <label
+          htmlFor="VerifyEmail"
+          className="block mb-2 text-sm font-medium text-gray-900 float-left">
+          이메일 인증
+        </label>
+      )}>
+      <DialogContent sx={{ height: 300, width: 300 }} className="text-center">
+        <VerifyEmailComponents email={email} />
+      </DialogContent>
+    </DialogForm>
   );
 }
 
+// .then(res=>notFoundError(res, true, setSuccessState))
+// .catch(raiseError('ImageDialog', true,setFailState));
 export function EmailDialog({ originalEmail }) {
   const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore(
     state => ({
@@ -208,106 +209,57 @@ export function EmailDialog({ originalEmail }) {
   );
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
+  const [emailState, setEmailState] = useState(originalEmail);
+  const [emailFormatState, setEmailFormatState] = useState(true);
 
   const handleClose = () => setEmailPopUpState(false);
-  const [emailState, setEmailState] = useState(originalEmail);
-
-  const emailChange = e => {
+  const onChange = e => {
     setEmailState(e.target.value);
   };
 
-  const emailHandled = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: emailState,
-      }),
-    };
+  const onClick = async () => {
+    FetchChangeEmail(emailState)
+      .then(res => notFoundError(res, true, setSuccessState))
+      .catch(raiseError('EmailDialog', true, setFailState));
+  };
 
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/update`,
-      requestOptions,
-    )
-      .then(
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/verifyupdate`, {
-          credentials: 'include',
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            verify_email: 'false',
-          }),
-        }),
-      )
-      .then(response => {
-        if (!response.ok) {
-          // create error object and reject if not a 2xx response code
-          const err = new Error('HTTP status code: ' + response.status);
-          err.response = response;
-          err.status = response.status;
-          setFailState(true);
-          setTimeout(() => {
-            setFailState(false);
-          }, 5000);
-        } else {
-          setSuccessState(true);
-          setTimeout(() => {
-            setSuccessState(false);
-          }, 5000);
-        }
-      })
-      .catch(err => {
-        setFailState(true);
-        setTimeout(() => {
-          setFailState(false);
-        }, 5000);
-      });
+  const inputHandle = e => {
+    if (e.currentTarget.name === 'emailState') {
+      setEmailFormatState(checkEmailFormat(e.currentTarget.value, schoolState));
+    }
+    setInputs({
+      ...inputs,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
   };
-  const clickHandle = () => {
-    emailHandled();
-  };
+
   return (
     <>
-      <Dialog
-        open={emailPopUpState}
-        className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
+      <DialogForm
+        openState={emailPopUpState}
+        handleClose={handleClose}
+        render={() => (
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 float-left">
             Email address
           </label>
-
-          <s.SvgHoverButton type="button" onClick={handleClose}>
-            <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
-        </DialogTitle>
+        )}>
         <DialogContent className="text-center" sx={{ height: 120, width: 312 }}>
-          <form>
-            <s.InputText
-              type="email"
-              id="email"
-              onChange={emailChange}
-              value={emailState}
-              placeholder="john.doe@company.com"
-              required
-            />
-          </form>
-
+          <InputEmail
+            emailFormatState={emailFormatState}
+            onChange={inputHandle}
+            emailState={emailState}
+          />
           <div className="mt-4">
-            <s.NormalButton onClick={clickHandle}>수정하기</s.NormalButton>
+            <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
             <div>
               {successState && <Alert />}
               {failState && <FailAlert />}
             </div>
           </div>
         </DialogContent>
-      </Dialog>
+      </DialogForm>
     </>
   );
 }
@@ -321,93 +273,52 @@ export function PhoneDialog({ originalPhone }) {
   );
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
-  const handleClose = () => setPhonePopUpState(false);
-
   const [phoneState, setPhoneState] = useState(originalPhone);
 
-  const phoneChange = e => {
+  const handleClose = () => setPhonePopUpState(false);
+
+  const onChange = e => {
     setPhoneState(e.target.value);
   };
 
-  const phoneHandled = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phone: phoneState,
-      }),
-    };
-
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/update`,
-      requestOptions,
-    )
-      .then(response => {
-        if (!response.ok) {
-          // create error object and reject if not a 2xx response code
-          const err = new Error('HTTP status code: ' + response.status);
-          err.response = response;
-          err.status = response.status;
-          setFailState(true);
-          setTimeout(() => {
-            setFailState(false);
-          }, 5000);
-        } else {
-          setSuccessState(true);
-          setTimeout(() => {
-            setSuccessState(false);
-          }, 5000);
-        }
-      })
-      .catch(err => {
-        setFailState(true);
-        setTimeout(() => {
-          setFailState(false);
-        }, 5000);
-      });
-  };
-  const clickHandle = () => {
-    phoneHandled();
+  const onClick = () => {
+    FetchChangePhone(phoneState.replace(/-/gi, '').replace('010', '+8210'))
+      .then(res => notFoundError(res, true, setSuccessState))
+      .catch(raiseError('EmailDialog', true, setFailState));
   };
   return (
     <>
-      <Dialog
-        open={phonePopUpState}
-        className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
+      <DialogForm
+        openState={phonePopUpState}
+        handleClose={handleClose}
+        render={() => (
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 float-left">
+            Email address
+          </label>
+        )}>
+        render=
+        {() => (
           <label
             htmlFor="tel"
             className="block mb-2 text-sm font-medium text-gray-900 float-left">
             Phone number
           </label>
-
-          <s.SvgHoverButton type="button" onClick={handleClose}>
-            <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
-        </DialogTitle>
+        )}
         <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
-            <s.InputText
-              type="tel"
-              id="tel"
-              onChange={phoneChange}
-              value={phoneState}
-              placeholder="john.doe@company.com"
-              required
-            />
+            <InputTelePhone onChange={onChange} phoneState={phoneState} />
           </form>
           <div className="mt-4">
-            <s.NormalButton onClick={clickHandle}>수정하기</s.NormalButton>
+            <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
             <div>
               {successState && <Alert />}
               {failState && <FailAlert />}
             </div>
           </div>
         </DialogContent>
-      </Dialog>
+      </DialogForm>
     </>
   );
 }
@@ -465,6 +376,7 @@ export function ShareDialog({ description, title, image_id }) {
         <p className="text-base text-gray"> 복사하여 편하게 보내세요</p>
       </div>
       <div className="mt-2">
+        {/* input 용도가 아니라서 컴포넌트화 하지 않았습니다. */}
         <s.InputText
           type="text"
           className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
@@ -656,13 +568,11 @@ export function SignUpDialog() {
             <div>
               <s.Label for="id">아이디</s.Label>
               <div className="mt-2">
-                <s.InputText
+                <InputText
                   name="idState"
-                  type="text"
                   placeholder="아이디"
                   onChange={inputHandle}
                   value={idState}
-                  required
                 />
               </div>
             </div>
@@ -670,14 +580,7 @@ export function SignUpDialog() {
             <div className="ml-2">
               <s.Label for="password">패스워드</s.Label>
               <div className="mt-2">
-                <s.InputText
-                  type="password"
-                  name="passwordState"
-                  placeholder="비밀번호"
-                  onChange={inputHandle}
-                  value={passwordState}
-                  required
-                />
+                <InputPassword onChange={inputHandle} value={passwordState} />
               </div>
             </div>
           </s.JustifyBlock>
@@ -717,18 +620,7 @@ export function SignUpDialog() {
               <s.Label for="phone">전화번호</s.Label>
             </div>
             <div className="mt-2">
-              <s.InputText
-                maxlength="13"
-                type="tel"
-                name="phoneState"
-                placeholder="전화번호"
-                onChange={inputHandle}
-                value={phoneState
-                  .replace(/[^0-9]/g, '')
-                  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
-                  .replace(/(\-{1,2})$/g, '')}
-                required
-              />
+              <InputTelePhone onChange={inputHandle} value={phoneState} />
             </div>
           </div>
 
@@ -790,32 +682,11 @@ export function SignUpDialog() {
                   <s.Label for="email">대학교 이메일</s.Label>
                 </div>
                 <div className="mt-2">
-                  {emailFormatState ? (
-                    <>
-                      <s.InputText
-                        type="email"
-                        name="emailState"
-                        placeholder="이메일"
-                        onChange={inputHandle}
-                        value={emailState}
-                        required
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <s.InputTextError
-                        type="email"
-                        name="emailState"
-                        placeholder="이메일"
-                        onChange={inputHandle}
-                        value={emailState}
-                        required
-                      />
-                      <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                        대학교 이메일 양식이 안맞습니다.
-                      </span>
-                    </>
-                  )}
+                  <InputEmail
+                    emailFormatState={emailFormatState}
+                    onChange={inputHandle}
+                    emailState={emailState}
+                  />
                 </div>
               </div>
             </>
@@ -840,25 +711,11 @@ export function SignUpDialog() {
                   <s.Label for="email">이메일</s.Label>
                 </div>
                 <div className="mt-2">
-                  {emailFormatState ? (
-                    <s.InputText
-                      type="email"
-                      name="emailState"
-                      placeholder="이메일"
-                      onChange={inputHandle}
-                      value={emailState}
-                      required
-                    />
-                  ) : (
-                    <s.InputTextError
-                      type="email"
-                      name="emailState"
-                      placeholder="이메일"
-                      onChange={inputHandle}
-                      value={emailState}
-                      required
-                    />
-                  )}
+                  <InputEmail
+                    emailFormatState={emailFormatState}
+                    onChange={inputHandle}
+                    emailState={emailState}
+                  />
                 </div>
               </div>
             </>
@@ -902,15 +759,18 @@ export function LoginDialog() {
   const { setSignUpPopUpState } = guestInfoPopUpStore(state => ({
     setSignUpPopUpState: state.setSignUpPopUpState,
   }));
+  const { setUserInfo } = useUserInfoStore();
 
   const [inputs, setInputs] = useState({
     idState: '',
     passwordState: '',
   });
-
   const { idState, passwordState } = inputs;
+  const [popUpState, setPopUpState] = useState(false);
 
-  const { setUserInfo } = useUserInfoStore();
+  const togglePopUpState = () => {
+    setPopUpState(!popUpState);
+  };
 
   const inputHandle = e => {
     setInputs({
@@ -919,12 +779,8 @@ export function LoginDialog() {
     });
   };
 
-  const [popUpState, setPopUpState] = useState(false);
-
   const loginHandled = () => {
-    const id = idState;
-    const password = passwordState;
-    FetchLogin({ id, password, setUserInfo });
+    FetchLogin({ id: idState, password: passwordState, setUserInfo });
     setPopUpState(false);
   };
 
@@ -937,23 +793,71 @@ export function LoginDialog() {
     google: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   };
 
+  const PasswordInput = () => {
+    return (
+      <div>
+        <div className="mt-2 flex items-center justify-between">
+          <s.Label for="password">Password</s.Label>
+          <div className="text-sm">
+            <s.PolicyText href="/resetpassword">Forgot password?</s.PolicyText>
+          </div>
+        </div>
+        <div className="mt-2">
+          <s.InputText
+            type="password"
+            name="passwordState"
+            placeholder="비밀번호"
+            onChange={inputHandle}
+            value={passwordState}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const IdInput = () => {
+    return (
+      <div>
+        <s.Label for="id">Id</s.Label>
+        <div className="mt-2">
+          <s.InputText
+            required=""
+            name="idState"
+            type="text"
+            placeholder="아이디"
+            onChange={inputHandle}
+            value={idState}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const OAuthLogin = () => {
+    return (
+      <DialogActions>
+        <div className="w-4/5 h-4/5">
+          <div>
+            <GoogleOAuthProvider clientId={idList.google}>
+              <GoogleButton />
+            </GoogleOAuthProvider>
+          </div>
+          <div className="my-4 w-40">
+            <NaverLogin />
+          </div>
+        </div>
+      </DialogActions>
+    );
+  };
+
   return (
     <div>
-      <button
-        onClick={() => {
-          setPopUpState(!popUpState);
-        }}>
-        Login
-      </button>
+      <button onClick={togglePopUpState}>Login</button>
       <Dialog
         open={popUpState}
         className="border border-gray-300 shadow-xl rounded-lg">
         <DialogTitle>
-          <s.SvgHoverButton
-            type="button"
-            onClick={() => {
-              setPopUpState(!popUpState);
-            }}>
+          <s.SvgHoverButton type="button" onClick={togglePopUpState}>
             <StyleComponent content="CloseButton" />
           </s.SvgHoverButton>
         </DialogTitle>
@@ -961,46 +865,13 @@ export function LoginDialog() {
           <div className="float-left">
             <s.SecondHead>로그인</s.SecondHead>
             <p className="text-base text-gray">
-              {' '}
               합리적인 가격의 다양한 집을 확인하세요.
             </p>
           </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div>
-              <s.Label for="id">Id</s.Label>
-              <div className="mt-2">
-                <s.InputText
-                  required=""
-                  name="idState"
-                  type="text"
-                  placeholder="아이디"
-                  onChange={inputHandle}
-                  value={idState}
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="mt-2 flex items-center justify-between">
-                <s.Label for="password">Password</s.Label>
-                <div className="text-sm">
-                  <s.PolicyText href="/resetpassword">
-                    Forgot password?
-                  </s.PolicyText>
-                </div>
-              </div>
-              <div className="mt-2">
-                <s.InputText
-                  type="password"
-                  name="passwordState"
-                  placeholder="비밀번호"
-                  onChange={inputHandle}
-                  value={passwordState}
-                />
-              </div>
-            </div>
+            <IdInput />
+            <PasswordInput />
           </div>
-
           <div>
             <s.NormalButton
               type="submit"
@@ -1019,19 +890,7 @@ export function LoginDialog() {
           </div>
         </DialogContent>
         <s.Horizon />
-        <DialogActions>
-          <div className="w-4/5 h-4/5">
-            <div>
-              <GoogleOAuthProvider clientId={idList.google}>
-                <GoogleButton />
-              </GoogleOAuthProvider>
-            </div>
-
-            <div className="my-4 w-40">
-              <NaverLogin />
-            </div>
-          </div>
-        </DialogActions>
+        <OAuthLogin />
       </Dialog>
       <SignUpDialog />
     </div>
@@ -1044,6 +903,7 @@ export const PostUploadDialog = props => {
     postPopUpState: state.postPopUpState,
   }));
   const { userInfo } = useUserInfoStore();
+  const [duration, setDuration] = useState([1, 730]); // minDuration, maxDuration
 
   const [postState, setPostState] = useState({
     accomodationType: '',
@@ -1062,19 +922,53 @@ export const PostUploadDialog = props => {
     street: '갈현로', // 테스트 데이터,
     streetNumber: '39가길', // 테스트 데이터,
     postCode: '123123', // 테스트 데이터,
-    startEndDay: [new Date(), new Date().setFullYear(new Date().getFullYear() + 1)], // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
-    duration: [1, 730], // minDuration, maxDuration,
+    startEndDay: [
+      new Date(),
+
+      new Date().setFullYear(new Date().getFullYear() + 1),
+      ,
+    ], // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
     tempDuration: [duration[0] + '일', duration[1] + '일'],
     price: '10,000',
     imageFiles: [],
     rule: '규칙',
     benefit: '혜택',
     refundPolicy: '환불정책',
-    contract: '계약' // ?
+    contract: '계약', // ?
   });
 
+  const [
+    accomodationType,
+    limitPeople,
+    buildingType,
+    numberBathroom,
+    numberRoom,
+    numberBedroom,
+    title,
+    pos,
+    startEndDay,
+    tempDuration,
+    basicInfo,
+    fullAddress,
+    city, // 테스트 데이터,
+    gu, // 테스트 데이터,
+    dong, // 테스트 데이터,
+    street, // 테스트 데이터,
+    streetNumber, // 테스트 데이터,
+    postCode, // 테스트 데이터,
+    price,
+    rule,
+    benefit,
+    refundPolicy,
+    contract,
+  ] = postState;
+
+  const onChange = e => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
   const updatePostState = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
+    setFormState(prev => ({ ...prev, [key]: value }));
   };
 
   const handleClose = () => confirmAction();
@@ -1083,19 +977,7 @@ export const PostUploadDialog = props => {
     if (windos.confirm('임시저장 하시겠습니까?')) {
       const formData = makeFormData();
       formData.append('local_save', true); // 임시저장 유무
-      const requestOptions = {
-        credentials: 'include',
-        method: 'POST',
-        body: formData,
-      };
-
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/post`,
-        requestOptions,
-      ).then(res => {
-        console.log(res);
-      });
-      alert('임시 저장 되었습니다.'); // if 문 비워두지 않기 위한 임시 alert
+      FetchUploadPost(formData);
     }
     setPostPopUpState(false);
   };
@@ -1123,12 +1005,12 @@ export const PostUploadDialog = props => {
     formData.append('building_type', postState['buildingType']);
     formData.append('x_coordinate', postState['pos'][0]);
     formData.append('y_coordinate', postState['pos'][1]);
-    formData.append('city', ['city']);
-    formData.append('gu', ['gu']);
-    formData.append('dong', ['dong']);
-    formData.append('street', ['street']);
-    formData.append('street_number', ['streetNumber']);
-    formData.append('post_code', ['postCode']);
+    formData.append('city', 'city');
+    formData.append('gu', 'gu');
+    formData.append('dong', 'dong');
+    formData.append('street', 'street');
+    formData.append('street_number', 'streetNumber');
+    formData.append('post_code', 'postCode');
     formData.append('school', userInfo.school); // 사용자 정보에 따라서 해야함.
     formData.append('contract', true); // 계약 관련
     formData.append('description', 'description'); // basic_info와 중복?
@@ -1149,7 +1031,6 @@ export const PostUploadDialog = props => {
         return null;
       }
     }
-
     return formData;
   };
 
@@ -1160,47 +1041,34 @@ export const PostUploadDialog = props => {
       return;
     }
     formData.append('local_save', false);
-    const requestOptions = {
-      credentials: 'include',
-      method: 'POST',
-      body: formData,
-    };
-
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/post`,
-      requestOptions,
-    ).then(res => {
-      if (res.status === 201) {
-        alert('게시되었습니다.');
-        setPostPopUpState(false);
-      } else {
-        alert('게시에 실패했습니다.');
-      }
-    });
+    FetchUploadPost(formData);
   };
 
-  const handleLimitPeople = (event, newValue) => {
-    setLimitPeople(newValue);
+  const handlePostTextState = event => {
+    const { name, value } = event.target;
+    setPostState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleNumberBathroom = (event, newValue) => {
-    setNumberBathroom(newValue);
+  const handleSetImages = (newImage, index) => {
+    const newImages = [...imageFiles];
+    if (index >= imageFiles.length) {
+      newImages.push(newImage);
+    } else {
+      newImages[index] = newImage;
+    }
+    setImageFiles(newImages);
   };
 
-  const handleNumberBedroom = (event, newValue) => {
-    setNumberBedroom(newValue);
+  const hadnleStartEndDay = (date1, date2) => {
+    setStartEndDay([date1, date2]);
   };
 
-  const handlePrice = event => {
-    setPrice(priceToString(event.target.value.replace(/,/gi, '')));
-  };
-
-  const handleTitle = event => {
-    setTitle(event.target.value);
-  };
-
-  const handleBasicInfo = event => {
-    setBasicInfo(event.target.value);
+  const handleDuration = (event, newValue) => {
+    setDuration(newValue);
+    setTempDuration([duration[0] + '일', duration[1] + '일']);
   };
 
   // const handleCity = (event) => {
@@ -1227,25 +1095,6 @@ export const PostUploadDialog = props => {
   //   setPostCode(event.target.value);
   // }
 
-  const handleSetImages = (newImage, index) => {
-    const newImages = [...imageFiles];
-    if (index >= imageFiles.length) {
-      newImages.push(newImage);
-    } else {
-      newImages[index] = newImage;
-    }
-    setImageFiles(newImages);
-  };
-
-  const hadnleStartEndDay = (date1, date2) => {
-    setStartEndDay([date1, date2]);
-  };
-
-  const handleDuration = (event, newValue) => {
-    setDuration(newValue);
-    setTempDuration([duration[0] + '일', duration[1] + '일']);
-  };
-
   return (
     <>
       <Dialog
@@ -1265,8 +1114,9 @@ export const PostUploadDialog = props => {
             <p style={psd.gridStyle.inputContainer}>
               <h3 style={psd.gridStyle.infoType}>숙소 기본정보를 작성하세요</h3>
               <DropBoxSelect
+                name="accomodationType"
                 state={accomodationType}
-                setState={setAccomodationType}
+                onChange={onChange}
                 labelName="계약 형태"
                 labelId="accomodation_type"
                 id="accomodation_type"
@@ -1284,14 +1134,16 @@ export const PostUploadDialog = props => {
                     value={'최대인원: ' + limitPeople + '명'}
                   />
                   <SingleSlideInput
+                    name="limitPeople"
                     value={limitPeople}
-                    onChange={handleLimitPeople}
+                    onChange={onChange}
                     minMax={[1, 10]}
                   />
                 </div>
                 <DropBoxSelect
+                  name="buildingType"
                   state={buildingType}
-                  setState={setBuildingType}
+                  onChange={onChange}
                   labelName="건물 유형"
                   labelId="building_type"
                   id="building_type"
@@ -1304,8 +1156,9 @@ export const PostUploadDialog = props => {
                     value={'욕실 개수: ' + numberBathroom}
                   />
                   <SingleSlideInput
+                    name="numberBathroom"
                     value={numberBathroom}
-                    onChange={handleNumberBathroom}
+                    onChange={onChange}
                     minMax={[1, 10]}
                   />
                 </div>
@@ -1314,8 +1167,9 @@ export const PostUploadDialog = props => {
                     value={'침실 개수: ' + numberBedroom}
                   />
                   <SingleSlideInput
+                    name="numberBedroom"
                     value={numberBedroom}
-                    onChange={handleNumberBedroom}
+                    onChange={onChange}
                     minMax={[1, 10]}
                   />
                 </div>
@@ -1327,14 +1181,18 @@ export const PostUploadDialog = props => {
                 id="title"
                 label="제목"
                 placeholder="제목을 입력해주세요."
-                handleState={handleTitle}
+                value={handleTitle}
+                name="handleTitle"
+                onChange={onChange}
                 required={true}
               />
               <TextAreaTag
                 id="basic_info"
                 label="기본정보"
                 placeholder="기본정보을 입력해주세요."
-                handleState={handleBasicInfo}
+                value={handleBasicInfo}
+                name="handleBasicInfo"
+                onChange={onChange}
                 required={true}
               />
             </p>
@@ -1395,7 +1253,12 @@ export const PostUploadDialog = props => {
                   currentPos={pos}
                   setPos={setPos}
                 />   */}
-              <LocationInput pos={pos} currentPos={pos} setPos={setPos} />{' '}
+              <LocationInput
+                pos={pos}
+                currentPos={pos}
+                name="pos"
+                setPos={onChange}
+              />{' '}
               {/* 이렇게만 하면 안되고, 직접 친 후에 맵을 띄울 수도 있어야함. 위 주석 참고. */}
             </p>
 
@@ -1410,21 +1273,28 @@ export const PostUploadDialog = props => {
               <NumberInputTag
                 id="price"
                 label="가격"
+                name="price"
                 placeholder="가격을 입력해주세요."
                 value={priceToString(price.replace(/,/gi, ''))} // 숫자에 ,를 넣어주는 함수 필요
-                handleState={handlePrice}
+                handleState={onChange}
                 required={true}
               />
 
               <p>
                 최소-최대 계약 가능 기간 :{' '}
-                <ValueRangeViewer arr={tempDuration} />
+                <ValueRangeViewer arr={postState['tempDuration']} />
               </p>
               <DoubleSlideInput
                 value={duration}
                 onChange={handleDuration}
                 minMax={[1, 730]}
               />
+              {/* <DoubleSlideInput
+                value={postState['duration']}
+                name="duration"
+                onChange={handleDuration}
+                minMax={[1, 730]}
+              /> */}
             </p>
 
             <p style={psd.gridStyle.inputContainer}>
@@ -1450,27 +1320,11 @@ export const PostUploadDialog = props => {
   );
 };
 
-export const convertURLtoFile = async (url, id) => {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'image/jpeg',
-    },
-  });
-  const data = await response.blob();
-  const ext = url.split('.').pop(); // url 구조에 맞게 수정할 것
-  const metadata = { type: `image/${ext}` };
-  return new File([data], id, metadata);
-};
-
 export const PostEditDialog = post => {
   const image = [];
 
   post.post.image_id.map(id => {
-    const i = convertURLtoFile(
-      process.env.REACT_APP_BACKEND_URL + '/public/' + id + '.jpg',
-      id + '.jpg',
-    );
+    const i = FetchConverURLtoFile(id);
     image.push(i.results);
   });
 
@@ -1513,7 +1367,10 @@ export const PostEditDialog = post => {
   const onChange = e => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
-
+  const onClick = async () => {
+    const formData = makeFormData();
+    FetchEditPost(post.post.key, formData);
+  };
   const makeFormData = () => {
     const formData = new FormData();
 
@@ -1540,22 +1397,6 @@ export const PostEditDialog = post => {
     });
 
     return formData;
-  };
-
-  const uploadPost = async () => {
-    const formData = makeFormData();
-
-    await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/post/${post.post.key}`,
-      requestOptions,
-    ).then(res => {
-      if (res.ok) {
-        alert('수정되었습니다.');
-        setPostPopUpState(false);
-      } else {
-        alert('수정 실패했습니다.');
-      }
-    });
   };
 
   const handleSetImages = (newImage, index) => {
@@ -1684,7 +1525,7 @@ export const PostEditDialog = post => {
         </div>
       </DialogContent>
 
-      <s.NormalButton className="ml-2" onClick={uploadPost}>
+      <s.NormalButton className="ml-2" onClick={onClick}>
         방 올리기
       </s.NormalButton>
     </>
