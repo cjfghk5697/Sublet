@@ -23,14 +23,15 @@ import { RequsetSummaryBlock } from '../components/SummaryBlock.js';
 import Header from '../components/Header.js';
 
 function RequestListComponent() {
-  const request = FetchGetRequest();
+  const [requestInfo, setRequestInfo] = useState([]);
 
+  FetchGetRequest(setRequestInfo);
   return (
     <div className="mb-4 mt-8">
       <s.SecondHead className="inline">요청서 현황</s.SecondHead>
       <s.NormalButton>요청서 올리기</s.NormalButton>
-      {request.length > 0 ? (
-        request.map(res => {
+      {requestInfo.length > 0 ? (
+        requestInfo.map(res => {
           const start_date = DateFormat(res.start_day);
           const end_date = DateFormat(res.end_day);
           const price = priceToString(res.price);

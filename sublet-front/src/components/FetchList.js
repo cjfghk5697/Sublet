@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { notFoundError, raiseError } from './StaticComponents';
 
-const headerOptions = method => ({
+const headerOptions = (method, contentType = 'application/json') => ({
   credentials: 'include',
   method: method,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': contentType,
   },
 });
 const bodyData = data => ({
@@ -50,8 +50,7 @@ async function FetchChangePhone(phoneState) {
   );
 }
 
-async function FetchGetPost(userId) {
-  const [postInfo, setPostInfo] = useState([]);
+async function FetchGetPost(userId, setPostInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/post/${userId}`;
 
   const getPostInfo = async () => {
@@ -64,9 +63,6 @@ async function FetchGetPost(userId) {
   useEffect(() => {
     getPostInfo();
   }, []);
-
-  const post = Array.from(postInfo);
-  return post;
 }
 
 async function FetchUploadPost(formData) {
@@ -89,8 +85,7 @@ async function FetchEditPost(postKey, formData) {
     .catch(raiseError('FetchEditPost'));
 }
 
-async function FetchReservation() {
-  const [reservationInfo, setReservationInfo] = useState([]);
+async function FetchReservation(setReservationInfo) {
   const getReservationInfo = async () => {
     const json = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/reservation`,
@@ -105,9 +100,6 @@ async function FetchReservation() {
   useEffect(() => {
     getReservationInfo();
   }, []);
-
-  const reservation = Array.from(reservationInfo);
-  return reservation;
 }
 
 async function FetchReservationByPostKey(post_key) {
@@ -185,9 +177,10 @@ async function FetchLogout() {
 }
 
 async function FetchImage(formData) {
-  return await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/image`, {
-    ...headerOptions('PUT'),
-    formData,
+  console.log('x', formData);
+  await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/image`, {
+    ...headerOptions('PUT', 'image/jpeg'),
+    body: formData,
   });
 }
 
@@ -226,8 +219,7 @@ async function FetchGetOneUser(userId) {
   return userInfo;
 }
 
-async function FetchGetRequest() {
-  const [requestInfo, setRequestInfo] = useState([]);
+async function FetchGetRequest(setRequestInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/request/`;
 
   const getRequestInfo = async () => {
@@ -240,9 +232,6 @@ async function FetchGetRequest() {
   useEffect(() => {
     getRequestInfo();
   }, []);
-
-  const request = Array.from(requestInfo);
-  return request;
 }
 
 function FetchSignUp({
@@ -287,7 +276,6 @@ async function FetchGetRequestByRequestId(idList) {
       ...headerOptions('POST'),
       body: JSON.stringify({
         id: idList,
-        password: password,
       }),
     };
     const json = await fetch(URL, requestOptions)

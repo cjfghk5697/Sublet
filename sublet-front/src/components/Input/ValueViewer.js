@@ -1,9 +1,8 @@
 import React from 'react';
 import * as inputStyle from '../styles/Input.styles.js';
-import {priceToString} from '../StaticComponents.js';
+import { priceToString } from '../StaticComponents.js';
 
-
-export const SingleValueViewer = ({value}) => {
+export const SingleValueViewer = ({ value }) => {
   return (
     <inputStyle.displayFilteringValueWhenModifyingFilter>
       <span>{value}</span>
@@ -11,7 +10,7 @@ export const SingleValueViewer = ({value}) => {
   );
 };
 
-export const ValueRangeViewer = ({arr}) => {
+export const ValueRangeViewer = ({ arr }) => {
   return (
     <inputStyle.displayFilteringValueWhenModifyingFilter>
       <span>{arr[0]}</span>
@@ -21,7 +20,7 @@ export const ValueRangeViewer = ({arr}) => {
   );
 };
 
-export const MoneyRangeViewer = ({arr}) => {
+export const MoneyRangeViewer = ({ arr }) => {
   return (
     <inputStyle.displayFilteringValueWhenModifyingFilter>
       <span>₩{priceToString(arr[0])}</span>
