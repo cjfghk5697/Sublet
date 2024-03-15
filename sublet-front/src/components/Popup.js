@@ -5,7 +5,8 @@ import {
   InputTelePhone,
   InputText,
   InputPassword,
-} from './InputComponents.js';
+  InputStudentId,
+} from './styles/Input.styles.js';
 import * as psd from './styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -27,6 +28,7 @@ import {
   checkEmailFormat,
   notFoundError,
   raiseError,
+  IsSuccessAlert,
 } from './StaticComponents.js';
 import {
   DialogTitle,
@@ -96,7 +98,9 @@ export function ImageDialog() {
 
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
+  const formData = new FormData();
 
+  // 이미지 업로드 input의 onChange
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -112,10 +116,9 @@ export function ImageDialog() {
     setImagePopUpState(true);
     setImgFile('');
   };
-  const formData = new FormData();
   formData.append('file', imageUpload);
-
-  const putHandled = async () => {
+  const onClick = () => {
+    console.log(formData);
     FetchImage(formData)
       .then(res => notFoundError(res, true, setSuccessState))
       .catch(raiseError('ImageDialog', true, setFailState));
@@ -156,7 +159,7 @@ export function ImageDialog() {
         </div>
         <div className="mt-8">
           {imgFile !== '' ? (
-            <s.NormalButton onClick={putHandled}>업로드하기</s.NormalButton>
+            <s.NormalButton onClick={onClick}>업로드하기</s.NormalButton>
           ) : (
             <s.DisableButton disabled>업로드하기</s.DisableButton>
           )}
@@ -213,9 +216,6 @@ export function EmailDialog({ originalEmail }) {
   const [emailFormatState, setEmailFormatState] = useState(true);
 
   const handleClose = () => setEmailPopUpState(false);
-  const onChange = e => {
-    setEmailState(e.target.value);
-  };
 
   const onClick = async () => {
     FetchChangeEmail(emailState)
@@ -249,7 +249,7 @@ export function EmailDialog({ originalEmail }) {
           <InputEmail
             emailFormatState={emailFormatState}
             onChange={inputHandle}
-            emailState={emailState}
+            value={emailState}
           />
           <div className="mt-4">
             <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
@@ -308,7 +308,7 @@ export function PhoneDialog({ originalPhone }) {
         )}
         <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
-            <InputTelePhone onChange={onChange} phoneState={phoneState} />
+            <InputTelePhone onChange={onChange} value={phoneState} />
           </form>
           <div className="mt-4">
             <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
@@ -590,13 +590,11 @@ export function SignUpDialog() {
               <s.Label for="username">별명</s.Label>
             </div>
             <div className="mt-2">
-              <s.InputText
-                type="text"
+              <InputText
                 name="userNameState"
                 placeholder="별명"
                 onChange={inputHandle}
                 value={userNameState}
-                required
               />
             </div>
           </div>
@@ -666,14 +664,9 @@ export function SignUpDialog() {
                   <s.Label for="studentId">학번</s.Label>
                 </div>
                 <div className="mt-2">
-                  <s.InputText
-                    type="tel"
-                    maxlength="2"
-                    name="studentIdState"
-                    placeholder="학번"
+                  <InputStudentId
                     onChange={inputHandle}
                     value={studentIdState}
-                    required
                   />
                 </div>
               </div>
@@ -685,7 +678,7 @@ export function SignUpDialog() {
                   <InputEmail
                     emailFormatState={emailFormatState}
                     onChange={inputHandle}
-                    emailState={emailState}
+                    value={emailState}
                   />
                 </div>
               </div>
@@ -698,12 +691,7 @@ export function SignUpDialog() {
                 </div>
                 <div className="mt-2">
                   {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                  <s.InputText
-                    type="text"
-                    name="schoolState"
-                    placeholder="업체명"
-                    required
-                  />
+                  <InputText name="schoolState" placeholder="업체명" />
                 </div>
               </div>
               <div>
@@ -714,7 +702,7 @@ export function SignUpDialog() {
                   <InputEmail
                     emailFormatState={emailFormatState}
                     onChange={inputHandle}
-                    emailState={emailState}
+                    value={emailState}
                   />
                 </div>
               </div>
@@ -803,13 +791,7 @@ export function LoginDialog() {
           </div>
         </div>
         <div className="mt-2">
-          <s.InputText
-            type="password"
-            name="passwordState"
-            placeholder="비밀번호"
-            onChange={inputHandle}
-            value={passwordState}
-          />
+          <InputPassword onChange={inputHandle} value={passwordState} />
         </div>
       </div>
     );
@@ -820,10 +802,8 @@ export function LoginDialog() {
       <div>
         <s.Label for="id">Id</s.Label>
         <div className="mt-2">
-          <s.InputText
-            required=""
+          <InputText
             name="idState"
-            type="text"
             placeholder="아이디"
             onChange={inputHandle}
             value={idState}
@@ -924,9 +904,7 @@ export const PostUploadDialog = props => {
     postCode: '123123', // 테스트 데이터,
     startEndDay: [
       new Date(),
-
       new Date().setFullYear(new Date().getFullYear() + 1),
-      ,
     ], // new Date().setFullYear(new Date().getFullYear() + 1) // 2024년 2월 29일에 누르면, 2025년 2월 30일이 나오지는 않는지 확인 필요.
     tempDuration: [duration[0] + '일', duration[1] + '일'],
     price: '10,000',
@@ -937,7 +915,7 @@ export const PostUploadDialog = props => {
     contract: '계약', // ?
   });
 
-  const [
+  const {
     accomodationType,
     limitPeople,
     buildingType,
@@ -961,7 +939,8 @@ export const PostUploadDialog = props => {
     benefit,
     refundPolicy,
     contract,
-  ] = postState;
+    imageFiles,
+  } = postState;
 
   const onChange = e => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -1026,7 +1005,7 @@ export const PostUploadDialog = props => {
     });
 
     for (const [key, value] of formData.entries()) {
-      // console.log(`${key}: ${value}`);
+      console.log(`${key}: ${value}`);
       if (value === '' || value === null || value === undefined) {
         return null;
       }
@@ -1181,8 +1160,8 @@ export const PostUploadDialog = props => {
                 id="title"
                 label="제목"
                 placeholder="제목을 입력해주세요."
-                value={handleTitle}
-                name="handleTitle"
+                value={title}
+                name="title"
                 onChange={onChange}
                 required={true}
               />
@@ -1190,8 +1169,8 @@ export const PostUploadDialog = props => {
                 id="basic_info"
                 label="기본정보"
                 placeholder="기본정보을 입력해주세요."
-                value={handleBasicInfo}
-                name="handleBasicInfo"
+                value={basicInfo}
+                name="basicInfo"
                 onChange={onChange}
                 required={true}
               />

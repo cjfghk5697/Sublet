@@ -1,7 +1,6 @@
 import React from "react";
 import * as s from "./styles/MobileHeader.styles"
 
-
 export const MobileHeader = () => {
 	const SearchButton = () => {
 		return (
