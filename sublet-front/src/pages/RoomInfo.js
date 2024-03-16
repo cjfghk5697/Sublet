@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
 import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
 import { getDateDiff } from '../components/StaticComponents.js';
+import * as RS from '@components/styles/RoomInfo.styles.js';
 
 export default function RoomInfo() {
 	const styles = {
@@ -26,24 +27,6 @@ export default function RoomInfo() {
 			flexDirection: 'row',
 			justifyContent: 'center',
 			height: '300px',
-		},
-		RomeInfo_MiniImgContainer: {
-			display: 'flex',
-			width: '50%',
-			alignItems: 'center',
-		},
-		RomeInfo_ImgContainer2: {
-			display: 'flex',
-			flexDirection: 'column',
-		},
-		RomeInfo_ImgContainer_img: {
-			objectFit: 'cover',
-			height: '100%',
-			borderRadius: '15px',
-		},
-		RomeInfo_MiniImgContainer_img: {
-			height: '250px',
-			borderRadius: '15px',
 		},
 		RomeInfo_detail: {
 			display: 'flex',
@@ -143,9 +126,8 @@ export default function RoomInfo() {
 							{new Array(length).fill('').map((_, i) => (
 								<span
 									key={i}
-									className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-										activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
-									}`}
+									className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
+										}`}
 									onClick={() => setActiveIndex(i)}
 								/>
 							))}
@@ -163,6 +145,7 @@ export default function RoomInfo() {
 							))}
 				</Carousel>
 			</div>
+
 			{postExist && nowRoomPost && (
 				<>
 					<div>
@@ -328,4 +311,36 @@ export default function RoomInfo() {
 			)}
 		</div>
 	);
+}
+
+function ImageCarousel(props) {
+	return (
+		<RS.ImgContainer>
+			<Carousel
+				className="rounded-xl text-center"
+				navigation={({ setActiveIndex, activeIndex, length }) => (
+					<div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+						{new Array(length).fill('').map((_, i) => (
+							<span
+								key={i}
+								className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
+									}`}
+								onClick={() => setActiveIndex(i)}
+							/>
+						))}
+					</div>
+				)}>
+				{postExist &&
+					postAll
+						.find(post => post.key == nowRoomNum)
+						.image_id.map((image_id, index) => (
+							<img
+								src={`${process.env.REACT_APP_BACKEND_URL}/public/${image_id}.jpg`}
+								alt={`image ${index}`}
+								className="h-full object-cover m-auto"
+							/>
+						))}
+			</Carousel>
+		</RS.ImgContainer >
+	)
 }
