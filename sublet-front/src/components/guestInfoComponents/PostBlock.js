@@ -19,16 +19,16 @@ function PostInfo(user_id) {
       {postInfo.length > 0 ? (
         postInfo.map(res => {
           const address = res.city + ' ' + res.gu + ' ' + res.dong;
-          const post_date = DateFormat(res.post_date);
+          const postDate = DateFormat(res.post_date);
           const price = priceToString(res.price);
 
           return (
             <PostSummaryBlock
               room={res}
-              post_date={post_date}
-              pay={price}
+              postDate={postDate}
+              price={price}
               address={address}
-              guest_mode={true}
+              guestMode={true}
             />
           );
         })

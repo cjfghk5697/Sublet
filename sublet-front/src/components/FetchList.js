@@ -267,30 +267,24 @@ function FetchSignUp({
     .catch(raiseError('FetchSignUp'));
 }
 
-async function FetchGetRequestByRequestId(idList) {
-  const [requestInfo, setRequestInfo] = useState([]);
+async function FetchGetRequestByRequestId(idList, setRequestInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/request/requestId`;
 
   const getRequestInfo = async () => {
-    const requestOptions = {
+    const json = await fetch(URL, {
       ...headerOptions('POST'),
       body: JSON.stringify({
         id: idList,
       }),
-    };
-    const json = await fetch(URL, requestOptions)
+    })
       .then(notFoundError)
       .catch(raiseError('FetchGetRequestByRequestId'));
 
     setRequestInfo(json);
   };
-
   useEffect(() => {
     getRequestInfo();
   }, []);
-
-  const request = Array.from(requestInfo);
-  return request;
 }
 async function FetchVerifyEmail(email) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`;
