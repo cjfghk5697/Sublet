@@ -1,0 +1,29 @@
+import { FetchGetRequestByRequestId } from '@components/FetchList';
+import { DialogForm } from '@components/Popup';
+import { DialogContent } from '@mui/material';
+import { useState } from 'react';
+import { PostRequest } from '../Request';
+
+export const PostRequestDialog = ({ requestDialogShow, onChange, key }) => {
+  const [requestInfo, setRequestInfo] = useState([]);
+
+  FetchGetRequestByRequestId(key, setRequestInfo);
+
+  return (
+    <DialogForm
+      openState={requestDialogShow}
+      handleClose={onChange}
+      name="requestDialogShow"
+      render={() => (
+        <label
+          htmlFor="test"
+          className="block mb-2 text-sm font-medium text-gray-900 float-left">
+          test
+        </label>
+      )}>
+      <DialogContent sx={{ width: 512 }} className="text-left">
+        {requestInfo !== false && <PostRequest requestList={requestInfo} />}
+      </DialogContent>
+    </DialogForm>
+  );
+};
