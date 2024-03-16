@@ -20,7 +20,6 @@ import {
   priceToString,
 } from '../components/StaticComponents.js';
 import { RequsetSummaryBlock } from '../components/SummaryBlock.js';
-import Header from '../components/Header.js';
 
 function RequestListComponent() {
   const [requestInfo, setRequestInfo] = useState([]);
@@ -32,24 +31,16 @@ function RequestListComponent() {
       <s.NormalButton>요청서 올리기</s.NormalButton>
       {requestInfo.length > 0 ? (
         requestInfo.map(res => {
-          const start_date = DateFormat(res.start_day);
-          const end_date = DateFormat(res.end_day);
+          const startDate = DateFormat(res.start_day);
+          const endDate = DateFormat(res.end_day);
           const price = priceToString(res.price);
 
           return (
             <RequsetSummaryBlock
-              city={res.city}
-              gu={res.gu}
-              dong={res.dong}
-              request_key={res.key}
-              accomodation_type={res.accomodation_type}
-              start_date={start_date}
-              end_date={end_date}
+              request={res}
+              startDate={startDate}
+              endDate={endDate}
               pay={price}
-              contract={res.contract}
-              complete={res.complete}
-              Post={res.Post}
-              request_text={res.request_text}
             />
           );
         })

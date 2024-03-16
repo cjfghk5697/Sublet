@@ -69,14 +69,20 @@ import { ImageUploadComponent } from './Input/ImageInput.js';
 import { ValueRangeViewer } from './Input/ValueViewer.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
-function DialogForm({ openState, handleClose, children, render }) {
+export function DialogForm({
+  name = '',
+  openState,
+  handleClose,
+  children,
+  render,
+}) {
   return (
     <Dialog
       open={openState}
       className="border border-gray-300 shadow-xl rounded-lg">
       <DialogTitle>
         {render()}
-        <s.SvgHoverButton type="button" onClick={handleClose}>
+        <s.SvgHoverButton name={name} type="button" onClick={handleClose}>
           <StyleComponent content="CloseButton" />
         </s.SvgHoverButton>
       </DialogTitle>
@@ -284,7 +290,7 @@ export function PhoneDialog({ originalPhone }) {
   const onClick = () => {
     FetchChangePhone(phoneState.replace(/-/gi, '').replace('010', '+8210'))
       .then(res => notFoundError(res, true, setSuccessState))
-      .catch(raiseError('EmailDialog', true, setFailState));
+      .catch(raiseError('PhoneDialog', true, setFailState));
   };
   return (
     <>
@@ -293,19 +299,11 @@ export function PhoneDialog({ originalPhone }) {
         handleClose={handleClose}
         render={() => (
           <label
-            htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 float-left">
-            Email address
-          </label>
-        )}>
-        render=
-        {() => (
-          <label
             htmlFor="tel"
             className="block mb-2 text-sm font-medium text-gray-900 float-left">
             Phone number
           </label>
-        )}
+        )}>
         <DialogContent sx={{ height: 120, width: 312 }} className="text-center">
           <form>
             <InputTelePhone onChange={onChange} value={phoneState} />
@@ -373,7 +371,7 @@ export function ShareDialog({ description, title, image_id }) {
     <div className="z-10 inline-block mr-6">
       <div clssName="">
         <s.SecondHead>숙소를 공유하세요!</s.SecondHead>
-        <p className="text-base text-gray"> 복사하여 편하게 보내세요</p>
+        <s.NormalText> 복사하여 편하게 보내세요</s.NormalText>
       </div>
       <div className="mt-2">
         {/* input 용도가 아니라서 컴포넌트화 하지 않았습니다. */}
@@ -404,27 +402,29 @@ export function ShareDialog({ description, title, image_id }) {
 }
 
 export function RequestSummaryDetailDialog({
-  request_text,
+  request,
   address,
-  contract,
-  accomodation_type,
-  pay,
-  start_date,
-  end_date,
+  price,
+  startDate,
+  endDate,
 }) {
   const info_list = {
-    '숙소 유형': accomodation_type,
-    요금: pay,
-    체크인: start_date,
-    체크아웃: end_date,
-    요청사항: request_text,
+    '숙소 유형': request.accomodation_type,
+    요금: price,
+    체크인: startDate,
+    체크아웃: endDate,
+    요청사항: request.request_text,
   };
   return (
     <>
       <s.SecondHead>{address} </s.SecondHead>
 
       <s.Horizon />
-      {contract ? <p>계약된 매물만 확인</p> : <p>계약 안된 매물도 확인</p>}
+      {request.contract ? (
+        <p>계약된 매물만 확인</p>
+      ) : (
+        <p>계약 안된 매물도 확인</p>
+      )}
       {Object.keys(info_list).map(k => (
         <Information title={k} info={info_list[k]} />
       ))}
@@ -432,32 +432,24 @@ export function RequestSummaryDetailDialog({
   );
 }
 
-export function PostSummaryDetailDialog({
-  title,
-  contract,
-  private_post,
-  accomodation_type,
-  post_date,
-  pay,
-  address,
-}) {
+export function PostSummaryDetailDialog({ room, postDate, price, address }) {
   const info_list = {
-    '숙소 유형': accomodation_type,
-    게시일: post_date,
-    요금: pay,
+    '숙소 유형': room.accomodation_type,
+    게시일: postDate,
+    요금: price,
     주소: address,
   };
   return (
     <>
       <div className="inline-block">
-        <s.SecondHead className="float-start mr-4">{title} </s.SecondHead>
-        {contract ? (
+        <s.SecondHead className="float-start mr-4">{room.title} </s.SecondHead>
+        {room.contract ? (
           <StyleComponent content="VerifyRoom" />
         ) : (
           <StyleComponent content="UnverifyRoom" />
         )}
       </div>
-      {private_post ? (
+      {room.private ? (
         <p className="font-sm text-black font-bold">공개</p>
       ) : (
         <p className="font-sm text-gray-600 font-bold">비공개</p>
