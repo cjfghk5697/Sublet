@@ -7,11 +7,11 @@ import SearchPriceRange from './components/SearchPriceRange.js';
 import { Favorite } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useLocation } from 'react-router-dom';
-import { LoginDialog } from './Popup.js';
+import { LoginDialog } from '@shared/components/Popup.js';
 
 import Button from '@mui/material/Button';
 import SearchLocation from './components/SearchLocation.js';
-import { useUserInfoStore } from '../store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 const Header = () => {
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);

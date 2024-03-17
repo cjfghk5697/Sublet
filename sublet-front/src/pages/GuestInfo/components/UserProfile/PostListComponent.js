@@ -1,4 +1,4 @@
-import { guestInfoPopUpStore } from '../store/guestInfoStore.js';
+import { guestInfoPopUpStore } from 'components/store/guestInfoStore.js';
 import { useState } from 'react';
 import { NormalButton, SecondHead } from '@shared/components/styles/Public.styles.js';
 import { DateFormat, priceToString } from '@shared/components/StaticComponents/StaticComponents.js';

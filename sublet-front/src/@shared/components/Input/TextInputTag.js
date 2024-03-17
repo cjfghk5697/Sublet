@@ -1,6 +1,6 @@
 import * as s from './styles/Input.styles.js';
 
-export const InputText = ({ name, placeholder, onChange, value }) => {
+export const InputTextCss = ({ name, placeholder, onChange, value }) => {
   return (
     <InputTextCss
       name={name}
@@ -24,7 +24,7 @@ export const InputEmail = ({ emailFormatState, onChange, value }) => {
       required
     />
   ) : (
-    <s.InputTextError
+    <s.InputTextErrorCss
       type="email"
       name="emailState"
       placeholder="이메일"
@@ -37,7 +37,7 @@ export const InputEmail = ({ emailFormatState, onChange, value }) => {
 
 export const InputTelePhone = ({ onChange, value }) => {
   return (
-    <s.InputText
+    <s.InputTextCss
       maxlength="13"
       type="tel"
       name="phoneState"
@@ -54,7 +54,7 @@ export const InputTelePhone = ({ onChange, value }) => {
 
 export const InputPassword = ({ onChange, value }) => {
   return (
-    <s.InputText
+    <s.InputTextCss
       type="password"
       name="passwordState"
       placeholder="비밀번호"
@@ -67,7 +67,7 @@ export const InputPassword = ({ onChange, value }) => {
 
 export const InputStudentId = ({ onChange, value }) => {
   return (
-    <s.InputText
+    <s.InputTextCss
       type="tel"
       maxlength="2"
       name="studentIdState"

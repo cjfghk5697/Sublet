@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useTitle } from '../components/hook/HookCollect.js';
+import { useTitle } from 'components/hook/HookCollect.js';
 
 import { RequestListComponent } from './components/UserProfile/RequsetListComponent';
 import { UserPrivateComponent } from './components/UserProfile/UserPrivateComponent';
