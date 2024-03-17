@@ -5,7 +5,10 @@ import { verifyStore } from '../components/store/resetPassword.js';
 import { FetchChangePassword } from '../components/FetchList.js';
 import { Alert, FailAlert } from '../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
-import { InputText, InputPassword } from '../@shared/components/Input/TextInputTag.js';
+import {
+  InputText,
+  InputPassword,
+} from '../@shared/components/Input/TextInputTag.js';
 
 export default function ResetPassword() {
   const [inputs, setInputs] = useState({

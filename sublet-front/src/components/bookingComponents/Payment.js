@@ -50,10 +50,10 @@ export default class PaymentForm extends React.Component {
     this.setState({ [target.name]: target.value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     const formData = [...e.target.elements]
-      .filter((d) => d.name)
+      .filter(d => d.name)
       .reduce((acc, d) => {
         acc[d.name] = d.value;
         return acc;
@@ -68,7 +68,6 @@ export default class PaymentForm extends React.Component {
     return (
       <div key="Payment" className="mt-4">
         <div className="flex justify-between">
-
           <Card
             number={number}
             name={name}
@@ -77,7 +76,7 @@ export default class PaymentForm extends React.Component {
             focused={focused}
             callback={this.handleCallback}
           />
-          <form ref={(c) => (this.form = c)} onSubmit={this.handleSubmit}>
+          <form ref={c => (this.form = c)} onSubmit={this.handleSubmit}>
             <div className="form-group">
               <TextField
                 id="standard-size-small"
@@ -159,10 +158,18 @@ export default class PaymentForm extends React.Component {
                 />
               </div>
             </div>
-            <TextField id="standard-size-small" size="small" label="성함" variant="standard" type="hidden" name="issuer" value={issuer} />
+            <TextField
+              id="standard-size-small"
+              size="small"
+              label="성함"
+              variant="standard"
+              type="hidden"
+              name="issuer"
+              value={issuer}
+            />
 
             <div className="form-actions flex justify-end">
-              <s.NormalButton >PAY</s.NormalButton>
+              <s.NormalButton>PAY</s.NormalButton>
             </div>
           </form>
           {formData && (
