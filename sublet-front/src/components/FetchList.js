@@ -102,21 +102,14 @@ async function FetchReservation(setReservationInfo) {
   }, []);
 }
 
-async function FetchReservationByPostKey(post_key) {
-  const [reservationInfo, setReservationInfo] = useState([]);
+async function FetchReservationByPostKey(setReservationInfo, postKey) {
   const URL =
-    `${process.env.REACT_APP_BACKEND_URL}/reservation/post?key=` + post_key;
+    `${process.env.REACT_APP_BACKEND_URL}/reservation/post?key=` + postKey;
 
-  const getPostInfo = async () => {
-    const json = await fetch(URL, headerOptions('GET'))
-      .then(notFoundError)
-      .catch(raiseError('FetchReservationByPostKey'));
-    setReservationInfo(json);
-  };
-
-  useEffect(() => {
-    getPostInfo();
-  }, []);
+  const json = await fetch(URL, headerOptions('GET'))
+    .then(notFoundError)
+    .catch(raiseError('FetchReservationByPostKey'));
+  setReservationInfo(json);
 
   const reservation = Array.from(reservationInfo);
   return reservation;
@@ -184,26 +177,16 @@ async function FetchImage(formData) {
   });
 }
 
-async function FetchGetMyUser() {
-  const [userInfo, setUserInfo] = useState();
+async function FetchGetMyUser(setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;
 
-  const getUserInfo = async () => {
-    const json = await fetch(URL, headerOptions('GET'))
-      .then(notFoundError)
-      .catch(raiseError('FetchGetMyUser'));
-    setUserInfo(json);
-  };
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  return userInfo;
+  const json = await fetch(URL, headerOptions('GET'))
+    .then(notFoundError)
+    .catch(raiseError('FetchGetMyUser'));
+  setUserInfo(json);
 }
 
-async function FetchGetOneUser(userId) {
-  const [userInfo, setUserInfo] = useState();
+async function FetchGetOneUser(userId, setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${userId}`;
 
   const getUserInfo = async () => {
@@ -215,8 +198,7 @@ async function FetchGetOneUser(userId) {
   useEffect(() => {
     getUserInfo();
   }, []);
-
-  return userInfo;
+  return true;
 }
 
 async function FetchGetRequest(setRequestInfo) {
@@ -364,7 +346,7 @@ function FetchConnectRequestPost(requestKey, postKey) {
       key: requestKey,
     }),
   })
-    .then(notFoundError)
+    .then(notFoundError(true))
     .catch(raiseError('ConnectRequestPost'));
 }
 
