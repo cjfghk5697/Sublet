@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   InputTextCss,
   InputPassword,
-} from '../@shared/components/Input/TextInputTag.js';
+} from '@shared/components/Input/TextInputTag.js';
 
 export default function ResetPassword() {
   const [inputs, setInputs] = useState({

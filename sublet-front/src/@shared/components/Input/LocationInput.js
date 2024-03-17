@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from 'components/Map.js';
+import Map from '@shared/components/Map/Map.js';
 import * as inputStyle from './styles/Input.styles.js';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
