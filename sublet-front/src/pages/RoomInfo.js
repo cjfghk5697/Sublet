@@ -1,23 +1,14 @@
-import {
-	PersonIcon,
-	SingleBedIcon,
-	HomeIcon,
-	BathtubIcon,
-} from '@mui/icons-material';
 import { Dialog, DialogContent } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SubletPostStore } from '../store/SubletPostStore';
-import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
-import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
 import * as s from '../components/styles/Public.styles.js';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
 import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
 import { useSearchDateStore } from '../@core/Header/store/searchDateStore.js';
-import { getDateDiff } from '../components/StaticComponents.js';
-import * as RS from 'components/styles/RoomInfo.styles.js';
+import { RoomHost, RoomReservation, RoomDetail, RoomPrice, ImageCarousel } from '@shared/components/RoomInfo';
 
 export default function RoomInfo() {
 	// 새 창에서 열릴 때 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
@@ -173,106 +164,3 @@ export default function RoomInfo() {
 		</>
 	);
 }
-
-function ImageCarousel({ children }) {
-	return (
-		<RS.ImgContainer>
-			<Carousel
-				className="rounded-xl text-center"
-				navigation={({ setActiveIndex, activeIndex, length }) => (
-					<div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-						{new Array(length).fill('').map((_, i) => (
-							<span
-								key={i}
-								className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
-									}`}
-								onClick={() => setActiveIndex(i)}
-							/>
-						))}
-					</div>
-				)}>
-				{children}
-			</Carousel>
-		</RS.ImgContainer>
-	);
-}
-
-function RoomPrice({ nowRoomPost }) {
-	return (
-		<RS.RoomInfoSection>
-			<div className="flex justify-between items-start">
-				<div className="text-lg font-bold">30박</div>
-				<div className="text-3xl font-bold mt-1">
-					{(nowRoomPost.price * 30)
-						.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-					원~
-				</div>
-				<div className="text-sm font-bold mt-2">
-					1박 당{' '}
-					{(nowRoomPost.price * 1)
-						.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-					원
-				</div>
-				<div className="flex flex-col text-sm text-gray-500 mt-3">
-					{new Date(nowRoomPost.start_day).getMonth() + 1}월{' '}
-					{new Date(nowRoomPost.start_day).getDate()}일 부터, 최소{' '}
-					{nowRoomPost.min_duration}개월
-				</div>
-			</div>
-		</RS.RoomInfoSection>
-	);
-}
-
-function RoomDetail({ nowRoomPost }) {
-	return (
-		<RS.RoomInfoSection>
-			<div className="text-xl font-bold">방 정보</div>
-			<div className="flex w-80 mx-10 flex-wrap content-center flex-row justify-around">
-				<div>
-					<PersonIcon />
-					최대 {nowRoomPost.limit_people} 인
-				</div>
-				<div>
-					<SingleBedIcon />방 {nowRoomPost.number_room} 개
-				</div>
-				<div>
-					<HomeIcon />
-					침실 {nowRoomPost.number_bedroom} 개
-				</div>
-				<div>
-					<BathtubIcon />
-					화장실 {nowRoomPost.number_bathroom} 개
-				</div>
-			</div>
-
-			<div className="text-sm font-bold">
-				<p>{nowRoomPost.content}</p>
-				<p>{nowRoomPost.description}</p>
-			</div>
-		</RS.RoomInfoSection>
-	);
-}
-
-function RoomReservation({ nowRoomPost, moveToBooking }) {
-	return (
-		<RS.RoomInfoSection>
-			<div className="text-xl font-bold">예약하기</div>
-			<SearchDate />
-			<div className="mt-4 mb-2 text-2xl font-bold">
-				{`${(getDateDiff(searchDate[0], searchDate[1]) * nowRoomPost.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}{' '}
-				원
-				<span className="text-sm font-normal">
-					{' '}
-					/ {getDateDiff(searchDate[0], searchDate[1])} 일
-				</span>
-			</div>
-			<s.NormalButton onClick={moveToBooking}>예약하기</s.NormalButton>
-			<div className="mt-2 mb-2 text-sm text-gray-600">
-				예약 확정 전에 환불 규정을 확인 하셨나요?
-			</div>
-		</RS.RoomInfoSection>
-	);
-}
-
