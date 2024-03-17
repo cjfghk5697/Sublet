@@ -2,7 +2,6 @@ import React from 'react';
 import * as inputStyle from './styles/Input.styles.js';
 import { priceToString } from '../StaticComponents.js';
 
-
 export const SingleValueViewer = ({ value }) => {
   return (
     <inputStyle.displayFilteringValueWhenModifyingFilter>

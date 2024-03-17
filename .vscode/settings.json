@@ -7,8 +7,5 @@
   "prettier.semi": true,
   "prettier.useTabs": false,
   "files.eol": "\n",
-  "prettier.endOfLine": "lf",
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  "prettier.endOfLine": "lf"
 }

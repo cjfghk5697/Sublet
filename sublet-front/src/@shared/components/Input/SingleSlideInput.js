@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from '@mui/material/Slider';
 
-export const SingleSlideInput = ({ name = "", value, onChange, minMax }) => {
+export const SingleSlideInput = ({ name = '', value, onChange, minMax }) => {
   return (
     <Slider
       name={name}
