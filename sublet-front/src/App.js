@@ -2,6 +2,11 @@ import './App.css';
 import Home from './pages/Home/Home.js';
 import RoomInfo from './pages/RoomInfo';
 import SearchSubletInfo from './pages/SearchSubletInfo';
+<<<<<<< HEAD
+=======
+import Booking from './pages/Booking';
+import GuestInfo from './pages/GuestInfo/GuestInfo.js';
+>>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa
 import TestChat from './pages/test_chat/TestChat.js';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';

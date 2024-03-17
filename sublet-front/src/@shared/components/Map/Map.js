@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SubletPostStore } from '../store/SubletPostStore';
+import { SubletPostStore } from '../../../store/SubletPostStore';
 import styled from 'styled-components';
 
 function markerHTML(price) {

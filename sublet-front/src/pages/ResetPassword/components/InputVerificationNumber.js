@@ -1,5 +1,5 @@
-import { NormalText } from '@components/styles/Public.styles';
-import { VerifyEmailComponents } from '@components/verifyComponents/Email';
+import { NormalText } from '@shared/components/styles/Public.styles';
+import { VerifyEmailComponents } from '@shared/components/verifyComponents/Email';
 
 export const InputVerificationNumber = ({ email, idState }) => {
   return (

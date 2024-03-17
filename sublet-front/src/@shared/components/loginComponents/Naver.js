@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
+<<<<<<< HEAD:sublet-front/src/components/loginComponents/Naver.js
 import { FetchLogin } from '../FetchList';
 import { useUserInfoStore } from '@core/store/UserInfoStore';
+=======
+import { FetchLogin } from '../FetchList/FetchList';
+import { useUserInfoStore } from '../../store/UserInfoStore.js';
+>>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/@shared/components/loginComponents/Naver.js
 // https://2mojurmoyang.tistory.com/193
 
 export default function NaverLogin() {

@@ -1,7 +1,11 @@
-import * as RS from '@components/styles/RoomInfo.styles.js';
+import * as RS from '@shared/components/styles/RoomInfo.styles.js';
 import * as s from '@shared/styles/styles.js';
 import SearchDate from '@core/Header/Desktop/components/SearchDate.js';
+<<<<<<< HEAD:sublet-front/src/@shared/components/RoomInfo/RoomReservation.jsx
 import { getDateDiff } from '@components/StaticComponents';
+=======
+import { getDateDiff } from '@shared/components/StaticComponents/StaticComponents.js';
+>>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/@shared/components/RoomInfo/RoomReservation.js
 
 export function RoomReservation({ nowRoomPost, moveToBooking }) {
   return (

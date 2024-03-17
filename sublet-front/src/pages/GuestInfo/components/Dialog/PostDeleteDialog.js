@@ -1,5 +1,5 @@
-import { DialogForm } from '@components/Popup';
-import { DeleteButton } from '@components/styles/Public.styles';
+import { DialogForm } from '@shared/components/Popup/Popup';
+import { DeleteButton } from '@shared/components/styles/Public.styles';
 import { DialogActions, DialogContent } from '@mui/material';
 
 export const PostDeleteDialog = ({ onChange, deletelDialogShow, key }) => {

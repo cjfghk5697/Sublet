@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import * as s from './styles/Public.styles.js';
+import * as s from '../styles/Public.styles.js';
 import {
   InputEmail,
   InputTelePhone,
@@ -9,8 +9,8 @@ import {
   TextInputTag,
   InputTextArea,
   InputInteger,
-} from '../@shared/components/Input/TextInputTag.js';
-import * as psd from './styles/PostUploadDialog.styles.js';
+} from '../Input/TextInputTag.js';
+import * as psd from '../styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import {
@@ -20,7 +20,7 @@ import {
   FetchLogin,
   FetchSignUp,
   FetchUploadPost,
-} from './FetchList';
+} from '../FetchList/FetchList.js';
 
 import { guestInfoPopUpStore } from './store/guestInfoStore.js';
 import {
@@ -32,7 +32,7 @@ import {
   notFoundError,
   raiseError,
   IsSuccessAlert,
-} from './StaticComponents.js';
+} from '../StaticComponents/StaticComponents.js';
 import {
   DialogTitle,
   DialogActions,
@@ -46,25 +46,34 @@ import {
   MenuItem,
 } from '@mui/material';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleButton } from './loginComponents/Google.js';
-import NaverLogin from './loginComponents/Naver.js';
-import { VerifyEmailComponents } from './verifyComponents/Email.js';
+import { GoogleButton } from '../loginComponents/Google.js';
+import NaverLogin from '../loginComponents/Naver.js';
+import { VerifyEmailComponents } from '../verifyComponents/Email.js';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-import DropBoxSelect from '../@shared/components/Input/DropBoxSelect.js';
-import { DoubleSlideInput } from '../@shared/components/Input/DoubleSlideInput.js';
-import { SingleSlideInput } from '../@shared/components/Input/SingleSlideInput.js';
-import * as ValueViewer from '../@shared/components/Input/ValueViewer.js';
-import Map from '../components/Map.js';
+import DropBoxSelect from '../Input/DropBoxSelect.js';
+import { DoubleSlideInput } from '../Input/DoubleSlideInput.js';
+import { SingleSlideInput } from '../Input/SingleSlideInput.js';
+import * as ValueViewer from '../Input/ValueViewer.js';
+import Map from '../Map/Map.js';
 
+<<<<<<< HEAD:sublet-front/src/components/Popup.js
 import { LocationInput } from '../@shared/components/Input/LocationInput.js';
 import { DoubleDatePicker } from '../@shared/components/Input/DoubleDatePicker.js';
 import { priceToString } from '../components/StaticComponents.js';
 import { ImageUploadComponent } from '../@shared/components/Input/ImageInput.js';
 import { useUserInfoStore } from '@core/store/UserInfoStore.js';
+=======
+import { LocationInput } from '../Input/LocationInput.js';
+import { DoubleDatePicker } from '../Input/DoubleDatePicker.js';
+import { priceToString } from '../StaticComponents/StaticComponents.js';
+import { ImageUploadComponent } from '../Input/ImageInput.js';
+import { ValueRangeViewer } from './Input/ValueViewer.js';
+import { useUserInfoStore } from '../store/UserInfoStore.js';
+>>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/@shared/components/Popup/Popup.js
 
 export function DialogForm({
   name = '',

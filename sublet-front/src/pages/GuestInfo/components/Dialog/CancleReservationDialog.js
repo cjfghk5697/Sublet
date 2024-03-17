@@ -1,10 +1,10 @@
-import { FetchDeleteReservation } from '@components/FetchList';
-import { DialogForm } from '@components/Popup';
+import { FetchDeleteReservation } from '@shared/components/FetchList/FetchList';
+import { DialogForm } from '@shared/components/Popup/Popup';
 import {
   DeleteButton,
   DisableButton,
   NormalText,
-} from '@components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 import { Checkbox, DialogActions, DialogContent } from '@mui/material';
 
 export function CancleReservationDialog({

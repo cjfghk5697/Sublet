@@ -1,7 +1,7 @@
-import { FetchReservation } from '@components/FetchList';
+import { FetchReservation } from '@shared/components/FetchList/FetchList';
 import { useState } from 'react';
-import { ReservationSummaryBlock } from '../Blocks/SummaryBlock';
-import { NormalText, SecondHead } from '@components/styles/Public.styles';
+import { ReservationSummaryBlock } from 'pages/GuestInfo/components/Blocks/ReservationSummaryBlock.js';
+import { NormalText, SecondHead } from '@shared/components/styles/Public.styles';
 
 export function ReservationInfo() {
   const [reservationInfo, setReservationInfo] = useState([]);

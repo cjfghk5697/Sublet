@@ -1,7 +1,7 @@
-import { FetchDeleteRequest } from '@components/FetchList';
-import { DialogForm } from '@components/Popup';
-import { Information } from '@components/StaticComponents';
-import { DeleteButton, NormalText } from '@components/styles/Public.styles';
+import { FetchDeleteRequest } from '@shared/components/FetchList/FetchList';
+import { DialogForm } from '@shared/components/Popup/Popup';
+import { Information } from '@shared/components/StaticComponents/StaticComponents';
+import { DeleteButton, NormalText } from '@shared/components/styles/Public.styles';
 import { DialogActions, DialogContent } from '@mui/material';
 
 export const RequestDeleteDialog = ({ deletePopUpState, onChange, key }) => {

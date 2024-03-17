@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useTitle } from '../components/hook/HookCollect.js';
+import { useTitle } from 'components/hook/HookCollect.js';
 
 import { RequestListComponent } from './components/UserProfile/RequsetListComponent';
 import { UserPrivateComponent } from './components/UserProfile/UserPrivateComponent';
-import { Horizon, Wrapper } from '@components/styles/Public.styles';
+import { Horizon, Wrapper } from '@shared/components/styles/Public.styles.js';
 import { ReservationInfo } from './components/Info/ReservationInfo';
 import { UserBaseComponent } from './components/UserImageProfile.js';
-import { PostUploadDialog } from '@components/Popup.js';
+import { PostUploadDialog } from '@shared/components/Popup/Popup.js';
 import { PostListComponent } from './components/UserProfile/PostListComponent.js';
 
 function GuestInfo() {

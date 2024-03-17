@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Map from '../../components/Map';
+import Map from '../../@shared/components/Map/Map';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import styled from 'styled-components';
 import { useUserInfoStore } from '../../@core/store/UserInfoStore.js';

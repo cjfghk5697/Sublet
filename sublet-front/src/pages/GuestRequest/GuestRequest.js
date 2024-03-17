@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
+<<<<<<< HEAD:sublet-front/src/pages/GuestRequest/GuestRequest.js
 import SearchPriceRange from '../../@core/Header/Desktop/components/SearchPriceRange.js';
 import SearchDate from '../../@core/Header/Desktop/components/SearchDate.js';
 import GuestRequeststyles from '../../components/styles/GuestRequest.styles.js';
@@ -17,6 +18,12 @@ import * as s from '../../components/styles/GuestRequest.styles.js';
 
 import * as ps from '../../components/styles/Public.styles.js';
 
+=======
+import SearchPriceRange from '../@core/Header/Desktop/components/SearchPriceRange.js';
+import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
+import GuestRequeststyles from '../@shared/components/styles/GuestRequest.styles.js';
+import * as s from '../@shared/components/styles/GuestRequest.styles.js';
+>>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/pages/GuestRequest.js
 /* import DropdownButton from '../components/DropdownButton.js'; */
 
 function GuestRequest() {

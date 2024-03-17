@@ -1,11 +1,11 @@
 module.exports = {
   parser: '@babel/eslint-parser',
   parserOptions: {
-    requireConfigFile: false,
+    // requireConfigFile: false,
     babelOptions: {
-      babelrc: false,
-      configFile: false,
-      presets: ['@babel/preset-env'],
+      // babelrc: false,
+      // configFile: false,
+      presets: ['@babel/preset-react'],
     },
   },
 };
