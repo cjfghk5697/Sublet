@@ -7,7 +7,7 @@ import {
   formatExpirationDate,
   formatFormData,
   formatPassword,
-} from '../../../../../pages/Booking/Components.js/Pay/utils';
+} from './utils';
 
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { TextField } from '@mui/material';

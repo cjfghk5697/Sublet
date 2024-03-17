@@ -6,7 +6,7 @@ import {
   FetchVerifyEmail,
   FetchVerifyUser,
 } from '../FetchList/FetchList.js';
-import { verifyStore } from '../../../components/store/resetPassword.js';
+import { verifyStore } from '../Popup/store/resetPassword.js';
 
 export function VerifyEmailComponents({
   email,

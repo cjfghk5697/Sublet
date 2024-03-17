@@ -1,6 +1,6 @@
 import { bookingPopUpStore } from '@shared/components/Popup/store/bookingPopUpStore';
-import { BookPriceAndDate } from '../../../pages/Booking/Components.js/Info/BookPriceAndDate';
-import { BookRefundRule } from '../../../pages/Booking/Components.js/Info/BookRefundRule';
+import { BookPriceAndDate } from './Components/Info/BookPriceAndDate';
+import { BookRefundRule } from './Components/Info/BookRefundRule';
 import { BookPaymentMethod } from './Components/Info/BookPaymentMethod';
 
 export default function Booking(userId) {
