@@ -6,7 +6,10 @@ import {
   InputText,
   InputPassword,
   InputStudentId,
-} from './styles/Input.styles.js';
+  TextInputTag,
+  InputTextArea,
+  InputInteger,
+} from '../@shared/components/Input/TextInputTag.js';
 import * as psd from './styles/PostUploadDialog.styles.js';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -51,21 +54,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-import {
-  TextInputTag,
-  TextAreaTag,
-  NumberInputTag,
-} from './Input/TextInputTag.js';
-import DropBoxSelect from './Input/DropBoxSelect.js';
-import { DoubleSlideInput } from './Input/DoubleSlideInput.js';
-import { SingleSlideInput } from '../components/Input/SingleSlideInput.js';
-import * as ValueViewer from '../components/Input/ValueViewer.js';
+import DropBoxSelect from '../@shared/components/Input/DropBoxSelect.js';
+import { DoubleSlideInput } from '../@shared/components/Input/DoubleSlideInput.js';
+import { SingleSlideInput } from '../@shared/components/Input/SingleSlideInput.js';
+import * as ValueViewer from '../@shared/components/Input/ValueViewer.js';
 import Map from '../components/Map.js';
 
-import { LocationInput } from '../components/Input/LocationInput.js';
-import { DoubleDatePicker } from './Input/DoubleDatePicker.js';
+import { LocationInput } from '../@shared/components/Input/LocationInput.js';
+import { DoubleDatePicker } from '../@shared/components/Input/DoubleDatePicker.js';
 import { priceToString } from '../components/StaticComponents.js';
-import { ImageUploadComponent } from './Input/ImageInput.js';
+import { ImageUploadComponent } from '../@shared/components/Input/ImageInput.js';
 import { ValueRangeViewer } from './Input/ValueViewer.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
@@ -1157,7 +1155,7 @@ export const PostUploadDialog = props => {
                 onChange={onChange}
                 required={true}
               />
-              <TextAreaTag
+              <InputTextArea
                 id="basic_info"
                 label="기본정보"
                 placeholder="기본정보을 입력해주세요."
@@ -1241,7 +1239,7 @@ export const PostUploadDialog = props => {
                 setDateData={hadnleStartEndDay}
               />
 
-              <NumberInputTag
+              <InputInteger
                 id="price"
                 label="가격"
                 name="price"
@@ -1441,7 +1439,7 @@ export const PostEditDialog = post => {
               required={true}
               value={title}
             />
-            <TextAreaTag
+            <InputTextArea
               id="basic_info"
               label="기본정보"
               placeholder="기본정보을 입력해주세요."
@@ -1461,7 +1459,7 @@ export const PostEditDialog = post => {
               setDateData={onChange}
             />
 
-            <NumberInputTag
+            <InputInteger
               id="price"
               label="가격"
               placeholder="가격을 입력해주세요."

@@ -2,16 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Dialog, Popover } from '@headlessui/react';
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import SearchDate from './HeaderComponents/SearchDate.js';
-import SearchPriceRange from './HeaderComponents/SearchPriceRange.js';
+import SearchDate from './components/SearchDate.js';
+import SearchPriceRange from './components/SearchPriceRange.js';
 import { Favorite } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useLocation } from 'react-router-dom';
 import { LoginDialog } from './Popup.js';
 
-
 import Button from '@mui/material/Button';
-import SearchLocation from './HeaderComponents/SearchLocation.js';
+import SearchLocation from './components/SearchLocation.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
 const Header = () => {
@@ -127,14 +126,12 @@ const Header = () => {
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
-        style={styles.headerContainer}
-      >
+        style={styles.headerContainer}>
         <div className="flex lg:flex-1">
           <IconButton
             onClick={handleReload}
             style={styles.logoContainer}
-            className="-m-1.5 p-1.5"
-          >
+            className="-m-1.5 p-1.5">
             <span className="sr-only">Sublet</span>
             <img
               src={`${process.env.PUBLIC_URL}/logo.png`}
@@ -146,21 +143,14 @@ const Header = () => {
         </div>
         <Popover.Group
           style={styles.searchBoxContainer}
-          className="hidden lg:flex lg:gap-x-12"
-        >
-          <span
-            className="font-semibold leading-6 text-gray-900"
-          >
+          className="hidden lg:flex lg:gap-x-12">
+          <span className="font-semibold leading-6 text-gray-900">
             <SearchLocation />
           </span>
-          <span
-            className="font-semibold leading-6 text-gray-900"
-          >
+          <span className="font-semibold leading-6 text-gray-900">
             <SearchDate />
           </span>
-          <IconButton
-            className="font-semibold leading-6 text-gray-900"
-          >
+          <IconButton className="font-semibold leading-6 text-gray-900">
             <SearchPriceRange />
           </IconButton>
           <Button component={Link} onClick={doSearch} style={styles.searchIcon}>
@@ -172,7 +162,6 @@ const Header = () => {
             <div style={styles.rightNavigation}>
               <span>
                 <IconButton style={styles.favorite}>
-
                   <Link to={'/SaveSublet'}>
                     <Favorite />
                     {/* <div style={styles.favoriteCount}>{33 + 1}</div> */}
@@ -180,7 +169,6 @@ const Header = () => {
                 </IconButton>
               </span>
               <IconButton>
-
                 <Link to={'/Profile/me'} style={styles.profile}>
                   <PersonIcon />
                 </Link>
@@ -189,8 +177,7 @@ const Header = () => {
           ) : (
             <a
               href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
+              className="text-sm font-semibold leading-6 text-gray-900">
               <LoginDialog style={styles.profile} />
             </a>
           )}

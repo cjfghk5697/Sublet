@@ -1,4 +1,4 @@
-import * as s from './Public.styles';
+import * as s from './styles/Input.styles.js';
 
 export const InputText = ({ name, placeholder, onChange, value }) => {
   return (
@@ -80,6 +80,7 @@ export const InputStudentId = ({ onChange, value }) => {
 };
 
 export const TextInputTag = ({
+  // 용도 분석 및 비교 후, InputText와 합체 예정.
   name = '',
   value = '',
   id,
@@ -119,7 +120,7 @@ export const TextInputTag = ({
   </div>
 );
 
-export const TextAreaTag = ({
+export const InputTextArea = ({
   name = '',
   value = '',
   id,
@@ -159,7 +160,7 @@ export const TextAreaTag = ({
   </div>
 );
 
-export const NumberInputTag = ({
+export const InputInteger = ({
   id,
   name = '',
   label,
@@ -204,5 +205,3 @@ export const NumberInputTag = ({
     )}
   </div>
 );
-
-<input type="number" />;

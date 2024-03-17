@@ -1,15 +1,14 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import BarChartIcon from '@mui/icons-material/BarChart';
 // import { BarChart } from "@mui/x-charts";
-import {useSearchPriceStore} from '../../store/HeaderStore/searchPriceStore.js';
-import * as headerStyle from '../styles/Header.styles.js';
-import {DoubleSlideInput} from '../Input/DoubleSlideInput.js';
-import {MoneyRangeViewer} from '../Input/ValueViewer.js';
-
+import { useSearchPriceStore } from '../../store/searchPriceStore.js';
+import * as headerStyle from '../Header.styles.js';
+import { DoubleSlideInput } from '../../../../@shared/components/Input/DoubleSlideInput.js';
+import { MoneyRangeViewer } from '../../../../@shared/components/Input/ValueViewer.js';
 
 const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData
-  const {priceRange, setPriceRange} = useSearchPriceStore();
+  const { priceRange, setPriceRange } = useSearchPriceStore();
   const [tempPriceRange, setTempPriceRange] = useState(priceRange); // 그래프 표현을 위한 이중화. 실제 값은 priceRange에 저장
   const [isListVisible, setIsListVisible] = useState(false);
   const buttonRef = useRef(null);
@@ -21,9 +20,9 @@ const SearchPriceRange = () => {
       position: 'absolute',
       width: '20em',
       top: `${
-        buttonRef.current ?
-          buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
-          0
+        buttonRef.current
+          ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
+          : 0
       }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       padding: '0 1em 0 1em',
@@ -55,7 +54,6 @@ const SearchPriceRange = () => {
     setIsListVisible(!isListVisible);
   };
 
-
   const handlePriceChange = (event, newValue) => {
     setTempPriceRange(newValue);
   };
@@ -72,7 +70,7 @@ const SearchPriceRange = () => {
 
   const [sliderValue, setSliderValue] = useState(50);
 
-  const handleSliderChange = (event) => {
+  const handleSliderChange = event => {
     setSliderValue(event.target.value);
   };
 

@@ -2,25 +2,26 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const GuestType = styled.button`
-${tw`inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50`}
+  ${tw`inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50`}
 `;
 
 export const GuestType_Arrow = styled.svg`
-${tw`-mr-1 h-5 w-5 text-black`}
+  ${tw`-mr-1 h-5 w-5 text-black`}
 `;
 
 export const Checkbox_additional = styled.input`
-${tw`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}`;
+  ${tw`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+`;
 
 export const additional_text = styled.label`
-${tw`ms-2 text-base font-medium font-semibold text-gray-900 dark:text-gray-300`}
+  ${tw`ms-2 text-base font-medium font-semibold text-gray-900 dark:text-gray-300`}
 `;
 
 export const alarm_text = styled.input`
-${tw`w-px h-0.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+  ${tw`w-px h-0.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
 `;
 export const confilrmButton = styled.button`
-${tw`text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-extrabold rounded-lg text-lg px-10 py-2.5 me-2 ml-4 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
+  ${tw`text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-extrabold rounded-lg text-lg px-10 py-2.5 me-2 ml-4 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
 `;
 
 const GuestRequeststyles = () => {
@@ -59,7 +60,6 @@ const GuestRequeststyles = () => {
       margin: '0 2px 0 0 ',
     },
     GuestRequest_DetailTitle: {
-
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
       margin: '0.5em 0',
@@ -82,9 +82,7 @@ const GuestRequeststyles = () => {
       padding: '0.2em',
       fontSize: '1.3em',
     },
-    Requestselect: {
-
-    },
+    Requestselect: {},
     RequestLocation: {
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
@@ -98,7 +96,6 @@ const GuestRequeststyles = () => {
       margin: '0 0 1em 0',
     },
     RequestminiBox1: {
-
       margin: '0 0.5em 0 0',
       border: '2px solid #000000',
       borderRadius: '10px',
@@ -108,7 +105,6 @@ const GuestRequeststyles = () => {
       color: 'rgba(0, 0, 0, 1)',
     },
     RequestminiBox2: {
-
       margin: '0 0 0 0',
       border: '2px solid #000000',
       borderRadius: '10px',
@@ -118,11 +114,9 @@ const GuestRequeststyles = () => {
       color: 'rgba(0, 0, 0, 1)',
     },
     GuestRequest_map: {
-
       aspectRatio: '1 / 1',
     },
     GuestRequest_map_img: {
-
       borderRadius: '15px',
       objectfit: 'cover',
     },
