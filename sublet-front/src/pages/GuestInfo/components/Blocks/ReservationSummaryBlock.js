@@ -7,7 +7,9 @@ import {
 } from '@shared/components/styles/Public.styles';
 import { CancleReservationDialog } from '../Dialog/CancleReservationDialog';
 
-const { DateFormat } = require('@shared/components/StaticComponents/StaticComponents');
+const {
+  DateFormat,
+} = require('@shared/components/StaticComponents/StaticComponents');
 const { useNavigate } = require('react-router-dom');
 
 export function ReservationSummaryBlock({ room }) {
@@ -21,7 +23,7 @@ export function ReservationSummaryBlock({ room }) {
     setCheckState(false);
   };
 
-  const IMAGE_LINK = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`;
+  const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`;
 
   const MoveToRoomInfo = ({ room }) => {
     // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
@@ -33,7 +35,7 @@ export function ReservationSummaryBlock({ room }) {
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
-        <Image src={IMAGE_LINK}></Image>
+        <Image src={imageLink}></Image>
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <SecondHead>

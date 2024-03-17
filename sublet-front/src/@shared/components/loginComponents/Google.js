@@ -1,11 +1,7 @@
 import { GoogleLogin } from '@react-oauth/google';
-<<<<<<< HEAD:sublet-front/src/components/loginComponents/Google.js
-import { FetchLogin } from '../FetchList';
-import { useUserInfoStore } from '@core/store/UserInfoStore';
-=======
+
 import { FetchLogin } from '../FetchList/FetchList';
 import { useUserInfoStore } from '../../store/UserInfoStore.js';
->>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/@shared/components/loginComponents/Google.js
 
 function decodeJwtResponse(token) {
   const base64Url = token.split('.')[1];
@@ -53,4 +49,3 @@ export function GoogleButton() {
     </>
   );
 }
-

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Map from '../@shared/components/Map/Map';
+import Map from '../components/Map';
 import { SubletPostStore } from '../store/SubletPostStore';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import styled from 'styled-components';
@@ -111,54 +111,53 @@ export default function SearchSubletInfo(props) {
     }
   }, []);
 
+  // 이게 왜 있는 건지 아는 사람..? jihwanki? @JiHwanKi
   useEffect(() => {}, [postAll[0]?.marker]);
 
   return (
-    <>
-      <div className="max-w-7xl mx-auto p-5">
-        <div className="grid grid-cols-2 gap-4">
-          <div
-            className="col-span-1"
-            style={{
-              maxHeight: 'calc(100vh - 250px)',
-              overflowY: 'scroll',
-              '&::-webkit-scrollbar': {
-                width: '5px',
-                height: '100px',
-                WebkitAppearance: 'none',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                borderRadius: '8px',
-                border: '2px solid',
-                borderColor: '#E7EBF0',
-                backgroundColor: 'rgba(0 0 0 / 0.5)',
-              },
-            }}>
-            <div className="flex flex-col space-y-4">
-              {postExist &&
-                postAll?.map(ele => (
-                  <SubletInfo
-                    key={ele.key}
-                    id={ele.key}
-                    title={ele.title}
-                    position={ele.position}
-                    city={ele.city}
-                    gu={ele.gu}
-                    dong={ele.dong}
-                    street={ele.street}
-                    street_number={ele.street_number}
-                    price={ele.price}
-                    min_duration={ele.min_duration}
-                    start_day={ele.start_day}
-                    image_id={ele.image_id}
-                    marker={ele.marker}
-                  />
-                ))}
-            </div>
+    <div className="max-w-7xl mx-auto p-5">
+      <div className="grid grid-cols-2 gap-4">
+        <div
+          className="col-span-1"
+          style={{
+            maxHeight: 'calc(100vh - 250px)',
+            overflowY: 'scroll',
+            '&::-webkit-scrollbar': {
+              width: '5px',
+              height: '100px',
+              WebkitAppearance: 'none',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              borderRadius: '8px',
+              border: '2px solid',
+              borderColor: '#E7EBF0',
+              backgroundColor: 'rgba(0 0 0 / 0.5)',
+            },
+          }}>
+          <div className="flex flex-col space-y-4">
+            {postExist &&
+              postAll?.map(ele => (
+                <SubletInfo
+                  key={ele.key}
+                  id={ele.key}
+                  title={ele.title}
+                  position={ele.position}
+                  city={ele.city}
+                  gu={ele.gu}
+                  dong={ele.dong}
+                  street={ele.street}
+                  street_number={ele.street_number}
+                  price={ele.price}
+                  min_duration={ele.min_duration}
+                  start_day={ele.start_day}
+                  image_id={ele.image_id}
+                  marker={ele.marker}
+                />
+              ))}
           </div>
-          <div className="col-span-1">{postExist && <Map />}</div>
         </div>
+        <div className="col-span-1">{postExist && <Map />}</div>
       </div>
-    </>
+    </div>
   );
 }

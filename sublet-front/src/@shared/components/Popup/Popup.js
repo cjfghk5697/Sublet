@@ -60,20 +60,12 @@ import { SingleSlideInput } from '../Input/SingleSlideInput.js';
 import * as ValueViewer from '../Input/ValueViewer.js';
 import Map from '../Map/Map.js';
 
-<<<<<<< HEAD:sublet-front/src/components/Popup.js
-import { LocationInput } from '../@shared/components/Input/LocationInput.js';
-import { DoubleDatePicker } from '../@shared/components/Input/DoubleDatePicker.js';
-import { priceToString } from '../components/StaticComponents.js';
-import { ImageUploadComponent } from '../@shared/components/Input/ImageInput.js';
-import { useUserInfoStore } from '@core/store/UserInfoStore.js';
-=======
 import { LocationInput } from '../Input/LocationInput.js';
 import { DoubleDatePicker } from '../Input/DoubleDatePicker.js';
 import { priceToString } from '../StaticComponents/StaticComponents.js';
 import { ImageUploadComponent } from '../Input/ImageInput.js';
 import { ValueRangeViewer } from './Input/ValueViewer.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
->>>>>>> 11da444f69e79a7ed625dac81d78e694d86537fa:sublet-front/src/@shared/components/Popup/Popup.js
 
 export function DialogForm({
   name = '',
