@@ -23,6 +23,17 @@ export const confilrmButton = styled.button`
 ${tw`text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-extrabold rounded-lg text-lg px-10 py-2.5 me-2 ml-4 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
 `;
 
+export const GuestRequestDetail = styled.div`
+  display: flex;
+  flexWrap: wrap;
+  flexDirection: column;
+  margin: 0 2px 0 0;
+`;
+
+export const GuestRequestMap = styled.div`
+  aspectRatio: 1 / 1;
+`
+
 const GuestRequeststyles = () => {
   const styles = {
     BigContainer: {
@@ -52,12 +63,7 @@ const GuestRequeststyles = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    GuestRequest_Detail: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-      margin: '0 2px 0 0 ',
-    },
+
     GuestRequest_DetailTitle: {
 
       fontWeight: 'bold',
@@ -116,10 +122,6 @@ const GuestRequeststyles = () => {
       fontSize: '1.3em',
       fontWeight: 'bold',
       color: 'rgba(0, 0, 0, 1)',
-    },
-    GuestRequest_map: {
-
-      aspectRatio: '1 / 1',
     },
     GuestRequest_map_img: {
 
