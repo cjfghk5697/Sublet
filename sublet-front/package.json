@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/parser": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.18",
@@ -19,6 +21,7 @@
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
     "axios": "^1.6.7",
+    "babel-eslint": "^10.1.0",
     "dayjs": "^1.11.10",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
