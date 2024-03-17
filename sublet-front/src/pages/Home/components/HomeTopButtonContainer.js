@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as s from '../../../@shared/components/styles/Public.styles.js';
+import { NormalButton } from '@components/styles/Public.styles';
 
 const Layout = styled.div`
   display: flex
@@ -11,11 +11,11 @@ const Layout = styled.div`
 
 export const HomeTopButtonContainer = () => (
   <Layout>
-    <s.NormalButton component={Link} to="/Request">
+    <NormalButton component={Link} to="/Request">
       요청서 제출하기
-    </s.NormalButton>
-    <s.NormalButton component={Link} to="/">
+    </NormalButton>
+    <NormalButton component={Link} to="/">
       같은 커뮤니티 확인하기
-    </s.NormalButton>
+    </NormalButton>
   </Layout>
 );

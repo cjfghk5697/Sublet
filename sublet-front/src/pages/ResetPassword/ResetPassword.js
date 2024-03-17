@@ -1,11 +1,8 @@
-import * as s from '../components/styles/Public.styles.js';
 import { useState } from 'react';
-import { VerifyEmailComponents } from '../components/verifyComponents/Email.js';
 import { verifyStore } from '../components/store/resetPassword.js';
 import { FetchChangePassword } from '../components/FetchList.js';
 import { Alert, FailAlert } from '../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
-import { InputPassword } from '../components/styles/Input.styles.js';
 import { InputVerificationNumber } from './components/InputVerificationNumber.js';
 import { InputResetPassword } from './components/InputResetPassword.js';
 
@@ -62,8 +59,8 @@ export default function ResetPassword() {
         </>
       ) : (
         <>
-          <s.NormalText>아이디를 입력하세요</s.NormalText>
-          <s.Label for="id">Id </s.Label>
+          <NormalText>아이디를 입력하세요</NormalText>
+          <Label for="id">Id </Label>
 
           <InputId
             idVeriftyState={idVeriftyState}

@@ -1,5 +1,5 @@
+import { NormalButton } from '@components/styles/Public.styles';
 import styled from 'styled-components';
-import * as s from '../../../@shared/components/styles/Public.styles.js';
 
 const NoButtonLayout = styled(s.PolicyText)`
   margintop: '3rem';
@@ -10,9 +10,9 @@ export const HomeMoreRoomButton = ({ preRoomsData, fetchRoomsDefault }) => {
     return <NoButtonLayout>더 불러올 방이 없습니다..</NoButtonLayout>;
   } else {
     return (
-      <s.NormalButton variant="contained" onClick={fetchRoomsDefault}>
+      <NormalButton variant="contained" onClick={fetchRoomsDefault}>
         방 더보기
-      </s.NormalButton>
+      </NormalButton>
     );
   }
 };

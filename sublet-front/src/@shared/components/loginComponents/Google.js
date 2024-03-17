@@ -1,4 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
+
 import { FetchLogin } from '../FetchList/FetchList';
 import { useUserInfoStore } from '../../store/UserInfoStore.js';
 
@@ -48,4 +49,3 @@ export function GoogleButton() {
     </>
   );
 }
-

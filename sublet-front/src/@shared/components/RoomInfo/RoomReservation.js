@@ -1,6 +1,7 @@
 import * as RS from '@shared/components/styles/RoomInfo.styles.js';
 import * as s from '@shared/styles/styles.js';
 import SearchDate from '@core/Header/Desktop/components/SearchDate.js';
+
 import { getDateDiff } from '@shared/components/StaticComponents/StaticComponents.js';
 
 export function RoomReservation({ nowRoomPost, moveToBooking }) {

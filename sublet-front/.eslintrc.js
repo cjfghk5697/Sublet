@@ -5,7 +5,7 @@ module.exports = {
     babelOptions: {
       // babelrc: false,
       // configFile: false,
-      presets: ["@babel/preset-react"],
+      presets: ['@babel/preset-react'],
     },
   },
 };

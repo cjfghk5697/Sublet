@@ -2,18 +2,19 @@ import React from 'react';
 import { useState } from 'react';
 /* import map from './map.png' import로 임시 map image 들고옴. */
 import { IconButton } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import { Dialog, Popover } from '@headlessui/react';
+import { useLocation } from 'react-router-dom';
+import { Popover } from '@headlessui/react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-import SearchPriceRange from '../@core/Header/Desktop/components/SearchPriceRange.js';
-import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
-import GuestRequeststyles from '../@shared/components/styles/GuestRequest.styles.js';
-import * as s from '../@shared/components/styles/GuestRequest.styles.js';
+import SearchPriceRange from '../../@core/Header/Desktop/components/SearchPriceRange.js';
+import SearchDate from '../../@core/Header/Desktop/components/SearchDate.js';
+import GuestRequeststyles from '../../components/styles/GuestRequest.styles.js';
+import * as s from '../../components/styles/GuestRequest.styles.js';
+
 /* import DropdownButton from '../components/DropdownButton.js'; */
 
 function GuestRequest() {

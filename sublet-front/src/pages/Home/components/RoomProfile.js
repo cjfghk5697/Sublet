@@ -1,7 +1,6 @@
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import { toggleLikes } from '../../../@shared/components/FetchList/FetchList.js';
-import * as s from '../../../@shared/components/styles/Public.styles.js';
+import { toggleLikes } from '../../../components/FetchList.js';
 import { RoomSpan } from './RoomSpan.js';
 
 export const RoomProfile = ({ room, likes, setLikes }) => {
@@ -11,13 +10,18 @@ export const RoomProfile = ({ room, likes, setLikes }) => {
       flexDirection: 'column',
       margin: '1em',
     },
+    roomTitleAndLike: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
   };
 
   if (!room) return <div></div>;
   return (
     <>
       <IconButton onClick={() => moveToRoomInfo({ room })}>
-        <s.Image
+        <Image
           src={`${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`}
           alt="Room image"
         />

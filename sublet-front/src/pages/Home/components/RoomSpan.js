@@ -1,5 +1,9 @@
-import * as s from '../../../@shared/components/styles/Public.styles.js';
-import { priceToString } from '../../../@shared/components/StaticComponents/StaticComponents.js';
+import {
+  NormalText,
+  SecondHead,
+  Span,
+} from '@components/styles/Public.styles.js';
+import { priceToString } from '../../../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 
 export const RoomSpan = ({ room }) => {
@@ -12,11 +16,11 @@ export const RoomSpan = ({ room }) => {
   };
 
   return (
-    <s.Span onClick={() => moveToRoomInfo({ room })}>
-      <s.SecondHead>
+    <Span onClick={() => moveToRoomInfo({ room })}>
+      <SecondHead>
         {room.city} {room.gu} {room.dong}
-      </s.SecondHead>
-      <s.NormalText>₩{priceToString(room.price * 30)}/1개월</s.NormalText>
-    </s.Span>
+      </SecondHead>
+      <NormalText>₩{priceToString(room.price * 30)}/1개월</NormalText>
+    </Span>
   );
 };
