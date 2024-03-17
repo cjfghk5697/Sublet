@@ -1,4 +1,4 @@
-import * as s from '../components/styles/Public.styles.js';
+import * as s from '../../../components/styles/Public.styles.js';
 import { priceToString } from '../../../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 

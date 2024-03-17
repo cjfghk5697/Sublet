@@ -1,7 +1,7 @@
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { toggleLikes } from '../../../components/FetchList.js';
-import * as s from '../components/styles/Public.styles.js';
+import * as s from '../../../components/styles/Public.styles.js';
 import { RoomSpan } from './RoomSpan.js';
 
 export const RoomProfile = ({ room, likes, setLikes }) => {
