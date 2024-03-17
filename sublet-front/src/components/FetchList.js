@@ -186,8 +186,7 @@ async function FetchGetMyUser(setUserInfo) {
   setUserInfo(json);
 }
 
-async function FetchGetOneUser(userId) {
-  const [userInfo, setUserInfo] = useState();
+async function FetchGetOneUser(userId, setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${userId}`;
 
   const getUserInfo = async () => {
@@ -199,8 +198,7 @@ async function FetchGetOneUser(userId) {
   useEffect(() => {
     getUserInfo();
   }, []);
-
-  return userInfo;
+  return true;
 }
 
 async function FetchGetRequest(setRequestInfo) {
@@ -348,7 +346,7 @@ function FetchConnectRequestPost(requestKey, postKey) {
       key: requestKey,
     }),
   })
-    .then(notFoundError)
+    .then(notFoundError(true))
     .catch(raiseError('ConnectRequestPost'));
 }
 

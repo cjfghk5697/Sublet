@@ -18,7 +18,9 @@ function GuestInfo() {
       <div
         style={{ fontFamily: 'Pretendard' }}
         className="flex grid grid-cols-7">
-        <div className="ml-3 mt-5">{<UserBaseComponent user={userInfo} />}</div>
+        <div className="ml-3 mt-5">
+          <UserBaseComponent user={userInfo} />
+        </div>
 
         <div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
           <ReservationInfo />
@@ -27,7 +29,7 @@ function GuestInfo() {
           <UserPrivateComponent user={userInfo} />
           <Horizon className="mt-4 md-2" />
 
-          <PostListComponent user_id={userInfo.user_id} />
+          <PostListComponent userId={userInfo.user_id} guestMode={false} />
           <PostUploadDialog />
           <Horizon className="my-2" />
 

@@ -1,13 +1,13 @@
 import { guestInfoPopUpStore } from '../store/guestInfoStore.js';
 import { useState } from 'react';
 import { NormalButton, SecondHead } from '@components/styles/Public.styles';
-import { PostSummaryBlock } from './Blocks/PostSummaryBlock';
 import { DateFormat, priceToString } from '@components/StaticComponents';
 import { FetchGetPost } from '@components/FetchList.js';
+import { PostSummaryBlock } from '../Blocks/PostSummaryBlock.js';
 
-function PostListComponent(user_id) {
+function PostListComponent(userId, guestMode = true) {
   const [postInfo, setPostInfo] = useState([]);
-  FetchGetPost(user_id.user_id, setPostInfo);
+  FetchGetPost(userId.user_id, setPostInfo);
 
   const { setPostPopUpState } = guestInfoPopUpStore(state => ({
     setPostPopUpState: state.setPostPopUpState,
@@ -28,14 +28,16 @@ function PostListComponent(user_id) {
               postDate={postDate}
               price={price}
               address={address}
-              guestMode={true}
+              guestMode={guestMode}
             />
           );
         })
       ) : (
         <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
       )}
-      <NormalButton onClick={setPostPopUpState}>방 올리기</NormalButton>
+      {!guestMode && (
+        <NormalButton onClick={setPostPopUpState}>방 올리기</NormalButton>
+      )}
     </div>
   );
 }
