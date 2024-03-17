@@ -1,11 +1,11 @@
-import { FetchReservationByPostKey } from 'components/FetchList';
-import { DateFormat, priceToString } from 'components/StaticComponents';
+import { FetchReservationByPostKey } from '@shared/components/FetchList/FetchList';
+import { DateFormat, priceToString } from '@shared/components/StaticComponents/StaticComponents';
 import {
   DetailParagraph,
   Horizon,
   NormalText,
   SecondHead,
-} from 'components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 
 export function ReservationByPostKeyInfo({ postKey }) {
   const [reservationInfo, setReservationInfo] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useTitle } from '../../components/hook/HookCollect';
+import { useTitle } from '../../@shared/components/hook/HookCollectkCollect';
 import styled from '@emotion/styled';
 import { HomeTopButtonContainer } from './components/HomeTopButtonContainer.js';
 

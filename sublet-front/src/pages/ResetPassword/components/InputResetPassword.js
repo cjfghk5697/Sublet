@@ -1,4 +1,4 @@
-import { NormalButton, NormalText } from 'components/styles/Public.styles';
+import { NormalButton, NormalText } from '@shared/components/styles/Public.styles';
 import { InputPassword } from '@shared/components/Input/TextInputTag';
 
 export const InputResetPassword = ({

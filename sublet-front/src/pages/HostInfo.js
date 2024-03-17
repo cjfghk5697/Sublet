@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-
-import { useTitle } from 'components/hook/HookCollect.js';
-import * as s from '../components/styles/Public.styles.js';
-
+import { useTitle } from '@shared/components/hook/HookCollect.jsllect.js';
+import * as s from '@shared/components/styles/Public.styles.js';
 import { useParams } from 'react-router-dom';
 
 function User({ user }) {

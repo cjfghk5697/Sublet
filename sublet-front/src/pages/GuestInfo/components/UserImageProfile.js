@@ -1,9 +1,9 @@
-import { ImageDialog } from 'components/Popup';
+import { ImageDialog } from '@shared/components/Popup/Popup';
 import {
   ImageUploadButton,
   NormalText,
   SecondHead,
-} from 'components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 import { verifyFrame } from '../button-frames/UserImageFrame';
 import { VerifyList } from './Info/VerifyList';
 

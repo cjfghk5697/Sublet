@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import * as s from '../styles/Public.styles.js';
-import { Alert, FailAlert } from '../StaticComponents';
+import { Alert, FailAlert } from '../StaticComponents/StaticComponents.js';
 import {
   FetchResetPassword,
   FetchVerifyEmail,
   FetchVerifyUser,
-} from '../FetchList.js';
-import { verifyStore } from '../store/resetPassword.js';
+} from '../FetchList/FetchList.js';
+import { verifyStore } from '../Popup/store/resetPassword.js';
 
 export function VerifyEmailComponents({
   email,

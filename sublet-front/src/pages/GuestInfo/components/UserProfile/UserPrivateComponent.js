@@ -1,13 +1,13 @@
-import { EmailDialog, VerifyEmailDialog } from 'components/Popup';
-import { StyleComponent } from 'components/StaticComponents';
-import { guestInfoPopUpStore } from 'components/store/guestInfoStore';
+import { EmailDialog, VerifyEmailDialog } from '@shared/components/Popup/Popup';
+import { StyleComponent } from '@shared/components/StaticComponents/StaticComponents';
+import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore';
 import {
   Label,
   NormalButton,
   NormalText,
   SecondHead,
   SvgHoverButton,
-} from 'components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 
 export const UserPrivateComponent = user => {
   const { setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState } =

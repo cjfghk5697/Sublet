@@ -1,5 +1,5 @@
-import { FetchGetRequestByRequestId } from 'components/FetchList';
-import { DialogForm } from 'components/Popup';
+import { FetchGetRequestByRequestId } from '@shared/components/FetchList/FetchList';
+import { DialogForm } from '@shared/components/Popup/Popup';
 import { DialogContent } from '@mui/material';
 import { useState } from 'react';
 import { PostRequest } from '../Request';

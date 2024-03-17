@@ -1,4 +1,4 @@
-import { DialogForm, PostSummaryDetailDialog } from 'components/Popup';
+import { DialogForm, PostSummaryDetailDialog } from '@shared/components/Popup/Popup';
 import { DialogContent } from '@mui/material';
 
 export const PostDetailDialog = ({

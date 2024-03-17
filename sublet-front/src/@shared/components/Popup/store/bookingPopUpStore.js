@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { DateFormat } from '../StaticComponents';
+import { DateFormat } from '../../StaticComponents/StaticComponents';
 
 export const bookingPopUpStore = create(set => ({
   startDay: DateFormat(Date.now()),

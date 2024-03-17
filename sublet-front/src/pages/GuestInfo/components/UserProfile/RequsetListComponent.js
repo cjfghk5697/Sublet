@@ -1,11 +1,11 @@
-import { DateFormat, priceToString } from 'components/StaticComponents';
-import { FetchGetRequest } from 'components/FetchList';
+import { DateFormat, priceToString } from '@shared/components/StaticComponents/StaticComponents';
+import { FetchGetRequest } from '@shared/components/FetchList/FetchList';
 import { useState } from 'react';
 import {
   NormalButton,
   NormalText,
   SecondHead,
-} from 'components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 import { RequsetSummaryBlock } from '../Blocks/RequsetSummaryBlock';
 
 export function RequestListComponent() {
