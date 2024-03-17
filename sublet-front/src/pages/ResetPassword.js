@@ -6,7 +6,7 @@ import { FetchChangePassword } from '../components/FetchList.js';
 import { Alert, FailAlert } from '../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 import {
-  InputText,
+  InputTextCss,
   InputPassword,
 } from '../@shared/components/Input/TextInputTag.js';
 
@@ -134,7 +134,7 @@ export default function ResetPassword() {
           <s.Label for="id">Id </s.Label>
           {idVeriftyState ? (
             <div className="mt-2">
-              <InputText
+              <InputTextCss
                 name="idState"
                 placeholder="아이디"
                 onChange={inputHandle}
@@ -144,7 +144,7 @@ export default function ResetPassword() {
           ) : (
             <>
               <div className="mt-2">
-                <InputText
+                <InputTextCss
                   name="idState"
                   placeholder="아이디"
                   onChange={inputHandle}

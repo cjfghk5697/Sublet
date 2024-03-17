@@ -3,7 +3,7 @@ import * as s from './styles/Public.styles.js';
 import {
   InputEmail,
   InputTelePhone,
-  InputText,
+  InputTextCss,
   InputPassword,
   InputStudentId,
   TextInputTag,
@@ -558,7 +558,7 @@ export function SignUpDialog() {
             <div>
               <s.Label for="id">아이디</s.Label>
               <div className="mt-2">
-                <InputText
+                <InputTextCss
                   name="idState"
                   placeholder="아이디"
                   onChange={inputHandle}
@@ -580,7 +580,7 @@ export function SignUpDialog() {
               <s.Label for="username">별명</s.Label>
             </div>
             <div className="mt-2">
-              <InputText
+              <InputTextCss
                 name="userNameState"
                 placeholder="별명"
                 onChange={inputHandle}
@@ -681,7 +681,7 @@ export function SignUpDialog() {
                 </div>
                 <div className="mt-2">
                   {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
-                  <InputText name="schoolState" placeholder="업체명" />
+                  <InputTextCss name="schoolState" placeholder="업체명" />
                 </div>
               </div>
               <div>
@@ -792,7 +792,7 @@ export function LoginDialog() {
       <div>
         <s.Label for="id">Id</s.Label>
         <div className="mt-2">
-          <InputText
+          <InputTextCss
             name="idState"
             placeholder="아이디"
             onChange={inputHandle}
