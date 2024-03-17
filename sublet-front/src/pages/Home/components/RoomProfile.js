@@ -11,6 +11,11 @@ export const RoomProfile = ({ room, likes, setLikes }) => {
       flexDirection: 'column',
       margin: '1em',
     },
+    roomTitleAndLike: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
   };
 
   if (!room) return <div></div>;

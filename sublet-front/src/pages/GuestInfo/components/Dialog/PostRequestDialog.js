@@ -2,7 +2,7 @@ import { FetchGetRequestByRequestId } from '@components/FetchList';
 import { DialogForm } from '@components/Popup';
 import { DialogContent } from '@mui/material';
 import { useState } from 'react';
-import { PostRequest } from '../Request';
+import { PostRequest } from '../Info/GetPostRequest';
 
 export const PostRequestDialog = ({ requestDialogShow, onChange, key }) => {
   const [requestInfo, setRequestInfo] = useState([]);

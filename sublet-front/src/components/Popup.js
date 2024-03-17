@@ -64,8 +64,7 @@ import { LocationInput } from '../@shared/components/Input/LocationInput.js';
 import { DoubleDatePicker } from '../@shared/components/Input/DoubleDatePicker.js';
 import { priceToString } from '../components/StaticComponents.js';
 import { ImageUploadComponent } from '../@shared/components/Input/ImageInput.js';
-import { ValueRangeViewer } from './Input/ValueViewer.js';
-import { useUserInfoStore } from '../store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 export function DialogForm({
   name = '',

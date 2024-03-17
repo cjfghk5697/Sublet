@@ -51,22 +51,9 @@ export default function RoomInfo() {
       setPostKey: state.setPostKey,
     }));
   const { searchDate } = useSearchDateStore();
-
+  const [userInfo, setUserInfo] = useState();
   const IsLogin = async () => {
-    const requestOptions = {
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const json = await (
-      await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/profile`,
-        requestOptions,
-      )
-    ).json();
+    const json = FetchGetMyUser(setUserInfo);
 
     if (json.statusCode === 403) {
       return false;

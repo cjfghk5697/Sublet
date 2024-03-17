@@ -21,7 +21,7 @@ export function ReservationSummaryBlock({ room }) {
     setCheckState(false);
   };
 
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`;
+  const IMAGE_LINK = `${process.env.REACT_APP_BACKEND_URL}/public/${room.Post.image_id[0]}.jpg`;
 
   const MoveToRoomInfo = ({ room }) => {
     // 일단 방 정보 넘김과 동시에 방 정보 페이지로 이동.
@@ -33,7 +33,7 @@ export function ReservationSummaryBlock({ room }) {
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
-        <Image src={image_link}></Image>
+        <Image src={IMAGE_LINK}></Image>
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <SecondHead>
@@ -53,7 +53,6 @@ export function ReservationSummaryBlock({ room }) {
         <div>
           <div>
             <DeleteButton onClick={clickHandler}>취소하기</DeleteButton>
-
             <InfoButton className="ml-4">상세 정보</InfoButton>
           </div>
 

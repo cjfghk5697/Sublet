@@ -30,16 +30,14 @@ export function CancleReservationDialog({
         <p className="text-lg font-extrabold mt-3">
           예약중인 숙소를 취소하시겠습니까?
         </p>
-        <div>
-          <NormalText className="mt-3 ">
-            <Checkbox
-              type="checkbox"
-              checked={checkState}
-              onChange={checkHandled}
-            />
-            환불규정을 확인하였습니다.
-          </NormalText>
-        </div>
+        <NormalText className="mt-3 ">
+          <Checkbox
+            type="checkbox"
+            checked={checkState}
+            onChange={checkHandled}
+          />
+          환불규정을 확인하였습니다.
+        </NormalText>
       </DialogContent>
       <DialogActions>
         <div>
