@@ -12,8 +12,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import SearchPriceRange from '../@core/Header/Desktop/components/SearchPriceRange.js';
 import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
-import GuestRequeststyles from '../components/styles/GuestRequest.styles.js';
-import * as s from '../components/styles/GuestRequest.styles.js';
+import GuestRequeststyles from '../@shared/components/styles/GuestRequest.styles.js';
+import * as s from '../@shared/components/styles/GuestRequest.styles.js';
 /* import DropdownButton from '../components/DropdownButton.js'; */
 
 function GuestRequest() {

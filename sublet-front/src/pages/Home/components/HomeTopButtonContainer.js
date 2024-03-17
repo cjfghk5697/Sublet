@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as s from '../../../components/styles/Public.styles.js';
+import * as s from '../../../@shared/components/styles/Public.styles.js';
 
 const Layout = styled.div`
   display: flex
