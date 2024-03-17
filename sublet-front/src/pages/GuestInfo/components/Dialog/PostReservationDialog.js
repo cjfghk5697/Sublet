@@ -1,4 +1,4 @@
-import { DialogForm } from '@components/Popup';
+import { DialogForm } from 'components/Popup';
 import { ReservationByPostKeyInfo } from '../Info/ReservationByPostKeyInfo';
 import { DialogContent } from '@mui/material';
 

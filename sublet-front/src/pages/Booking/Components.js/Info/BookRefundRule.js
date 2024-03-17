@@ -4,7 +4,7 @@ import {
   NormalButton,
   NormalText,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from 'components/styles/Public.styles';
 
 export const BookRefundRule = ({
   totalRefundDate,

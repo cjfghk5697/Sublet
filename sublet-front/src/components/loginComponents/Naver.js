@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FetchLogin } from '../FetchList';
-import { useUserInfoStore } from '../../store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore';
 // https://2mojurmoyang.tistory.com/193
 
 export default function NaverLogin() {

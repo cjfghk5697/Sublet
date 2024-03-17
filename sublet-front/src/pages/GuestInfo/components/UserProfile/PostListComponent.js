@@ -1,8 +1,8 @@
-import { guestInfoPopUpStore } from '../store/guestInfoStore.js';
+import { guestInfoPopUpStore } from 'components/store/guestInfoStore.js';
 import { useState } from 'react';
-import { NormalButton, SecondHead } from '@components/styles/Public.styles';
-import { DateFormat, priceToString } from '@components/StaticComponents';
-import { FetchGetPost } from '@components/FetchList.js';
+import { NormalButton, SecondHead } from 'components/styles/Public.styles';
+import { DateFormat, priceToString } from 'components/StaticComponents';
+import { FetchGetPost } from 'components/FetchList.js';
 import { PostSummaryBlock } from '../Blocks/PostSummaryBlock.js';
 
 function PostListComponent(userId, guestMode = true) {

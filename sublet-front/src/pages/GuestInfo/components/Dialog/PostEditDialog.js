@@ -1,4 +1,4 @@
-import { DialogForm, PostEditDialog } from '@components/Popup';
+import { DialogForm, PostEditDialog } from 'components/Popup';
 
 export const PostEditRoomDialog = ({ editRoomDialogShow, onChange, room }) => {
   return (

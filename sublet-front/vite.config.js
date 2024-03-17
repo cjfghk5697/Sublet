@@ -10,7 +10,7 @@ export default defineConfig({
       { find: "@core", replacement: "/src/@core" },
       { find: "@shared", replacement: "/src/@shared" },
       { find: "@app", replacement: "/src/app" },
-      { find: "@components", replacement: "/src/components" },
+      { find: "components", replacement: "/src/components" },
       { find: "@pages", replacement: "/src/pages" },
       { find: "@store", replacement: "/src/store" },
     ],

@@ -1,4 +1,4 @@
-import { InputText, NormalButton } from '@components/styles/Public.styles';
+import { InputText, NormalButton } from 'components/styles/Public.styles';
 
 export const InputId = ({
   idVeriftyState,

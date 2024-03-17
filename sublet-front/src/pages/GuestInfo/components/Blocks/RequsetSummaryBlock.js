@@ -2,7 +2,7 @@ import {
   DeleteButton,
   InfoButton,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from 'components/styles/Public.styles';
 import { RequestDeleteDialog } from '../Dialog/RequestDeleteDialog';
 import { RequestDetailDialog } from '../Dialog/RequestDetailDialog';
 import { RequestRespondDialog } from '../Dialog/RequestRespondDialog';

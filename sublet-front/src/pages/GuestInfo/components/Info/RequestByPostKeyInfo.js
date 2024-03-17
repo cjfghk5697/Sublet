@@ -2,7 +2,7 @@ import {
   DetailParagraph,
   Horizon,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from 'components/styles/Public.styles';
 
 export function RequestByPostKeyInfo({ Post }) {
   return (

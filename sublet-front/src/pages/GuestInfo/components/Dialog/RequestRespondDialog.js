@@ -1,4 +1,4 @@
-import { DialogForm } from '@components/Popup';
+import { DialogForm } from 'components/Popup';
 import { DialogContent } from '@mui/material';
 import { RequestByPostKeyInfo } from '../Info/RequestByPostKeyInfo';
 

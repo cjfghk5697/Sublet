@@ -1,4 +1,4 @@
-import * as RS from '@components/styles/RoomInfo.styles.js';
+import * as RS from 'components/styles/RoomInfo.styles.js';
 import {
   PersonIcon,
   SingleBedIcon,

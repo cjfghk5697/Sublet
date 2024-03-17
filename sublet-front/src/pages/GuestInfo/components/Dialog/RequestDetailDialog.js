@@ -1,4 +1,4 @@
-import { DialogForm, RequestSummaryDetailDialog } from '@components/Popup';
+import { DialogForm, RequestSummaryDetailDialog } from 'components/Popup';
 import { DialogContent } from '@mui/material';
 
 export const RequestDetailDialog = ({

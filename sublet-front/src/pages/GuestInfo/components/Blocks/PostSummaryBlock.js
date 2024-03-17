@@ -8,8 +8,8 @@ import {
   DetailParagraph,
   InfoButton,
   SecondHead,
-} from '@components/styles/Public.styles';
-import { StyleComponent } from '@components/StaticComponents';
+} from 'components/styles/Public.styles';
+import { StyleComponent } from 'components/StaticComponents';
 
 export function PostSummaryBlock({
   room,

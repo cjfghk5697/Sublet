@@ -1,4 +1,4 @@
-import { NormalText, SecondHead } from '@components/styles/Public.styles';
+import { NormalText, SecondHead } from 'components/styles/Public.styles';
 import { verifyFrame } from '@pages/GuestInfo/button-frames/UserImageFrame';
 import { VerifyList } from '@pages/GuestInfo/components/Info/VerifyList';
 

@@ -1,4 +1,4 @@
-import { bookingPopUpStore } from '@components/store/bookingPopUpStore';
+import { bookingPopUpStore } from 'components/store/bookingPopUpStore';
 import { BookPriceAndDate } from './Components.js/Info/BookPriceAndDate';
 import { BookRefundRule } from './Components.js/Info/BookRefundRule';
 import { BookPaymentMethod } from './Components.js/Info/BookPaymentMethod';

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useTitle } from '../components/hook/HookCollect.js';
-import { PostInfo } from '../components/guestInfoComponents/PostBlock.js';
+import { useTitle } from 'components/hook/HookCollect.js';
 import * as s from '../components/styles/Public.styles.js';
 
 import { useParams } from 'react-router-dom';

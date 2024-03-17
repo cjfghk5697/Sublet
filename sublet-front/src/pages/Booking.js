@@ -2,12 +2,12 @@ import {
   CalulateDate,
   getDateDiff,
   priceToString,
-} from '../components/StaticComponents';
-import * as s from '../components/styles/Public.styles';
-import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
+} from 'components/StaticComponents';
+import * as s from 'components/styles/Public.styles';
+import { bookingPopUpStore } from 'components/store/bookingPopUpStore.js';
 
-import { FetchReservationPost } from '../components/FetchList';
-import PaymentForm from '../components/bookingComponents/Payment.js';
+import { FetchReservationPost } from 'components/FetchList';
+import PaymentForm from 'pages/Booking/Components.js/Pay/Payment.js';
 import { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';

@@ -2,7 +2,7 @@ import {
   Horizon,
   NormalText,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from 'components/styles/Public.styles';
 import {
   Box,
   Checkbox,

@@ -4,10 +4,10 @@ import {
   Image,
   InfoButton,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from 'components/styles/Public.styles';
 import { CancleReservationDialog } from '../Dialog/CancleReservationDialog';
 
-const { DateFormat } = require('@components/StaticComponents');
+const { DateFormat } = require('components/StaticComponents');
 const { useNavigate } = require('react-router-dom');
 
 export function ReservationSummaryBlock({ room }) {
