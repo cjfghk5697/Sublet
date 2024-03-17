@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Map from '../components/Map';
+import Map from '../../components/Map';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import styled from 'styled-components';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
-import { toggleLikes } from '../components/FetchList.js';
+import { toggleLikes } from '../../components/FetchList.js';
 
 const HoverBtnDiv = styled.div`
   margin: 0 0 0 0;
@@ -121,7 +121,7 @@ export default function SaveSublet(props) {
     // setListPageAmount(listPageAmount + 1);
   }, []);
 
-  useEffect(() => {}, [postAll[0]?.marker]);
+  useEffect(() => { }, [postAll[0]?.marker]);
 
   return (
     <>

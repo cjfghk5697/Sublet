@@ -1,5 +1,5 @@
 import React from "react";
-import * as s from "./styles/MobileHeader.styles"
+import * as s from "./MobileHeader.styles.js";
 
 export const MobileHeader = () => {
 	const SearchButton = () => {

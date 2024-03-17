@@ -1,6 +1,6 @@
 import React from 'react';
 import Map from '../Map.js';
-import * as inputStyle from '../styles/Input.styles.js';
+import * as inputStyle from './styles/Input.styles.js';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export const LocationInput = ({ pos, name = '', currentPos, onChange }) => {

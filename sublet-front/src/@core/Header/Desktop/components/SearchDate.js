@@ -1,13 +1,13 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import {IconButton} from '@mui/material';
-import {useSearchDateStore} from '../../store/HeaderStore/searchDateStore.js';
-import * as s from '../styles/Header.styles.js';
-import {DoubleDatePicker} from '../Input/DoubleDatePicker.js';
+import { IconButton } from '@mui/material';
+import { useSearchDateStore } from '../../store/searchDateStore.js';
+import * as s from '../Header.styles.js';
+import { DoubleDatePicker } from '../../../../@shared/components/Input/DoubleDatePicker.js';
 
 const SearchDate = () => {
   const [isListVisible, setIsListVisible] = useState(false);
-  const {searchDate, setSearchDate} = useSearchDateStore(); // useState([null, null]); // [start, end]
+  const { searchDate, setSearchDate } = useSearchDateStore(); // useState([null, null]); // [start, end]
   const buttonRef = useRef(null);
 
   const styles = {
@@ -28,7 +28,7 @@ const SearchDate = () => {
       top: `${buttonRef.current ?
         buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
         0
-      }px`,
+        }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       zIndex: 101,
     },

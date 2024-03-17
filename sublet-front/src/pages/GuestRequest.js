@@ -10,8 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-import SearchPriceRange from '../components/HeaderComponents/SearchPriceRange.js';
-import SearchDate from '../components/HeaderComponents/SearchDate.js';
+import SearchPriceRange from '../@core/Header/Desktop/components/SearchPriceRange.js';
+import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
 import GuestRequeststyles from '../components/styles/GuestRequest.styles.js';
 import * as s from '../components/styles/GuestRequest.styles.js';
 /* import DropdownButton from '../components/DropdownButton.js'; */

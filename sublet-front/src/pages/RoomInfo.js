@@ -8,14 +8,14 @@ import { useParams } from 'react-router-dom';
 import { SubletPostStore } from '../store/SubletPostStore';
 import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
-import SearchDate from '../components/HeaderComponents/SearchDate.js';
+import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
 import * as s from '../components/styles/Public.styles.js';
 import { Dialog, DialogContent } from '@mui/material';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
-import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
+import { useSearchDateStore } from '../@core/Header/store/searchDateStore.js';
 import { getDateDiff } from '../components/StaticComponents.js';
 
 export default function RoomInfo() {
@@ -143,9 +143,8 @@ export default function RoomInfo() {
 							{new Array(length).fill('').map((_, i) => (
 								<span
 									key={i}
-									className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-										activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
-									}`}
+									className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
+										}`}
 									onClick={() => setActiveIndex(i)}
 								/>
 							))}
