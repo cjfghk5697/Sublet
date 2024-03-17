@@ -1,5 +1,5 @@
 import './App.css';
-import Home from './pages/Home';
+import Home from './pages/Home/Home.js';
 import RoomInfo from './pages/RoomInfo';
 import SearchSubletInfo from './pages/SearchSubletInfo';
 import ReHome from './pages/ReHome';
@@ -13,11 +13,11 @@ import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
 import GuestRequest from './pages/GuestRequest.js';
 import HostInfo from './pages/HostInfo.js';
-import SaveSublet from './pages/SaveSublet.js';
+import SaveSublet from './pages/SaveSublet/SaveSublet.js';
 import ResetPassword from './pages/ResetPassword.js';
-import Header from './components/Header.js';
-import { MobileHeader } from './components/MobileHeader.js';
-import { Desktop, Mobile } from './components/Responsive.js';
+import Header from './@core/Header/Desktop/Header.js';
+import { MobileHeader } from './@core/Header/Mobile/MobileHeader.js';
+import { Desktop, Mobile } from './@core/Header/Responsive.js';
 
 function App() {
   return (
