@@ -5,12 +5,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { SubletPostStore } from '../store/SubletPostStore';
 import { Carousel } from '@material-tailwind/react';
 import Map from '../components/Map';
-import SearchDate from '../components/HeaderComponents/SearchDate.js';
+import SearchDate from '../@core/Header/Desktop/components/SearchDate.js';
 import * as s from '../components/styles/Public.styles.js';
 import { ShareDialog } from '../components/Popup.js';
 import { StyleComponent } from '../components/StaticComponents.js';
 import { bookingPopUpStore } from '../components/store/bookingPopUpStore.js';
-import { useSearchDateStore } from '../store/HeaderStore/searchDateStore.js';
+import { useSearchDateStore } from '../@core/Header/store/searchDateStore.js';
 import { getDateDiff } from '../components/StaticComponents.js';
 import * as RS from 'components/styles/RoomInfo.styles.js';
 

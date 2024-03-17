@@ -2,16 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Dialog, Popover } from '@headlessui/react';
 import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import SearchDate from './HeaderComponents/SearchDate.js';
-import SearchPriceRange from './HeaderComponents/SearchPriceRange.js';
+import SearchDate from './components/SearchDate.js';
+import SearchPriceRange from './components/SearchPriceRange.js';
 import { Favorite } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useLocation } from 'react-router-dom';
 import { LoginDialog } from './Popup.js';
 
-
 import Button from '@mui/material/Button';
-import SearchLocation from './HeaderComponents/SearchLocation.js';
+import SearchLocation from './components/SearchLocation.js';
 import { useUserInfoStore } from '../store/UserInfoStore.js';
 
 const Header = () => {

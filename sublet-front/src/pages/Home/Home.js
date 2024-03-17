@@ -1,4 +1,4 @@
-import RoomProfile from '../components/RoomProfile';
+import RoomProfile from './components/RoomProfile.js';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';

@@ -4,7 +4,6 @@ import { useTitle } from '../components/hook/HookCollect.js';
 import { PostInfo } from '../components/guestInfoComponents/PostBlock.js';
 import * as s from '../components/styles/Public.styles.js';
 
-import Header from '../components/Header.js';
 import { useParams } from 'react-router-dom';
 
 function User({ user }) {
