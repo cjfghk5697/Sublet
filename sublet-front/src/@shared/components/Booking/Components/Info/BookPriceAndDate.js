@@ -1,11 +1,11 @@
-import { priceToString } from '@components/StaticComponents';
+import { priceToString } from '@shared/components/StaticComponents/StaticComponents';
 import {
   Horizon,
   JustifyBlock,
   NormalText,
   PolicyText,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 
 export const BookPriceAndDate = ({
   startDay,

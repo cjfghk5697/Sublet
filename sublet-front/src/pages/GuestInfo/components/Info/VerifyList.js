@@ -1,4 +1,4 @@
-import { NormalText } from '@components/styles/Public.styles';
+import { NormalText } from '@shared/components/styles/Public.styles';
 
 export const VerifyList = (k, v) => {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Login } from '../../components/FetchList';
+import { Login } from '../../@shared/components/FetchList/FetchList';
 
 function CreateSubletInfo() {
   const [image_id, setImageId] = useState([]);

@@ -1,5 +1,5 @@
 import 'animate.css';
-import * as s from './styles/Public.styles';
+import * as s from '../styles/Public.styles';
 import { useNavigate } from 'react-router-dom';
 
 const setStateOnandOff = setState => {

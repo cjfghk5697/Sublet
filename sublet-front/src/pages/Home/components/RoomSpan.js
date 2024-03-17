@@ -1,5 +1,5 @@
-import * as s from '../../../components/styles/Public.styles.js';
-import { priceToString } from '../../../components/StaticComponents.js';
+import * as s from '../../../@shared/components/styles/Public.styles.js';
+import { priceToString } from '../../../@shared/components/StaticComponents/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 
 export const RoomSpan = ({ room }) => {

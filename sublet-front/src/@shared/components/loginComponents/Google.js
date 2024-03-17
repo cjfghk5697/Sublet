@@ -1,5 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
-import { FetchLogin } from '../FetchList';
+import { FetchLogin } from '../FetchList/FetchList';
 import { useUserInfoStore } from '../../store/UserInfoStore.js';
 
 function decodeJwtResponse(token) {

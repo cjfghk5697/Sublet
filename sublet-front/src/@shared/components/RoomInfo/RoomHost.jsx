@@ -1,4 +1,4 @@
-import * as RS from '@components/styles/RoomInfo.styles.js';
+import * as RS from '@shared/components/styles/RoomInfo.styles.js';
 
 export function RoomHost() {
   //추후 Host 정보 fetch로 받아오는 것으로 수정 필요

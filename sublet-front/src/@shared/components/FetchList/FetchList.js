@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notFoundError, raiseError } from './StaticComponents';
+import { notFoundError, raiseError } from '../StaticComponents/StaticComponents';
 
 const headerOptions = (method, contentType = 'application/json') => ({
   credentials: 'include',
