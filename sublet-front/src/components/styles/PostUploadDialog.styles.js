@@ -1,4 +1,5 @@
-export const gridStyle = { // styled-components로 하면 이리하고 저리해도 적용이 안되어서 그냥 style로 함.
+export const gridStyle = {
+  // styled-components로 하면 이리하고 저리해도 적용이 안되어서 그냥 style로 함.
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',

@@ -121,7 +121,7 @@ export default function SaveSublet(props) {
     // setListPageAmount(listPageAmount + 1);
   }, []);
 
-  useEffect(() => { }, [postAll[0]?.marker]);
+  useEffect(() => {}, [postAll[0]?.marker]);
 
   return (
     <>

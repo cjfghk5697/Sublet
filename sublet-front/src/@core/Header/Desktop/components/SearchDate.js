@@ -25,10 +25,11 @@ const SearchDate = () => {
       backgroundColor: 'white',
       border: '1px solid black',
       position: 'absolute',
-      top: `${buttonRef.current ?
-        buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
-        0
-        }px`,
+      top: `${
+        buttonRef.current
+          ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
+          : 0
+      }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       zIndex: 101,
     },

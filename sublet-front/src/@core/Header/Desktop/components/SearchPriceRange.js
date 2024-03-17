@@ -6,7 +6,6 @@ import * as headerStyle from '../Header.styles.js';
 import { DoubleSlideInput } from '../../../../@shared/components/Input/DoubleSlideInput.js';
 import { MoneyRangeViewer } from '../../../../@shared/components/Input/ValueViewer.js';
 
-
 const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData
   const { priceRange, setPriceRange } = useSearchPriceStore();
@@ -20,10 +19,11 @@ const SearchPriceRange = () => {
       border: '1px solid black',
       position: 'absolute',
       width: '20em',
-      top: `${buttonRef.current ?
-        buttonRef.current.offsetTop + buttonRef.current.offsetHeight :
-        0
-        }px`,
+      top: `${
+        buttonRef.current
+          ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
+          : 0
+      }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       padding: '0 1em 0 1em',
       zIndex: 101,
@@ -54,7 +54,6 @@ const SearchPriceRange = () => {
     setIsListVisible(!isListVisible);
   };
 
-
   const handlePriceChange = (event, newValue) => {
     setTempPriceRange(newValue);
   };
@@ -71,7 +70,7 @@ const SearchPriceRange = () => {
 
   const [sliderValue, setSliderValue] = useState(50);
 
-  const handleSliderChange = (event) => {
+  const handleSliderChange = event => {
     setSliderValue(event.target.value);
   };
 

@@ -1,6 +1,6 @@
-import {useEffect, useState, useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-export const useTitle = (initialTitle) => {
+export const useTitle = initialTitle => {
   /* 사용법
   탭 이름 변경하는 거임. loading 전까지는 loading 탭으로 주고
   만약 loading이 끝나면 타이틀로 바꾸는 거임
@@ -65,13 +65,14 @@ export const usePreventLeave = () => {
   API에 뭔갈 보냈고 사람들이 닫지 않게하기위한거임. 만약 닫으려한다면 진행중인데 닫을거냐고 물어볼거임.
   beforeunload가 막아주는 거임.
    */
-  const listener = (event) => {
+  const listener = event => {
     event.preventDefault();
     event.returnValue = '';
   };
   const enablePrevent = () => window.addEventListener('beforeunload', listener);
-  const disablePrevent = () => window.addEventListener('beforeunload', listener);
-  return {enablePrevent, disablePrevent};
+  const disablePrevent = () =>
+    window.addEventListener('beforeunload', listener);
+  return { enablePrevent, disablePrevent };
 };
 
 // export const useBeforeLeave = (onBefore) => {
@@ -156,7 +157,7 @@ export const useScroll = () => {
   });
 
   const onScroll = () => {
-    setState({y: window.scrollY, x: window.scrollX});
+    setState({ y: window.scrollY, x: window.scrollX });
   };
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -167,7 +168,7 @@ export const useScroll = () => {
   return state;
 };
 
-export const useFullscreen = (callback) => {
+export const useFullscreen = callback => {
   /*
   이미지 클릭하면 이미지를 전체화면으로 보여줌.
   <div ref={element}>
@@ -177,7 +178,7 @@ export const useFullscreen = (callback) => {
   </div?
   */
 
-  const runCb = (isFull) => {
+  const runCb = isFull => {
     if (callback && typeof callback === 'function') {
       callback(isFull);
     }
@@ -212,7 +213,7 @@ export const useFullscreen = (callback) => {
     }
     runCb(false);
   };
-  return {element, triggerFull, exitFull};
+  return { element, triggerFull, exitFull };
 };
 
 export const useInput = (intialValue, validator) => {
@@ -221,9 +222,9 @@ export const useInput = (intialValue, validator) => {
   2. return value는 x=useInput('x', valid)하고  <input {...name} /> 넣으면 onChange event와 value 두마리 토끼 잡을수 있음.
    */
   const [value, setValue] = useState(intialValue);
-  const onChange = (event) => {
+  const onChange = event => {
     const {
-      target: {value},
+      target: { value },
     } = event;
     let willUpdate = true;
     if (typeof validator === 'function') {
@@ -233,5 +234,5 @@ export const useInput = (intialValue, validator) => {
       setValue(value);
     }
   };
-  return {value, onChange};
+  return { value, onChange };
 };
