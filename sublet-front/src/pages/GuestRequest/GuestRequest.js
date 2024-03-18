@@ -9,8 +9,6 @@ import { MoreDetails } from './Components/MoreDetails/MoreDetails.js';
 import { ComfilrmButton } from './Components/ConfilrmButton.js';
 import * as s from '../styles/GuestRequest.styles';
 
-
-
 function GuestRequest() {
 	const [inputs, setInputs] = useState({
 		price: 1,
@@ -128,6 +126,5 @@ function RequestPost({
 			});
 	};
 	RequestFunc();
-}
 
 export default GuestRequest;

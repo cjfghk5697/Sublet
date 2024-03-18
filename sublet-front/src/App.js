@@ -2,22 +2,21 @@ import './App.css';
 import Home from './pages/Home/Home.js';
 import RoomInfo from './pages/RoomInfo';
 import SearchSubletInfo from './pages/SearchSubletInfo';
-import ReHome from './pages/ReHome';
-import Booking from './pages/Booking';
-import GuestInfo from './pages/GuestInfo.js';
 import TestChat from './pages/test_chat/TestChat.js';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import CreateSubletInfo from './pages/Host/CreateSubletInfo.js';
 import TestChatRoom from './pages/test_chat/TestChatRoom.js';
 import TestDB from './pages/test_chat/TestDB.js';
 import TestDBDetail from './pages/test_chat/TestDBDetail.js';
-import GuestRequest from './pages/GuestRequest.js';
-import HostInfo from './pages/HostInfo.js';
 import SaveSublet from './pages/SaveSublet/SaveSublet.js';
-import ResetPassword from './pages/ResetPassword.js';
 import Header from './@core/Header/Desktop/Header.js';
 import { MobileHeader } from './@core/Header/Mobile/MobileHeader.js';
 import { Desktop, Mobile } from './@core/Header/Responsive.js';
+import ResetPassword from '@pages/ResetPassword/ResetPassword';
+import HostInfo from '@pages/ExternalProfile/ExternalProfile';
+import GuestRequest from '@pages/GuestRequest/GuestRequest';
+import GuestInfo from '@pages/GuestInfo/GuestInfo';
+import Booking from '@pages/Booking/Booking';
 
 function App() {
   return (
