@@ -15,6 +15,7 @@ import {
   RoomPrice,
   ImageCarousel,
 } from '@shared/components/RoomInfo';
+import { RoomTitle } from '@shared/components/styles/RoomInfo.styles';
 
 export default function RoomInfo() {
   // 새 창에서 열릴 때 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
@@ -131,9 +132,9 @@ export default function RoomInfo() {
           </div>
           {/* {console.log(nowRoomPost)} */}
 
-          <RS.RoomTitle>
+          <RoomTitle>
             {nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}
-          </RS.RoomTitle>
+          </RoomTitle>
 
           <RoomPrice nowRoomPost={nowRoomPost} />
 

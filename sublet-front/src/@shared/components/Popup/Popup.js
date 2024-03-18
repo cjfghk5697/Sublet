@@ -57,7 +57,7 @@ import dayjs from 'dayjs';
 import DropBoxSelect from '../Input/DropBoxSelect.js';
 import { DoubleSlideInput } from '../Input/DoubleSlideInput.js';
 import { SingleSlideInput } from '../Input/SingleSlideInput.js';
-import {ValueRangeViewer} from '@shared/components/Input/ValueViewer.js';
+import { ValueRangeViewer } from '@shared/components/Input/ValueViewer.js';
 import Map from '../Map/Map.js';
 
 import { LocationInput } from '../Input/LocationInput.js';
@@ -770,7 +770,7 @@ export function LoginDialog() {
     google: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   };
 
-  const PasswordInput = () => {
+  const PasswordInput = () => { // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
     return (
       <div>
         <div className="mt-2 flex items-center justify-between">
@@ -786,7 +786,7 @@ export function LoginDialog() {
     );
   };
 
-  const IdInput = () => {
+  const IdInput = () => { // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
     return (
       <div>
         <s.Label for="id">Id</s.Label>
@@ -838,8 +838,8 @@ export function LoginDialog() {
             </p>
           </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <IdInput />
-            <PasswordInput />
+            <IdInput /> {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
+            <PasswordInput /> {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
           </div>
           <div>
             <s.NormalButton
@@ -1225,7 +1225,7 @@ export const PostUploadDialog = props => {
                 pos={pos}
                 currentPos={pos}
                 name="pos"
-                setPos={onChange}
+                onChange={onChange}
               />{' '}
               {/* 이렇게만 하면 안되고, 직접 친 후에 맵을 띄울 수도 있어야함. 위 주석 참고. */}
             </p>
