@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Map from '../components/Map';
+import Map from '@shared/components/Map/Map.js';
 import { SubletPostStore } from '../store/SubletPostStore';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import styled from 'styled-components';
@@ -112,7 +112,7 @@ export default function SearchSubletInfo(props) {
   }, []);
 
   // 이게 왜 있는 건지 아는 사람..? jihwanki? @JiHwanKi
-  useEffect(() => {}, [postAll[0]?.marker]);
+  useEffect(() => { }, [postAll[0]?.marker]);
 
   return (
     <div className="max-w-7xl mx-auto p-5">

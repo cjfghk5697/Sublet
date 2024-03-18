@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useSearchLocationStore } from '../../store/searchLocationStore.js';
 import * as headerStyle from '../Header.styles.js';
-import { LocationInput } from '../../../../@shared/components/Input/LocationInput.js';
+import { LocationInput } from '@shared/components/Input/LocationInput.js';
 
 const SearchLocation = props => {
   const { searchLocation, setSearchLocation } = useSearchLocationStore();

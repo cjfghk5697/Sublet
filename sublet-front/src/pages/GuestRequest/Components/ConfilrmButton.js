@@ -1,6 +1,4 @@
-import * as s from '../styles/GuestRequest.styles';
-
-
+import * as s from '@shared/components/styles/GuestRequest.styles.js';
 
 export function ComfilrmButton() {
 	return (

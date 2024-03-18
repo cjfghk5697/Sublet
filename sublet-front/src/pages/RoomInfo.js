@@ -2,12 +2,12 @@ import { Dialog, DialogContent } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SubletPostStore } from '../store/SubletPostStore';
-import Map from '../@shared/components/Map/Map';
-import * as s from '../@shared/components/styles/Public.styles.js';
-import { ShareDialog } from '../@shared/components/Popup/Popup.js';
-import { StyleComponent } from '../@shared/components/StaticComponents/StaticComponents.js';
-import { bookingPopUpStore } from '../@shared/components/Popup/store/bookingPopUpStore.js';
-import { useSearchDateStore } from '../@core/Header/store/searchDateStore.js';
+import Map from '@shared/components/Map/Map';
+import * as s from '@shared/components/styles/Public.styles.js';
+import { ShareDialog } from '@shared/components/Popup/Popup.js';
+import { StyleComponent } from '@shared/components/StaticComponents/StaticComponents.js';
+import { bookingPopUpStore } from '@shared/components/Popup/store/bookingPopUpStore.js';
+import { useSearchDateStore } from '@core/Header/store/searchDateStore.js';
 import {
   RoomHost,
   RoomReservation,

@@ -3,8 +3,8 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 // import { BarChart } from "@mui/x-charts";
 import { useSearchPriceStore } from '../../store/searchPriceStore.js';
 import * as headerStyle from '../Header.styles.js';
-import { DoubleSlideInput } from '../../../../@shared/components/Input/DoubleSlideInput.js';
-import { MoneyRangeViewer } from '../../../../@shared/components/Input/ValueViewer.js';
+import { DoubleSlideInput } from '@shared/components/Input/DoubleSlideInput.js';
+import { MoneyRangeViewer } from '@shared/components/Input/ValueViewer.js';
 
 const SearchPriceRange = () => {
   const priceRangeMinMax = [0, 5000000]; // tempData

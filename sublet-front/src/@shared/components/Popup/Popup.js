@@ -57,15 +57,14 @@ import dayjs from 'dayjs';
 import DropBoxSelect from '../Input/DropBoxSelect.js';
 import { DoubleSlideInput } from '../Input/DoubleSlideInput.js';
 import { SingleSlideInput } from '../Input/SingleSlideInput.js';
-import * as ValueViewer from '../Input/ValueViewer.js';
+import {ValueRangeViewer} from '@shared/components/Input/ValueViewer.js';
 import Map from '../Map/Map.js';
 
 import { LocationInput } from '../Input/LocationInput.js';
 import { DoubleDatePicker } from '../Input/DoubleDatePicker.js';
 import { priceToString } from '../StaticComponents/StaticComponents.js';
 import { ImageUploadComponent } from '../Input/ImageInput.js';
-import { ValueRangeViewer } from './Input/ValueViewer.js';
-import { useUserInfoStore } from '../store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 export function DialogForm({
   name = '',
@@ -1099,7 +1098,7 @@ export const PostUploadDialog = props => {
 
               <div>
                 <div>
-                  <ValueViewer.SingleValueViewer
+                  <SingleValueViewer
                     value={'최대인원: ' + limitPeople + '명'}
                   />
                   <SingleSlideInput
@@ -1121,7 +1120,7 @@ export const PostUploadDialog = props => {
               </div>
               <div>
                 <div>
-                  <ValueViewer.SingleValueViewer
+                  <SingleValueViewer
                     value={'욕실 개수: ' + numberBathroom}
                   />
                   <SingleSlideInput
@@ -1132,7 +1131,7 @@ export const PostUploadDialog = props => {
                   />
                 </div>
                 <div>
-                  <ValueViewer.SingleValueViewer
+                  <SingleValueViewer
                     value={'침실 개수: ' + numberBedroom}
                   />
                   <SingleSlideInput
@@ -1392,7 +1391,7 @@ export const PostEditDialog = post => {
 
             <div>
               <div>
-                <ValueViewer.SingleValueViewer
+                <SingleValueViewer
                   value={'최대인원: ' + limitPeople + '명'}
                 />
                 <SingleSlideInput
@@ -1405,7 +1404,7 @@ export const PostEditDialog = post => {
             </div>
             <div>
               <div>
-                <ValueViewer.SingleValueViewer
+                <SingleValueViewer
                   value={'욕실 개수: ' + numberBathroom}
                 />
                 <SingleSlideInput
@@ -1416,7 +1415,7 @@ export const PostEditDialog = post => {
                 />
               </div>
               <div>
-                <ValueViewer.SingleValueViewer
+                <SingleValueViewer
                   value={'침실 개수: ' + numberBedroom}
                 />
                 <SingleSlideInput

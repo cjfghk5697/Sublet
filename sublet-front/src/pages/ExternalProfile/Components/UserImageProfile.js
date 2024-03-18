@@ -1,6 +1,6 @@
 import { NormalText, SecondHead } from '@shared/components/styles/Public.styles';
-import { verifyFrame } from '@pages/GuestInfo/button-frames/UserImageFrame';
-import { VerifyList } from '@pages/GuestInfo/components/Info/VerifyList';
+import { verifyFrame } from 'pages/GuestInfo/button-frames/UserImageFrame';
+import { VerifyList } from 'pages/GuestInfo/components/Info/VerifyList';
 
 export const UserBaseComponent = user => {
   const frame = verifyFrame(user);

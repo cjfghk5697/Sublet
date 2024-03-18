@@ -4,7 +4,7 @@ import { Info2 } from "./Info2";
 import { Info3 } from "./Info3";
 import { Info4 } from "./Info4";
 import { Info5 } from "./Info5";
-import { RequestWord } from "./RequestWord/RequestWord";
+import { RequestWord } from "./RequestWord/UserRequestWord.js";
 
 export function UserSelectInfo() {
 	return (

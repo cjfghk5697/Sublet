@@ -1,6 +1,6 @@
 import * as s from './styles/Input.styles.js';
 
-export const InputTextCss = ({ name, placeholder, onChange, value }) => {
+export const InputText = ({ name, placeholder, onChange, value }) => {
   return (
     <InputTextCss
       name={name}

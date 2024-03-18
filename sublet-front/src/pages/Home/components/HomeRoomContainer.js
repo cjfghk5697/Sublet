@@ -9,7 +9,6 @@ const Layout = styled.div`
 `;
 
 export const HomeRoomContainer = ({ roomsData, likes, setLikes }) => {
-  const [likes, setLikes] = useState({});
   if (!roomsData) return <Layout></Layout>;
 
   return (

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { NormalButton } from '@components/styles/Public.styles';
+import { NormalButton } from '@shared/components/styles/Public.styles';
 
 const Layout = styled.div`
   display: flex

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { verifyStore } from '../components/store/resetPassword.js';
-import { FetchChangePassword } from '../components/FetchList.js';
-import { Alert, FailAlert } from '../components/StaticComponents.js';
+import { verifyStore } from '@shared/components/Popup/store/resetPassword.js';
+import { FetchChangePassword } from '@shared/components/FetchList/FetchList.js';
+import { Alert, FailAlert } from '@shared/components/StaticComponents/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 import { InputVerificationNumber } from './components/InputVerificationNumber.js';
 import { InputResetPassword } from './components/InputResetPassword.js';

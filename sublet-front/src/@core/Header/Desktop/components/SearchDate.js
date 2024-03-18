@@ -3,7 +3,7 @@ import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import { IconButton } from '@mui/material';
 import { useSearchDateStore } from '../../store/searchDateStore.js';
 import * as s from '../Header.styles.js';
-import { DoubleDatePicker } from '../../../../@shared/components/Input/DoubleDatePicker.js';
+import { DoubleDatePicker } from '@shared/components/Input/DoubleDatePicker.js';
 
 const SearchDate = () => {
   const [isListVisible, setIsListVisible] = useState(false);
