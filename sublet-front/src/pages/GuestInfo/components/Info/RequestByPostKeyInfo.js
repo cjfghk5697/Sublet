@@ -10,13 +10,13 @@ export function RequestByPostKeyInfo({ Post }) {
       <SecondHead>응답 현황</SecondHead>
       <Horizon />
       {Post.map(res => {
-        const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${res.image_id[0]}.jpg`;
+        const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public/${res.image_id[0]}.jpg`;
         return (
           <>
             <div className="mt-2 grid grid-cols-4">
               <div>
                 <img
-                  src={image_link}
+                  src={imageLink}
                   className="object-cover s-23 h-13 rounded-lg rounded-lg"
                   alt="request post image"
                 />

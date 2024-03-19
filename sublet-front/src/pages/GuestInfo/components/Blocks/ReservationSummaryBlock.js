@@ -6,16 +6,17 @@ import {
   SecondHead,
 } from '@shared/components/styles/Public.styles';
 import { CancleReservationDialog } from '../Dialog/CancleReservationDialog';
-
-const {
+import { useState } from 'react';
+import {
   DateFormat,
-} = require('@shared/components/StaticComponents/StaticComponents');
+  priceToString,
+} from '@shared/components/StaticComponents/StaticComponents';
+
 const { useNavigate } = require('react-router-dom');
 
 export function ReservationSummaryBlock({ room }) {
   const [popupState, setpopupState] = useState(false);
   const [checkState, setCheckState] = useState(false);
-
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -51,7 +52,7 @@ export function ReservationSummaryBlock({ room }) {
         <DetailParagraph>
           기간: {DateFormat(room.start_day)} ~ {DateFormat(room.end_day)}
         </DetailParagraph>
-        <DetailParagraph>비용: {ppriceToString(room.pay)}</DetailParagraph>
+        <DetailParagraph>비용: {priceToString(room.pay)}</DetailParagraph>
         <div>
           <div>
             <DeleteButton onClick={clickHandler}>취소하기</DeleteButton>
@@ -62,7 +63,7 @@ export function ReservationSummaryBlock({ room }) {
             popupState={popupState}
             clickHandler={clickHandler}
             checkState={checkState}
-            checkHandled={checkHandled}
+            checkHandled={setCheckState}
             key={room.key}
           />
         </div>

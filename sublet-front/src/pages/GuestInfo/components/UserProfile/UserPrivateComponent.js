@@ -1,4 +1,8 @@
-import { EmailDialog, VerifyEmailDialog } from '@shared/components/Popup/Popup';
+import {
+  EmailDialog,
+  PhoneDialog,
+  VerifyEmailDialog,
+} from '@shared/components/Popup/Popup';
 import { StyleComponent } from '@shared/components/StaticComponents/StaticComponents';
 import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore';
 import {
@@ -9,7 +13,7 @@ import {
   SvgHoverButton,
 } from '@shared/components/styles/Public.styles';
 
-export const UserPrivateComponent = user => {
+export const UserPrivateComponent = ({ user }) => {
   const { setEmailPopUpState, setPhonePopUpState, setVerifyEmailPopUpState } =
     guestInfoPopUpStore(state => ({
       setEmailPopUpState: state.setEmailPopUpState,
@@ -44,7 +48,7 @@ export const UserPrivateComponent = user => {
             )}
           </div>
           <hr className="h-px bg-gray-600 border-0 clear-both" />
-          <EmailDialog originalEmail={user.email} />
+          <EmailDialog originalEmail={user.email} schoolState={user.school} />
         </div>
 
         <VerifyEmailDialog email={user.email} />

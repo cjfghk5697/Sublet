@@ -22,7 +22,6 @@ import {
   FetchUploadPost,
 } from '../FetchList/FetchList.js';
 
-import { guestInfoPopUpStore } from './store/guestInfoStore.js';
 import {
   Alert,
   Information,
@@ -57,7 +56,10 @@ import dayjs from 'dayjs';
 import DropBoxSelect from '../Input/DropBoxSelect.js';
 import { DoubleSlideInput } from '../Input/DoubleSlideInput.js';
 import { SingleSlideInput } from '../Input/SingleSlideInput.js';
-import { ValueRangeViewer } from '@shared/components/Input/ValueViewer.js';
+import {
+  SingleValueViewer,
+  ValueRangeViewer,
+} from '@shared/components/Input/ValueViewer.js';
 import Map from '../Map/Map.js';
 
 import { LocationInput } from '../Input/LocationInput.js';
@@ -65,6 +67,7 @@ import { DoubleDatePicker } from '../Input/DoubleDatePicker.js';
 import { priceToString } from '../StaticComponents/StaticComponents.js';
 import { ImageUploadComponent } from '../Input/ImageInput.js';
 import { useUserInfoStore } from '@core/store/UserInfoStore.js';
+import { guestInfoPopUpStore } from './store/guestInfoStore.js';
 
 export function DialogForm({
   name = '',
@@ -206,7 +209,7 @@ export function VerifyEmailDialog({ email }) {
 
 // .then(res=>notFoundError(res, true, setSuccessState))
 // .catch(raiseError('ImageDialog', true,setFailState));
-export function EmailDialog({ originalEmail }) {
+export function EmailDialog({ originalEmail, schoolState }) {
   const { setEmailPopUpState, emailPopUpState } = guestInfoPopUpStore(
     state => ({
       setEmailPopUpState: state.setEmailPopUpState,
@@ -230,10 +233,7 @@ export function EmailDialog({ originalEmail }) {
     if (e.currentTarget.name === 'emailState') {
       setEmailFormatState(checkEmailFormat(e.currentTarget.value, schoolState));
     }
-    setInputs({
-      ...inputs,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
+    setEmailState(e.currentTarget.value);
   };
 
   return (
@@ -276,7 +276,9 @@ export function PhoneDialog({ originalPhone }) {
   );
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
-  const [phoneState, setPhoneState] = useState(originalPhone);
+  const [phoneState, setPhoneState] = useState(
+    originalPhone.replace('+82', '010'),
+  );
 
   const handleClose = () => setPhonePopUpState(false);
 
@@ -770,7 +772,8 @@ export function LoginDialog() {
     google: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   };
 
-  const PasswordInput = () => { // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
+  const PasswordInput = ({ inputHandle, passwordState }) => {
+    // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
     return (
       <div>
         <div className="mt-2 flex items-center justify-between">
@@ -786,7 +789,8 @@ export function LoginDialog() {
     );
   };
 
-  const IdInput = () => { // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
+  const IdInput = ({ inputHandle, idState }) => {
+    // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
     return (
       <div>
         <s.Label for="id">Id</s.Label>
@@ -838,8 +842,32 @@ export function LoginDialog() {
             </p>
           </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <IdInput /> {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
-            <PasswordInput /> {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
+            <div>
+              <s.Label for="id">Id</s.Label>
+              <div className="mt-2">
+                <InputText
+                  name="idState"
+                  placeholder="아이디"
+                  onChange={inputHandle}
+                  value={idState}
+                />
+              </div>
+            </div>{' '}
+            {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
+            <div>
+              <div className="mt-2 flex items-center justify-between">
+                <s.Label for="password">Password</s.Label>
+                <div className="text-sm">
+                  <s.PolicyText href="/resetpassword">
+                    Forgot password?
+                  </s.PolicyText>
+                </div>
+              </div>
+              <div className="mt-2">
+                <InputPassword onChange={inputHandle} value={passwordState} />
+              </div>
+            </div>{' '}
+            {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
           </div>
           <div>
             <s.NormalButton
@@ -859,7 +887,18 @@ export function LoginDialog() {
           </div>
         </DialogContent>
         <s.Horizon />
-        <OAuthLogin />
+        <DialogActions>
+          <div className="w-4/5 h-4/5">
+            <div>
+              <GoogleOAuthProvider clientId={idList.google}>
+                <GoogleButton />
+              </GoogleOAuthProvider>
+            </div>
+            <div className="my-4 w-40">
+              <NaverLogin />
+            </div>
+          </div>
+        </DialogActions>{' '}
       </Dialog>
       <SignUpDialog />
     </div>
@@ -1120,9 +1159,7 @@ export const PostUploadDialog = props => {
               </div>
               <div>
                 <div>
-                  <SingleValueViewer
-                    value={'욕실 개수: ' + numberBathroom}
-                  />
+                  <SingleValueViewer value={'욕실 개수: ' + numberBathroom} />
                   <SingleSlideInput
                     name="numberBathroom"
                     value={numberBathroom}
@@ -1131,9 +1168,7 @@ export const PostUploadDialog = props => {
                   />
                 </div>
                 <div>
-                  <SingleValueViewer
-                    value={'침실 개수: ' + numberBedroom}
-                  />
+                  <SingleValueViewer value={'침실 개수: ' + numberBedroom} />
                   <SingleSlideInput
                     name="numberBedroom"
                     value={numberBedroom}
@@ -1391,9 +1426,7 @@ export const PostEditDialog = post => {
 
             <div>
               <div>
-                <SingleValueViewer
-                  value={'최대인원: ' + limitPeople + '명'}
-                />
+                <SingleValueViewer value={'최대인원: ' + limitPeople + '명'} />
                 <SingleSlideInput
                   name="limitPeople"
                   value={limitPeople}
@@ -1404,9 +1437,7 @@ export const PostEditDialog = post => {
             </div>
             <div>
               <div>
-                <SingleValueViewer
-                  value={'욕실 개수: ' + numberBathroom}
-                />
+                <SingleValueViewer value={'욕실 개수: ' + numberBathroom} />
                 <SingleSlideInput
                   name="numberBathroom"
                   value={numberBathroom}
@@ -1415,9 +1446,7 @@ export const PostEditDialog = post => {
                 />
               </div>
               <div>
-                <SingleValueViewer
-                  value={'침실 개수: ' + numberBedroom}
-                />
+                <SingleValueViewer value={'침실 개수: ' + numberBedroom} />
                 <SingleSlideInput
                   name="numberBedroom"
                   value={numberBedroom}

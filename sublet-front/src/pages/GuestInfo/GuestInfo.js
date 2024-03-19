@@ -5,14 +5,16 @@ import { RequestListComponent } from './components/UserProfile/RequsetListCompon
 import { UserPrivateComponent } from './components/UserProfile/UserPrivateComponent';
 import { Horizon, Wrapper } from '@shared/components/styles/Public.styles.js';
 import { ReservationInfo } from './components/Info/ReservationInfo';
-import { UserBaseComponent } from './components/UserImageProfile.js';
 import { PostUploadDialog } from '@shared/components/Popup/Popup.js';
 import { PostListComponent } from './components/UserProfile/PostListComponent.js';
+import { FetchGetMyUser } from '@shared/components/FetchList/FetchList';
+import { UserBaseComponent } from './components/UserImageProfile';
 
 function GuestInfo() {
   const [userInfo, setUserInfo] = useState([]);
   FetchGetMyUser(setUserInfo);
   useTitle('프로필 | ItHome');
+  console.log('s.', userInfo);
   return (
     <Wrapper>
       <div

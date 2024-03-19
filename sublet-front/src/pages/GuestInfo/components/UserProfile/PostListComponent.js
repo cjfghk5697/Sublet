@@ -1,13 +1,20 @@
 import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore.js';
 import { useState } from 'react';
-import { NormalButton, SecondHead } from '@shared/components/styles/Public.styles.js';
-import { DateFormat, priceToString } from '@shared/components/StaticComponents/StaticComponents.js';
+import {
+  NormalButton,
+  SecondHead,
+} from '@shared/components/styles/Public.styles.js';
+import {
+  DateFormat,
+  priceToString,
+} from '@shared/components/StaticComponents/StaticComponents.js';
 import { FetchGetPost } from '@shared/components/FetchList/FetchList.js';
 import { PostSummaryBlock } from '../Blocks/PostSummaryBlock.js';
 
-function PostListComponent(userId, guestMode = true) {
+function PostListComponent({ userId, guestMode = true }) {
   const [postInfo, setPostInfo] = useState([]);
-  FetchGetPost(userId.user_id, setPostInfo);
+  console.log(userId);
+  FetchGetPost(userId, setPostInfo);
 
   const { setPostPopUpState } = guestInfoPopUpStore(state => ({
     setPostPopUpState: state.setPostPopUpState,
