@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { NormalButton } from '@components/styles/Public.styles';
+import { NormalButton } from '@shared/components/styles/Public.styles';
 
 const Layout = styled.div`
-  display: flex
-  flexDirection: row
-  margin: 1rem 0 1rem 0rem
-  gap: 0.5rem
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 0 1rem 0;
+  gap: 0.5rem;
 `;
 
 export const HomeTopButtonContainer = () => (

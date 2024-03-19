@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { FetchLogin } from '../FetchList/FetchList';
-import { useUserInfoStore } from '../../store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 export default function NaverLogin() {
   const { naver } = window;

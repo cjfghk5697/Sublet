@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useSearchLocationStore } from '../../store/searchLocationStore.js';
 import * as headerStyle from '../Header.styles.js';
-import { LocationInput } from '../../../../@shared/components/Input/LocationInput.js';
+import { LocationInput } from '@shared/components/Input/LocationInput.js';
 
 const SearchLocation = props => {
   const { searchLocation, setSearchLocation } = useSearchLocationStore();
@@ -16,11 +16,10 @@ const SearchLocation = props => {
       border: '1px solid black',
       position: 'absolute',
       width: '20em',
-      top: `${
-        buttonRef.current
+      top: `${buttonRef.current
           ? buttonRef.current.offsetTop + buttonRef.current.offsetHeight
           : 0
-      }px`,
+        }px`,
       left: `${buttonRef.current ? buttonRef.current.offsetLeft : 0}px`,
       padding: '0 1em 0 1em',
       zIndex: 101,
@@ -55,7 +54,7 @@ const SearchLocation = props => {
           <LocationInput
             pos={tempPos}
             currentPos={searchLocation}
-            setPos={setTempPos}
+            onChange={setTempPos}
           />
           <headerStyle.acceptOrCancleButton>
             <button onClick={handleSubmit}>적용</button>

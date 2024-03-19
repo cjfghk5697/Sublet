@@ -2,12 +2,12 @@ import { Dialog, DialogContent } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SubletPostStore } from '../store/SubletPostStore';
-import Map from '../@shared/components/Map/Map';
-import * as s from '../@shared/components/styles/Public.styles.js';
-import { ShareDialog } from '../@shared/components/Popup/Popup.js';
-import { StyleComponent } from '../@shared/components/StaticComponents/StaticComponents.js';
-import { bookingPopUpStore } from '../@shared/components/Popup/store/bookingPopUpStore.js';
-import { useSearchDateStore } from '../@core/Header/store/searchDateStore.js';
+import Map from '@shared/components/Map/Map';
+import * as s from '@shared/components/styles/Public.styles.js';
+import { ShareDialog } from '@shared/components/Popup/Popup.js';
+import { StyleComponent } from '@shared/components/StaticComponents/StaticComponents.js';
+import { bookingPopUpStore } from '@shared/components/Popup/store/bookingPopUpStore.js';
+import { useSearchDateStore } from '@core/Header/store/searchDateStore.js';
 import {
   RoomHost,
   RoomReservation,
@@ -15,6 +15,7 @@ import {
   RoomPrice,
   ImageCarousel,
 } from '@shared/components/RoomInfo';
+import { RoomTitle } from '@shared/components/styles/RoomInfo.styles';
 
 export default function RoomInfo() {
   // 새 창에서 열릴 때 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
@@ -131,9 +132,9 @@ export default function RoomInfo() {
           </div>
           {/* {console.log(nowRoomPost)} */}
 
-          <RS.RoomTitle>
+          <RoomTitle>
             {nowRoomPost.title} {`(숙소번호 : ${nowRoomNum})`}
-          </RS.RoomTitle>
+          </RoomTitle>
 
           <RoomPrice nowRoomPost={nowRoomPost} />
 

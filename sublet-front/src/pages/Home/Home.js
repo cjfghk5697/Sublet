@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useTitle } from '../../@shared/components/hook/HookCollectkCollect';
+import { useTitle } from '@shared/components/hook/HookCollect.js';
 import styled from '@emotion/styled';
 import { HomeTopButtonContainer } from './components/HomeTopButtonContainer.js';
+import { HomeRoomContainer } from './components/HomeRoomContainer.js';
+import { HomeMoreRoomButton } from './components/HomeMoreRoomButton.js';
 
 const Layout = styled.div`
   marginBottom: '10rem'

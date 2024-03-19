@@ -2,13 +2,13 @@ import {
   DateFormat,
   Information,
   priceToString,
-} from '@components/StaticComponents';
+} from '@shared/components/StaticComponents/StaticComponents.js';
 import {
   DetailParagraph,
   Horizon,
   NormalButton,
   SecondHead,
-} from '@components/styles/Public.styles';
+} from '@shared/components/styles/Public.styles';
 
 export function PostRequest({ requsetList }) {
   return (

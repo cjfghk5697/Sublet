@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import SearchDate from '../../@core/Header/Desktop/components/SearchDate.js';
+import SearchDate from '@core/Header/Desktop/components/SearchDate.js';
 import { AccomodationType } from "./AccomodationType";
 
 

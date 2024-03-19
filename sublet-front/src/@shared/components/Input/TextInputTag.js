@@ -1,83 +1,74 @@
 import * as s from './styles/Input.styles.js';
 
-export const InputTextCss = ({ name, placeholder, onChange, value }) => {
-  return (
-    <InputTextCss
-      name={name}
-      type="text"
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-      required
-    />
-  );
-};
+export const InputText = ({ name, placeholder, onChange, value }) => (
+  <s.InputTextCss
+    name={name}
+    type="text"
+    placeholder={placeholder}
+    onChange={onChange}
+    value={value}
+    required
+  />
+);
 
-export const InputEmail = ({ emailFormatState, onChange, value }) => {
-  return emailFormatState ? (
-    <InputTextCss
-      type="email"
-      name="emailState"
-      placeholder="이메일"
-      onChange={onChange}
-      value={value}
-      required
-    />
-  ) : (
-    <s.InputTextErrorCss
-      type="email"
-      name="emailState"
-      placeholder="이메일"
-      onChange={onChange}
-      value={value}
-      required
-    />
-  );
-};
+export const InputEmail = ({ emailFormatState, onChange, value }) => (emailFormatState ? (
+  <s.InputTextCss
+    type="email"
+    name="emailState"
+    placeholder="이메일"
+    onChange={onChange}
+    value={value}
+    required
+  />
+) : (
+  <s.InputTextErrorCss
+    type="email"
+    name="emailState"
+    placeholder="이메일"
+    onChange={onChange}
+    value={value}
+    required
+  />
+)
+);
 
-export const InputTelePhone = ({ onChange, value }) => {
-  return (
-    <s.InputTextCss
-      maxlength="13"
-      type="tel"
-      name="phoneState"
-      placeholder="전화번호"
-      onChange={onChange}
-      value={value
-        .replace(/[^0-9]/g, '')
-        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
-        .replace(/(\-{1,2})$/g, '')}
-      required
-    />
-  );
-};
+export const InputTelePhone = ({ onChange, value }) => (
+  <s.InputTextCss
+    maxlength="13"
+    type="tel"
+    name="phoneState"
+    placeholder="전화번호"
+    onChange={onChange}
+    value={value
+      .replace(/[^0-9]/g, '')
+      .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
+      .replace(/(\-{1,2})$/g, '')}
+    required
+  />
+);
 
-export const InputPassword = ({ onChange, value }) => {
-  return (
-    <s.InputTextCss
-      type="password"
-      name="passwordState"
-      placeholder="비밀번호"
-      onChange={onChange}
-      value={value}
-      required
-    />
-  );
-};
+export const InputPassword = ({ onChange, value }) => (
+  <s.InputTextCss
+    type="password"
+    name="passwordState"
+    placeholder="비밀번호"
+    onChange={onChange}
+    value={value}
+    required
+  />
+);
 
-export const InputStudentId = ({ onChange, value }) => {
-  return (
-    <s.InputTextCss
-      type="tel"
-      maxlength="2"
-      name="studentIdState"
-      placeholder="학번"
-      onChange={inputHandle}
-      value={studentIdState}
-      required
-    />
-  );
-};
+export const InputStudentId = ({ onChange, value }) => (
+  <s.InputTextCss
+    type="tel"
+    maxlength="2"
+    name="studentIdState"
+    placeholder="학번"
+    onChange={inputHandle}
+    value={studentIdState}
+    required
+  />
+);
 
 export const TextInputTag = ({
   // 용도 분석 및 비교 후, InputText와 합체 예정.

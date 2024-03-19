@@ -1,5 +1,6 @@
-import { NormalButton } from '@components/styles/Public.styles';
+import { NormalButton } from '@shared/components/styles/Public.styles';
 import styled from 'styled-components';
+import * as s from '@shared/components/styles/Public.styles';
 
 const NoButtonLayout = styled(s.PolicyText)`
   margintop: '3rem';

@@ -1,6 +1,6 @@
 import React from 'react';
 import * as inputStyle from './styles/Input.styles.js';
-import { priceToString } from '@shared/components/StaticComponents.js';
+import { priceToString } from '@shared/components/StaticComponents/StaticComponents.js';
 
 export const SingleValueViewer = ({ value }) => {
   return (

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Map from '../../@shared/components/Map/Map';
+import Map from '@shared/components/Map/Map';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import styled from 'styled-components';
-import { useUserInfoStore } from '../../@core/store/UserInfoStore.js';
+import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 import { SaveSubletImage } from './components/SaveSubletImage';
 
 const HoverBtnDiv = styled.div`

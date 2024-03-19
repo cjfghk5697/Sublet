@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useTitle } from '../components/hook/HookCollect.js';
+import { useTitle } from '@shared/components/hook/HookCollect.js';
 import { useParams } from 'react-router-dom';
 import { UserBaseComponent } from './Components/UserImageProfile.js';
-import { PostListComponent } from '@pages/GuestInfo/components/UserProfile/PostListComponent.js';
+import { PostListComponent } from 'pages/GuestInfo/components/UserProfile/PostListComponent.js';
 import { Wrapper } from '@shared/components/styles/Public.styles.js';
 import { FetchGetOneUser } from '@shared/components/FetchList/FetchList.js';
 
