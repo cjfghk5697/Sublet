@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { notFoundError, raiseError } from '../StaticComponents/StaticComponents';
+import {
+  notFoundError,
+  raiseError,
+} from '../StaticComponents/StaticComponents';
 
 const headerOptions = (method, contentType = 'application/json') => ({
   credentials: 'include',
@@ -179,11 +182,15 @@ async function FetchImage(formData) {
 
 async function FetchGetMyUser(setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;
-
-  const json = await fetch(URL, headerOptions('GET'))
-    .then(notFoundError)
-    .catch(raiseError('FetchGetMyUser'));
-  setUserInfo(json);
+  const getUserInfo = async () => {
+    const json = await fetch(URL, headerOptions('GET'))
+      .then(notFoundError)
+      .catch(raiseError('FetchGetMyUser'));
+    setUserInfo(json);
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 }
 
 async function FetchGetOneUser(userId, setUserInfo) {

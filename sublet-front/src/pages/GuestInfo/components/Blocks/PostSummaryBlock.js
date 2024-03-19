@@ -10,6 +10,7 @@ import {
   SecondHead,
 } from '@shared/components/styles/Public.styles';
 import { StyleComponent } from '@shared/components/StaticComponents/StaticComponents';
+import { useState } from 'react';
 
 export function PostSummaryBlock({
   room,
@@ -18,7 +19,7 @@ export function PostSummaryBlock({
   price,
   address,
 }) {
-  const image_link = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`;
+  const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`;
 
   const [inputs, setInputs] = useState({
     detailDialogShow: false,
@@ -59,7 +60,7 @@ export function PostSummaryBlock({
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
-        <img className="object-cover rounded-lg" src={image_link}></img>
+        <img className="object-cover rounded-lg" src={imageLink}></img>
       </div>
       <div className="mb-2 ml-3 col-span-4">
         <div className="inline-block">

@@ -1,8 +1,11 @@
-import { NormalText, SecondHead } from '@shared/components/styles/Public.styles';
+import {
+  NormalText,
+  SecondHead,
+} from '@shared/components/styles/Public.styles';
 import { verifyFrame } from 'pages/GuestInfo/button-frames/UserImageFrame';
 import { VerifyList } from 'pages/GuestInfo/components/Info/VerifyList';
 
-export const UserBaseComponent = user => {
+export const UserBaseComponent = ({ user }) => {
   const frame = verifyFrame(user);
   const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`;
 

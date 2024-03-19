@@ -6,16 +6,21 @@ import {
 } from '@shared/components/styles/Public.styles';
 import { verifyFrame } from '../button-frames/UserImageFrame';
 import { VerifyList } from './Info/VerifyList';
+import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore';
 
-export const UserBaseComponent = user => {
+export const UserBaseComponent = ({ user }) => {
   const frame = verifyFrame(user);
+  const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`;
+  const { setImagePopUpState } = guestInfoPopUpStore(state => ({
+    setImagePopUpState: state.setImagePopUpState,
+  }));
   return (
     <div>
       <ImageUploadButton
         onClick={setImagePopUpState}
         className="object-cover w-46 h-26">
         <img
-          src={image_link}
+          src={imageLink}
           className="hover:opacity-60 object-scale-down rounded-lg rounded-lg"
           alt="my profile"
         />
