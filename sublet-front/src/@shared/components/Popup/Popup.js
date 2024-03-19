@@ -15,6 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import {
   FetchChangeEmail,
+  FetchChangePhone,
   FetchEmail,
   FetchImage,
   FetchLogin,
@@ -124,7 +125,6 @@ export function ImageDialog() {
   };
   formData.append('file', imageUpload);
   const onClick = () => {
-    console.log(formData);
     FetchImage(formData)
       .then(res => notFoundError(res, true, setSuccessState))
       .catch(raiseError('ImageDialog', true, setFailState));
@@ -276,9 +276,7 @@ export function PhoneDialog({ originalPhone }) {
   );
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
-  const [phoneState, setPhoneState] = useState(
-    originalPhone.replace('+82', '010'),
-  );
+  const [phoneState, setPhoneState] = useState(originalPhone);
 
   const handleClose = () => setPhonePopUpState(false);
 
@@ -971,7 +969,7 @@ export const PostUploadDialog = props => {
   } = postState;
 
   const onChange = e => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    setPostState({ ...inputs, [e.target.name]: e.target.value });
   };
 
   const updatePostState = (key, value) => {
@@ -981,11 +979,11 @@ export const PostUploadDialog = props => {
   const handleClose = () => confirmAction();
 
   const confirmAction = async () => {
-    if (windos.confirm('임시저장 하시겠습니까?')) {
-      const formData = makeFormData();
-      formData.append('local_save', true); // 임시저장 유무
-      FetchUploadPost(formData);
-    }
+    // if (windows.confirm('임시저장 하시겠습니까?')) {
+    //   const formData = makeFormData();
+    //   formData.append('local_save', true); // 임시저장 유무
+    //   FetchUploadPost(formData);
+    // }
     setPostPopUpState(false);
   };
 
@@ -1412,7 +1410,6 @@ export const PostEditDialog = post => {
     setImageFiles(newImages);
   };
 
-  console.log(imageFiles);
   return (
     <>
       <DialogTitle></DialogTitle>

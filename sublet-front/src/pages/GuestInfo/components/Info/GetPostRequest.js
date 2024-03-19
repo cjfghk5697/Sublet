@@ -10,13 +10,13 @@ import {
   SecondHead,
 } from '@shared/components/styles/Public.styles';
 
-export function PostRequest({ requsetList }) {
+export function PostRequest({ requestInfo }) {
   return (
     <div className="mb-4">
       <SecondHead>요청서 현황</SecondHead>
       <Horizon />
-      {requsetList.map(res => {
-        const info_list = {
+      {requestInfo.map(res => {
+        const infoList = {
           비용: priceToString(res.price),
           '방 개수': res.number_room,
           '욕실 개수': res.number_bathroom,
@@ -37,8 +37,8 @@ export function PostRequest({ requsetList }) {
                 요청 날짜: {DateFormat(res.start_day)} ~{' '}
                 {DateFormat(res.end_day)}
               </DetailParagraph>
-              {Object.keys(info_list).map(k => (
-                <Information title={k} info={info_list[k]} />
+              {Object.keys(infoList).map(k => (
+                <Information title={k} info={infoList[k]} />
               ))}
 
               <NormalButton>메세지 보내기</NormalButton>

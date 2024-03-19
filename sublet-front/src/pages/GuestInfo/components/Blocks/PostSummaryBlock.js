@@ -20,7 +20,7 @@ export function PostSummaryBlock({
   address,
 }) {
   const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public/${room.image_id[0]}.jpg`;
-
+  const key = room.key;
   const [inputs, setInputs] = useState({
     detailDialogShow: false,
     reservationDialogShow: false,
@@ -99,40 +99,34 @@ export function PostSummaryBlock({
                 onClick={onChange}>
                 삭제하기
               </DeleteButton>
+              <PostDetailDialog
+                detailDialogShow={detailDialogShow}
+                onChange={onChange}
+                room={room}
+                postDate={postDate}
+                price={price}
+                address={address}
+              />
+              <PostReservationDialog
+                reservationDialogShow={reservationDialogShow}
+                onChange={onChange}
+                requestKey={key}
+              />
+
+              <PostDeleteDialog
+                deletelDialogShow={deletelDialogShow}
+                onChange={onChange}
+                requestKey={key}
+              />
+
+              <PostRequestDialog
+                requestDialogShow={requestDialogShow}
+                onChange={onChange}
+                requestKey={room.requestIDs}
+              />
             </>
           )}
         </div>
-
-        <PostDetailDialog
-          detailDialogShow={detailDialogShow}
-          onChange={onChange}
-          room={room}
-          postDate={postDate}
-          price={price}
-          address={address}
-        />
-        <PostReservationDialog
-          reservationDialogShow={reservationDialogShow}
-          onChange={onChange}
-          key={room.key}
-        />
-
-        <PostDeleteDialog
-          deletelDialogShow={deletelDialogShow}
-          onChange={onChange}
-          key={room.key}
-        />
-
-        <PostRequestDialog
-          requestDialogShow={requestDialogShow}
-          onChange={onChange}
-          key={room.requestIDs}
-        />
-        <PostRequestDialog
-          editRoomDialogShow={editRoomDialogShow}
-          onChange={onChange}
-          room={room}
-        />
       </div>
     </div>
   );

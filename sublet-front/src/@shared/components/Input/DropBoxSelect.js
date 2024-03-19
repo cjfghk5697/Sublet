@@ -7,17 +7,11 @@ import Select from '@mui/material/Select';
 
 const DropBoxSelect = ({
   state,
-
   name = '',
-
   onChange,
-
   labelName,
-
   labelId,
-
   id,
-
   menuItems,
 }) => {
   return (
