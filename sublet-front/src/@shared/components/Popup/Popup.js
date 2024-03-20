@@ -323,7 +323,7 @@ export function ShareDialog({ description, title, image_id }) {
   const [successState, setSuccessState] = useState(false);
 
   // 로컬 주소 (localhost 3000 같은거)
-  const resultUrl = windos.location.href;
+  const resultUrl = window.location.href;
   const { Kakao } = window;
   const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/public/${image_id[0]}.jpg`;
   // 재랜더링시에 실행되게 해준다.

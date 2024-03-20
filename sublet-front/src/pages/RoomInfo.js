@@ -16,6 +16,10 @@ import {
   ImageCarousel,
 } from '@shared/components/RoomInfo';
 import { RoomTitle } from '@shared/components/styles/RoomInfo.styles';
+import {
+  FetchGetMyUser,
+  FetchIsLogin,
+} from '@shared/components/FetchList/FetchList';
 
 export default function RoomInfo() {
   // 새 창에서 열릴 때 props를 못 받아와서, zustand의 전역 저장소를 사용한다.
@@ -54,7 +58,7 @@ export default function RoomInfo() {
   const { searchDate } = useSearchDateStore();
   const [userInfo, setUserInfo] = useState();
   const IsLogin = async () => {
-    const json = FetchGetMyUser(setUserInfo);
+    const json = FetchIsLogin(setUserInfo);
 
     if (json.statusCode === 403) {
       return false;
@@ -150,6 +154,7 @@ export default function RoomInfo() {
           <RoomReservation
             nowRoomPost={nowRoomPost}
             moveToBooking={moveToBooking}
+            searchDate={searchDate}
           />
 
           <RoomHost />

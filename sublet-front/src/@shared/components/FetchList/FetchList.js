@@ -191,6 +191,17 @@ async function FetchGetMyUser(setUserInfo) {
   }, []);
 }
 
+async function FetchIsLogin(setUserInfo) {
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;
+  const getUserInfo = async () => {
+    const json = await fetch(URL, headerOptions('GET'))
+      .then(notFoundError)
+      .catch(raiseError('FetchGetMyUser'));
+    setUserInfo(json);
+  };
+  return getUserInfo;
+}
+
 async function FetchGetOneUser(userId, setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${userId}`;
 
@@ -200,9 +211,8 @@ async function FetchGetOneUser(userId, setUserInfo) {
       .catch(raiseError('FetchGetOneUser'));
     setUserInfo(json);
   };
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  getUserInfo();
+
   return true;
 }
 
@@ -275,7 +285,7 @@ async function FetchGetRequestByRequestId(idList, setRequestInfo) {
 }
 async function FetchVerifyEmail(email) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`;
-  return await fetch(link, {
+  await fetch(link, {
     ...headerOptions('POST'),
     body: JSON.stringify({
       email: email,
@@ -414,5 +424,6 @@ export {
   FetchUploadPost,
   FetchEditPost,
   FetchConverURLtoFile,
+  FetchIsLogin,
   toggleLikes,
 };
