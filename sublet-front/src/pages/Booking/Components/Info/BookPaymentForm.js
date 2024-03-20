@@ -1,21 +1,13 @@
-import { FormControl } from 'react-bootstrap';
-import {
-  Horizon,
-  NormalText,
-  SecondHead,
-} from '@shared/components/styles/Public.styles.js';
-import {
-  Box,
-  Checkbox,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
-export const BookPaymentForm = ({ paySelect, onPaySelectHandle }) => {
+export function BookPaymentForm({ paySelect, onPaySelectHandle }) {
   return (
     <FormControl fullWidth>
+      {' '}
+      여기서 에러 하나 있음
       <InputLabel id="demo-simple-select-label">결제 수단</InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -28,4 +20,4 @@ export const BookPaymentForm = ({ paySelect, onPaySelectHandle }) => {
       </Select>
     </FormControl>
   );
-};
+}

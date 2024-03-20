@@ -1,7 +1,8 @@
 import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   NormalButton,
+  NormalText,
   SecondHead,
 } from '@shared/components/styles/Public.styles.js';
 import {
@@ -13,9 +14,7 @@ import { PostSummaryBlock } from '../Blocks/PostSummaryBlock.js';
 
 function PostListComponent({ userId, guestMode = true }) {
   const [postInfo, setPostInfo] = useState([]);
-  console.log(userId);
   FetchGetPost(userId, setPostInfo);
-
   const { setPostPopUpState } = guestInfoPopUpStore(state => ({
     setPostPopUpState: state.setPostPopUpState,
   }));
@@ -23,6 +22,7 @@ function PostListComponent({ userId, guestMode = true }) {
   return (
     <div className="mb-4 mt-8">
       <SecondHead className="inline">방 현황</SecondHead>
+
       {postInfo.length > 0 ? (
         postInfo.map(res => {
           const address = res.city + ' ' + res.gu + ' ' + res.dong;
@@ -40,9 +40,10 @@ function PostListComponent({ userId, guestMode = true }) {
           );
         })
       ) : (
-        <p className="text-base font-extrabold">올린 방이 아직 없습니다.</p>
+        <NormalText>올린 방이 아직 없습니다.</NormalText>
       )}
-      {!guestMode && (
+
+      {guestMode && (
         <NormalButton onClick={setPostPopUpState}>방 올리기</NormalButton>
       )}
     </div>

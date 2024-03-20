@@ -2,7 +2,11 @@ import { DialogForm } from '@shared/components/Popup/Popup';
 import { DeleteButton } from '@shared/components/styles/Public.styles';
 import { DialogActions, DialogContent } from '@mui/material';
 
-export const PostDeleteDialog = ({ onChange, deletelDialogShow, key }) => {
+export const PostDeleteDialog = ({
+  onChange,
+  deletelDialogShow,
+  requestKey,
+}) => {
   return (
     <DialogForm
       openState={deletelDialogShow}
@@ -24,7 +28,7 @@ export const PostDeleteDialog = ({ onChange, deletelDialogShow, key }) => {
       <DialogActions>
         <div>
           <form>
-            <DeleteButton onClick={() => FetchDeletePost(key)}>
+            <DeleteButton onClick={() => FetchDeletePost(requestKey)}>
               삭제하기
             </DeleteButton>
           </form>

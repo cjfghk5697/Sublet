@@ -10,7 +10,7 @@ function HostInfo({ user }) {
   const { userId } = useParams();
 
   const title = user.username + '님의 프로필 | ItHome';
-  useTitle(title);
+  // useTitle(title);
   const [userInfo, setUserInfo] = useState([]);
   FetchGetOneUser(userId, setUserInfo);
   return (
@@ -23,7 +23,7 @@ function HostInfo({ user }) {
         </div>
 
         <div className="mb-2 ml-7 col-span-6 mt-5 w-5/6">
-          <PostListComponent userId={userInfo.user_id} />
+          <PostListComponent userId={userInfo.user_id} guestMode={false} />
         </div>
       </div>
     </Wrapper>

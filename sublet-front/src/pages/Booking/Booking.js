@@ -2,9 +2,12 @@ import { bookingPopUpStore } from '@shared/components/Popup/store/bookingPopUpSt
 import { BookPriceAndDate } from './Components/Info/BookPriceAndDate';
 import { BookRefundRule } from './Components/Info/BookRefundRule';
 import { BookPaymentMethod } from './Components/Info/BookPaymentMethod';
+import { useTitle } from '@shared/components/hook/HookCollect';
+import { CalulateDate, getDateDiff } from '@shared/components/StaticComponents/StaticComponents';
+import { useState } from 'react';
 
 export default function Booking(userId) {
-  useTitle('예약하기 | ItHome');
+  // useTitle('예약하기 | ItHome');
   const { startDay, endDay, dayPay, totalPay, postKey } = bookingPopUpStore(
     state => ({
       startDay: state.startDay,

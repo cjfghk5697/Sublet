@@ -32,7 +32,6 @@ export function ReservationSummaryBlock({ room }) {
       room: room.Post,
     });
   };
-
   return (
     <div className="flex grid grid-cols-5 mt-4 ml-4">
       <div className="w-46 h-26">
@@ -50,7 +49,7 @@ export function ReservationSummaryBlock({ room }) {
         </SecondHead>
         <DetailParagraph>호스트: {room.Post.postuser.user_id}</DetailParagraph>
         <DetailParagraph>
-          기간: {DateFormat(room.start_day)} ~ {DateFormat(room.end_day)}
+          기간: {DateFormat(room.r_start_day)} ~ {DateFormat(room.r_end_day)}
         </DetailParagraph>
         <DetailParagraph>비용: {priceToString(room.pay)}</DetailParagraph>
         <div>

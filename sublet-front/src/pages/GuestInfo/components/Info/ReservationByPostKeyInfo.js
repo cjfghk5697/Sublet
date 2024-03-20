@@ -1,17 +1,20 @@
 import { FetchReservationByPostKey } from '@shared/components/FetchList/FetchList';
-import { DateFormat, priceToString } from '@shared/components/StaticComponents/StaticComponents';
+import {
+  DateFormat,
+  priceToString,
+} from '@shared/components/StaticComponents/StaticComponents';
 import {
   DetailParagraph,
   Horizon,
   NormalText,
   SecondHead,
 } from '@shared/components/styles/Public.styles';
+import { useState } from 'react';
 
-export function ReservationByPostKeyInfo({ postKey }) {
+export function ReservationByPostKeyInfo({ requestKey }) {
   const [reservationInfo, setReservationInfo] = useState([]);
 
-  FetchReservationByPostKey(setReservationInfo, postKey);
-
+  FetchReservationByPostKey(setReservationInfo, requestKey);
   return (
     <div className="mb-4">
       <SecondHead>예약 현황</SecondHead>
