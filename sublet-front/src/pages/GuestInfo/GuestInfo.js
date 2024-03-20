@@ -13,8 +13,7 @@ import { UserBaseComponent } from './components/UserImageProfile';
 function GuestInfo() {
   const [userInfo, setUserInfo] = useState([]);
   FetchGetMyUser(setUserInfo);
-  useTitle('프로필 | ItHome');
-  console.log('s.', userInfo);
+  // useTitle('프로필 | ItHome');
   return (
     <Wrapper>
       <div
@@ -31,7 +30,7 @@ function GuestInfo() {
           <UserPrivateComponent user={userInfo} />
           <Horizon className="mt-4 md-2" />
 
-          <PostListComponent userId={userInfo.user_id} guestMode={false} />
+          <PostListComponent userId={userInfo.user_id} />
           <PostUploadDialog />
           <Horizon className="my-2" />
 

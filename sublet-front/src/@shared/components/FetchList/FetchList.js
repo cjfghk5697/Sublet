@@ -53,19 +53,17 @@ async function FetchChangePhone(phoneState) {
   );
 }
 
-async function FetchGetPost(userId, setPostInfo) {
+async function FetchGetPost(userId, setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/post/${userId}`;
-
   const getPostInfo = async () => {
     const json = await fetch(URL, headerOptions('GET'))
       .then(notFoundError)
       .catch(raiseError('FetchGetPost'));
-    setPostInfo(json);
+    setUserInfo(json);
   };
-
   useEffect(() => {
     getPostInfo();
-  }, []);
+  }, [userId]);
 }
 
 async function FetchUploadPost(formData) {
@@ -108,14 +106,15 @@ async function FetchReservation(setReservationInfo) {
 async function FetchReservationByPostKey(setReservationInfo, postKey) {
   const URL =
     `${process.env.REACT_APP_BACKEND_URL}/reservation/post?key=` + postKey;
-
-  const json = await fetch(URL, headerOptions('GET'))
-    .then(notFoundError)
-    .catch(raiseError('FetchReservationByPostKey'));
-  setReservationInfo(json);
-
-  const reservation = Array.from(reservationInfo);
-  return reservation;
+  const getFetchReservation = async () => {
+    const json = await fetch(URL, headerOptions('GET'))
+      .then(notFoundError)
+      .catch(raiseError('FetchReservationByPostKey'));
+    setReservationInfo(json);
+  };
+  useEffect(() => {
+    getFetchReservation();
+  }, []);
 }
 
 async function FetchDeleteReservation(keyNum) {
@@ -173,7 +172,6 @@ async function FetchLogout() {
 }
 
 async function FetchImage(formData) {
-  console.log('x', formData);
   await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/image`, {
     ...headerOptions('PUT', 'image/jpeg'),
     body: formData,
@@ -188,6 +186,17 @@ async function FetchGetMyUser() {
   return (json);
 };
 
+async function FetchIsLogin(setUserInfo) {
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;
+  const getUserInfo = async () => {
+    const json = await fetch(URL, headerOptions('GET'))
+      .then(notFoundError)
+      .catch(raiseError('FetchGetMyUser'));
+    setUserInfo(json);
+  };
+  return getUserInfo;
+}
+
 async function FetchGetOneUser(userId, setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/${userId}`;
 
@@ -197,9 +206,8 @@ async function FetchGetOneUser(userId, setUserInfo) {
       .catch(raiseError('FetchGetOneUser'));
     setUserInfo(json);
   };
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  getUserInfo();
+
   return true;
 }
 
@@ -272,7 +280,7 @@ async function FetchGetRequestByRequestId(idList, setRequestInfo) {
 }
 async function FetchVerifyEmail(email) {
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/email`;
-  return await fetch(link, {
+  await fetch(link, {
     ...headerOptions('POST'),
     body: JSON.stringify({
       email: email,
@@ -291,7 +299,6 @@ async function FetchVerifyUser({ method, tokenKey, verifyToken }) {
     tokenKey: tokenKey,
     verifyToken: Number(verifyToken),
   };
-  console.log(tokenKey, verifyToken);
   return await fetch(URL, {
     ...headerOptions('POST'),
     body: JSON.stringify(json),
@@ -301,7 +308,6 @@ async function FetchVerifyUser({ method, tokenKey, verifyToken }) {
 async function FetchResetPassword(userId, tokenKey, verifyToken) {
   // 학교 인증은 우리가 확인(김과외처럼)
   const link = `${process.env.REACT_APP_BACKEND_URL}/user/resetpassword`;
-  console.log(tokenKey, verifyToken);
 
   const requestOptions = {
     // sendEmail 라우터로 보내버리기
@@ -413,5 +419,6 @@ export {
   FetchUploadPost,
   FetchEditPost,
   FetchConverURLtoFile,
+  FetchIsLogin,
   toggleLikes,
 };

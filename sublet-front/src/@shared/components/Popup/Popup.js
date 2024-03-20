@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import * as s from '../styles/Public.styles.js';
 import {
   InputEmail,
   InputTelePhone,
@@ -15,7 +14,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import {
   FetchChangeEmail,
-  FetchEmail,
+  FetchChangePhone,
   FetchImage,
   FetchLogin,
   FetchSignUp,
@@ -31,7 +30,6 @@ import {
   checkEmailFormat,
   notFoundError,
   raiseError,
-  IsSuccessAlert,
 } from '../StaticComponents/StaticComponents.js';
 import {
   DialogTitle,
@@ -39,8 +37,6 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  Checkbox,
-  FormGroup,
   FormControl,
   Select,
   MenuItem,
@@ -61,7 +57,6 @@ import {
   SingleValueViewer,
   ValueRangeViewer,
 } from '@shared/components/Input/ValueViewer.js';
-import Map from '../Map/Map.js';
 
 import { LocationInput } from '../Input/LocationInput.js';
 import { DoubleDatePicker } from '../Input/DoubleDatePicker.js';
@@ -69,6 +64,17 @@ import { priceToString } from '../StaticComponents/StaticComponents.js';
 import { ImageUploadComponent } from '../Input/ImageInput.js';
 import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 import { guestInfoPopUpStore } from './store/guestInfoStore.js';
+import {
+  DisableButton,
+  Horizon,
+  JustifyBlock,
+  Label,
+  NormalButton,
+  NormalText,
+  PolicyText,
+  SecondHead,
+  SvgHoverButton,
+} from '../styles/Public.styles.js';
 
 export function DialogForm({
   name = '',
@@ -83,9 +89,9 @@ export function DialogForm({
       className="border border-gray-300 shadow-xl rounded-lg">
       <DialogTitle>
         {render()}
-        <s.SvgHoverButton name={name} type="button" onClick={handleClose}>
+        <SvgHoverButton name={name} type="button" onClick={handleClose}>
           <StyleComponent content="CloseButton" />
-        </s.SvgHoverButton>
+        </SvgHoverButton>
       </DialogTitle>
       {children}
     </Dialog>
@@ -125,7 +131,6 @@ export function ImageDialog() {
   };
   formData.append('file', imageUpload);
   const onClick = () => {
-    console.log(formData);
     FetchImage(formData)
       .then(res => notFoundError(res, true, setSuccessState))
       .catch(raiseError('ImageDialog', true, setFailState));
@@ -166,9 +171,9 @@ export function ImageDialog() {
         </div>
         <div className="mt-8">
           {imgFile !== '' ? (
-            <s.NormalButton onClick={onClick}>업로드하기</s.NormalButton>
+            <NormalButton onClick={onClick}>업로드하기</NormalButton>
           ) : (
-            <s.DisableButton disabled>업로드하기</s.DisableButton>
+            <DisableButton disabled>업로드하기</DisableButton>
           )}
 
           <div>
@@ -256,7 +261,7 @@ export function EmailDialog({ originalEmail, schoolState }) {
             value={emailState}
           />
           <div className="mt-4">
-            <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
+            <NormalButton onClick={onClick}>수정하기</NormalButton>
             <div>
               {successState && <Alert />}
               {failState && <FailAlert />}
@@ -277,9 +282,7 @@ export function PhoneDialog({ originalPhone }) {
   );
   const [successState, setSuccessState] = useState(false);
   const [failState, setFailState] = useState(false);
-  const [phoneState, setPhoneState] = useState(
-    originalPhone.replace('+82', '010'),
-  );
+  const [phoneState, setPhoneState] = useState(originalPhone);
 
   const handleClose = () => setPhonePopUpState(false);
 
@@ -309,7 +312,7 @@ export function PhoneDialog({ originalPhone }) {
             <InputTelePhone onChange={onChange} value={phoneState} />
           </form>
           <div className="mt-4">
-            <s.NormalButton onClick={onClick}>수정하기</s.NormalButton>
+            <NormalButton onClick={onClick}>수정하기</NormalButton>
             <div>
               {successState && <Alert />}
               {failState && <FailAlert />}
@@ -326,7 +329,7 @@ export function ShareDialog({ description, title, image_id }) {
   const [successState, setSuccessState] = useState(false);
 
   // 로컬 주소 (localhost 3000 같은거)
-  const resultUrl = windos.location.href;
+  const resultUrl = window.location.href;
   const { Kakao } = window;
   const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/public/${image_id[0]}.jpg`;
   // 재랜더링시에 실행되게 해준다.
@@ -370,29 +373,29 @@ export function ShareDialog({ description, title, image_id }) {
   return (
     <div className="z-10 inline-block mr-6">
       <div clssName="">
-        <s.SecondHead>숙소를 공유하세요!</s.SecondHead>
-        <s.NormalText> 복사하여 편하게 보내세요</s.NormalText>
+        <SecondHead>숙소를 공유하세요!</SecondHead>
+        <NormalText> 복사하여 편하게 보내세요</NormalText>
       </div>
       <div className="mt-2">
         {/* input 용도가 아니라서 컴포넌트화 하지 않았습니다. */}
-        <s.InputText
+        <InputText
           type="text"
           className="inline-block ring-1 ring-inset ring-gray-300 border border-slate-300 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
           ref={copyLinkRef}
           value={resultUrl}
         />
-        <s.NormalButton className="ml-2" onClick={copyTextUrl}>
+        <NormalButton className="ml-2" onClick={copyTextUrl}>
           복사하기
-        </s.NormalButton>
+        </NormalButton>
       </div>
       <div className="mt-2">
-        <s.NormalButton
+        <NormalButton
           className="ml-2"
           onClick={() => {
             shareKakao();
           }}>
           카카오 공유하기
-        </s.NormalButton>
+        </NormalButton>
       </div>
       <div className="mt-4 center">{successState && <Alert />}</div>
     </div>
@@ -417,9 +420,9 @@ export function RequestSummaryDetailDialog({
   };
   return (
     <>
-      <s.SecondHead>{address} </s.SecondHead>
+      <SecondHead>{address} </SecondHead>
 
-      <s.Horizon />
+      <Horizon />
       {request.contract ? (
         <p>계약된 매물만 확인</p>
       ) : (
@@ -442,7 +445,7 @@ export function PostSummaryDetailDialog({ room, postDate, price, address }) {
   return (
     <>
       <div className="inline-block">
-        <s.SecondHead className="float-start mr-4">{room.title} </s.SecondHead>
+        <SecondHead className="float-start mr-4">{room.title} </SecondHead>
         {room.contract ? (
           <StyleComponent content="VerifyRoom" />
         ) : (
@@ -543,22 +546,22 @@ export function SignUpDialog() {
   };
 
   return (
-    <Dialog
-      open={signUpPopUpState}
-      className="border border-gray-300 shadow-xl rounded-lg">
-      <DialogTitle>
-        <s.SvgHoverButton type="button" onClick={setSignUpPopUpState}>
-          <StyleComponent content="CloseButton" />
-        </s.SvgHoverButton>
-        <div className="float-left">
-          <s.SecondHead>회원가입</s.SecondHead>
-        </div>
-      </DialogTitle>
+    <DialogForm
+      openState={signUpPopUpState}
+      handleClose={setSignUpPopUpState}
+      name="signUpPopUp"
+      render={() => (
+        <label
+          htmlFor="test"
+          className="block mb-2 text-sm font-medium text-gray-900 float-left">
+          test
+        </label>
+      )}>
       <DialogContent>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <s.JustifyBlock>
+          <JustifyBlock>
             <div>
-              <s.Label for="id">아이디</s.Label>
+              <Label for="id">아이디</Label>
               <div className="mt-2">
                 <InputText
                   name="idState"
@@ -570,16 +573,16 @@ export function SignUpDialog() {
             </div>
 
             <div className="ml-2">
-              <s.Label for="password">패스워드</s.Label>
+              <Label for="password">패스워드</Label>
               <div className="mt-2">
                 <InputPassword onChange={inputHandle} value={passwordState} />
               </div>
             </div>
-          </s.JustifyBlock>
+          </JustifyBlock>
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.Label for="username">별명</s.Label>
+              <Label for="username">별명</Label>
             </div>
             <div className="mt-2">
               <InputText
@@ -592,7 +595,7 @@ export function SignUpDialog() {
           </div>
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.Label for="password">생년월일</s.Label>
+              <Label for="password">생년월일</Label>
             </div>
             <div className="mt-2">
               <LocalizationProvider dateAdapter={AdapterDayjs} required>
@@ -607,14 +610,14 @@ export function SignUpDialog() {
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.Label for="phone">전화번호</s.Label>
+              <Label for="phone">전화번호</Label>
             </div>
             <div className="mt-2">
               <InputTelePhone onChange={inputHandle} value={phoneState} />
             </div>
           </div>
 
-          <s.Horizon className="mt-2" />
+          <Horizon className="mt-2" />
 
           <FormControl>
             <RadioGroup
@@ -637,10 +640,10 @@ export function SignUpDialog() {
             <>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.Label for="university">대학교</s.Label>
+                  <Label for="university">대학교</Label>
                 </div>
                 <div className="mt-2">
-                  {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                  {/* <InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
                   <Select
                     labelId="demo-simple-select-required-label"
                     id="demo-simple-select-required"
@@ -653,7 +656,7 @@ export function SignUpDialog() {
               </div>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.Label for="studentId">학번</s.Label>
+                  <Label for="studentId">학번</Label>
                 </div>
                 <div className="mt-2">
                   <InputStudentId
@@ -664,7 +667,7 @@ export function SignUpDialog() {
               </div>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.Label for="email">대학교 이메일</s.Label>
+                  <Label for="email">대학교 이메일</Label>
                 </div>
                 <div className="mt-2">
                   <InputEmail
@@ -679,16 +682,16 @@ export function SignUpDialog() {
             <>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.Label for="university">업체명</s.Label>
+                  <Label for="university">업체명</Label>
                 </div>
                 <div className="mt-2">
-                  {/* <s.InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
+                  {/* <InputText type="text" name="schoolState" placeholder="대학교" onChange={inputHandle} value={schoolState} required /> */}
                   <InputText name="schoolState" placeholder="업체명" />
                 </div>
               </div>
               <div>
                 <div className="mt-2 flex items-center justify-between">
-                  <s.Label for="email">이메일</s.Label>
+                  <Label for="email">이메일</Label>
                 </div>
                 <div className="mt-2">
                   <InputEmail
@@ -703,7 +706,7 @@ export function SignUpDialog() {
 
           <div>
             <div className="mt-2 flex items-center justify-between">
-              <s.Label for="gender">성별</s.Label>
+              <Label for="gender">성별</Label>
             </div>
             <div className="mt-2">
               <FormControl>
@@ -724,14 +727,14 @@ export function SignUpDialog() {
         </div>
       </DialogContent>
       <DialogActions>
-        <s.NormalButton
+        <NormalButton
           type="submit"
           onClick={signUpHandled}
           className="flex w-full justify-center my-2">
           회원가입
-        </s.NormalButton>
+        </NormalButton>
       </DialogActions>
-    </Dialog>
+    </DialogForm>
   );
 }
 
@@ -774,78 +777,31 @@ export function LoginDialog() {
     google: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   };
 
-  const PasswordInput = ({ inputHandle, passwordState }) => {
-    // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
-    return (
-      <div>
-        <div className="mt-2 flex items-center justify-between">
-          <s.Label for="password">Password</s.Label>
-          <div className="text-sm">
-            <s.PolicyText href="/resetpassword">Forgot password?</s.PolicyText>
-          </div>
-        </div>
-        <div className="mt-2">
-          <InputPassword onChange={inputHandle} value={passwordState} />
-        </div>
-      </div>
-    );
-  };
-
-  const IdInput = ({ inputHandle, idState }) => {
-    // 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 이것을 컴포넌트 해제하고 직접 쓰면 정상 작동 합니다.
-    return (
-      <div>
-        <s.Label for="id">Id</s.Label>
-        <div className="mt-2">
-          <InputText
-            name="idState"
-            placeholder="아이디"
-            onChange={inputHandle}
-            value={idState}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  const OAuthLogin = () => {
-    return (
-      <DialogActions>
-        <div className="w-4/5 h-4/5">
-          <div>
-            <GoogleOAuthProvider clientId={idList.google}>
-              <GoogleButton />
-            </GoogleOAuthProvider>
-          </div>
-          <div className="my-4 w-40">
-            <NaverLogin />
-          </div>
-        </div>
-      </DialogActions>
-    );
-  };
-
   return (
     <div>
       <button onClick={togglePopUpState}>Login</button>
-      <Dialog
-        open={popUpState}
-        className="border border-gray-300 shadow-xl rounded-lg">
-        <DialogTitle>
-          <s.SvgHoverButton type="button" onClick={togglePopUpState}>
-            <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
-        </DialogTitle>
+
+      <DialogForm
+        openState={popUpState}
+        handleClose={togglePopUpState}
+        name="LoginDialogShow"
+        render={() => (
+          <label
+            htmlFor="test"
+            className="block mb-2 text-sm font-medium text-gray-900 float-left">
+            test
+          </label>
+        )}>
         <DialogContent>
           <div className="float-left">
-            <s.SecondHead>로그인</s.SecondHead>
+            <SecondHead>로그인</SecondHead>
             <p className="text-base text-gray">
               합리적인 가격의 다양한 집을 확인하세요.
             </p>
           </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div>
-              <s.Label for="id">Id</s.Label>
+              <Label for="id">Id</Label>
               <div className="mt-2">
                 <InputText
                   name="idState"
@@ -858,11 +814,11 @@ export function LoginDialog() {
             {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
             <div>
               <div className="mt-2 flex items-center justify-between">
-                <s.Label for="password">Password</s.Label>
+                <Label for="password">Password</Label>
                 <div className="text-sm">
-                  <s.PolicyText href="/resetpassword">
+                  <PolicyText href="/resetpassword">
                     Forgot password?
-                  </s.PolicyText>
+                  </PolicyText>
                 </div>
               </div>
               <div className="mt-2">
@@ -872,23 +828,23 @@ export function LoginDialog() {
             {/*// 이중 intent 되어서 입력 도중 렌더링 되는 것 같습니다. 위 컴포넌트 해제하고 여기에 직접 쓰면 정상 작동 합니다.*/}
           </div>
           <div>
-            <s.NormalButton
+            <NormalButton
               type="submit"
               onClick={loginHandled}
               className="flex w-full justify-center mt-5">
               로그인 하기
-            </s.NormalButton>
+            </NormalButton>
           </div>
           <div className="text-sm">
-            <s.PolicyText
+            <PolicyText
               className="mt-2 ml-1 text-m font-bold"
               href="#"
               onClick={signUpHandled}>
               회원가입
-            </s.PolicyText>
+            </PolicyText>
           </div>
         </DialogContent>
-        <s.Horizon />
+        <Horizon />
         <DialogActions>
           <div className="w-4/5 h-4/5">
             <div>
@@ -901,7 +857,7 @@ export function LoginDialog() {
             </div>
           </div>
         </DialogActions>{' '}
-      </Dialog>
+      </DialogForm>
       <SignUpDialog />
     </div>
   );
@@ -973,7 +929,7 @@ export const PostUploadDialog = props => {
   } = postState;
 
   const onChange = e => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    setPostState({ ...inputs, [e.target.name]: e.target.value });
   };
 
   const updatePostState = (key, value) => {
@@ -983,11 +939,11 @@ export const PostUploadDialog = props => {
   const handleClose = () => confirmAction();
 
   const confirmAction = async () => {
-    if (windos.confirm('임시저장 하시겠습니까?')) {
-      const formData = makeFormData();
-      formData.append('local_save', true); // 임시저장 유무
-      FetchUploadPost(formData);
-    }
+    // if (windows.confirm('임시저장 하시겠습니까?')) {
+    //   const formData = makeFormData();
+    //   formData.append('local_save', true); // 임시저장 유무
+    //   FetchUploadPost(formData);
+    // }
     setPostPopUpState(false);
   };
 
@@ -1414,7 +1370,6 @@ export const PostEditDialog = post => {
     setImageFiles(newImages);
   };
 
-  console.log(imageFiles);
   return (
     <>
       <DialogTitle></DialogTitle>

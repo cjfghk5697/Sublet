@@ -4,11 +4,10 @@ import { DialogContent } from '@mui/material';
 import { useState } from 'react';
 import { PostRequest } from '../Info/GetPostRequest';
 
-export const PostRequestDialog = ({ requestDialogShow, onChange, key }) => {
+export function PostRequestDialog({ requestDialogShow, onChange, requestKey }) {
   const [requestInfo, setRequestInfo] = useState([]);
 
-  FetchGetRequestByRequestId(key, setRequestInfo);
-
+  FetchGetRequestByRequestId(requestKey, setRequestInfo);
   return (
     <DialogForm
       openState={requestDialogShow}
@@ -22,8 +21,8 @@ export const PostRequestDialog = ({ requestDialogShow, onChange, key }) => {
         </label>
       )}>
       <DialogContent sx={{ width: 512 }} className="text-left">
-        {requestInfo !== false && <PostRequest requestList={requestInfo} />}
+        <PostRequest requestInfo={requestInfo} />
       </DialogContent>
     </DialogForm>
   );
-};
+}

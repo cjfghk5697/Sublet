@@ -2,11 +2,11 @@ import { DialogForm } from '@shared/components/Popup/Popup';
 import { ReservationByPostKeyInfo } from '../Info/ReservationByPostKeyInfo';
 import { DialogContent } from '@mui/material';
 
-export const PostReservationDialog = ({
+export function PostReservationDialog({
   onChange,
   reservationDialogShow,
-  key,
-}) => {
+  requestKey,
+}) {
   return (
     <DialogForm
       openState={reservationDialogShow}
@@ -20,8 +20,8 @@ export const PostReservationDialog = ({
         </label>
       )}>
       <DialogContent sx={{ width: 512 }} className="text-left">
-        <ReservationByPostKeyInfo postKey={key} />
+        <ReservationByPostKeyInfo requestKey={requestKey} />
       </DialogContent>
     </DialogForm>
   );
-};
+}

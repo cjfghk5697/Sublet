@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { verifyStore } from '@shared/components/Popup/store/resetPassword.js';
 import { FetchChangePassword } from '@shared/components/FetchList/FetchList.js';
-import { Alert, FailAlert } from '@shared/components/StaticComponents/StaticComponents.js';
+import { Alert, FailAlert, notFoundError, raiseError } from '@shared/components/StaticComponents/StaticComponents.js';
 import { useNavigate } from 'react-router-dom';
 import { InputVerificationNumber } from './components/InputVerificationNumber.js';
 import { InputResetPassword } from './components/InputResetPassword.js';
+import { Label, NormalText, SecondHead } from '@shared/components/styles/Public.styles.js';
+import { InputId } from './components/InputId.js';
 
 export default function ResetPassword() {
   const [inputs, setInputs] = useState({
@@ -31,7 +33,7 @@ export default function ResetPassword() {
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
-
+  console.log(userInfo)
   const onChangePassword = () => {
     FetchChangePassword(userInfo.user_id, passwordState)
       .then(res => notFoundError(res, true, setSuccessState))
@@ -43,9 +45,9 @@ export default function ResetPassword() {
   };
   return (
     <>
-      <s.SecondHead>비밀번호 초기화</s.SecondHead>
+      <SecondHead>비밀번호 초기화</SecondHead>
 
-      {checkingEmail ? (
+      {userInfo && checkingEmail ? (
         <>
           {verifyPasswordEmail ? (
             <InputResetPassword
@@ -66,7 +68,6 @@ export default function ResetPassword() {
             idVeriftyState={idVeriftyState}
             inputHandle={inputHandle}
             idState={idState}
-            FetchGetOneUser={FetchGetOneUser}
             setUserInfo={setUserInfo}
             setCheckingEmail={setCheckingEmail}
             setIdVerifyState={setIdVerifyState}

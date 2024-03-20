@@ -8,12 +8,13 @@ import { verifyFrame } from '../button-frames/UserImageFrame';
 import { VerifyList } from './Info/VerifyList';
 import { guestInfoPopUpStore } from '@shared/components/Popup/store/guestInfoStore';
 
-export const UserBaseComponent = ({ user }) => {
+export function UserBaseComponent({ user }) {
   const frame = verifyFrame(user);
   const imageLink = `${process.env.REACT_APP_BACKEND_URL}/public_user/${user.image_id}.jpg`;
   const { setImagePopUpState } = guestInfoPopUpStore(state => ({
     setImagePopUpState: state.setImagePopUpState,
   }));
+
   return (
     <div>
       <ImageUploadButton
@@ -30,8 +31,8 @@ export const UserBaseComponent = ({ user }) => {
       <SecondHead className="mt-3">{user.username}</SecondHead>
       <NormalText className="underline">{user.school}</NormalText>
       {Object.keys(frame).map(k => {
-        <VerifyList k={k} v={frame[k]} />;
+        return <VerifyList k={k} v={frame[k]} />;
       })}
     </div>
   );
-};
+}

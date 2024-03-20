@@ -1,10 +1,10 @@
 import * as RS from '@shared/components/styles/RoomInfo.styles.js';
 import * as s from '@shared/components/styles/Public.styles.js';
-import SearchDate from '@core/Header/Desktop/components/SearchDate.js';
 
 import { getDateDiff } from '@shared/components/StaticComponents/StaticComponents.js';
+import SearchDate from '@core/Header/Desktop/components/SearchDate';
 
-export function RoomReservation({ nowRoomPost, moveToBooking }) {
+export function RoomReservation({ nowRoomPost, moveToBooking, searchDate }) {
   return (
     <RS.RoomInfoSection>
       <div className="text-xl font-bold">예약하기</div>

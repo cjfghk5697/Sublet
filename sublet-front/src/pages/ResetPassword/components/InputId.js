@@ -1,14 +1,25 @@
+import { FetchGetOneUser } from '@shared/components/FetchList/FetchList';
 import { InputText, NormalButton } from '@shared/components/styles/Public.styles';
 
-export const InputId = ({
+export function InputId ({
   idVeriftyState,
   inputHandle,
   idState,
-  FetchGetOneUser,
   setUserInfo,
   setCheckingEmail,
   setIdVerifyState,
-}) => {
+}){
+  const onClick=()=>{
+    FetchGetOneUser(idState, setUserInfo)
+    .then(response => {
+      if (response) {
+        setCheckingEmail(true);
+        
+      } else {
+        setIdVerifyState(false);
+      }
+    });
+  }
   return (
     <>
       {idVeriftyState ? (
@@ -37,15 +48,7 @@ export const InputId = ({
       )}
 
       <NormalButton
-        onClick={() => {
-          FetchGetOneUser(idState, setUserInfo).then(response => {
-            if (response) {
-              setCheckingEmail(true);
-            } else {
-              setIdVerifyState(false);
-            }
-          });
-        }}>
+        onClick={onClick}>
         다음
       </NormalButton>
     </>

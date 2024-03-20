@@ -11,26 +11,26 @@ export const InputText = ({ name, placeholder, onChange, value }) => (
   />
 );
 
-export const InputEmail = ({ emailFormatState, onChange, value }) => (emailFormatState ? (
-  <s.InputTextCss
-    type="email"
-    name="emailState"
-    placeholder="이메일"
-    onChange={onChange}
-    value={value}
-    required
-  />
-) : (
-  <s.InputTextErrorCss
-    type="email"
-    name="emailState"
-    placeholder="이메일"
-    onChange={onChange}
-    value={value}
-    required
-  />
-)
-);
+export const InputEmail = ({ emailFormatState, onChange, value }) =>
+  emailFormatState ? (
+    <s.InputTextCss
+      type="email"
+      name="emailState"
+      placeholder="이메일"
+      onChange={onChange}
+      value={value}
+      required
+    />
+  ) : (
+    <s.InputTextErrorCss
+      type="email"
+      name="emailState"
+      placeholder="이메일"
+      onChange={onChange}
+      value={value}
+      required
+    />
+  );
 
 export const InputTelePhone = ({ onChange, value }) => (
   <s.InputTextCss
@@ -64,8 +64,8 @@ export const InputStudentId = ({ onChange, value }) => (
     maxlength="2"
     name="studentIdState"
     placeholder="학번"
-    onChange={inputHandle}
-    value={studentIdState}
+    onChange={onChange}
+    value={value}
     required
   />
 );
