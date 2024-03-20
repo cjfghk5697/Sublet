@@ -20,6 +20,7 @@ import {
   FetchLogin,
   FetchSignUp,
   FetchUploadPost,
+  FetchGetMyUser
 } from '../FetchList/FetchList.js';
 
 import {
@@ -759,7 +760,8 @@ export function LoginDialog() {
   };
 
   const loginHandled = () => {
-    FetchLogin({ id: idState, password: passwordState, setUserInfo });
+    FetchLogin({ id: idState, password: passwordState });
+    FetchGetMyUser().then(res => setUserInfo(res));
     setPopUpState(false);
   };
 

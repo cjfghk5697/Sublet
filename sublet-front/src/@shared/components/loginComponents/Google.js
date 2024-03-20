@@ -1,7 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 
 import { FetchLogin } from '../FetchList/FetchList';
-import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 function decodeJwtResponse(token) {
   const base64Url = token.split('.')[1];
@@ -19,8 +18,6 @@ function decodeJwtResponse(token) {
   return JSON.parse(jsonPayload);
 }
 export function GoogleButton() {
-  const { setUserInfo } = useUserInfoStore();
-
   return (
     <>
       <GoogleLogin
@@ -28,7 +25,7 @@ export function GoogleButton() {
           console.log(credentialResponse.credential);
           const decodeding = decodeJwtResponse(credentialResponse.credential);
           const email = decodeding.email;
-          FetchLogin({ id: email, password: 'googleLogin!2#1', setUserInfo });
+          FetchLogin({ id: email, password: 'googleLogin!2#1' });
           // if (GetOneUser(email)) {
           //   FetchLogin({ id: email, password: 'googleLogin!2#1' })
           // } else {
