@@ -6,11 +6,11 @@ import { HomeRoomContainer } from './components/HomeRoomContainer.js';
 import { HomeMoreRoomButton } from './components/HomeMoreRoomButton.js';
 
 const Layout = styled.div`
-  marginBottom: '10rem'
-  display: 'flex'
-  flexDirection: 'column'
-  alignItems: 'center'
-  width: 'auto'
+  margin-bottom: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
 `;
 
 export default function Home() {
