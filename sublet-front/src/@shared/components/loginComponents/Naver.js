@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { FetchLogin } from '../FetchList/FetchList';
-import { useUserInfoStore } from '@core/store/UserInfoStore.js';
 
 export default function NaverLogin() {
   const { naver } = window;
   const [user, setUser] = useState(null);
-  const { setUserInfo } = useUserInfoStore();
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
@@ -26,7 +24,6 @@ export default function NaverLogin() {
         FetchLogin({
           id: naverLogin.user.email,
           password: 'naverLogin!2#1',
-          setUserInfo,
         });
         // if (GetOneUser(naverLogin.user.email)) {
         //   FetchLogin(naverLogin.user.email, 'naverLogin!2#1')

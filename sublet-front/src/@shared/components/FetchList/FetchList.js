@@ -150,7 +150,7 @@ async function FetchDeletePost(key) {
     .catch(raiseError('FetchDeletePost'));
 }
 
-async function FetchLogin({ id, password, setUserInfo }) {
+async function FetchLogin({ id, password }) {
   fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
     ...headerOptions('POST'),
     body: JSON.stringify({
@@ -178,18 +178,13 @@ async function FetchImage(formData) {
   });
 }
 
-async function FetchGetMyUser(setUserInfo) {
+async function FetchGetMyUser() {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;
-  const getUserInfo = async () => {
-    const json = await fetch(URL, headerOptions('GET'))
-      .then(notFoundError)
-      .catch(raiseError('FetchGetMyUser'));
-    setUserInfo(json);
-  };
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-}
+  const json = await fetch(URL, headerOptions('GET'))
+    .then(notFoundError)
+    .catch(raiseError('FetchGetMyUser'));
+  return (json);
+};
 
 async function FetchIsLogin(setUserInfo) {
   const URL = `${process.env.REACT_APP_BACKEND_URL}/user/profile`;

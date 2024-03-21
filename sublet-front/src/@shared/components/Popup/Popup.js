@@ -19,6 +19,7 @@ import {
   FetchLogin,
   FetchSignUp,
   FetchUploadPost,
+  FetchGetMyUser
 } from '../FetchList/FetchList.js';
 
 import {
@@ -762,7 +763,8 @@ export function LoginDialog() {
   };
 
   const loginHandled = () => {
-    FetchLogin({ id: idState, password: passwordState, setUserInfo });
+    FetchLogin({ id: idState, password: passwordState });
+    FetchGetMyUser().then(res => setUserInfo(res));
     setPopUpState(false);
   };
 
@@ -1064,12 +1066,12 @@ export const PostUploadDialog = props => {
         open={postPopUpState}
         className="border border-gray-300 shadow-xl rounded-lg">
         <DialogContent sx={{ width: '500px' }} className="text-center">
-          <s.SvgHoverButton
+          <SvgHoverButton
             type="button"
             className="float-right"
             onClick={handleClose}>
             <StyleComponent content="CloseButton" />
-          </s.SvgHoverButton>
+          </SvgHoverButton>
           {/* <p>
             --------------추후 슬라이더로 변경 (현재는 스크롤)---------------
           </p> */}
@@ -1271,9 +1273,9 @@ export const PostUploadDialog = props => {
           </div>
         </DialogContent>
 
-        <s.NormalButton className="ml-2" onClick={uploadPost}>
+        <NormalButton className="ml-2" onClick={uploadPost}>
           방 올리기
-        </s.NormalButton>
+        </NormalButton>
       </Dialog>
     </>
   );
@@ -1477,9 +1479,9 @@ export const PostEditDialog = post => {
         </div>
       </DialogContent>
 
-      <s.NormalButton className="ml-2" onClick={onClick}>
+      <NormalButton className="ml-2" onClick={onClick}>
         방 올리기
-      </s.NormalButton>
+      </NormalButton>
     </>
   );
 };
