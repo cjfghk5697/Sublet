@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
 import {
+  reservationExportStub,
   reservationInterfaceStub,
   reservationStub,
   userStub,
@@ -78,7 +79,7 @@ describe('ReservationService', () => {
         });
 
         it('should return one reservation', () => {
-          expect(result).toEqual([reservationInterfaceStub()]);
+          expect(result).toEqual([reservationExportStub()]);
         });
       });
     });

@@ -1,10 +1,14 @@
-import { requestStub } from '../../../stubs/mongodb.stub';
+import {
+  requestExportStub,
+  requestInterfaceStub,
+  requestStub,
+} from '../../../stubs/mongodb.stub';
 
 export const MongodbRequestService = jest.fn().mockReturnValue({
-  getRequestByUserKey: jest.fn().mockReturnValue([requestStub()]),
-  createRequest: jest.fn().mockReturnValue(requestStub()),
+  getRequestByUserKey: jest.fn().mockReturnValue([requestInterfaceStub()]),
+  getRequestByRequestId: jest.fn().mockReturnValue([requestInterfaceStub()]),
+  createRequest: jest.fn().mockReturnValue(requestInterfaceStub()),
   deleteOneRequest: jest.fn().mockReturnValue(true),
-  putOneRequest: jest.fn().mockReturnValue(requestStub()),
-  putOnePostRequest: jest.fn().mockReturnValue(requestStub()),
-  getRequestByRequestId: jest.fn().mockReturnValue([requestStub()]),
+  putOneRequest: jest.fn().mockReturnValue(requestInterfaceStub()),
+  putOnePostRequest: jest.fn().mockReturnValue(requestInterfaceStub()),
 });

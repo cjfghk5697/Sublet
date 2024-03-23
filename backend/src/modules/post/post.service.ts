@@ -35,7 +35,7 @@ export class PostService {
     query.page = this.isPositiveInt(query.page, 1);
     const result = await this.postdb.getAllPosts(query);
 
-    const ret = result.map((post) => this.transformExport(post));
+    const ret = result.map((post) => PostService.transformExport(post));
     return ret;
   }
 
@@ -63,14 +63,14 @@ export class PostService {
       },
       user,
     );
-    const ret = this.transformExport(res);
+    const ret = PostService.transformExport(res);
     return ret;
   }
 
   // GET /POST/:postKey
   async getOnePost(key: number) {
     const res = await this.postdb.getOnePost(key);
-    const ret = this.transformExport(res);
+    const ret = PostService.transformExport(res);
     return ret;
   }
 
@@ -78,7 +78,7 @@ export class PostService {
   async getLocalPost(user: UserInterface) {
     const res = await this.postdb.getLocalPost(user);
     const ret = res.map((ele) => {
-      return this.transformExport(ele);
+      return PostService.transformExport(ele);
     });
     return ret;
   }
@@ -101,7 +101,7 @@ export class PostService {
     postUpdateInput.image_id = image_id;
 
     const res = await this.postdb.putOnePost(key, postUpdateInput);
-    const ret = this.transformExport(res);
+    const ret = PostService.transformExport(res);
     return ret;
   }
 
@@ -114,7 +114,7 @@ export class PostService {
   async filterPost(query: PostFilterQueryDto) {
     const res = await this.postdb.filterPost(query);
 
-    const ret = res.map((post) => this.transformExport(post));
+    const ret = res.map((post) => PostService.transformExport(post));
     return ret;
   }
 
@@ -161,22 +161,27 @@ export class PostService {
 
   async likePost(post_key: number, user: UserInterface) {
     const res = await this.postdb.likePost(post_key, user);
-    const ret = this.transformExport(res);
+    const ret = PostService.transformExport(res);
     return ret;
   }
 
   async unlikePost(post_key: number, user: UserInterface) {
     const res = await this.postdb.unlikePost(post_key, user);
-    const ret = this.transformExport(res);
+    const ret = PostService.transformExport(res);
     return ret;
   }
 
-  transformExport(post: PostInterface): PostExportInterface {
+  static transformExport(post: PostInterface): PostExportInterface {
+    delete (post as { request_ids?: string[] }).request_ids;
+    delete (post as { postuser_id?: string }).postuser_id;
+    delete (post as { like_user_id?: string[] }).like_user_id;
     delete (post as { id?: string }).id;
     delete (post as { deleted?: boolean }).deleted;
     delete (post as { version?: number }).version;
     (post as { postuser: UserExportInterface }).postuser =
       UserService.transformExport(post.postuser);
+    (post as { like_user: UserExportInterface[] }).like_user =
+      post.like_user.map((ele) => UserService.transformExport(ele));
     return post;
   }
 }

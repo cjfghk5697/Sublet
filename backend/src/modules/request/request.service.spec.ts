@@ -3,6 +3,7 @@ import { RequestService } from './request.service';
 import {
   postStub,
   requestCreateStub,
+  requestExportStub,
   requestInterfaceStub,
   requestStub,
   userStub,
@@ -17,9 +18,10 @@ import { MongodbRequestService } from '../mongodb/mongodb.request.service';
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');
 jest.mock('../mongodb/mongodb.postkey.service');
-jest.mock('../mongodb/mongodb.reservation.service');
 jest.mock('../mongodb/mongodb.request.service');
+jest.mock('../mongodb/mongodb.reservation.service');
 jest.mock('../mongodb/mongodb.user.service');
+jest.mock('../mongodb/mongodb.userimage.service');
 
 describe('RequestService', () => {
   let service: RequestService;
@@ -94,7 +96,7 @@ describe('RequestService', () => {
 
   describe('TESTING getRequestByUserKey (GET /request)', () => {
     describe('When calling with NaN parameters', () => {
-      let result: RequestBase[] | Error;
+      let result: RequestExportInterface[] | Error;
       beforeEach(async () => {
         try {
           result = await service.getRequestByUserKey(userStub().user_id);
@@ -110,7 +112,7 @@ describe('RequestService', () => {
       });
 
       it('should return one request', () => {
-        expect(result).toEqual([requestStub()]);
+        expect(result).toEqual([requestExportStub()]);
       });
     });
   });
@@ -128,20 +130,20 @@ describe('RequestService', () => {
         }
       });
 
-      it('then should return ExportInterface', () => {
-        expect(result).toBeDefined();
-        expect(result).toEqual(requestStub());
-      });
-
       it('then should call db to update post', () => {
         expect(mongoDbService.putOneRequest).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual(requestExportStub());
       });
     });
   });
 
   describe('TESTING putOnePostRequest (POST /request/post/:postKey)', () => {
     describe('when calling with request update inputs', () => {
-      let result: RequestBase | undefined;
+      let result: RequestExportInterface | undefined;
       beforeEach(async () => {
         try {
           result = await service.putOnePostRequest(
@@ -155,7 +157,7 @@ describe('RequestService', () => {
 
       it('then should return ExportInterface', () => {
         expect(result).toBeDefined();
-        expect(result).toEqual(requestStub());
+        expect(result).toEqual(requestExportStub());
       });
 
       it('then should call db to get request', () => {
@@ -176,13 +178,13 @@ describe('RequestService', () => {
         }
       });
 
-      it('then should return ExportInterface', () => {
-        expect(result).toBeDefined();
-        expect(result).toEqual([requestStub()]);
-      });
-
       it('then should call db to update post', () => {
         expect(mongoDbService.getRequestByRequestId).toHaveBeenCalledTimes(1);
+      });
+
+      it('then should return ExportInterface', () => {
+        expect(result).toBeDefined();
+        expect(result).toEqual([requestExportStub()]);
       });
     });
   });

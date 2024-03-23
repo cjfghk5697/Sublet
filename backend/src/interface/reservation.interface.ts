@@ -1,5 +1,5 @@
-import { PostExportInterface } from './post.interface';
-import { UserExportInterface } from './user.interface';
+import { PostExportInterface, PostInterface } from './post.interface';
+import { UserExportInterface, UserInterface } from './user.interface';
 import {
   IsDateString,
   IsInt,
@@ -18,20 +18,21 @@ export class ReservationBase {
   @IsString()
   user_id: string;
 
-  @IsString()
-  post_key: string;
-
   @IsNumber()
   @IsPositive()
   @IsInt()
   pay: number;
 }
+
 export class ReservationExportInterface extends ReservationBase {
   key: number;
+  user: UserExportInterface;
+  post: PostExportInterface;
 }
 
 export class ReservationInterface extends ReservationExportInterface {
+  post_id: string;
   id: string;
-  User: UserExportInterface;
-  Post: PostExportInterface;
+  user: UserInterface;
+  post: PostInterface;
 }

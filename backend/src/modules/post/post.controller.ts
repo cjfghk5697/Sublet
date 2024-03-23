@@ -162,7 +162,7 @@ export class PostController {
     }
     try {
       const post = await this.postService.getOnePost(key);
-      if (post.postuser_id !== req.user.id) {
+      if (post.postuser.user_id !== req.user.user_id) {
         console.log('[post.controller:PutOnePost] the user did not post');
         throw new UnauthorizedException();
       }

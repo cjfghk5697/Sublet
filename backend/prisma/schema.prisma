@@ -73,15 +73,15 @@ model Post {
   street_number     String
   post_code         String
   local_save        Boolean       @default(false)
-  requestIDs        String[]      @db.ObjectId
+  request_ids       String[]      @db.ObjectId
   like_count        Int           @default(0)
   like_user_id      String[]      @db.ObjectId
   postuser_id       String        @db.ObjectId
   postuser          User          @relation(fields: [postuser_id], references: [id])
   like_user         User[]        @relation("like", fields: [like_user_id], references: [id])
-  ChatRoom          ChatRoom[]
-  RequestForm       RequestForm[] @relation(fields: [requestIDs], references: [id])
-  Reservation       Reservation[]
+  chatroom          ChatRoom[]
+  request_form      RequestForm[] @relation(fields: [request_ids], references: [id])
+  reservation       Reservation[]
   deleted           Boolean       @default(false)
 }
 
@@ -120,10 +120,10 @@ model RequestForm {
   contract          Boolean  @default(false)
   complete          Boolean  @default(false)
   request_text      String
-  user              User     @relation(fields: [userId], references: [id])
-  user_id            String   @db.ObjectId
-  post              Post[]   @relation(fields: [postId], references: [id])
-  post_id            String[] @db.ObjectId
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           String   @db.ObjectId
+  post              Post[]   @relation(fields: [post_id], references: [id])
+  post_id           String[] @db.ObjectId
   delete            Boolean  @default(false)
 }
 
@@ -136,7 +136,7 @@ model Reservation {
   pay         Int
   user_id     String   @db.ObjectId
   user        User     @relation(fields: [user_id], references: [id])
-  post_id    String   @db.ObjectId
+  post_id     String   @db.ObjectId
   post        Post     @relation(fields: [post_id], references: [id])
   deleted     Boolean  @default(false)
 }
@@ -179,5 +179,5 @@ model Chat {
   chatroom_id String   @db.ObjectId
   chatroom    ChatRoom @relation(fields: [chatroom_id], references: [id])
   message     String
-  send_time   DateTime @db.Date @default(now())
+  send_time   DateTime @default(now()) @db.Date
 }

@@ -16,6 +16,10 @@ import { unlink, readdir } from 'fs/promises';
 import { PostExportInterface } from '@/interface/post.interface';
 import { UserCreateDto } from '@/dto/user.dto';
 
+import * as bodyParser from 'body-parser';
+import * as _FileStore from 'session-file-store';
+import * as session from 'express-session';
+
 describe('AppController (e2e)', () => {
   const time = 5000;
   let app: INestApplication;
@@ -36,6 +40,16 @@ describe('AppController (e2e)', () => {
         },
       }),
     );
+
+    const FileStore = _FileStore(session);
+    const passportSession = session({
+      secret: process.env.SESSION_SECRET || 'development',
+      resave: false,
+      saveUninitialized: false,
+      store: new FileStore(),
+    });
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(passportSession);
 
     prisma = moduleFixture.get(PrismaService);
     await app.init();
@@ -72,7 +86,6 @@ describe('AppController (e2e)', () => {
           image_id: body.image_id,
           key: body.key,
           post_date: body.post_date,
-          postuser_id: body.postuser_id,
         };
         expect(body).toStrictEqual(post);
       });
@@ -490,7 +503,6 @@ describe('AppController (e2e)', () => {
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,
-            postuser_id: body.postuser_id,
             title: 'changed',
           });
         });
@@ -517,7 +529,6 @@ describe('AppController (e2e)', () => {
             image_id: body.image_id,
             key: body.key,
             post_date: body.post_date,
-            postuser_id: body.postuser_id,
             title: 'changed',
           });
         });
