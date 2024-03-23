@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  ReservationExportInterface,
-  ReservationInterface,
-} from '@/interface/reservation.interface';
+import { ReservationInterface } from '@/interface/reservation.interface';
 import { reservationIncrementKeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
 import {

@@ -1,8 +1,4 @@
-import {
-  requestExportStub,
-  requestInterfaceStub,
-  requestStub,
-} from '../../../stubs/mongodb.stub';
+import { requestInterfaceStub } from '../../../stubs/mongodb.stub';
 
 export const MongodbRequestService = jest.fn().mockReturnValue({
   getRequestByUserKey: jest.fn().mockReturnValue([requestInterfaceStub()]),

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
 import {
   reservationExportStub,
-  reservationInterfaceStub,
   reservationStub,
   userStub,
 } from '../../stubs/mongodb.stub';
