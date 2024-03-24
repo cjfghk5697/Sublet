@@ -176,7 +176,6 @@ export class UserService {
   }
 
   static transformExport(user: UserInterface): UserExportInterface {
-    delete (user as { student_id?: number }).student_id;
     delete (user as { like_post_id?: string[] }).like_post_id;
     delete (user as { chat_id?: string[] }).chat_id;
     delete (user as { password?: string }).password;

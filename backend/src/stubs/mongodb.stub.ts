@@ -48,6 +48,7 @@ export const userStub = (): UserInterface => {
 export const userExportStub = (user_id?: string): UserExportInterface => {
   return {
     id: user_id ? user_id : userStub().id,
+    student_id: userStub().student_id,
     phone: userStub().phone,
     school: userStub().school,
     username: userStub().username,

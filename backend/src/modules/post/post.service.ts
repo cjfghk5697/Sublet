@@ -39,6 +39,12 @@ export class PostService {
     return ret;
   }
 
+  async getMyPosts(user_id: string) {
+    const res = await this.postdb.getUserPostByKey(user_id);
+    const ret = res.map((ele) => PostService.transformExport(ele));
+    return ret;
+  }
+
   // POST /POST
   async createPost(
     files: Express.Multer.File[],

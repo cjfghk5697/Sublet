@@ -23,8 +23,9 @@ export class UserExportInterface extends UserBase {
   image_id: string;
   school: string;
   id_card: boolean;
-  gender: string;
   birth: string | Date;
+  student_id: number;
+  gender: string;
   verify_school: boolean;
   verify_email: boolean;
   verify_phone: boolean;
@@ -33,7 +34,6 @@ export class UserExportInterface extends UserBase {
 }
 
 export class UserInterface extends UserExportInterface {
-  student_id: number;
   like_post_id: string[];
   chat_id: string[];
   password: string;
