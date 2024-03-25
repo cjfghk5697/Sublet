@@ -1,7 +1,14 @@
-import { UserInterface } from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Injectable } from '@nestjs/common';
 import { ReservationCreateDto } from '@/dto/reservation.dto';
 import { MongodbReservationService } from '../mongodb/mongodb.reservation.service';
+import {
+  ReservationExportInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
+import { UserService } from '../user/user.service';
+import { PostExportInterface } from '@/interface/post.interface';
+import { PostService } from '../post/post.service';
 
 @Injectable()
 export class ReservationService {
@@ -19,7 +26,8 @@ export class ReservationService {
 
   async getAllReservation(user_id: string) {
     const res = await this.db.getAllReservations(user_id);
-    return res;
+    const ret = res.map((ele) => this.transformExport(ele));
+    return ret;
   }
 
   async deleteOneReservation(key: number, user: UserInterface) {
@@ -29,6 +37,19 @@ export class ReservationService {
 
   async getReservationsbyPost(key: number) {
     const res = await this.db.getReservationsbyPost(key);
-    return res;
+    const ret = res.map((ele) => this.transformExport(ele));
+    return ret;
+  }
+
+  transformExport(
+    reservation: ReservationInterface,
+  ): ReservationExportInterface {
+    delete (reservation as { id?: string }).id;
+    delete (reservation as { post_id?: string }).post_id;
+    (reservation as { user: UserExportInterface }).user =
+      UserService.transformExport(reservation.user);
+    (reservation as { post: PostExportInterface }).post =
+      PostService.transformExport(reservation.post);
+    return reservation;
   }
 }

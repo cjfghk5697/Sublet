@@ -26,7 +26,8 @@ import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { PostService } from './post.service';
 import { ImageInterface } from '@/interface/image.interface';
-import { customRequest } from '@/interface/user.interface';
+import { UserInterface, customRequest } from '@/interface/user.interface';
+import { User } from '@/user/user.decorator';
 
 @Controller('post')
 export class PostController {
@@ -51,6 +52,17 @@ export class PostController {
     } catch (e) {
       console.log('[post.controller:getAllPosts] error: ', e);
       throw new BadRequestException('cannot get all posts');
+    }
+  }
+
+  @Get('mypost')
+  async getMyPosts(@User() user: UserInterface) {
+    try {
+      const res = await this.postService.getMyPosts(user.user_id);
+      return res;
+    } catch (e) {
+      console.log('[post.controller:getMyPosts] error: ', e);
+      throw new BadRequestException();
     }
   }
 
@@ -162,7 +174,7 @@ export class PostController {
     }
     try {
       const post = await this.postService.getOnePost(key);
-      if (post.postuser_id !== req.user.id) {
+      if (post.postuser.user_id !== req.user.user_id) {
         console.log('[post.controller:PutOnePost] the user did not post');
         throw new UnauthorizedException();
       }

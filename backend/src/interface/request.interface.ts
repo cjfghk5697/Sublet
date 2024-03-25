@@ -90,15 +90,15 @@ export class RequestBase {
 
 export class RequestExportInterface extends RequestBase {
   key: number;
-  User: UserExportInterface;
-  Post: PostExportInterface[];
+  user: UserExportInterface;
+  post: PostExportInterface[];
 }
 
 export class RequestInterface extends RequestExportInterface {
   id: string;
   delete: boolean;
-  User: UserInterface;
-  Post: PostInterface[];
+  user: UserInterface;
+  post: PostInterface[];
 }
 
 export class RequestKey {

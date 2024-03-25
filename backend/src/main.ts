@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { env } from 'process';
 import * as bodyParser from 'body-parser';
 import { MongoIoAdapter } from './modules/events/mongo.adapter';
+import * as _FileStore from 'session-file-store';
+import * as session from 'express-session';
 
 async function bootstrap() {
   // const fs = require('fs');
@@ -37,9 +39,20 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+  const FileStore = _FileStore(session);
+  const passportSession = session({
+    secret: process.env.SESSION_SECRET || 'development',
+    resave: false,
+    saveUninitialized: false,
+    store: new FileStore(),
+  });
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(passportSession);
 
-  const mongoIoAdapter = new MongoIoAdapter(app);
+  const mongoIoAdapter = new MongoIoAdapter(app, passportSession);
   await mongoIoAdapter.connectToMongo();
+
+  app.useWebSocketAdapter(mongoIoAdapter);
   await app.listen(Number(env.BACKEND_PORT as string));
 }
 bootstrap();

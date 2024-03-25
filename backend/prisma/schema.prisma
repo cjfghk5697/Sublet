@@ -13,27 +13,27 @@ model User {
   version          Int           @default(1)
   user_id          String        @unique
   image_id         String        @default("default")
-  password         String
   username         String
-  email            String        @unique
-  phone            String        @unique
-  reservation_post Reservation[]
-  post             Post[]
-  delete           Boolean       @default(false)
-  Request          RequestForm[]
   school           String        @default("무소속")
   id_card          Boolean       @default(false)
-  chat_id          String[]      @db.ObjectId
-  chat_room        ChatRoom[]    @relation(fields: [chat_id], references: [id])
-  Chat             Chat[]
-  like_post_id     String[]      @db.ObjectId
-  like_post        Post[]        @relation("like", fields: [like_post_id], references: [id])
-  verify_school    Boolean       @default(false)
-  verify_email     Boolean       @default(false)
-  verify_phone     Boolean       @default(false)
   birth            DateTime      @db.Date
   student_id       Int
   gender           String
+  verify_school    Boolean       @default(false)
+  verify_email     Boolean       @default(false)
+  verify_phone     Boolean       @default(false)
+  like_post_id     String[]      @db.ObjectId
+  chat_id          String[]      @db.ObjectId
+  email            String        @unique
+  phone            String        @unique
+  post             Post[]
+  like_post        Post[]        @relation("like", fields: [like_post_id], references: [id])
+  request          RequestForm[]
+  reservation_post Reservation[]
+  chat             Chat[]
+  chat_room        ChatRoom[]    @relation(fields: [chat_id], references: [id])
+  password         String
+  delete           Boolean       @default(false)
 }
 
 model Post {
@@ -54,9 +54,6 @@ model Post {
   end_day           DateTime      @db.Date
   min_duration      Int
   max_duration      Int
-  postuser_id       String        @db.ObjectId
-  postuser          User          @relation(fields: [postuser_id], references: [id])
-  deleted           Boolean       @default(false)
   post_date         DateTime      @default(now()) @db.Date
   private           Boolean       @default(false)
   request           Boolean       @default(false)
@@ -67,7 +64,6 @@ model Post {
   accomodation_type String //건물 유형
   building_type     String //아파트인지, 주택인지
   contract          Boolean       @default(false) //계약 여부
-  Reservation       Reservation[]
   x_coordinate      Float
   y_coordinate      Float
   city              String
@@ -77,12 +73,16 @@ model Post {
   street_number     String
   post_code         String
   local_save        Boolean       @default(false)
-  ChatRoom          ChatRoom[]
-  RequestForm       RequestForm[] @relation(fields: [requestIDs], references: [id])
-  requestIDs        String[]      @db.ObjectId
+  request_ids       String[]      @db.ObjectId
   like_count        Int           @default(0)
   like_user_id      String[]      @db.ObjectId
+  postuser_id       String        @db.ObjectId
+  postuser          User          @relation(fields: [postuser_id], references: [id])
   like_user         User[]        @relation("like", fields: [like_user_id], references: [id])
+  chatroom          ChatRoom[]
+  request_form      RequestForm[] @relation(fields: [request_ids], references: [id])
+  reservation       Reservation[]
+  deleted           Boolean       @default(false)
 }
 
 model IncrementKey {
@@ -103,7 +103,6 @@ model RequestForm {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   version           Int      @default(1)
   key               Int      @unique
-  delete            Boolean  @default(false)
   limit_people      Int
   number_room       Int
   number_bathroom   Int
@@ -119,26 +118,27 @@ model RequestForm {
   school            String //안전한 사용자 -> 같은 학교, 완전한 인증
   alarm             Boolean  @default(false)
   contract          Boolean  @default(false)
-  User              User     @relation(fields: [userId], references: [id])
-  userId            String   @db.ObjectId
-  Post              Post[]   @relation(fields: [postId], references: [id])
-  postId            String[] @db.ObjectId
   complete          Boolean  @default(false)
   request_text      String
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           String   @db.ObjectId
+  post              Post[]   @relation(fields: [post_id], references: [id])
+  post_id           String[] @db.ObjectId
+  delete            Boolean  @default(false)
 }
 
 model Reservation {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   version     Int      @default(1)
   key         Int      @unique
-  User        User     @relation(fields: [user_id], references: [id])
-  Post        Post     @relation(fields: [post_key], references: [id])
   r_start_day DateTime @db.Date
   r_end_day   DateTime @db.Date
-  user_id     String   @db.ObjectId
-  post_key    String   @db.ObjectId
-  deleted     Boolean  @default(false)
   pay         Int
+  user_id     String   @db.ObjectId
+  user        User     @relation(fields: [user_id], references: [id])
+  post_id     String   @db.ObjectId
+  post        Post     @relation(fields: [post_id], references: [id])
+  deleted     Boolean  @default(false)
 }
 
 model ReservationIncrementKey {
@@ -179,5 +179,5 @@ model Chat {
   chatroom_id String   @db.ObjectId
   chatroom    ChatRoom @relation(fields: [chatroom_id], references: [id])
   message     String
-  send_time   DateTime @db.Date @default(now())
+  send_time   DateTime @default(now()) @db.Date
 }

@@ -11,12 +11,10 @@ import {
 } from '@/dto/user.dto';
 
 import * as bcrypt from 'bcrypt';
-import { PostInterface } from '@/interface/post.interface';
 
 @Injectable()
 export class MongodbUserService {
   USER_VERSION = 2;
-  POST_VERSION = 1;
 
   constructor(private prisma: PrismaService) {}
 
@@ -56,26 +54,6 @@ export class MongodbUserService {
     });
     if (!result) {
       throw Error('[mongodb.service:getUserByKey] result null');
-    }
-    return result;
-  }
-
-  async getUserPostByKey(user_id: string) {
-    const result: PostInterface[] = await this.prisma.post.findMany({
-      where: {
-        version: { gte: this.POST_VERSION },
-
-        postuser: { user_id: user_id },
-        deleted: false,
-        local_save: false,
-      },
-      include: {
-        postuser: true,
-      },
-    });
-
-    if (!result) {
-      throw Error('[mongodb.service:getUserPostByKey] result null');
     }
     return result;
   }
@@ -189,7 +167,7 @@ export class MongodbUserService {
   async verifyUser(user_id: string, putUserBody: UserTokenVerifyUpdateDto) {
     const res: UserInterface = await this.prisma.user.update({
       where: {
-        user_id: user_id,
+        user_id,
         version: { gte: this.USER_VERSION },
         delete: false,
       },

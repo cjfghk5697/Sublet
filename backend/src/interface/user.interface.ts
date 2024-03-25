@@ -19,23 +19,23 @@ export class UserPartialBase {
 }
 
 export class UserExportInterface extends UserBase {
-  id: string;
   image_id: string;
-  email: string;
   school: string;
-  phone: string;
   id_card: boolean;
-  like_post_id: string[];
-  gender: string;
   birth: string | Date;
   student_id: number;
+  gender: string;
   verify_school: boolean;
   verify_email: boolean;
   verify_phone: boolean;
-  chat_id: string[];
+  email: string;
+  phone: string;
 }
 
 export class UserInterface extends UserExportInterface {
+  id: string;
+  like_post_id: string[];
+  chat_id: string[];
   password: string;
   delete: boolean;
   version: number;

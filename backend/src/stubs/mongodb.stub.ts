@@ -9,8 +9,15 @@ import {
 } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
-import { RequestBase, RequestInterface } from '@/interface/request.interface';
-import { ReservationInterface } from '@/interface/reservation.interface';
+import {
+  RequestBase,
+  RequestExportInterface,
+  RequestInterface,
+} from '@/interface/request.interface';
+import {
+  ReservationExportInterface,
+  ReservationInterface,
+} from '@/interface/reservation.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { Stream } from 'stream';
 
@@ -38,9 +45,9 @@ export const userStub = (): UserInterface => {
   };
 };
 
-export const userExportStub = (user_id?: string): UserExportInterface => {
+export const userExportStub = (): UserExportInterface => {
   return {
-    id: user_id ? user_id : userStub().id,
+    student_id: userStub().student_id,
     phone: userStub().phone,
     school: userStub().school,
     username: userStub().username,
@@ -48,14 +55,11 @@ export const userExportStub = (user_id?: string): UserExportInterface => {
     user_id: userStub().user_id,
     image_id: userStub().image_id,
     id_card: userStub().id_card,
-    like_post_id: [],
     gender: userStub().gender,
     birth: userStub().birth,
-    student_id: userStub().student_id,
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
-    chat_id: userStub().chat_id,
   };
 };
 
@@ -93,33 +97,35 @@ export const postCreateStub = (): PostCreateDto => {
   };
 };
 
-export const postExportStub = (user_id?: string): PostExportInterface => {
+export const postExportStub = (): PostExportInterface => {
   const createStub = postCreateStub();
 
   return {
     ...createStub,
     key: 1,
     image_id: ['mocked-image_id'],
-    postuser_id: 'mocked-postuser_id',
     post_date: 'mocked-post_date',
     start_day: new Date(createStub.start_day).toISOString(),
     end_day: new Date(createStub.end_day).toISOString(),
     private: false,
     request: false,
-    requestIDs: [],
     like_count: 0,
-    like_user_id: [],
-    postuser: userExportStub(user_id),
+    like_user: [],
+    postuser: userExportStub(),
   };
 };
 
 export const postStub = (): PostInterface => {
   return {
     ...postExportStub(),
+    postuser_id: 'mocked-postuser_id',
     id: 'mocked-id',
     deleted: false,
     version: 1,
     postuser: userStub(),
+    like_user: [],
+    request_ids: [],
+    like_user_id: [],
   };
 };
 
@@ -201,10 +207,26 @@ export const reservationStub = (): ReservationDto => {
   return {
     key: 2,
     user_id: 'mocked-userid',
-    post_key: '1',
+    post_key: 1,
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
+  };
+};
+
+export const reservationExportStub = (): ReservationExportInterface => {
+  return {
+    key: 2,
+    user_id: 'mocked-userid',
+    r_start_day: '2024-01-10T00:00:00.000Z',
+    r_end_day: '2024-04-05T00:00:00.000Z',
+    pay: 50000,
+    user: {
+      ...userExportStub(),
+    },
+    post: {
+      ...postExportStub(),
+    },
   };
 };
 
@@ -213,15 +235,15 @@ export const reservationInterfaceStub = (): ReservationInterface => {
     id: 'mocked-id',
     key: 2,
     user_id: 'mocked-userid',
-    post_key: '1',
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
+    post_id: 'post_id',
     pay: 50000,
-    User: {
-      ...userExportStub(),
+    user: {
+      ...userStub(),
     },
-    Post: {
-      ...postExportStub(),
+    post: {
+      ...postStub(),
     },
   };
 };
@@ -270,6 +292,38 @@ export const requestStub = (): RequestDto => {
     request_text: 'mock-post-text',
   };
 };
+
+export const requestExportStub = (): RequestExportInterface => {
+  return {
+    key: 2,
+    price: 200000,
+    start_day: '2024-01-10T00:00:00.000Z',
+    end_day: '2024-04-05T00:00:00.000Z',
+    limit_people: 2,
+    number_room: 3,
+    number_bathroom: 3,
+    number_bedroom: 3,
+    accomodation_type: '전대',
+    building_type: '아파트',
+    contract: true,
+    city: 'seoul',
+    gu: 'jongro',
+    dong: 'aaa',
+    alarm: true,
+    school: '아주대',
+    complete: true,
+    request_text: 'mock-post-text',
+    user: {
+      ...userExportStub(),
+    },
+    post: [
+      {
+        ...postExportStub(),
+      },
+    ],
+  };
+};
+
 export const requestInterfaceStub = (): RequestInterface => {
   return {
     id: '3',
@@ -292,10 +346,10 @@ export const requestInterfaceStub = (): RequestInterface => {
     school: '아주대',
     complete: true,
     request_text: 'mock-post-text',
-    User: {
+    user: {
       ...userStub(),
     },
-    Post: [
+    post: [
       {
         ...postStub(),
       },

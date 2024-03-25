@@ -15,6 +15,16 @@ export class MongodbRequestService {
   REQUEST_VERSION = 1;
   REQUEST_INCREMENTKEY_VERSION = 1;
 
+  INCLUDE_USER_POST = {
+    user: true,
+    post: {
+      include: {
+        postuser: true,
+        like_user: true,
+      },
+    },
+  };
+
   constructor(private prisma: PrismaService) {}
 
   async getRequestByUserKey(user_id: string) {
@@ -24,17 +34,10 @@ export class MongodbRequestService {
           version: {
             gte: this.REQUEST_VERSION,
           },
-          User: { user_id: user_id },
+          user: { user_id: user_id },
           delete: false,
         },
-        include: {
-          User: true,
-          Post: {
-            include: {
-              postuser: true,
-            },
-          },
-        },
+        include: this.INCLUDE_USER_POST,
       });
     if (!result) {
       throw Error('[mongodb.service:getRequestByKey] result null');
@@ -52,33 +55,29 @@ export class MongodbRequestService {
           },
           delete: false,
         },
-        include: {
-          User: true,
-          Post: {
-            include: {
-              postuser: true,
-            },
-          },
-        },
+        include: this.INCLUDE_USER_POST,
       });
     if (!result) {
       throw Error('[mongodb.service:getRequestByRequestId] result null');
     }
     return result;
   }
+
   async createRequest(data: RequestCreateDto, user: UserInterface) {
-    const result: RequestBase = await this.prisma.requestForm.create({
-      data: {
-        ...data,
-        User: {
-          connect: {
-            user_id: user.user_id,
+    const result: RequestInterface | null =
+      await this.prisma.requestForm.create({
+        data: {
+          ...data,
+          user: {
+            connect: {
+              user_id: user.user_id,
+            },
           },
+          version: this.REQUEST_VERSION,
+          key: await this.getRequestKey(),
         },
-        version: this.REQUEST_VERSION,
-        key: await this.getRequestKey(),
-      },
-    });
+        include: this.INCLUDE_USER_POST,
+      });
     if (!result) {
       throw Error('[mongodb.service:createRequest] result null');
     }
@@ -95,14 +94,7 @@ export class MongodbRequestService {
       data: {
         delete: true,
       },
-      include: {
-        User: true,
-        Post: {
-          include: {
-            postuser: true,
-          },
-        },
-      },
+      include: this.INCLUDE_USER_POST,
     });
     if (!res) {
       throw Error('[mongodb.service:deleteOneRequest] request doesnt exist');
@@ -120,14 +112,7 @@ export class MongodbRequestService {
       data: {
         ...data,
       },
-      include: {
-        User: true,
-        Post: {
-          include: {
-            postuser: true,
-          },
-        },
-      },
+      include: this.INCLUDE_USER_POST,
     });
     if (!res) {
       throw Error('[mongodb.service:putOneRequest] request doesnt exist');
@@ -136,19 +121,20 @@ export class MongodbRequestService {
   }
 
   async putOnePostRequest(post_key: number, request_key: number) {
-    const res: RequestBase | null = await this.prisma.requestForm.update({
+    const res: RequestInterface | null = await this.prisma.requestForm.update({
       where: {
         key: request_key,
         version: { gte: this.REQUEST_VERSION },
         delete: false,
       },
       data: {
-        Post: {
+        post: {
           connect: {
             key: post_key,
           },
         },
       },
+      include: this.INCLUDE_USER_POST,
     });
     if (!res) {
       throw Error('[mongodb.service:putOneRequest] request doesnt exist');

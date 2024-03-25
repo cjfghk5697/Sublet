@@ -16,11 +16,13 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import * as nodemailer from 'nodemailer';
+import { MongodbPostService } from '../mongodb/mongodb.post.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private userdb: MongodbUserService,
+    private postdb: MongodbPostService,
     private userimagedb: MongodbUserImageService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
@@ -38,7 +40,7 @@ export class UserService {
   }
 
   async getUserPostByKey(user_id: string) {
-    const post = await this.userdb.getUserPostByKey(user_id);
+    const post = await this.postdb.getUserPostByKey(user_id);
     return post;
   }
   async validateUser(user_id: string, password: string) {
@@ -174,6 +176,9 @@ export class UserService {
   }
 
   static transformExport(user: UserInterface): UserExportInterface {
+    delete (user as { id?: string }).id;
+    delete (user as { like_post_id?: string[] }).like_post_id;
+    delete (user as { chat_id?: string[] }).chat_id;
     delete (user as { password?: string }).password;
     delete (user as { delete?: boolean }).delete;
     delete (user as { version?: number }).version;

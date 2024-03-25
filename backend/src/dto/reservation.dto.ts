@@ -6,12 +6,21 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-export class ReservationCreateDto extends ReservationBase {}
+
+export class ReservationCreateDto extends ReservationBase {
+  @IsNumber()
+  @IsInt()
+  post_key?: number;
+}
 
 export class ReservationDto extends ReservationBase {
   @IsNumber()
   @IsInt()
   key: number;
+
+  @IsNumber()
+  @IsInt()
+  post_key?: number;
 }
 
 export class ReservationFilterDto {
@@ -28,14 +37,16 @@ export class ReservationFilterDto {
   user_id?: string;
 
   @IsOptional()
-  @IsString()
-  post_key?: string;
+  @IsNumber()
+  @IsInt()
+  post_key?: number;
 
   @IsOptional()
   @IsNumber()
   @IsInt()
   key?: number;
 }
+
 export class reservationRequest {
   @IsNumber()
   @IsInt()

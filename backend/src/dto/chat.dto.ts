@@ -49,5 +49,4 @@ export class ChatDeleteDto {
 
 export class ChatLeaveRoomDto {
   room_id: string;
-  user_id: string;
 }
