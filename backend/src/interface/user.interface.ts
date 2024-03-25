@@ -19,7 +19,6 @@ export class UserPartialBase {
 }
 
 export class UserExportInterface extends UserBase {
-  id: string;
   image_id: string;
   school: string;
   id_card: boolean;
@@ -34,6 +33,7 @@ export class UserExportInterface extends UserBase {
 }
 
 export class UserInterface extends UserExportInterface {
+  id: string;
   like_post_id: string[];
   chat_id: string[];
   password: string;
