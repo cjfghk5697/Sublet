@@ -12,6 +12,7 @@ import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { PostInterface } from '@/interface/post.interface';
 import { CacheModule } from '@nestjs/cache-manager';
+import { MongodbPostService } from '../mongodb/mongodb.post.service';
 
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');
@@ -22,6 +23,7 @@ jest.mock('../mongodb/mongodb.user.service');
 describe('UserService', () => {
   let service: UserService;
   let mongodbUserService: MongodbUserService;
+  let mongodbPostService: MongodbPostService;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -31,6 +33,7 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     mongodbUserService = module.get<MongodbUserService>(MongodbUserService);
+    mongodbPostService = module.get<MongodbPostService>(MongodbPostService);
   });
 
   beforeEach(() => {
@@ -110,17 +113,17 @@ describe('UserService', () => {
       });
 
       it('then should call db to get a user', () => {
-        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledTimes(1);
+        expect(mongodbPostService.getUserPostByKey).toHaveBeenCalledTimes(1);
       });
 
       it('then should call db to get one User with given parameters', () => {
-        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledWith(
+        expect(mongodbPostService.getUserPostByKey).toHaveBeenCalledWith(
           user_id,
         );
       });
 
       it('then should call db to get one User', () => {
-        expect(mongodbUserService.getUserPostByKey).toHaveBeenCalledTimes(1);
+        expect(mongodbPostService.getUserPostByKey).toHaveBeenCalledTimes(1);
       });
     });
   });

@@ -247,19 +247,21 @@ export class PostPartialBase {
 export class PostExportInterface extends PostBase {
   key: number;
   image_id: string[];
-  postuser_id: string;
   post_date: Date | string;
   private: boolean;
   request: boolean;
-  requestIDs: string[];
   like_count: number;
-  like_user_id: string[];
   postuser: UserExportInterface;
+  like_user: UserExportInterface[];
 }
 
 export class PostInterface extends PostExportInterface {
+  request_ids: string[];
+  postuser_id: string;
+  like_user_id: string[];
   id: string;
   deleted: boolean;
   version: number;
   postuser: UserInterface;
+  like_user: UserInterface[];
 }

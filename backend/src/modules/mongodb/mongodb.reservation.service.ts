@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  ReservationExportInterface,
-  ReservationInterface,
-} from '@/interface/reservation.interface';
+import { ReservationInterface } from '@/interface/reservation.interface';
 import { reservationIncrementKeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
 import {
@@ -36,12 +33,12 @@ export class MongodbReservationService {
           r_start_day: data.r_start_day,
           r_end_day: data.r_end_day,
           pay: pay,
-          User: {
+          user: {
             connect: {
               user_id: user.user_id,
             },
           },
-          Post: {
+          post: {
             connect: {
               key: Number(data.post_key),
             },
@@ -72,10 +69,11 @@ export class MongodbReservationService {
           deleted: false,
         },
         include: {
-          User: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
-          Post: {
+          user: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
+          post: {
             include: {
               postuser: true,
+              like_user: true,
             },
           },
         },
@@ -93,17 +91,18 @@ export class MongodbReservationService {
           deleted: false,
         },
         include: {
-          User: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
-          Post: {
+          user: true, //query 받아서 결정하도록, 이거 다하면 너무 heavy함
+          post: {
             include: {
               postuser: true,
+              like_user: true,
             },
           },
         },
       });
     const final_list: ReservationInterface[] = [];
     reservation_list.map((reservation) => {
-      if (reservation['User'].user_id == user_id) {
+      if (reservation.user.user_id == user_id) {
         final_list.push(reservation);
       }
     });
@@ -116,8 +115,8 @@ export class MongodbReservationService {
     await this.prisma.reservation.update({
       where: {
         key,
-        User: {
-          user_id: user['user_id'],
+        user: {
+          user_id: user.user_id,
         },
         version: { gte: this.RESERVATION_VERSION },
         deleted: false,
@@ -162,8 +161,18 @@ export class MongodbReservationService {
   }
 
   async getReservationMaxKey() {
-    const reservations: ReservationExportInterface[] =
-      await this.prisma.reservation.findMany({});
+    const reservations: ReservationInterface[] =
+      await this.prisma.reservation.findMany({
+        include: {
+          user: true,
+          post: {
+            include: {
+              postuser: true,
+              like_user: true,
+            },
+          },
+        },
+      });
     if (!reservations || reservations.length === 0) return 0;
     return reservations.reduce((prev, cur) => {
       return Math.max(prev, cur.key);
@@ -178,15 +187,16 @@ export class MongodbReservationService {
         where: {
           version: { gte: this.RESERVATION_VERSION },
           deleted: false,
-          Post: {
+          post: {
             key: key,
           },
         },
         include: {
-          User: true,
-          Post: {
+          user: true,
+          post: {
             include: {
               postuser: true,
+              like_user: true,
             },
           },
         },

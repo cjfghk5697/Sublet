@@ -20,6 +20,26 @@ export class MongodbPostService {
     private mongodbPostKeyService: MongodbPostKeyService,
   ) {}
 
+  async getUserPostByKey(user_id: string) {
+    const result: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        version: { gte: this.POST_VERSION },
+        postuser: { user_id: user_id },
+        deleted: false,
+        local_save: false,
+      },
+      include: {
+        postuser: true,
+        like_user: true,
+      },
+    });
+
+    if (!result) {
+      throw Error('[mongodb.service:getUserPostByKey] result null');
+    }
+    return result;
+  }
+
   async getAllPosts(query: PostGetAllQueryDto) {
     // 모든 포스트를 가져옴, 나중에는 Query Parameter을 이용해 필터하여 가져옴
     const posts: PostInterface[] = await this.prisma.post.findMany({
@@ -32,6 +52,7 @@ export class MongodbPostService {
       take: query.maxPost,
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     return posts;
@@ -41,6 +62,7 @@ export class MongodbPostService {
     const posts: PostInterface[] = await this.prisma.post.findMany({
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     if (!posts || posts.length === 0) return 0;
@@ -69,6 +91,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     return res;
@@ -84,6 +107,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     if (!res) {
@@ -101,6 +125,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
       data: putPostBody,
     });
@@ -159,6 +184,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     return res;
@@ -176,6 +202,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     return res;
@@ -187,6 +214,7 @@ export class MongodbPostService {
         key: post_key,
         version: { gte: this.POST_VERSION },
         deleted: false,
+        local_save: false,
         like_user: {
           none: {
             id: user['id'],
@@ -205,6 +233,7 @@ export class MongodbPostService {
       },
       include: {
         postuser: true,
+        like_user: true,
       },
     });
     return res;
@@ -216,6 +245,7 @@ export class MongodbPostService {
         key: post_key,
         version: { gte: this.POST_VERSION },
         deleted: false,
+        local_save: false,
         like_user: {
           some: {
             id: user['id'],

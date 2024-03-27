@@ -1,4 +1,4 @@
-import { postStub, userStub } from '../../../stubs/mongodb.stub';
+import { userStub } from '../../../stubs/mongodb.stub';
 
 export const MongodbUserService = jest.fn().mockReturnValue({
   getOneUser: jest.fn().mockReturnValue(userStub()),
@@ -10,5 +10,4 @@ export const MongodbUserService = jest.fn().mockReturnValue({
   putVerifyUser: jest.fn().mockReturnValue(userStub()),
   deleteOneUser: jest.fn().mockReturnValue(userStub()),
   filterUser: jest.fn().mockReturnValue([userStub()]),
-  getUserPostByKey: jest.fn().mockReturnValue([postStub()]),
 });

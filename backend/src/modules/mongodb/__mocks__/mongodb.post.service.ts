@@ -8,4 +8,5 @@ export const MongodbPostService = jest.fn().mockReturnValue({
   putOnePost: jest.fn().mockReturnValue(postStub()),
   deleteOnePost: jest.fn().mockReturnValue(true),
   filterPost: jest.fn().mockReturnValue([postStub()]),
+  getUserPostByKey: jest.fn().mockReturnValue([postStub()]),
 });

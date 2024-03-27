@@ -78,10 +78,13 @@ export class MongodbChatService {
     return result;
   }
 
-  async deleteChatLog(chat_id: string) {
+  async deleteChatLog(chat_id: string, user_id: string) {
     const ret: ChatLogInterface = await this.prisma.chat.delete({
       where: {
         id: chat_id,
+        user: {
+          user_id: user_id,
+        },
       },
       include: {
         user: true,
