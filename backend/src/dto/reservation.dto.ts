@@ -32,6 +32,10 @@ export class ReservationFilterDto {
   post_key?: string;
 
   @IsOptional()
+  @IsString()
+  reservationProgress?: string;
+
+  @IsOptional()
   @IsNumber()
   @IsInt()
   key?: number;

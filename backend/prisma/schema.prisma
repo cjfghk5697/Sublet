@@ -128,17 +128,18 @@ model RequestForm {
 }
 
 model Reservation {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  version     Int      @default(1)
-  key         Int      @unique
-  User        User     @relation(fields: [user_id], references: [id])
-  Post        Post     @relation(fields: [post_key], references: [id])
-  r_start_day DateTime @db.Date
-  r_end_day   DateTime @db.Date
-  user_id     String   @db.ObjectId
-  post_key    String   @db.ObjectId
-  deleted     Boolean  @default(false)
-  pay         Int
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  version             Int      @default(1)
+  key                 Int      @unique
+  User                User     @relation(fields: [user_id], references: [id])
+  Post                Post     @relation(fields: [post_key], references: [id])
+  r_start_day         DateTime @db.Date
+  r_end_day           DateTime @db.Date
+  user_id             String   @db.ObjectId
+  post_key            String   @db.ObjectId
+  deleted             Boolean  @default(false)
+  pay                 Int
+  reservationProgress String   @default("")
 }
 
 model ReservationIncrementKey {
@@ -179,5 +180,5 @@ model Chat {
   chatroom_id String   @db.ObjectId
   chatroom    ChatRoom @relation(fields: [chatroom_id], references: [id])
   message     String
-  send_time   DateTime @db.Date @default(now())
+  send_time   DateTime @default(now()) @db.Date
 }

@@ -25,6 +25,9 @@ export class ReservationBase {
   @IsPositive()
   @IsInt()
   pay: number;
+
+  @IsString()
+  reservationProgress: string;
 }
 export class ReservationExportInterface extends ReservationBase {
   key: number;
