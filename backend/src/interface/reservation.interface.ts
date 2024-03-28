@@ -24,10 +24,10 @@ export class ReservationBase {
   pay: number;
 
   @IsString()
-  reservationProgress: string;
+  reservation_progress: string;
 
   @IsString()
-  moveInInstruction: string;
+  move_in_instruction: string;
 }
 
 export class ReservationExportInterface extends ReservationBase {
