@@ -222,6 +222,8 @@ export const reservationExportStub = (): ReservationExportInterface => {
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
+    reservationProgress: 'mocked-progress',
+
     user: {
       ...userExportStub(),
     },
@@ -240,14 +242,9 @@ export const reservationInterfaceStub = (): ReservationInterface => {
     r_end_day: '2024-04-05T00:00:00.000Z',
     post_id: 'post_id',
     pay: 50000,
-<<<<<<< HEAD
     reservationProgress: 'mocked-progress',
-    User: {
-      ...userExportStub(),
-=======
     user: {
       ...userStub(),
->>>>>>> ce4619d3de54dcecbd54d44f9284806fc36d8a05
     },
     post: {
       ...postStub(),

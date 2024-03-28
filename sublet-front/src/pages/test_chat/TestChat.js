@@ -182,7 +182,11 @@ const TestChat = () => {
     setUser();
     if (!socket) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       setSocket(io(process.env.NEXT_PUBLIC_BACKEND_WS_URL));
+=======
+      setSocket(io(process.env.REACT_APP_BACKEND_WS_URL, { withCredentials: true }));
+>>>>>>> ce4619d3de54dcecbd54d44f9284806fc36d8a05
 =======
       setSocket(io(process.env.REACT_APP_BACKEND_WS_URL, { withCredentials: true }));
 >>>>>>> ce4619d3de54dcecbd54d44f9284806fc36d8a05

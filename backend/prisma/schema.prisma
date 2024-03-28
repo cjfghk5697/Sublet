@@ -128,20 +128,6 @@ model RequestForm {
 }
 
 model Reservation {
-<<<<<<< HEAD
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  version             Int      @default(1)
-  key                 Int      @unique
-  User                User     @relation(fields: [user_id], references: [id])
-  Post                Post     @relation(fields: [post_key], references: [id])
-  r_start_day         DateTime @db.Date
-  r_end_day           DateTime @db.Date
-  user_id             String   @db.ObjectId
-  post_key            String   @db.ObjectId
-  deleted             Boolean  @default(false)
-  pay                 Int
-  reservationProgress String   @default("")
-=======
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   version     Int      @default(1)
   key         Int      @unique
@@ -153,7 +139,7 @@ model Reservation {
   post_id     String   @db.ObjectId
   post        Post     @relation(fields: [post_id], references: [id])
   deleted     Boolean  @default(false)
->>>>>>> ce4619d3de54dcecbd54d44f9284806fc36d8a05
+  reservationProgress String   @default("")
 }
 
 model ReservationIncrementKey {
