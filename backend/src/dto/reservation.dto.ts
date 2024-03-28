@@ -43,11 +43,11 @@ export class ReservationFilterDto {
 
   @IsOptional()
   @IsString()
-  reservationProgress?: string;
+  reservation_progress?: string;
 
   @IsOptional()
   @IsString()
-  moveInInstruction?: string;
+  move_in_instruction?: string;
 
   @IsOptional()
   @IsNumber()
