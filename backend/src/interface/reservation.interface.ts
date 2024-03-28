@@ -25,6 +25,9 @@ export class ReservationBase {
 
   @IsString()
   reservationProgress: string;
+
+  @IsString()
+  moveInInstruction: string;
 }
 
 export class ReservationExportInterface extends ReservationBase {

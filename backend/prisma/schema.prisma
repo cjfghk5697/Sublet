@@ -140,6 +140,7 @@ model Reservation {
   post                Post     @relation(fields: [post_id], references: [id])
   deleted             Boolean  @default(false)
   reservationProgress String   @default("예약 요청")
+  moveInInstruction   String   @default("")
 }
 
 model ReservationIncrementKey {

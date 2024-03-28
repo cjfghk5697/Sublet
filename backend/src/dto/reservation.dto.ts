@@ -46,6 +46,10 @@ export class ReservationFilterDto {
   reservationProgress?: string;
 
   @IsOptional()
+  @IsString()
+  moveInInstruction?: string;
+
+  @IsOptional()
   @IsNumber()
   @IsInt()
   key?: number;

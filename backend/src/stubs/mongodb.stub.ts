@@ -212,6 +212,7 @@ export const reservationStub = (): ReservationDto => {
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
     reservationProgress: 'mocked-progress',
+    moveInInstruction: 'mocked-instruction',
   };
 };
 
@@ -223,6 +224,7 @@ export const reservationExportStub = (): ReservationExportInterface => {
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
     reservationProgress: 'mocked-progress',
+    moveInInstruction: 'mocked-instruction',
 
     user: {
       ...userExportStub(),
@@ -243,6 +245,7 @@ export const reservationInterfaceStub = (): ReservationInterface => {
     post_id: 'post_id',
     pay: 50000,
     reservationProgress: 'mocked-progress',
+    moveInInstruction: 'mocked-instruction',
     user: {
       ...userStub(),
     },
