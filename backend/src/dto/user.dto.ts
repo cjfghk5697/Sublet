@@ -40,7 +40,7 @@ export class UserCreateDto extends UserBase {
   student_id: number;
 
   @Transform(({ key, obj }) => {
-    const value = obj[key].toLowerCase();
+    const value = obj[key].toString().toLowerCase();
     if (value === 'true') return true;
     else if (value === 'false') return false;
     else return undefined;
