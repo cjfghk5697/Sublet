@@ -46,7 +46,7 @@ export class UserCreateDto extends UserBase {
     else return undefined;
   })
   @IsBoolean()
-  smoking: false;
+  smoking: boolean;
 }
 
 export class UserUpdateDto extends UserPartialBase {
