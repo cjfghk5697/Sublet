@@ -208,6 +208,20 @@ export class MongodbPostService {
     return res;
   }
 
+  async getLikePosts(user_id: string) {
+    const res: PostInterface[] = await this.prisma.post.findMany({
+      where: {
+        like_user: {
+          some: { user_id: user_id },
+        },
+        deleted: false,
+        local_save: false,
+      },
+      include: { postuser: true, like_user: true },
+    });
+    return res;
+  }
+
   async likePost(post_key: number, user: UserInterface) {
     const res: PostInterface = await this.prisma.post.update({
       where: {

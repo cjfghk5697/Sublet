@@ -165,6 +165,12 @@ export class PostService {
     return res;
   }
 
+  async getLikePosts(user_id: string) {
+    const res = await this.postdb.getLikePosts(user_id);
+    const ret = res.map((ele) => PostService.transformExport(ele));
+    return ret;
+  }
+
   async likePost(post_key: number, user: UserInterface) {
     const res = await this.postdb.likePost(post_key, user);
     const ret = PostService.transformExport(res);
