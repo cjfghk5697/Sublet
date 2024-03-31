@@ -123,6 +123,9 @@ export class PostBase {
   })
   @IsBoolean()
   local_save: boolean;
+
+  @IsString()
+  gender_type: string;
 }
 
 export class PostPartialBase {
@@ -242,6 +245,10 @@ export class PostPartialBase {
   })
   @IsOptional()
   local_save?: boolean;
+
+  @IsString()
+  @IsOptional()
+  gender_type?: string;
 }
 
 export class PostExportInterface extends PostBase {

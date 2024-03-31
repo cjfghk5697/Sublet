@@ -143,4 +143,8 @@ export class PostFilterQueryDto extends PostGetAllQueryDto {
   @IsOptional()
   @IsString()
   post_code?: string;
+
+  @IsString()
+  @IsOptional()
+  gender_type?: string;
 }

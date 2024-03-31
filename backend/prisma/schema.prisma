@@ -34,6 +34,7 @@ model User {
   chat_room        ChatRoom[]    @relation(fields: [chat_id], references: [id])
   password         String
   delete           Boolean       @default(false)
+  smoking          Boolean       @default(false)
 }
 
 model Post {
@@ -83,6 +84,7 @@ model Post {
   request_form      RequestForm[] @relation(fields: [request_ids], references: [id])
   reservation       Reservation[]
   deleted           Boolean       @default(false)
+  gender_type       String        @default("상관없음")
 }
 
 model IncrementKey {
