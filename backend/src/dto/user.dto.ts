@@ -91,7 +91,7 @@ export class UserUpdateDto extends UserPartialBase {
     else return undefined;
   })
   @IsBoolean()
-  smoking?: false;
+  smoking?: boolean;
 }
 
 export class UserVerifyUpdateDto extends UserPartialBase {
