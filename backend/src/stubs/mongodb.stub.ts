@@ -61,7 +61,7 @@ export const userExportStub = (): UserExportInterface => {
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
-    smoking: false,
+    smoking: userStub().smoking,
   };
 };
 
