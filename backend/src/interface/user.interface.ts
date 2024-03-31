@@ -30,6 +30,7 @@ export class UserExportInterface extends UserBase {
   verify_phone: boolean;
   email: string;
   phone: string;
+  smoking: boolean;
 }
 
 export class UserInterface extends UserExportInterface {

@@ -42,6 +42,7 @@ export const userStub = (): UserInterface => {
     verify_email: false,
     verify_phone: false,
     chat_id: [],
+    smoking: false,
   };
 };
 
@@ -60,6 +61,7 @@ export const userExportStub = (): UserExportInterface => {
     verify_school: userStub().verify_school,
     verify_email: userStub().verify_email,
     verify_phone: userStub().verify_phone,
+    smoking: userStub().smoking,
   };
 };
 
@@ -94,6 +96,7 @@ export const postCreateStub = (): PostCreateDto => {
     street_number: 'mock-street-number',
     post_code: 'mock-post-code',
     local_save: false,
+    gender_type: 'mock-gender',
   };
 };
 
@@ -173,6 +176,7 @@ export const userCreateStub = (): UserCreateDto => {
     gender: '남',
     birth: userStub().birth,
     student_id: 21,
+    smoking: false,
   };
 };
 
@@ -211,6 +215,8 @@ export const reservationStub = (): ReservationDto => {
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
+    reservation_progress: 'mocked-progress',
+    move_in_instruction: 'mocked-instruction',
   };
 };
 
@@ -221,6 +227,9 @@ export const reservationExportStub = (): ReservationExportInterface => {
     r_start_day: '2024-01-10T00:00:00.000Z',
     r_end_day: '2024-04-05T00:00:00.000Z',
     pay: 50000,
+    reservation_progress: 'mocked-progress',
+    move_in_instruction: 'mocked-instruction',
+
     user: {
       ...userExportStub(),
     },
@@ -239,6 +248,8 @@ export const reservationInterfaceStub = (): ReservationInterface => {
     r_end_day: '2024-04-05T00:00:00.000Z',
     post_id: 'post_id',
     pay: 50000,
+    reservation_progress: 'mocked-progress',
+    move_in_instruction: 'mocked-instruction',
     user: {
       ...userStub(),
     },

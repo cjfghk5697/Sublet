@@ -38,6 +38,15 @@ export class UserCreateDto extends UserBase {
   @IsNumber()
   @IsInt()
   student_id: number;
+
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toString().toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  smoking: boolean;
 }
 
 export class UserUpdateDto extends UserPartialBase {
@@ -73,6 +82,16 @@ export class UserUpdateDto extends UserPartialBase {
   @IsNumber()
   @IsInt()
   student_id?: number;
+
+  @IsOptional()
+  @Transform(({ key, obj }) => {
+    const value = obj[key].toLowerCase();
+    if (value === 'true') return true;
+    else if (value === 'false') return false;
+    else return undefined;
+  })
+  @IsBoolean()
+  smoking?: boolean;
 }
 
 export class UserVerifyUpdateDto extends UserPartialBase {
