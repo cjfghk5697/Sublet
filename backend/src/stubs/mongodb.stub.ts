@@ -176,6 +176,7 @@ export const userCreateStub = (): UserCreateDto => {
     gender: '남',
     birth: userStub().birth,
     student_id: 21,
+    smoking: false,
   };
 };
 
