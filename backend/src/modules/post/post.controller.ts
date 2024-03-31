@@ -44,6 +44,17 @@ export class PostController {
     }
   }
 
+  @Get('like')
+  async getLikePosts(@User() user: UserInterface) {
+    try {
+      const res = await this.postService.getLikePosts(user.user_id);
+      return res;
+    } catch (e) {
+      console.log('[post.controller.getLikePosts] error:', e);
+      throw new BadRequestException();
+    }
+  }
+
   @Get()
   async getAllPosts(@Query() query: PostGetAllQueryDto) {
     try {
