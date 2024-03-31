@@ -44,6 +44,7 @@ export class PostController {
     }
   }
 
+  @UseGuards(LoggedInGuard)
   @Get('like')
   async getLikePosts(@User() user: UserInterface) {
     try {
