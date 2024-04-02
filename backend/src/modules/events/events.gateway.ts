@@ -12,9 +12,11 @@ import { MongodbChatService } from '../mongodb/mongodb.chat.service';
 import {
   ChatDeleteDto,
   ChatGetLogDto,
-  ChatJoinRoomDto,
   ChatLeaveRoomDto,
-  ChatLoginDto,
+  ChatLogExportInterface,
+  ChatLogInterface,
+  ChatRoomExportInterface,
+  ChatRoomInterface,
   ChatSendMessageDto,
 } from '@/dto/chat.dto';
 import {
@@ -24,7 +26,11 @@ import {
 } from '@nestjs/common';
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { User } from '@/user/user.decorator';
-import { UserInterface } from '@/interface/user.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
+import { MongodbPostService } from '../mongodb/mongodb.post.service';
+import { UserService } from '../user/user.service';
+import { PostExportInterface } from '@/interface/post.interface';
+import { PostService } from '../post/post.service';
 
 @WebSocketGateway({
   cors: {
@@ -36,9 +42,17 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly mongoDb: MongodbChatService) {}
+  constructor(
+    private readonly mongoDb: MongodbChatService,
+    private readonly postDb: MongodbPostService,
+  ) {}
 
   handleConnection(client: Socket) {
+    if ((client.request as any).user) {
+      console.log('user exist in ', client.id);
+    } else {
+      console.log('user not exist in ', client.id);
+    }
     console.log('connect, ', client.id);
   }
 
@@ -53,42 +67,57 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return data;
   }
 
+  @UseGuards(LoggedInGuard)
   @SubscribeMessage('login')
-  async handleLogin(
-    @MessageBody() { user_id }: ChatLoginDto,
-    @ConnectedSocket() client: Socket,
-  ) {
-    const roomsInfo = await this.mongoDb.getRoom(user_id);
-    const rooms = roomsInfo.map((room) => {
+  async handleLogin(@ConnectedSocket() client: Socket) {
+    console.log('login in!');
+    const user: UserInterface = (client.request as any).user;
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    console.log('user=', user.user_id);
+
+    const roomsInfo = await this.mongoDb.getRoom(user.user_id);
+    const roomsAsGuest = roomsInfo.map((room) => {
+      return this.transformExportChatRoom(room);
+    });
+    const roomsAsGuestString = roomsInfo.map((room) => {
       return room.id;
     });
-    client.join(rooms);
-    return rooms;
+    await client.join(roomsAsGuestString);
+
+    const roomsInfoAsHost = await this.mongoDb.getRoomAsHost(user.user_id);
+    const roomsAsHost = roomsInfoAsHost.map((room) => {
+      return this.transformExportChatRoom(room);
+    });
+    const roomsAsHostString = roomsInfoAsHost.map((room) => room.id);
+    await client.join(roomsAsHostString);
+    return { roomsAsGuest, roomsAsHost };
   }
 
   @UseGuards(LoggedInGuard)
   @SubscribeMessage('join_chatroom')
   async handleJoinChatroom(
-    @MessageBody() chatInfo: ChatJoinRoomDto,
-    @User() user: UserInterface,
+    @MessageBody() postKey: number,
+    @ConnectedSocket() client: Socket,
   ) {
-    if (user.id === chatInfo.user2) {
+    const user = (client.request as any).user;
+    if (!user) throw new UnauthorizedException();
+
+    const post = await this.postDb.getOnePost(postKey);
+
+    if (user.user_id === post.postuser.user_id) {
       throw Error('same user tried to make room');
     }
-    const room = await this.mongoDb.findRoom(
-      user.id,
-      chatInfo.user2,
-      chatInfo.postKey,
-    );
-    if (room) {
-      throw Error('room already exists');
-    }
-    const result = await this.mongoDb.makeRoom(
-      user.id,
-      chatInfo.user2,
-      chatInfo.postKey,
-    );
-    return result;
+
+    const room = await this.mongoDb.findRoom(user.id, postKey);
+    if (room) throw Error('chatroom already exists');
+
+    const result = await this.mongoDb.makeRoom(user.id, postKey);
+    const resultExport = this.transformExportChatRoom(result);
+    return resultExport;
   }
 
   @UseGuards(LoggedInGuard)
@@ -102,18 +131,20 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('send_message')
   async sendMessage(
     @MessageBody() message: ChatSendMessageDto,
-    @User() user: UserInterface,
     @ConnectedSocket() client: Socket,
   ) {
-    if (user.user_id != message.user_id) throw new UnauthorizedException();
-    if (!(message.room_id in client.rooms)) throw new UnauthorizedException();
+    if (!client.rooms.has(message.room_id)) throw new UnauthorizedException();
+
+    const user: UserInterface | undefined = (client.request as any).user;
+    if (!user) throw new UnauthorizedException();
 
     const ret = await this.mongoDb.addChatLog(
       message.room_id,
-      message.user_id,
+      user.user_id,
       message.message,
     );
-    this.server.to(message.room_id).emit('receive_message', ret);
+    const retExport = this.transformExportChatLog(ret);
+    this.server.to(message.room_id).emit('receive_message', retExport);
 
     return true;
   }
@@ -124,21 +155,27 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() { room_id }: ChatGetLogDto,
     @ConnectedSocket() client: Socket,
   ) {
-    if (!(room_id in client.rooms)) throw new UnauthorizedException();
+    console.log('room_id: ', room_id, 'clinet.rooms=', client.rooms);
+    if (!client.rooms.has(room_id)) throw new UnauthorizedException();
+    console.log('passed!');
     const ret = await this.mongoDb.getChatLog(room_id);
-    return ret;
+    const retExport = ret.map((ele) => this.transformExportChatLog(ele));
+    return retExport;
   }
 
   @UseGuards(LoggedInGuard)
   @SubscribeMessage('delete_message')
   async deleteChatLog(
     @MessageBody() { chat_id }: ChatDeleteDto,
-    @User() user: UserInterface,
+    @ConnectedSocket() client: Socket,
   ) {
     try {
+      const user: UserInterface | undefined = (client.request as any).user;
+      if (!user) throw new UnauthorizedException();
       const ret = await this.mongoDb.deleteChatLog(chat_id, user.user_id);
       this.server.to(ret.chatroom_id).emit('delete_message', { id: ret.id });
-      return ret;
+      const retExport = this.transformExportChatLog(ret);
+      return retExport;
     } catch (e) {
       console.log('delete_message error', e);
       throw new BadRequestException();
@@ -157,5 +194,30 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.leave(room_id);
     const ret = await this.mongoDb.leaveChatRoom(room_id, user.id);
     return ret;
+  }
+
+  transformExportChatRoom(
+    chatroom: ChatRoomInterface,
+  ): ChatRoomExportInterface {
+    delete (chatroom as { version?: number }).version;
+    delete (chatroom as { user_id?: string }).user_id;
+    (chatroom as { user: UserExportInterface }).user =
+      UserService.transformExport(chatroom.user);
+    (chatroom as { post: PostExportInterface }).post =
+      PostService.transformExport(chatroom.post);
+    (chatroom as { chat: ChatLogExportInterface[] }).chat = chatroom.chat.map(
+      (ele) => {
+        return this.transformExportChatLog(ele);
+      },
+    );
+    return chatroom;
+  }
+
+  transformExportChatLog(chatlog: ChatLogInterface): ChatLogExportInterface {
+    delete (chatlog as { user_id?: string }).user_id;
+    delete (chatlog as { version?: number }).version;
+    (chatlog as { user: UserExportInterface }).user =
+      UserService.transformExport(chatlog.user);
+    return chatlog;
   }
 }

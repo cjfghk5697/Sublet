@@ -1,26 +1,41 @@
-import { UserInterface } from '@/interface/user.interface';
+import { PostExportInterface, PostInterface } from '@/interface/post.interface';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 
 export class ChatRoomBase {
-  id: string;
-  version: number;
-  user_id: string[];
+  id: string; // 예외적으로 허용
   post_key: number;
 }
 
-export class ChatRoomInterface extends ChatRoomBase {}
+export class ChatRoomExportInterface extends ChatRoomBase {
+  user: UserExportInterface;
+  post: PostExportInterface;
+  chat: ChatLogExportInterface[];
+}
 
-export class ChatLogBase {
-  id: string;
+export class ChatRoomInterface extends ChatRoomExportInterface {
   version: number;
   user_id: string;
   user: UserInterface;
+  post: PostInterface;
+  chat: ChatLogInterface[];
+}
+
+export class ChatLogBase {
+  id: string; // 예외적으로 허용
   chatroom_id: string;
-  chatroom: ChatRoomInterface;
   message: string;
   send_time: Date;
 }
 
-export class ChatLogInterface extends ChatLogBase {}
+export class ChatLogExportInterface extends ChatLogBase {
+  user: UserExportInterface;
+}
+
+export class ChatLogInterface extends ChatLogExportInterface {
+  user_id: string;
+  user: UserInterface;
+  version: number;
+}
 
 export class ChatLoginDto {
   user_id: string;
@@ -33,8 +48,6 @@ export class ChatJoinRoomDto {
 }
 
 export class ChatSendMessageDto {
-  user_id: string;
-  user_custom_id: string;
   message: string;
   room_id: string;
 }

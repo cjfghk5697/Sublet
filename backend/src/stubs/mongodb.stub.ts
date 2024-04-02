@@ -41,7 +41,6 @@ export const userStub = (): UserInterface => {
     verify_school: false,
     verify_email: false,
     verify_phone: false,
-    chat_id: [],
     smoking: false,
   };
 };
