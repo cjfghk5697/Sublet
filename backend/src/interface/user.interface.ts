@@ -36,7 +36,6 @@ export class UserExportInterface extends UserBase {
 export class UserInterface extends UserExportInterface {
   id: string;
   like_post_id: string[];
-  chat_id: string[];
   password: string;
   delete: boolean;
   version: number;

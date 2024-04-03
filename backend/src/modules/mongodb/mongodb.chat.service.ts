@@ -6,11 +6,25 @@ import { ChatLogInterface, ChatRoomInterface } from '@/dto/chat.dto';
 export class MongodbChatService {
   constructor(private prisma: PrismaService) {}
 
-  async makeRoom(user_id1: string, user_id2: string, post_key: number) {
+  async makeRoom(user_id1: string, post_key: number) {
     const result: ChatRoomInterface = await this.prisma.chatRoom.create({
       data: {
-        user_id: [user_id1, user_id2],
+        user_id: user_id1,
         post_key: post_key,
+      },
+      include: {
+        user: true,
+        chat: {
+          include: {
+            user: true,
+          },
+        },
+        post: {
+          include: {
+            postuser: true,
+            like_user: true,
+          },
+        },
       },
     });
     return result;
@@ -19,22 +33,83 @@ export class MongodbChatService {
   async getRoom(user_id: string) {
     const result: ChatRoomInterface[] = await this.prisma.chatRoom.findMany({
       where: {
-        user_id: {
-          has: user_id,
+        user: {
+          user_id: {
+            in: [user_id],
+          },
+        },
+      },
+      include: {
+        user: true,
+        chat: {
+          include: {
+            user: true,
+          },
+        },
+        post: {
+          include: {
+            postuser: true,
+            like_user: true,
+          },
         },
       },
     });
+    console.log('[getRoom] result=', result);
     return result;
   }
 
-  async findRoom(user_id1: string, user_id2: string, post_key: number) {
+  async getRoomAsHost(user_id: string) {
+    const result: ChatRoomInterface[] = await this.prisma.chatRoom.findMany({
+      where: {
+        post: {
+          postuser: {
+            user_id: user_id,
+          },
+        },
+      },
+      include: {
+        user: true,
+        chat: {
+          include: {
+            user: true,
+          },
+        },
+        post: {
+          include: {
+            postuser: true,
+            like_user: true,
+          },
+        },
+      },
+    });
+    console.log('[getRoomAsHost] result=', result);
+    return result;
+  }
+
+  async findRoom(user_id: string, post_key: number) {
     const result: ChatRoomInterface | null =
       await this.prisma.chatRoom.findFirst({
         where: {
-          user_id: {
-            hasEvery: [user_id1, user_id2],
+          user: {
+            user_id: {
+              in: [user_id],
+            },
           },
           post_key: post_key,
+        },
+        include: {
+          user: true,
+          chat: {
+            include: {
+              user: true,
+            },
+          },
+          post: {
+            include: {
+              postuser: true,
+              like_user: true,
+            },
+          },
         },
       });
     return result;
@@ -45,7 +120,7 @@ export class MongodbChatService {
       data: {
         user: {
           connect: {
-            id: user_id,
+            user_id: user_id,
           },
         },
         chatroom: {

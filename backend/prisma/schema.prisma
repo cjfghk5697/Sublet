@@ -23,7 +23,6 @@ model User {
   verify_email     Boolean       @default(false)
   verify_phone     Boolean       @default(false)
   like_post_id     String[]      @db.ObjectId
-  chat_id          String[]      @db.ObjectId
   email            String        @unique
   phone            String        @unique
   post             Post[]
@@ -31,7 +30,7 @@ model User {
   request          RequestForm[]
   reservation_post Reservation[]
   chat             Chat[]
-  chat_room        ChatRoom[]    @relation(fields: [chat_id], references: [id])
+  chat_room        ChatRoom[]
   password         String
   delete           Boolean       @default(false)
   smoking          Boolean       @default(false)
@@ -166,13 +165,13 @@ model ProfileImage {
 }
 
 model ChatRoom {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  version  Int      @default(1)
-  user_id  String[] @db.ObjectId
-  user     User[]   @relation(fields: [user_id], references: [id])
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  version  Int    @default(1)
+  user_id  String @db.ObjectId
+  user     User   @relation(fields: [user_id], references: [id])
   post_key Int
-  post     Post     @relation(fields: [post_key], references: [key])
-  Chat     Chat[]
+  post     Post   @relation(fields: [post_key], references: [key])
+  chat     Chat[]
 }
 
 model Chat {
