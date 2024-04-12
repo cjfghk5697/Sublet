@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ReservationService } from './reservation.service';
 import {
   reservationExportStub,
-  reservationStub,
+  reservationDtoStub,
   userStub,
 } from '../../stubs/mongodb.stub';
 import { ReservationExportInterface } from '@/interface/reservation.interface';
@@ -39,7 +39,7 @@ describe('ReservationService', () => {
       beforeEach(async () => {
         try {
           result = await service.createReservation(
-            reservationStub(),
+            reservationDtoStub(),
             userStub(),
           );
         } catch (_e) {
@@ -54,7 +54,7 @@ describe('ReservationService', () => {
       it('then should call db to create reservation', () => {
         expect(mongoDbService.createReservation).toHaveBeenCalledTimes(1);
         expect(mongoDbService.createReservation).toHaveBeenCalledWith(
-          reservationStub(),
+          reservationDtoStub(),
           userStub(),
         );
       });
@@ -89,7 +89,7 @@ describe('ReservationService', () => {
         beforeEach(async () => {
           try {
             result = await service.deleteOneReservation(
-              reservationStub().key,
+              reservationDtoStub().key,
               userStub(),
             );
           } catch (e) {
@@ -107,7 +107,7 @@ describe('ReservationService', () => {
 
         it('then should call db to delete reservation with given parameters', () => {
           expect(mongoDbService.deleteOneReservation).toHaveBeenCalledWith(
-            reservationStub().key,
+            reservationDtoStub().key,
             userStub(),
           );
         });

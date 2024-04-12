@@ -34,6 +34,7 @@ model User {
   password         String
   delete           Boolean       @default(false)
   smoking          Boolean       @default(false)
+  report           Report[]
 }
 
 model Post {
@@ -84,6 +85,7 @@ model Post {
   reservation       Reservation[]
   deleted           Boolean       @default(false)
   gender_type       String        @default("상관없음")
+  report            Report[]
 }
 
 model IncrementKey {
@@ -183,4 +185,15 @@ model Chat {
   chatroom    ChatRoom @relation(fields: [chatroom_id], references: [id])
   message     String
   send_time   DateTime @default(now()) @db.Date
+}
+
+model Report {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  version     Int     @default(1)
+  reporter_id String  
+  reporter    User    @relation(fields: [reporter_id], references: [user_id])
+  post_key    Int
+  post        Post    @relation(fields: [post_key], references: [key])
+  reason      String
+  deleted     Boolean @default(false)
 }

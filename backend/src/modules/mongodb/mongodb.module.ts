@@ -9,6 +9,7 @@ import { MongodbUserImageService } from './mongodb.userimage.service';
 import { MongodbRequestService } from './mongodb.request.service';
 import { MongodbChatService } from './mongodb.chat.service';
 import { MongodbTestDBService } from './mongodb.testdb';
+import { MongodbReportService } from './mongodb.report.service';
 
 @Module({
   providers: [
@@ -22,6 +23,7 @@ import { MongodbTestDBService } from './mongodb.testdb';
     MongodbRequestService,
     MongodbChatService,
     MongodbTestDBService,
+    MongodbReportService,
   ],
   exports: [
     PrismaService,
@@ -34,6 +36,7 @@ import { MongodbTestDBService } from './mongodb.testdb';
     MongodbRequestService,
     MongodbChatService,
     MongodbTestDBService,
+    MongodbReportService,
   ],
 })
 export class MongodbModule {}
