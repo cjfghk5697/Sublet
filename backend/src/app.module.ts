@@ -14,6 +14,7 @@ import { RequestModule } from './modules/request/request.module';
 import { EventsModule } from './modules/events/events.module';
 import { TestModule } from './test/test.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ReportModule } from './modules/report/report.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     RequestModule,
     EventsModule,
     TestModule,
+    ReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

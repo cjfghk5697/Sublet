@@ -1,4 +1,5 @@
 import { PostCreateDto, PostFilterQueryDto } from '@/dto/post.dto';
+import { PostReportDto } from '@/dto/report.dto';
 import { RequestDto } from '@/dto/request.dto';
 import { ReservationDto } from '@/dto/reservation.dto';
 import {
@@ -9,6 +10,10 @@ import {
 } from '@/dto/user.dto';
 import { ImageInterface } from '@/interface/image.interface';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
+import {
+  ReportExportInterface,
+  ReportInterface,
+} from '@/interface/report.interface';
 import {
   RequestBase,
   RequestExportInterface,
@@ -23,44 +28,31 @@ import { Stream } from 'stream';
 
 export const userStub = (): UserInterface => {
   return {
+    ...userExportStub(),
     id: 'mocked-id',
-    user_id: 'mocked-user_id',
-    username: 'mocked-username',
-    email: 'mocked@mocked.com',
-    phone: '+82010-1234-5678',
     password: 'Mocked-password1)',
     delete: false,
     version: 1,
-    school: 'ABC Univ',
-    id_card: false,
-    image_id: 'default',
     like_post_id: [],
-    gender: '남',
-    birth: '2024-01-10T00:00:00.000Z',
-    student_id: 21,
-    verify_school: false,
-    verify_email: false,
-    verify_phone: false,
-    smoking: false,
   };
 };
 
 export const userExportStub = (): UserExportInterface => {
   return {
-    student_id: userStub().student_id,
-    phone: userStub().phone,
-    school: userStub().school,
-    username: userStub().username,
-    email: userStub().email,
-    user_id: userStub().user_id,
-    image_id: userStub().image_id,
-    id_card: userStub().id_card,
-    gender: userStub().gender,
-    birth: userStub().birth,
-    verify_school: userStub().verify_school,
-    verify_email: userStub().verify_email,
-    verify_phone: userStub().verify_phone,
-    smoking: userStub().smoking,
+    student_id: 21,
+    phone: '+82010-1234-5678',
+    school: 'ABC Univ',
+    username: 'mocked-username',
+    email: 'mocked@mocked.com',
+    user_id: 'mocked-user_id',
+    image_id: 'default',
+    id_card: false,
+    gender: '남',
+    birth: '2024-01-10T00:00:00.000Z',
+    verify_school: false,
+    verify_email: false,
+    verify_phone: false,
+    smoking: false,
   };
 };
 
@@ -166,16 +158,16 @@ export const filterStub = (): PostFilterQueryDto => {
 
 export const userCreateStub = (): UserCreateDto => {
   return {
-    username: 'mocked-username',
-    email: 'mocked@mocked.com',
-    phone: '+82010-1234-5678',
-    password: 'Mocked-password1)',
+    username: userStub().username,
+    email: userStub().email,
+    phone: userStub().phone,
+    password: userStub().password,
     school: userStub().school,
-    user_id: 'mocked-user_id',
-    gender: '남',
+    user_id: userStub().user_id,
+    gender: userStub().gender,
     birth: userStub().birth,
-    student_id: 21,
-    smoking: false,
+    student_id: userStub().student_id,
+    smoking: userStub().smoking,
   };
 };
 
@@ -206,7 +198,7 @@ export const userFilterStub = (): UserFilterDto => {
   };
 };
 
-export const reservationStub = (): ReservationDto => {
+export const reservationDtoStub = (): ReservationDto => {
   return {
     key: 2,
     user_id: 'mocked-userid',
@@ -228,33 +220,18 @@ export const reservationExportStub = (): ReservationExportInterface => {
     pay: 50000,
     reservation_progress: 'mocked-progress',
     move_in_instruction: 'mocked-instruction',
-
-    user: {
-      ...userExportStub(),
-    },
-    post: {
-      ...postExportStub(),
-    },
+    user: userExportStub(),
+    post: postExportStub(),
   };
 };
 
 export const reservationInterfaceStub = (): ReservationInterface => {
   return {
+    ...reservationExportStub(),
     id: 'mocked-id',
-    key: 2,
-    user_id: 'mocked-userid',
-    r_start_day: '2024-01-10T00:00:00.000Z',
-    r_end_day: '2024-04-05T00:00:00.000Z',
     post_id: 'post_id',
-    pay: 50000,
-    reservation_progress: 'mocked-progress',
-    move_in_instruction: 'mocked-instruction',
-    user: {
-      ...userStub(),
-    },
-    post: {
-      ...postStub(),
-    },
+    user: userStub(),
+    post: postStub(),
   };
 };
 
@@ -323,46 +300,47 @@ export const requestExportStub = (): RequestExportInterface => {
     school: '아주대',
     complete: true,
     request_text: 'mock-post-text',
-    user: {
-      ...userExportStub(),
-    },
-    post: [
-      {
-        ...postExportStub(),
-      },
-    ],
+    user: userExportStub(),
+    post: [postExportStub()],
   };
 };
 
 export const requestInterfaceStub = (): RequestInterface => {
   return {
+    ...requestExportStub(),
     id: '3',
     delete: true,
-    key: 2,
-    price: 200000,
-    start_day: '2024-01-10T00:00:00.000Z',
-    end_day: '2024-04-05T00:00:00.000Z',
-    limit_people: 2,
-    number_room: 3,
-    number_bathroom: 3,
-    number_bedroom: 3,
-    accomodation_type: '전대',
-    building_type: '아파트',
-    contract: true,
-    city: 'seoul',
-    gu: 'jongro',
-    dong: 'aaa',
-    alarm: true,
-    school: '아주대',
-    complete: true,
-    request_text: 'mock-post-text',
-    user: {
-      ...userStub(),
-    },
-    post: [
-      {
-        ...postStub(),
-      },
-    ],
+    user: userStub(),
+    post: [postStub()],
+  };
+};
+
+export const reportPostDtoStub = (post_key: number): PostReportDto => {
+  return {
+    post_key: post_key,
+    reason: 'Reason',
+  };
+};
+
+export const reportInterfaceStub = (
+  user_id: string = 'user_id',
+  post_key: number = 1,
+): ReportInterface => {
+  return {
+    ...reportExportInterfaceStub(user_id, post_key),
+    id: 'reportId',
+    version: 1,
+    deleted: false,
+  };
+};
+
+export const reportExportInterfaceStub = (
+  user_id: string = 'user_id',
+  post_key: number = 1,
+): ReportExportInterface => {
+  return {
+    reporter_id: user_id,
+    post_key: post_key,
+    reason: 'Reason',
   };
 };
