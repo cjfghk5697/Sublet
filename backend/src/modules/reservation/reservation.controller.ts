@@ -11,6 +11,8 @@ import {
   UseGuards,
   Delete,
   Query,
+  Put,
+  Param,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import {
@@ -90,6 +92,18 @@ export class ReservationController {
       console.log('[reservation.controller:DeleteOneResrvation] error: ', e);
       throw new BadRequestException();
     }
+  }
+
+  @Put()
+  @UseGuards(LoggedInGuard)
+  async PutReservation(
+    @Body() reservation_state: { key: number; progress: string },
+  ) {
+    const res = await this.reservationService.putReservationByKey(
+      reservation_state.key,
+      reservation_state.progress,
+    );
+    return res;
   }
 
   @Get('post')

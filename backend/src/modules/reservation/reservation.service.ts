@@ -41,6 +41,12 @@ export class ReservationService {
     return ret;
   }
 
+  async putReservationByKey(key: number, reservation_state: string) {
+    const res = await this.db.putReservationByKey(key, reservation_state);
+
+    return res;
+  }
+
   transformExport(
     reservation: ReservationInterface,
   ): ReservationExportInterface {
