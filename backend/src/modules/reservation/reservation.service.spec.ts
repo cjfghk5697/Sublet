@@ -5,13 +5,9 @@ import {
   reservationDtoStub,
   userStub,
 } from '../../stubs/mongodb.stub';
-import {
-  ReservationBase,
-  ReservationExportInterface,
-} from '@/interface/reservation.interface';
+import { ReservationExportInterface } from '@/interface/reservation.interface';
 import { MongodbModule } from '../mongodb/mongodb.module';
 import { MongodbReservationService } from '../mongodb/mongodb.reservation.service';
-import { ReservationDto } from '@/dto/reservation.dto';
 
 jest.mock('../mongodb/mongodb.post.service');
 jest.mock('../mongodb/mongodb.postimage.service');

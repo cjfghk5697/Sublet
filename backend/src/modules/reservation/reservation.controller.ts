@@ -12,7 +12,6 @@ import {
   Delete,
   Query,
   Put,
-  Param,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import {
