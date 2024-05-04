@@ -1,4 +1,7 @@
-import { reservationInterfaceStub } from '../../../stubs/mongodb.stub';
+import {
+  reservationDtoStub,
+  reservationInterfaceStub,
+} from '../../../stubs/mongodb.stub';
 
 export const MongodbReservationService = jest.fn().mockReturnValue({
   createReservation: jest.fn().mockReturnValue(true),
@@ -7,4 +10,5 @@ export const MongodbReservationService = jest.fn().mockReturnValue({
   deleteOneReservation: jest.fn().mockReturnValue(reservationInterfaceStub()),
   getReservationKey: jest.fn().mockReturnValue(1),
   getReservationMaxKey: jest.fn().mockReturnValue(1),
+  putReservationByKey: jest.fn().mockReturnValue(reservationDtoStub()),
 });
