@@ -36,6 +36,7 @@ export class MongodbReservationService {
           r_start_day: data.r_start_day,
           r_end_day: data.r_end_day,
           pay: pay,
+          request_text: data.request_text,
           user: {
             connect: {
               user_id: user.user_id,

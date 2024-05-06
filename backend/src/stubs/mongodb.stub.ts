@@ -208,6 +208,7 @@ export const reservationDtoStub = (): ReservationDto => {
     pay: 50000,
     reservation_progress: 'mocked-progress',
     move_in_instruction: 'mocked-instruction',
+    request_text: 'mocked-text',
   };
 };
 
@@ -220,6 +221,7 @@ export const reservationExportStub = (): ReservationExportInterface => {
     pay: 50000,
     reservation_progress: 'mocked-progress',
     move_in_instruction: 'mocked-instruction',
+    request_text: 'mocked-text',
     user: userExportStub(),
     post: postExportStub(),
   };

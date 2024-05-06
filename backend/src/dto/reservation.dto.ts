@@ -53,6 +53,10 @@ export class ReservationFilterDto {
   @IsNumber()
   @IsInt()
   key?: number;
+
+  @IsString()
+  @IsOptional()
+  request_text?: string;
 }
 
 export class reservationRequest {

@@ -110,7 +110,7 @@ model RequestForm {
   start_day    DateTime @db.Date
   end_day      DateTime @db.Date
   complete     Boolean  @default(false)
-  request_text String
+  request_text String   @default("")
   user         User     @relation(fields: [user_id], references: [id])
   user_id      String   @db.ObjectId
   post         Post[]   @relation(fields: [post_id], references: [id])
@@ -132,6 +132,7 @@ model Reservation {
   deleted              Boolean  @default(false)
   reservation_progress String   @default("예약 요청")
   move_in_instruction  String   @default("")
+  request_text         String   @default("")
 }
 
 model ReservationIncrementKey {
