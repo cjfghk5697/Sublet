@@ -113,5 +113,30 @@ describe('ReservationService', () => {
         });
       });
     });
+
+    describe('TESTING putReservationByKey (PUT /reservation/)', () => {
+      describe('when calling with reservation update inputs', () => {
+        let result: boolean | undefined;
+        beforeEach(async () => {
+          try {
+            result = await service.putReservationByKey(
+              reservationDtoStub().key,
+              reservationDtoStub().reservation_progress,
+            );
+          } catch (e) {
+            result = undefined;
+          }
+        });
+
+        it('then should return ExportInterface', () => {
+          expect(result).toBeDefined();
+          expect(result).toEqual(reservationDtoStub());
+        });
+
+        it('then should call db to update post', () => {
+          expect(mongoDbService.putReservationByKey).toHaveBeenCalledTimes(1);
+        });
+      });
+    });
   });
 });

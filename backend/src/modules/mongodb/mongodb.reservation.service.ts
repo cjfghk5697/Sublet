@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ReservationInterface } from '@/interface/reservation.interface';
+import {
+  ReservationInterface,
+  ReservationBase,
+} from '@/interface/reservation.interface';
 import { reservationIncrementKeyInterface } from '@/interface/incrementkey.interface';
 import { UserInterface } from '@/interface/user.interface';
 import {
@@ -33,6 +36,7 @@ export class MongodbReservationService {
           r_start_day: data.r_start_day,
           r_end_day: data.r_end_day,
           pay: pay,
+          request_text: data.request_text,
           user: {
             connect: {
               user_id: user.user_id,
@@ -203,5 +207,23 @@ export class MongodbReservationService {
       });
 
     return reservation_list;
+  }
+
+  async putReservationByKey(key: number, reservation_state: string) {
+    const res: ReservationBase = await this.prisma.reservation.update({
+      where: {
+        version: { gte: this.RESERVATION_VERSION },
+        deleted: false,
+        key: key,
+      },
+      data: {
+        reservation_progress: reservation_state,
+      },
+    });
+    if (res) {
+      return true;
+    } else {
+      throw Error("[mongodb.service:putReservationByKey] can't update data");
+    }
   }
 }

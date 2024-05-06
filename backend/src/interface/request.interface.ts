@@ -11,50 +11,6 @@ import { Transform } from 'class-transformer';
 import { PostExportInterface, PostInterface } from './post.interface';
 
 export class RequestBase {
-  @IsString()
-  city: string;
-
-  @IsString()
-  gu: string;
-
-  @IsString()
-  dong: string;
-
-  @IsString()
-  accomodation_type: string;
-
-  @IsString()
-  building_type: string;
-
-  @Transform(({ key, obj }) => {
-    const value = obj[key].toLowerCase();
-    if (value === 'true') return true;
-    else if (value === 'false') return false;
-    else return undefined;
-  })
-  contract: boolean;
-
-  @Transform(({ key, obj }) => {
-    const value = obj[key].toLowerCase();
-    if (value === 'true') return true;
-    else if (value === 'false') return false;
-    else return undefined;
-  })
-  alarm: boolean;
-
-  @IsString()
-  school: string;
-
-  @IsInt()
-  @IsPositive()
-  @IsNumber()
-  number_room: number;
-
-  @IsInt()
-  @IsPositive()
-  @IsNumber()
-  limit_people: number;
-
   @IsInt()
   @IsPositive()
   @IsNumber()
@@ -65,16 +21,6 @@ export class RequestBase {
 
   @IsDateString()
   start_day: string | Date;
-
-  @IsInt()
-  @IsPositive()
-  @IsNumber()
-  number_bathroom: number;
-
-  @IsInt()
-  @IsNumber()
-  @IsPositive()
-  number_bedroom: number;
 
   @Transform(({ key, obj }) => {
     const value = obj[key].toLowerCase();

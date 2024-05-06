@@ -24,9 +24,9 @@ export class ReservationBase {
   pay: number;
 
   @IsString()
-  reservation_progress: string;
+  request_text: string;
 
-  @IsString()
+  reservation_progress: string;
   move_in_instruction: string;
 }
 
