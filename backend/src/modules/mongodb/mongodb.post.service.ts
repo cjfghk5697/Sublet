@@ -133,6 +133,7 @@ export class MongodbPostService {
   }
 
   async deleteOnePost(key: number, user: UserInterface) {
+    // 조건에 맞는 Record가 없으면 RecordNotFound Exception이 발생함
     await this.prisma.post.update({
       where: {
         key,
@@ -141,6 +142,11 @@ export class MongodbPostService {
         postuser: {
           user_id: user['user_id'],
         },
+        reservation: {
+          none: {
+            deleted: false
+          }
+        }
       },
       data: {
         deleted: true,
