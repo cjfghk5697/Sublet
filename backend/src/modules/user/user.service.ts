@@ -1,5 +1,6 @@
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
+  UserContactDto,
   UserCreateDto,
   UserFilterDto,
   UserLoginDto,
@@ -119,6 +120,22 @@ export class UserService {
       to: user_email, //위에서 선언해준 받는사람 이메일
       subject: 'ItHome 인증번호입니다', //메일 제목
       text: String(number), //내용
+    });
+  }
+  async contactEmail(data: UserContactDto) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', //사용하고자 하는 서비스
+      auth: {
+        user: env.EMAIL_ADDRESS, //gmail주소입력
+        pass: env.EMAIL_PASSWORD, //gmail패스워드 입력
+      },
+    });
+
+    await transporter.sendMail({
+      from: env.EMAIL_ADDRESS, //보내는 주소 입력
+      to: data.user_contact, //위에서 선언해준 받는사람 이메일
+      subject: data.title + '방에 관심을 가지신분이 있어요!', //메일 제목
+      text: '어떤 분이 이 방에 문의를 주셨어요! 연락처:' + String(data.contact), //내용
     });
   }
 

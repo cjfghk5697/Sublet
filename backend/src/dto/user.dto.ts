@@ -161,3 +161,13 @@ export class UserLoginDto {
 }
 
 export class UserEmailVerifyDto extends VerifyInterface {}
+export class UserContactDto {
+  @IsString()
+  title: string;
+
+  @IsString()
+  user_contact: string;
+
+  @IsString()
+  contact: string;
+}

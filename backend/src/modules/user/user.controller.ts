@@ -19,6 +19,7 @@ import {
 import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { UserService } from './user.service';
 import {
+  UserContactDto,
   UserCreateDto,
   UserEmailVerifyDto,
   UserFilterDto,
@@ -156,6 +157,10 @@ export class UserController {
   @Post('email')
   async verifyEmail(@Body() data: UserEmailVerifyDto) {
     await this.userService.verifyTokenEmail(data.email);
+  }
+  @Post('contactemail')
+  async contactEmail(@Body() data: UserContactDto) {
+    await this.userService.contactEmail(data);
   }
 
   @Post('verifyUser')
