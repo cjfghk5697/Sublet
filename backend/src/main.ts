@@ -8,7 +8,7 @@ import * as _FileStore from 'session-file-store';
 import * as session from 'express-session';
 
 async function bootstrap() {
-  const fs = require('fs');
+  // const fs = require('fs');
   // const httpsOptions = {
   //   key: fs.readFileSync('./key.pem'),
   //   cert: fs.readFileSync('./cert.pem'),
