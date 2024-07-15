@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Delete,
   Body,
   Query,
@@ -168,7 +169,7 @@ export class PostController {
     }
   }
 
-  @Post(':postKey')
+  @Put(':postKey')
   @UseGuards(LoggedInGuard)
   @UseInterceptors(FilesInterceptor('images'))
   async PutOnePost(
@@ -177,6 +178,7 @@ export class PostController {
     @Body() putPostBody: PostUpdateDto,
     @Req() req: customRequest,
   ) {
+    console.log(putPostBody);
     if (Object.keys(putPostBody).length == 0) {
       console.log(
         '[post.controller:PutOnePost] putPostBody is empty, bad request',
