@@ -144,9 +144,9 @@ export class MongodbPostService {
         },
         reservation: {
           none: {
-            deleted: false
-          }
-        }
+            deleted: false,
+          },
+        },
       },
       data: {
         deleted: true,

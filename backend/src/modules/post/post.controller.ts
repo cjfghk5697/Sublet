@@ -86,6 +86,7 @@ export class PostController {
     @Body() data: PostCreateDto,
     @Req() req: customRequest,
   ) {
+    console.log(data);
     if (!req.user) {
       console.log("[post.controller:createPost] req.user doesn't exist");
       throw new UnauthorizedException();
@@ -178,7 +179,6 @@ export class PostController {
     @Body() putPostBody: PostUpdateDto,
     @Req() req: customRequest,
   ) {
-    console.log(putPostBody);
     if (Object.keys(putPostBody).length == 0) {
       console.log(
         '[post.controller:PutOnePost] putPostBody is empty, bad request',
