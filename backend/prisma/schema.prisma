@@ -41,7 +41,7 @@ model Post {
   id                String        @id @default(auto()) @map("_id") @db.ObjectId
   version           Int           @default(1)
   key               Int           @unique
-  image_id          String[]      @db.ObjectId
+  image_id          String[]      @db.ObjectId @default(["default"])
   title             String
   basic_info        String
   price             Int

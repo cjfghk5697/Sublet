@@ -86,6 +86,7 @@ export class PostController {
     @Body() data: PostCreateDto,
     @Req() req: customRequest,
   ) {
+    console.log(data);
     if (!req.user) {
       console.log("[post.controller:createPost] req.user doesn't exist");
       throw new UnauthorizedException();
