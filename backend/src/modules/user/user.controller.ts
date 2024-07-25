@@ -1,24 +1,4 @@
 import {
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-  NotFoundException,
-  Post,
-  Put,
-  Delete,
-  Body,
-  BadRequestException,
-  UnauthorizedException,
-  Req,
-  Res,
-  Query,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import { LoggedInGuard } from '@/guards/logged-in.guard';
-import { UserService } from './user.service';
-import {
   UserContactDto,
   UserCreateDto,
   UserEmailVerifyDto,
@@ -29,9 +9,29 @@ import {
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
+import { LoggedInGuard } from '@/guards/logged-in.guard';
 import { customRequest } from '@/interface/user.interface';
-import { Response } from 'express';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+  Res,
+  UnauthorizedException,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -204,7 +204,6 @@ export class UserController {
       throw new UnauthorizedException();
     }
     try {
-      await this.userService.deleteOneUser(user_id);
       req.logOut(function (err) {
         //middleware에 function은 err. req,res,next가 들어갈수 있다.
         if (err) {
@@ -212,6 +211,7 @@ export class UserController {
         }
         res.send({ ok: true });
       });
+      await this.userService.deleteOneUser(user_id);
     } catch (e) {
       console.log('[user.controller:deleteOneUser] error: ', e);
       throw new NotFoundException();

@@ -1,11 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { env } from 'process';
+import { NestFactory } from '@nestjs/core';
 import * as bodyParser from 'body-parser';
-import { MongoIoAdapter } from './modules/events/mongo.adapter';
-import * as _FileStore from 'session-file-store';
 import * as session from 'express-session';
+import { env } from 'process';
+import * as _FileStore from 'session-file-store';
+import { AppModule } from './app.module';
+import { MongoIoAdapter } from './modules/events/mongo.adapter';
 
 async function bootstrap() {
   // const fs = require('fs');
@@ -37,6 +37,7 @@ async function bootstrap() {
       env.FRONTEND_URL as string,
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization', // 필요한 헤더 추가
     credentials: true,
   });
   const FileStore = _FileStore(session);

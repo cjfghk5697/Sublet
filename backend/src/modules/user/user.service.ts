@@ -1,4 +1,3 @@
-import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import {
   UserContactDto,
   UserCreateDto,
@@ -8,16 +7,17 @@ import {
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
-import { createHash } from 'crypto';
-import { writeFile } from 'fs/promises';
-import { MongodbUserService } from '../mongodb/mongodb.user.service';
-import { MongodbUserImageService } from '../mongodb/mongodb.userimage.service';
-import { env } from 'process';
+import { UserExportInterface, UserInterface } from '@/interface/user.interface';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import { createHash } from 'crypto';
+import { writeFile } from 'fs/promises';
 import * as nodemailer from 'nodemailer';
+import { env } from 'process';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
+import { MongodbUserService } from '../mongodb/mongodb.user.service';
+import { MongodbUserImageService } from '../mongodb/mongodb.userimage.service';
 
 @Injectable()
 export class UserService {
@@ -134,8 +134,11 @@ export class UserService {
     await transporter.sendMail({
       from: env.EMAIL_ADDRESS, //보내는 주소 입력
       to: data.user_contact, //위에서 선언해준 받는사람 이메일
-      subject: data.title + '방에 관심을 가지신분이 있어요!', //메일 제목
-      text: '어떤 분이 이 방에 문의를 주셨어요! 연락처:' + String(data.contact), //내용
+      subject: 'ItHome' + data.title + '방에 관심을 가지신분이 있어요!', //메일 제목
+      text:
+        '방 문의를 원하는 분이 있어요. 연락처(' +
+        String(data.contact) +
+        ')로 연락드리면 됩니다. ', //내용
     });
   }
 

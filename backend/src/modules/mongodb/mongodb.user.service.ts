@@ -1,6 +1,3 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { UserInterface } from '@/interface/user.interface';
 import {
   UserCreateDto,
   UserFilterDto,
@@ -9,6 +6,9 @@ import {
   UserUpdateDto,
   UserVerifyUpdateDto,
 } from '@/dto/user.dto';
+import { UserInterface } from '@/interface/user.interface';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 import * as bcrypt from 'bcrypt';
 
@@ -63,13 +63,27 @@ export class MongodbUserService {
     const hashPassword = await bcrypt.hash(data.password, salt);
     data.password = hashPassword;
     data.birth = new Date(data.birth);
-    const result: UserInterface = await this.prisma.user.create({
-      data: { ...data, version: this.USER_VERSION },
+
+    const checkUser: UserInterface | null = await this.prisma.user.findFirst({
+      where: {
+        email: data.email,
+        phone: data.phone,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
     });
-    if (!result) {
-      throw Error('[mongodb.service:createUser] result null');
+    console.log('cjec', checkUser);
+    if (checkUser) {
+      throw Error('[mongodb.service:createUser] duplicate user ');
+    } else {
+      const result: UserInterface = await this.prisma.user.create({
+        data: { ...data, version: this.USER_VERSION },
+      });
+      if (!result) {
+        throw Error('[mongodb.service:createUser] result null');
+      }
+      return result;
     }
-    return result;
   }
 
   async validateUser(user_id: string, password: string) {
@@ -138,9 +152,22 @@ export class MongodbUserService {
   }
 
   async deleteOneUser(user_id: string) {
-    const res: UserInterface = await this.prisma.user.update({
+    const randomBytes = require('crypto').randomBytes(2);
+    const number = parseInt(randomBytes.toString('hex'), 16).toString();
+    console.log('delete', number);
+    await this.prisma.user.update({
       where: {
         user_id,
+        version: { gte: this.USER_VERSION },
+        delete: false,
+      },
+      data: {
+        user_id: number,
+      },
+    });
+    const res: UserInterface = await this.prisma.user.update({
+      where: {
+        user_id: number,
         version: { gte: this.USER_VERSION },
         delete: false,
       },

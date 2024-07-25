@@ -1,7 +1,6 @@
-import { Controller, Post, Res, Req, UseGuards, Next } from '@nestjs/common';
-import { LocalGuard } from '../../guards/local.guard';
-import { LoggedInGuard } from '../../guards/logged-in.guard';
+import { Controller, Next, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { LocalGuard } from '../../guards/local.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +10,6 @@ export class AuthController {
     return { ok: true };
   }
 
-  @UseGuards(LoggedInGuard)
   @Post('logout')
   async logout(
     @Req() req: Request,

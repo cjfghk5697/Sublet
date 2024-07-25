@@ -80,7 +80,7 @@ export class PostController {
 
   @Post()
   @UseGuards(LoggedInGuard)
-  @UseInterceptors(FilesInterceptor('images')) // 여러 파일들을 받을 수 있도록 FilesInterceptor 사용
+  @UseInterceptors(FilesInterceptor('images', 10)) // 여러 파일들을 받을 수 있도록 FilesInterceptor 사용
   async createPost(
     @UploadedFiles() file: Express.Multer.File[],
     @Body() data: PostCreateDto,
