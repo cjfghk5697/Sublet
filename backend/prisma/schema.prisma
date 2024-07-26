@@ -23,8 +23,8 @@ model User {
   verify_email     Boolean       @default(false)
   verify_phone     Boolean       @default(false)
   like_post_id     String[]      @db.ObjectId
-  email            String        @unique
-  phone            String        @unique
+  email            String
+  phone            String
   post             Post[]
   like_post        Post[]        @relation("like", fields: [like_post_id], references: [id])
   request          RequestForm[]
