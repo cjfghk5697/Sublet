@@ -1,5 +1,3 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import {
   PostFilterQueryDto,
   PostGetAllQueryDto,
@@ -7,8 +5,10 @@ import {
   PrismaPostCreateDto,
 } from '@/dto/post.dto';
 import { PostInterface } from '@/interface/post.interface';
-import { MongodbPostKeyService } from './mongodb.postkey.service';
 import { UserInterface } from '@/interface/user.interface';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { MongodbPostKeyService } from './mongodb.postkey.service';
 
 @Injectable()
 export class MongodbPostService {
@@ -47,6 +47,9 @@ export class MongodbPostService {
         version: { gte: this.POST_VERSION },
         deleted: false,
         local_save: false,
+        postuser: {
+          delete: false,
+        },
       },
       skip: query.maxPost * (query.page - 1),
       take: query.maxPost,
@@ -104,6 +107,9 @@ export class MongodbPostService {
         version: { gte: this.POST_VERSION },
         deleted: false,
         local_save: false,
+        postuser: {
+          delete: false,
+        },
       },
       include: {
         postuser: true,
@@ -122,6 +128,9 @@ export class MongodbPostService {
         key,
         version: { gte: this.POST_VERSION },
         deleted: false,
+        postuser: {
+          delete: false,
+        },
       },
       include: {
         postuser: true,
@@ -157,42 +166,65 @@ export class MongodbPostService {
   }
 
   async filterPost(query: PostFilterQueryDto) {
-    const post_date = {
-      gt: new Date(query.fromDate || '0'),
-      lt: new Date(query.toDate || '9999-12-31'),
-    };
     const range_price = {
       gte: query.fromPrice || 0,
       lte: query.toPrice || 90000000,
     };
 
+    console.log('qr', query);
+
     const res: PostInterface[] = await this.prisma.post.findMany({
       where: {
         version: { gte: this.POST_VERSION },
-        post_date: post_date,
+        start_day: { lte: new Date(query.fromDate || '0') },
+        end_day: { gte: new Date(query.toDate || '9999-12-31') },
         price: range_price,
-        position: query.position,
-        min_duration: { lte: query.fromDuration || 1000000 },
-        max_duration: { gte: query.toDuration || 0 },
-        limit_people: query.limit_people,
-        number_room: query.number_room,
-        number_bathroom: query.number_bathroom,
-        number_bedroom: query.number_bedroom,
-        x_coordinate: query.x_coordinate,
-        y_coordinate: query.y_coordinate,
-        city: query.city,
-        gu: query.gu,
-        dong: query.dong,
-        street: query.street,
-        street_number: query.street_number,
+        city: query.city ?? undefined, // query.city가 있으면 사용하고 없으면 무시
+        gu: query.gu ?? undefined, // query.gu가 있으면 사용하고 없으면 무시
         deleted: false,
         local_save: false,
+        postuser: {
+          delete: false,
+        },
+        ...(query.position ? { position: query.position } : {}), // query.position이 있으면 추가
+        ...(query.fromDuration !== undefined
+          ? { min_duration: { lte: query.fromDuration } }
+          : {}),
+        ...(query.toDuration !== undefined
+          ? { max_duration: { gte: query.toDuration } }
+          : {}),
+        ...(query.limit_people !== undefined
+          ? { limit_people: query.limit_people }
+          : {}),
+        ...(query.number_room !== undefined
+          ? { number_room: query.number_room }
+          : {}),
+        ...(query.number_bathroom !== undefined
+          ? { number_bathroom: query.number_bathroom }
+          : {}),
+        ...(query.number_bedroom !== undefined
+          ? { number_bedroom: query.number_bedroom }
+          : {}),
+        ...(query.x_coordinate !== undefined
+          ? { x_coordinate: query.x_coordinate }
+          : {}),
+        ...(query.y_coordinate !== undefined
+          ? { y_coordinate: query.y_coordinate }
+          : {}),
+        ...(query.dong ? { dong: query.dong } : {}),
+        ...(query.street ? { street: query.street } : {}),
+        ...(query.street_number !== undefined
+          ? { street_number: query.street_number }
+          : {}),
       },
       include: {
         postuser: true,
         like_user: true,
       },
     });
+
+    console.log('post_date', res);
+
     return res;
   }
 

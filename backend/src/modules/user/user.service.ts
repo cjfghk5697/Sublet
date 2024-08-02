@@ -134,7 +134,7 @@ export class UserService {
     await transporter.sendMail({
       from: env.EMAIL_ADDRESS, //보내는 주소 입력
       to: data.user_contact, //위에서 선언해준 받는사람 이메일
-      subject: 'ItHome' + data.title + '방에 관심을 가지신분이 있어요!', //메일 제목
+      subject: 'ItHome ' + data.title + '방에 관심을 가지신분이 있어요!', //메일 제목
       text:
         '방 문의를 원하는 분이 있어요. 연락처(' +
         String(data.contact) +
