@@ -8,17 +8,17 @@ import { AppModule } from './app.module';
 import { MongoIoAdapter } from './modules/events/mongo.adapter';
 
 async function bootstrap() {
-  const fs = require('fs');
-  const httpsOptions = {
-    key: fs.readFileSync('./key.pem'),
-    cert: fs.readFileSync('./cert.pem'),
-  };
+  // const fs = require('fs');
+  // const httpsOptions = {
+  //   key: fs.readFileSync('./key.pem'),
+  //   cert: fs.readFileSync('./cert.pem'),
+  // };
 
-  const app = await NestFactory.create(AppModule, {
-    cors: true,
-    httpsOptions,
-  });
-  // const app = await NestFactory.create(AppModule);
+  // const app = await NestFactory.create(AppModule, {
+  //   cors: true,
+  //   httpsOptions,
+  // });
+  const app = await NestFactory.create(AppModule);
   app.use(bodyParser.json({ limit: '100mb' }));
   app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
   app.useGlobalPipes(
