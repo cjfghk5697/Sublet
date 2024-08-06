@@ -15,6 +15,7 @@ import { createHash } from 'crypto';
 import { writeFile } from 'fs/promises';
 import * as nodemailer from 'nodemailer';
 import { env } from 'process';
+import * as sharp from 'sharp';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
 import { MongodbUserService } from '../mongodb/mongodb.user.service';
 import { MongodbUserImageService } from '../mongodb/mongodb.userimage.service';
@@ -178,20 +179,29 @@ export class UserService {
   }
 
   async uploadImage(file: Express.Multer.File) {
-    if (!file || file.mimetype !== 'image/jpeg') {
+    // 허용할 MIME 타입 목록
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    if (!file || !allowedMimeTypes.includes(file.mimetype)) {
       throw new Error(
-        '[user.service:uploadImage] file not exist or mimetype is not image/jpeg',
+        '[user.service:uploadImage] file not exist or mimetype is not image/jpeg or image/png',
       );
     }
+
     const image_hash = this.calculateHash(file.buffer);
     const res = await this.userimagedb.saveUserImage(
       file.originalname,
-      file.mimetype,
+      'image/jpeg', // MIME 타입을 항상 image/jpeg로 저장
       image_hash,
     );
-    const bytes = file.buffer;
-    const buffer = Buffer.from(bytes);
-    await writeFile(`./public_user/${res.id}.jpg`, buffer);
+
+    // Sharp를 사용하여 이미지를 JPEG로 변환
+    const jpegBuffer = await sharp(file.buffer)
+      .jpeg() // JPEG 형식으로 변환
+      .toBuffer();
+
+    // 변환된 이미지를 JPEG 파일로 저장
+    await writeFile(`./public_user/${res.id}.jpg`, jpegBuffer);
+
     return res;
   }
 

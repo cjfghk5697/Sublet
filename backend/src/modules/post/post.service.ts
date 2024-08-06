@@ -1,5 +1,3 @@
-import { Injectable } from '@nestjs/common';
-import { writeFile } from 'fs/promises';
 import {
   PostCreateDto,
   PostFilterQueryDto,
@@ -8,7 +6,10 @@ import {
 } from '@/dto/post.dto';
 import { PostExportInterface, PostInterface } from '@/interface/post.interface';
 import { UserExportInterface, UserInterface } from '@/interface/user.interface';
+import { Injectable } from '@nestjs/common';
 import { createHash } from 'crypto';
+import { writeFile } from 'fs/promises';
+import * as sharp from 'sharp';
 import { MongodbPostService } from '../mongodb/mongodb.post.service';
 import { MongodbPostImageService } from '../mongodb/mongodb.postimage.service';
 import { UserService } from '../user/user.service';
@@ -148,20 +149,34 @@ export class PostService {
   }
 
   async uploadImage(file: Express.Multer.File) {
-    if (!file || file.mimetype !== 'image/jpeg') {
+    // 허용할 MIME 타입 목록
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+
+    // 파일 존재 여부 및 MIME 타입 체크
+    if (!file || !allowedMimeTypes.includes(file.mimetype)) {
       throw new Error(
-        '[post.service:uploadImage] file not exist or mimetype is not image/jpeg',
+        '[post.service:uploadImage] file not exist or mimetype is not image/jpeg or image/png',
       );
     }
+
+    // 이미지 해시 계산
     const image_hash = this.calculateHash(file.buffer);
+
+    // 이미지 정보 저장 (항상 image/jpeg로 저장)
     const res = await this.postimagedb.saveImage(
       file.originalname,
-      file.mimetype,
+      'image/jpeg', // 모든 이미지를 JPEG로 저장
       image_hash,
     );
-    const bytes = file.buffer;
-    const buffer = Buffer.from(bytes);
-    await writeFile(`./public/${res.id}.jpg`, buffer);
+
+    // Sharp 라이브러리를 사용하여 이미지를 JPEG로 변환
+    const jpegBuffer = await sharp(file.buffer)
+      .jpeg({ quality: 80 }) // JPEG 형식으로 변환, 품질 설정 가능
+      .toBuffer();
+
+    // JPEG 형식으로 변환된 이미지를 파일로 저장
+    await writeFile(`./public/${res.id}.jpg`, jpegBuffer);
+
     return res;
   }
 

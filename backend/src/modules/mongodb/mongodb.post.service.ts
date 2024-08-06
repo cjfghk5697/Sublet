@@ -254,6 +254,9 @@ export class MongodbPostService {
         },
         deleted: false,
         local_save: false,
+        postuser: {
+          delete: false,
+        },
       },
       include: { postuser: true, like_user: true },
     });
@@ -292,33 +295,55 @@ export class MongodbPostService {
   }
 
   async unlikePost(post_key: number, user: UserInterface) {
-    const res: PostInterface = await this.prisma.post.update({
-      where: {
-        key: post_key,
-        version: { gte: this.POST_VERSION },
-        deleted: false,
-        local_save: false,
-        like_user: {
-          some: {
-            id: user['id'],
+    try {
+      // 먼저 존재 여부를 확인합니다.
+      const post = await this.prisma.post.findFirst({
+        where: {
+          key: post_key,
+          version: { gte: this.POST_VERSION },
+          deleted: false,
+          local_save: false,
+          like_user: {
+            some: {
+              id: user['id'],
+            },
           },
         },
-      },
-      data: {
-        like_count: {
-          decrement: 1,
+        include: {
+          like_user: true,
         },
-        like_user: {
-          disconnect: {
-            id: user['id'],
+      });
+
+      if (!post) {
+        // Post가 존재하지 않거나 조건에 맞는 Like 관계가 없는 경우
+        throw new Error('해당 Post가 없거나 좋아요 관계가 존재하지 않습니다.');
+      }
+
+      // 존재한다면 update를 진행합니다.
+      const res: PostInterface = await this.prisma.post.update({
+        where: {
+          key: post_key,
+        },
+        data: {
+          like_count: {
+            decrement: 1,
+          },
+          like_user: {
+            disconnect: {
+              id: user['id'],
+            },
           },
         },
-      },
-      include: {
-        like_user: true,
-        postuser: true,
-      },
-    });
-    return res;
+        include: {
+          like_user: true,
+          postuser: true,
+        },
+      });
+
+      return res;
+    } catch (error) {
+      console.error('Unlike post error:', error.message);
+      throw new Error('좋아요 취소 작업 중 오류가 발생했습니다.');
+    }
   }
 }
