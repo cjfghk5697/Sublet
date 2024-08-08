@@ -171,16 +171,15 @@ export class MongodbPostService {
       lte: query.toPrice || 90000000,
     };
 
-    console.log('qr', query);
-
     const res: PostInterface[] = await this.prisma.post.findMany({
       where: {
         version: { gte: this.POST_VERSION },
         start_day: { lte: new Date(query.fromDate || '0') },
         end_day: { gte: new Date(query.toDate || '9999-12-31') },
         price: range_price,
-        city: query.city ?? undefined, // query.city가 있으면 사용하고 없으면 무시
-        gu: query.gu ?? undefined, // query.gu가 있으면 사용하고 없으면 무시
+        street: query.gu
+          ? { contains: `${query.city} ${query.gu}` }
+          : { contains: query.city ?? '' },
         deleted: false,
         local_save: false,
         postuser: {
